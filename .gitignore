@@ -1,0 +1,5 @@
+installer/filelist-*.iss
+package/ruby-*
+sandbox
+*.exe
+*.xz
