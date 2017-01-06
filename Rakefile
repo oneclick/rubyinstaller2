@@ -103,7 +103,7 @@ rubies.each do |rubyver|
 
     iss_files = Dir["installer/*.iss"]
     file installer_exe => (installerfiles + installerkeeps + iss_files + [filelist_iss]) do
-      sh "cmd", "/c", "iscc", "installer/rubyinstaller.iss", "/Qp", "/dRubyVersion=2.4.0", "/dRubyPatch=0", "/dRubyBuildPlatform=x64-mingw32", "/dRubyShortPlatform=-x64", "/O#{File.dirname(installer_exe)}", "/F#{File.basename(installer_exe, ".exe")}"
+      sh "cmd", "/c", "iscc", "installer/rubyinstaller.iss", "/Q", "/dRubyVersion=2.4.0", "/dRubyPatch=0", "/dRubyBuildPlatform=x64-mingw32", "/dRubyShortPlatform=-x64", "/O#{File.dirname(installer_exe)}", "/F#{File.basename(installer_exe, ".exe")}"
     end
   end
 end
