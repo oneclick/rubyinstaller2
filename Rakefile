@@ -77,6 +77,21 @@ rubies.each do |rubyver|
       end
     end
 
+    file File.join(sandboxdir, "mingw64/bin/rake.cmd") do |t|
+      out = File.read(t.name.gsub(".cmd", ".bat")).gsub("\\mingw64\\bin\\", "%~dp0")
+      File.write(t.name, out)
+    end
+
+    file File.join(sandboxdir, "mingw64/lib/ruby/site_ruby/devkit.rb") do |t|
+      mkdir_p File.dirname(t.name)
+      cp "lib/devkit.rb", t.name
+    end
+
+    file File.join(sandboxdir, "mingw64/lib/ruby/2.4.0/rubygems/defaults/operating_system.rb") do |t|
+      mkdir_p File.dirname(t.name)
+      cp "lib/operating_system.rb", t.name
+    end
+
     filelist_iss = "installer/filelist-#{rubyver}-x64-mingw32.iss"
     file filelist_iss => [__FILE__, installerfile_listfile] do
       puts "generate #{filelist_iss}"

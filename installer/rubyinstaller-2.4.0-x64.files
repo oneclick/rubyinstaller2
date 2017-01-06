@@ -33,7 +33,7 @@ mingw64/bin/libtre-5.dll
 mingw64/bin/libwinpthread-1.dll
 mingw64/bin/libyaml-0-2.dll
 mingw64/bin/rake
-mingw64/bin/rake.bat
+mingw64/bin/rake.cmd
 mingw64/bin/rdoc
 mingw64/bin/rdoc.cmd
 mingw64/bin/ri
@@ -43,6 +43,7 @@ mingw64/bin/rubyw.exe
 mingw64/bin/ssleay32.dll
 mingw64/bin/x64-msvcrt-ruby240.dll
 mingw64/bin/zlib1.dll
+mingw64/include/ruby-2.4.0
 mingw64/lib/engines/4758ccaeay32.dll
 mingw64/lib/engines/aepeay32.dll
 mingw64/lib/engines/atallaeay32.dll
@@ -55,6 +56,8 @@ mingw64/lib/engines/nuroneay32.dll
 mingw64/lib/engines/padlockeay32.dll
 mingw64/lib/engines/surewareeay32.dll
 mingw64/lib/engines/ubseceay32.dll
+mingw64/lib/libx64-msvcrt-ruby240.dll.a
+mingw64/lib/pkgconfig/ruby-2.4.pc
 mingw64/lib/ruby/2.4.0
 mingw64/lib/ruby/gems/2.4.0
 mingw64/lib/ruby/site_ruby/2.4.0
@@ -68,3 +71,5 @@ mingw64/ssl/openssl.cnf
 mingw64/ssl/private
 var/cache/pacman/pkg/KEEP
 var/lib/pacman/KEEP
+mingw64/lib/ruby/site_ruby/devkit.rb
+mingw64/lib/ruby/2.4.0/rubygems/defaults/operating_system.rb
