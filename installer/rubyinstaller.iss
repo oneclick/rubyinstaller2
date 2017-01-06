@@ -59,8 +59,7 @@
 #define RubyInstallerBaseId "MRI"
 
 [Setup]
-; TODO: don't use a hardcoded path
-DefaultDirName=C:\Ruby24-x64
+DefaultDirName={#DefaultDirName}
 
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications!

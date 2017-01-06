@@ -16,17 +16,18 @@ exec "$bindir/ruby" -x "$0" "$@" #
 EOT
 
 rubies = Dir["package/ruby-*"].map do |dir|
-  File.basename(dir)
+  File.basename(dir).gsub("ruby-", "")
 end
 
 rubies.each do |rubyver|
-  namespace rubyver do
-    packdir = File.join("package", rubyver)
+  namespace "ruby-#{rubyver}" do
+    rubyver2 = rubyver[/^\d+\.\d+/]
+    packdir = File.join("package", "ruby-#{rubyver}")
 
     # TODO: Fix quick'n dirty building of package name
-    packagefile = File.join(packdir, "mingw-w64-x86_64-#{rubyver}-1-any.pkg.tar.xz")
+    packagefile = File.join(packdir, "mingw-w64-x86_64-ruby-#{rubyver}-1-any.pkg.tar.xz")
 
-    desc "Build pacman package for #{rubyver}"
+    desc "Build pacman package for ruby-#{rubyver}"
     task "compile" => [:devkit, packagefile]
 
     file packagefile => [File.join(packdir, "PKGBUILD")] do
@@ -36,14 +37,14 @@ rubies.each do |rubyver|
       end
     end
 
-    sandboxdir = "sandbox/#{rubyver}"
+    sandboxdir = "sandbox/ruby-#{rubyver}"
     sandboxdirmgw = File.join(sandboxdir, "mingw64")
     sandboxdir_abs = File.expand_path("../" + sandboxdir, __FILE__)
-    rootdir = "/tmp/rubyinstaller/#{rubyver}"
+    rootdir = "/tmp/rubyinstaller/ruby-#{rubyver}"
     ruby_exe = "#{sandboxdirmgw}/bin/ruby.exe"
 
-    desc "Build sandbox for #{rubyver}"
-    task "sandbox" => [:devkit, "#{rubyver}:compile", ruby_exe]
+    desc "Build sandbox for ruby-#{rubyver}"
+    task "sandbox" => [:devkit, "compile", ruby_exe]
 
     file ruby_exe => packagefile do
       # pacman doesn't work on automount paths (/c/path), so mount explicit
@@ -62,7 +63,7 @@ rubies.each do |rubyver|
       touch ruby_exe
     end
 
-    installer_exe = "installer/" + rubyver.gsub("ruby", "rubyinstaller") + "-x64.exe"
+    installer_exe = "installer/rubyinstaller-#{rubyver}-x64.exe"
     installerfile_listfile = "installer/#{File.basename(installer_exe, ".exe")}.files"
     installerfile_list = File.readlines(installerfile_listfile)
     installerfile_list = installerfile_list.map{|path| File.join(sandboxdirmgw, path.chomp)}
@@ -77,8 +78,8 @@ rubies.each do |rubyver|
       file path
     end
 
-    desc "Build installer for #{rubyver}"
-    task "installer" => [:devkit, "#{rubyver}:sandbox", installer_exe]
+    desc "Build installer for ruby-#{rubyver}"
+    task "installer" => [:devkit, "sandbox", installer_exe]
 
     file File.join(sandboxdirmgw, "bin/rake.cmd") do |t|
       out = File.read(t.name.gsub(".cmd", ".bat")).gsub("\\mingw64\\bin\\", "%~dp0")
@@ -104,12 +105,12 @@ rubies.each do |rubyver|
       cp "lib/ruby_installer.rb", t.name
     end
 
-    file File.join(sandboxdirmgw, "lib/ruby/2.4.0/rubygems/defaults/operating_system.rb") do |t|
+    file File.join(sandboxdirmgw, "lib/ruby/#{rubyver2}.0/rubygems/defaults/operating_system.rb") do |t|
       mkdir_p File.dirname(t.name)
       cp "lib/operating_system.rb", t.name
     end
 
-    filelist_iss = "installer/filelist-#{rubyver}-x64-mingw32.iss"
+    filelist_iss = "installer/filelist-ruby-#{rubyver}-x64-mingw32.iss"
     file filelist_iss => [__FILE__, installerfile_listfile] do
       puts "generate #{filelist_iss}"
       out = installerfiles.map do |path|
@@ -118,9 +119,10 @@ rubies.each do |rubyver|
       File.write(filelist_iss, out)
     end
 
+    default_inst_dir = "C:\\Ruby#{rubyver2.gsub(".","")}-x64"
     iss_files = Dir["installer/*.iss"]
     file installer_exe => (installerfiles + iss_files + [filelist_iss]) do
-      sh "cmd", "/c", "iscc", "installer/rubyinstaller.iss", "/Q", "/dRubyVersion=2.4.0", "/dRubyPatch=0", "/dRubyBuildPlatform=x64-mingw32", "/dRubyShortPlatform=-x64", "/O#{File.dirname(installer_exe)}", "/F#{File.basename(installer_exe, ".exe")}"
+      sh "cmd", "/c", "iscc", "installer/rubyinstaller.iss", "/Q", "/dRubyVersion=#{rubyver}", "/dRubyPatch=0", "/dRubyBuildPlatform=x64-mingw32", "/dRubyShortPlatform=-x64", "/dDefaultDirName=#{default_inst_dir}", "/O#{File.dirname(installer_exe)}", "/F#{File.basename(installer_exe, ".exe")}"
     end
   end
 end
