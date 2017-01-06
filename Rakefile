@@ -37,9 +37,10 @@ rubies.each do |rubyver|
     end
 
     sandboxdir = "sandbox/#{rubyver}"
+    sandboxdirmgw = File.join(sandboxdir, "mingw64")
     sandboxdir_abs = File.expand_path("../" + sandboxdir, __FILE__)
     rootdir = "/tmp/rubyinstaller/#{rubyver}"
-    ruby_exe = "#{sandboxdir}/mingw64/bin/ruby.exe"
+    ruby_exe = "#{sandboxdirmgw}/bin/ruby.exe"
 
     desc "Build sandbox for #{rubyver}"
     task "sandbox" => [:devkit, "#{rubyver}:compile", ruby_exe]
@@ -64,8 +65,8 @@ rubies.each do |rubyver|
     installer_exe = "installer/" + rubyver.gsub("ruby", "rubyinstaller") + "-x64.exe"
     installerfile_listfile = "installer/#{File.basename(installer_exe, ".exe")}.files"
     installerfile_list = File.readlines(installerfile_listfile)
-    installerfile_list = installerfile_list.map{|path| File.join("sandbox/#{rubyver}", path.chomp)}
-    installerfiles = installerfiles1.map do |path|
+    installerfile_list = installerfile_list.map{|path| File.join(sandboxdirmgw, path.chomp)}
+    installerfiles = installerfile_list.map do |path|
       if File.directory?(path)
         Dir[path+"/**/*"].reject{|f| File.directory?(f) }
       else
@@ -79,31 +80,31 @@ rubies.each do |rubyver|
     desc "Build installer for #{rubyver}"
     task "installer" => [:devkit, "#{rubyver}:sandbox", installer_exe]
 
-    file File.join(sandboxdir, "mingw64/bin/rake.cmd") do |t|
+    file File.join(sandboxdirmgw, "bin/rake.cmd") do |t|
       out = File.read(t.name.gsub(".cmd", ".bat")).gsub("\\mingw64\\bin\\", "%~dp0")
       File.write(t.name, out)
     end
 
-    file File.join(sandboxdir, "mingw64/bin/racman.cmd") => File.join(sandboxdir, "mingw64/bin/racman") do |t|
+    file File.join(sandboxdirmgw, "bin/racman.cmd") => File.join(sandboxdirmgw, "bin/racman") do |t|
       out = WINDOWS_CMD_SHEBANG + File.read(t.prerequisites.first)
       File.write(t.name, out)
     end
 
-    file File.join(sandboxdir, "mingw64/bin/racman") do |t|
+    file File.join(sandboxdirmgw, "bin/racman") do |t|
       cp "lib/racman.rb", t.name
     end
 
-    file File.join(sandboxdir, "mingw64/lib/ruby/site_ruby/devkit.rb") do |t|
+    file File.join(sandboxdirmgw, "lib/ruby/site_ruby/devkit.rb") do |t|
       mkdir_p File.dirname(t.name)
       cp "lib/devkit.rb", t.name
     end
 
-    file File.join(sandboxdir, "mingw64/lib/ruby/site_ruby/ruby_installer.rb") do |t|
+    file File.join(sandboxdirmgw, "lib/ruby/site_ruby/ruby_installer.rb") do |t|
       mkdir_p File.dirname(t.name)
       cp "lib/ruby_installer.rb", t.name
     end
 
-    file File.join(sandboxdir, "mingw64/lib/ruby/2.4.0/rubygems/defaults/operating_system.rb") do |t|
+    file File.join(sandboxdirmgw, "lib/ruby/2.4.0/rubygems/defaults/operating_system.rb") do |t|
       mkdir_p File.dirname(t.name)
       cp "lib/operating_system.rb", t.name
     end
@@ -112,7 +113,7 @@ rubies.each do |rubyver|
     file filelist_iss => [__FILE__, installerfile_listfile] do
       puts "generate #{filelist_iss}"
       out = installerfiles.map do |path|
-        "Source: ../#{path}; DestDir: {app}/#{File.dirname(path.gsub(sandboxdir+"/", ""))}"
+        "Source: ../#{path}; DestDir: {app}/#{File.dirname(path.gsub(sandboxdirmgw+"/", ""))}"
       end.join("\n")
       File.write(filelist_iss, out)
     end

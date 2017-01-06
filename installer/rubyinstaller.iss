@@ -83,7 +83,7 @@ VersionInfoCopyright=(c) {#CurrentYear} {#InstallerPublisher}
 VersionInfoDescription=Ruby Programming Language for Windows
 VersionInfoTextVersion={#RubyFullVersion}
 VersionInfoVersion={#RubyVersion}.{#RubyPatch}
-UninstallDisplayIcon={app}\mingw64\bin\ruby.exe
+UninstallDisplayIcon={app}\bin\ruby.exe
 WizardImageFile={#SourcePath}\images\wizard-large.bmp
 WizardSmallImageFile={#SourcePath}\images\wizard-logo.bmp
 PrivilegesRequired=lowest
@@ -137,26 +137,26 @@ TheBookofRubyTitle=The Book of Ruby
 ; .rb file for admin
 Root: HKLM; Subkey: Software\Classes\.rb; ValueType: string; ValueName: ; ValueData: RubyFile; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: IsAdmin and IsAssociated
 Root: HKLM; Subkey: Software\Classes\RubyFile; ValueType: string; ValueName: ; ValueData: Ruby File; Flags: uninsdeletekey; Check: IsAdmin and IsAssociated
-Root: HKLM; Subkey: Software\Classes\RubyFile\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\mingw64\bin\ruby.exe,0; Check: IsAdmin and IsAssociated
-Root: HKLM; Subkey: Software\Classes\RubyFile\shell\open\command; ValueType: string; ValueData: """{app}\mingw64\bin\ruby.exe"" ""%1"" %*"; Check: IsAdmin and IsAssociated
+Root: HKLM; Subkey: Software\Classes\RubyFile\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\bin\ruby.exe,0; Check: IsAdmin and IsAssociated
+Root: HKLM; Subkey: Software\Classes\RubyFile\shell\open\command; ValueType: string; ValueData: """{app}\bin\ruby.exe"" ""%1"" %*"; Check: IsAdmin and IsAssociated
 
 ; .rbw file for admin
 Root: HKLM; Subkey: Software\Classes\.rbw; ValueType: string; ValueName: ; ValueData: RubyWFile; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: IsAdmin and IsAssociated
 Root: HKLM; Subkey: Software\Classes\RubyWFile; ValueType: string; ValueName: ; ValueData: RubyW File; Flags: uninsdeletekey; Check: IsAdmin and IsAssociated
-Root: HKLM; Subkey: Software\Classes\RubyWFile\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\mingw64\bin\rubyw.exe,0; Check: IsAdmin and IsAssociated
-Root: HKLM; Subkey: Software\Classes\RubyWFile\shell\open\command; ValueType: string; ValueName: ; ValueData: """{app}\mingw64\bin\rubyw.exe"" ""%1"" %*"; Check: IsAdmin and IsAssociated
+Root: HKLM; Subkey: Software\Classes\RubyWFile\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\bin\rubyw.exe,0; Check: IsAdmin and IsAssociated
+Root: HKLM; Subkey: Software\Classes\RubyWFile\shell\open\command; ValueType: string; ValueName: ; ValueData: """{app}\bin\rubyw.exe"" ""%1"" %*"; Check: IsAdmin and IsAssociated
 
 ; .rb file for non-admin
 Root: HKCU; Subkey: Software\Classes\.rb; ValueType: string; ValueName: ; ValueData: RubyFile; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: IsNotAdmin and IsAssociated
 Root: HKCU; Subkey: Software\Classes\RubyFile; ValueType: string; ValueName: ; ValueData: Ruby File; Flags: uninsdeletekey; Check: IsNotAdmin and IsAssociated
-Root: HKCU; Subkey: Software\Classes\RubyFile\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\mingw64\bin\ruby.exe,0; Check: IsNotAdmin and IsAssociated
-Root: HKCU; Subkey: Software\Classes\RubyFile\shell\open\command; ValueType: string; ValueName: ; ValueData: """{app}\mingw64\bin\ruby.exe"" ""%1"" %*"; Check: IsNotAdmin and IsAssociated
+Root: HKCU; Subkey: Software\Classes\RubyFile\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\bin\ruby.exe,0; Check: IsNotAdmin and IsAssociated
+Root: HKCU; Subkey: Software\Classes\RubyFile\shell\open\command; ValueType: string; ValueName: ; ValueData: """{app}\bin\ruby.exe"" ""%1"" %*"; Check: IsNotAdmin and IsAssociated
 
 ; .rbw file for non-admin
 Root: HKCU; Subkey: Software\Classes\.rbw; ValueType: string; ValueName: ; ValueData: RubyWFile; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: IsNotAdmin and IsAssociated
 Root: HKCU; Subkey: Software\Classes\RubyWFile; ValueType: string; ValueName: ; ValueData: RubyW File; Flags: uninsdeletekey; Check: IsNotAdmin and IsAssociated
-Root: HKCU; Subkey: Software\Classes\RubyWFile\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\mingw64\bin\rubyw.exe,0; Check: IsNotAdmin and IsAssociated
-Root: HKCU; Subkey: Software\Classes\RubyWFile\shell\open\command; ValueType: string; ValueData: """{app}\mingw64\bin\rubyw.exe"" ""%1"" %*"; Check: IsNotAdmin and IsAssociated
+Root: HKCU; Subkey: Software\Classes\RubyWFile\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\bin\rubyw.exe,0; Check: IsNotAdmin and IsAssociated
+Root: HKCU; Subkey: Software\Classes\RubyWFile\shell\open\command; ValueType: string; ValueData: """{app}\bin\rubyw.exe"" ""%1"" %*"; Check: IsNotAdmin and IsAssociated
 
 ; RubyInstaller identification for admin
 Root: HKLM; Subkey: Software\RubyInstaller; ValueType: string; ValueName: ; ValueData: ; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: IsAdmin
@@ -177,9 +177,9 @@ Root: HKCU; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}\{#RubyVersion}
 Root: HKCU; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}\{#RubyVersion}; ValueType: string; ValueName: BuildPlatform ; ValueData: {#RubyBuildPlatform}; Check: IsNotAdmin
 
 [Icons]
-Name: {group}\{cm:InteractiveRubyTitle}; Filename: {app}\mingw64\bin\irb.bat; IconFilename: {app}\mingw64\bin\ruby.exe; Flags: createonlyiffileexists
-Name: {group}\{cm:RubyGemsDocumentationServerTitle}; Filename: {app}\mingw64\bin\gem.bat; Parameters: server --launch; IconFilename: {app}\mingw64\bin\ruby.exe; Flags: createonlyiffileexists runminimized
-Name: {group}\{cm:StartCmdPromptWithRubyTitle}; Filename: {sys}\cmd.exe; Parameters: /E:ON /K {app}\mingw64\bin\setrbvars.bat; WorkingDir: {%HOMEDRIVE}{%HOMEPATH}; IconFilename: {sys}\cmd.exe; Flags: createonlyiffileexists
+Name: {group}\{cm:InteractiveRubyTitle}; Filename: {app}\bin\irb.bat; IconFilename: {app}\bin\ruby.exe; Flags: createonlyiffileexists
+Name: {group}\{cm:RubyGemsDocumentationServerTitle}; Filename: {app}\bin\gem.bat; Parameters: server --launch; IconFilename: {app}\bin\ruby.exe; Flags: createonlyiffileexists runminimized
+Name: {group}\{cm:StartCmdPromptWithRubyTitle}; Filename: {sys}\cmd.exe; Parameters: /E:ON /K {app}\bin\setrbvars.bat; WorkingDir: {%HOMEDRIVE}{%HOMEPATH}; IconFilename: {sys}\cmd.exe; Flags: createonlyiffileexists
 Name: {group}\{cm:UninstallProgram,{#InstallerName}}; Filename: {uninstallexe}
 
 [Code]
@@ -202,7 +202,7 @@ begin
       Log(Format('Selected Tasks - Path: %d, Associate: %d', [PathChkBox.State, PathExtChkBox.State]));
 
       if IsModifyPath then
-        ModifyPath([ExpandConstant('{app}') + '\mingw64\bin']);
+        ModifyPath([ExpandConstant('{app}') + '\bin']);
 
       if IsAssociated then
         ModifyFileExts(['.rb', '.rbw']);
@@ -232,7 +232,7 @@ begin
     if UsingWinNT then
     begin
       if GetPreviousData('PathModified', 'no') = 'yes' then
-        ModifyPath([ExpandConstant('{app}') + '\mingw64\bin']);
+        ModifyPath([ExpandConstant('{app}') + '\bin']);
 
       if GetPreviousData('FilesAssociated', 'no') = 'yes' then
         ModifyFileExts(['.rb', '.rbw']);
