@@ -65,7 +65,6 @@ rubies.each do |rubyver|
     installerfile_listfile = "installer/#{File.basename(installer_exe, ".exe")}.files"
     installerfile_list = File.readlines(installerfile_listfile)
     installerfile_list = installerfile_list.map{|path| File.join("sandbox/#{rubyver}", path.chomp)}
-    installerkeeps, installerfiles1 = installerfile_list.partition{|path| path =~ /\/KEEP$/ }
     installerfiles = installerfiles1.map do |path|
       if File.directory?(path)
         Dir[path+"/**/*"].reject{|f| File.directory?(f) }
@@ -79,14 +78,6 @@ rubies.each do |rubyver|
 
     desc "Build installer for #{rubyver}"
     task "installer" => [:devkit, "#{rubyver}:sandbox", installer_exe]
-
-    installerkeeps.each do |path|
-      dirname = File.dirname(path)
-      directory dirname
-      file path => dirname do
-        touch path
-      end
-    end
 
     file File.join(sandboxdir, "mingw64/bin/rake.cmd") do |t|
       out = File.read(t.name.gsub(".cmd", ".bat")).gsub("\\mingw64\\bin\\", "%~dp0")
@@ -120,14 +111,14 @@ rubies.each do |rubyver|
     filelist_iss = "installer/filelist-#{rubyver}-x64-mingw32.iss"
     file filelist_iss => [__FILE__, installerfile_listfile] do
       puts "generate #{filelist_iss}"
-      out = (installerfiles + installerkeeps).map do |path|
+      out = installerfiles.map do |path|
         "Source: ../#{path}; DestDir: {app}/#{File.dirname(path.gsub(sandboxdir+"/", ""))}"
       end.join("\n")
       File.write(filelist_iss, out)
     end
 
     iss_files = Dir["installer/*.iss"]
-    file installer_exe => (installerfiles + installerkeeps + iss_files + [filelist_iss]) do
+    file installer_exe => (installerfiles + iss_files + [filelist_iss]) do
       sh "cmd", "/c", "iscc", "installer/rubyinstaller.iss", "/Q", "/dRubyVersion=2.4.0", "/dRubyPatch=0", "/dRubyBuildPlatform=x64-mingw32", "/dRubyShortPlatform=-x64", "/O#{File.dirname(installer_exe)}", "/F#{File.basename(installer_exe, ".exe")}"
     end
   end

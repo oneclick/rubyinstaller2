@@ -74,8 +74,6 @@ mingw64/ssl/certs/ca-bundle.crt
 mingw64/ssl/certs/ca-bundle.trust.crt
 mingw64/ssl/openssl.cnf
 mingw64/ssl/private
-var/cache/pacman/pkg/KEEP
-var/lib/pacman/KEEP
 mingw64/lib/ruby/site_ruby/devkit.rb
 mingw64/lib/ruby/site_ruby/ruby_installer.rb
 mingw64/lib/ruby/2.4.0/rubygems/defaults/operating_system.rb
