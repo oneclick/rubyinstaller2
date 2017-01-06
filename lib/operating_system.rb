@@ -1,5 +1,7 @@
-# :DK-BEG: override 'gem install' to enable RubyInstaller DevKit usage
+require "ruby_installer"
+
 Gem.pre_install do |gem_installer|
-  load 'devkit.rb' unless gem_installer.spec.extensions.empty?
+  RubyInstaller.enable_msys_apps unless gem_installer.spec.extensions.empty?
 end
-# :DK-END:
+
+RubyInstaller.enable_mingw_dlls

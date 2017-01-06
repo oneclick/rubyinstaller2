@@ -4,6 +4,17 @@ task :devkit do
   require_relative "lib/devkit"
 end
 
+WINDOWS_CMD_SHEBANG = <<-EOT.freeze
+:""||{ ""=> %q<-*- ruby -*-
+@"%~dp0ruby" -x "%~f0" %*
+@exit /b %ERRORLEVEL%
+};{ #
+bindir="${0%/*}" #
+exec "$bindir/ruby" -x "$0" "$@" #
+>, #
+} #
+EOT
+
 rubies = Dir["package/ruby-*"].map do |dir|
   File.basename(dir)
 end
@@ -82,9 +93,23 @@ rubies.each do |rubyver|
       File.write(t.name, out)
     end
 
+    file File.join(sandboxdir, "mingw64/bin/racman.cmd") => File.join(sandboxdir, "mingw64/bin/racman") do |t|
+      out = WINDOWS_CMD_SHEBANG + File.read(t.prerequisites.first)
+      File.write(t.name, out)
+    end
+
+    file File.join(sandboxdir, "mingw64/bin/racman") do |t|
+      cp "lib/racman.rb", t.name
+    end
+
     file File.join(sandboxdir, "mingw64/lib/ruby/site_ruby/devkit.rb") do |t|
       mkdir_p File.dirname(t.name)
       cp "lib/devkit.rb", t.name
+    end
+
+    file File.join(sandboxdir, "mingw64/lib/ruby/site_ruby/ruby_installer.rb") do |t|
+      mkdir_p File.dirname(t.name)
+      cp "lib/ruby_installer.rb", t.name
     end
 
     file File.join(sandboxdir, "mingw64/lib/ruby/2.4.0/rubygems/defaults/operating_system.rb") do |t|
@@ -95,7 +120,7 @@ rubies.each do |rubyver|
     filelist_iss = "installer/filelist-#{rubyver}-x64-mingw32.iss"
     file filelist_iss => [__FILE__, installerfile_listfile] do
       puts "generate #{filelist_iss}"
-      out = installerfiles.map do |path|
+      out = (installerfiles + installerkeeps).map do |path|
         "Source: ../#{path}; DestDir: {app}/#{File.dirname(path.gsub(sandboxdir+"/", ""))}"
       end.join("\n")
       File.write(filelist_iss, out)
