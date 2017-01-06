@@ -53,7 +53,7 @@ build() {
     --host=${MINGW_CHOST} \
     --target=${MINGW_CHOST}
 
-  make
+  make -j2
 }
 
 package() {
