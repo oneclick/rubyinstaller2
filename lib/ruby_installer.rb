@@ -68,12 +68,18 @@ module RubyInstaller
       add_dll_directory(mingw_bin_path)
     end
 
+    def ruby_bin_dir
+      require "rbconfig"
+      backslachs( File.join(RbConfig::TOPDIR, "bin") )
+    end
+
     def msys_apps_envvars
       vars = {}
       msys_bin = msys_bin_path
       mingw_bin = mingw_bin_path
+      ruby_bin = ruby_bin_dir
       unless ENV['PATH'].include?(msys_bin) then
-        vars['PATH'] = mingw_bin + ";" + msys_bin + ";" + ENV['PATH']
+        vars['PATH'] = ruby_bin + ";" + mingw_bin + ";" + msys_bin + ";" + ENV['PATH'].gsub(";"+ruby_bin, "")
       end
       vars['RI_DEVKIT'] = msys_path
       vars['MSYSTEM'] = msystem.upcase
