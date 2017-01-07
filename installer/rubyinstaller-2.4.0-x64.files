@@ -29,10 +29,8 @@ bin/libquadmath-0.dll
 bin/libreadline7.dll
 bin/libssp-0.dll
 bin/libstdc++-6.dll
-bin/libsystre-0.dll
 bin/libtasn1-6.dll
 bin/libtermcap-0.dll
-bin/libtre-5.dll
 bin/libwinpthread-1.dll
 bin/libyaml-0-2.dll
 bin/racman
