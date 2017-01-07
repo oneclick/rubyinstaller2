@@ -82,7 +82,9 @@ rubies.each do |rubyver|
     task "installer" => [:devkit, "sandbox", installer_exe]
 
     file File.join(sandboxdirmgw, "bin/rake.cmd") do |t|
-      out = File.read(t.name.gsub(".cmd", ".bat")).gsub("\\mingw64\\bin\\", "%~dp0")
+      out = File.read(t.name.gsub(".cmd", ".bat"))
+        .gsub("\\mingw64\\bin\\", "%~dp0")
+        .gsub(/"[^"]*\/bin\/rake"/, "\"%~dp0rake\"")
       File.write(t.name, out)
     end
 
