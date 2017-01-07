@@ -87,7 +87,7 @@ module RubyInstaller
     end
 
     def enable_msys_apps
-      vars = msys_apps_env
+      vars = msys_apps_envvars
       if vars["PATH"]
         phrase = "Temporarily enhancing PATH for MSYS/MINGW..."
         if defined?(Gem)
