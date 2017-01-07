@@ -68,20 +68,37 @@ module RubyInstaller
       add_dll_directory(mingw_bin_path)
     end
 
-    def enable_msys_apps
+    def msys_apps_envvars
+      vars = {}
       msys_bin = msys_bin_path
       mingw_bin = mingw_bin_path
       unless ENV['PATH'].include?(msys_bin) then
-        phrase = "Temporarily enhancing PATH by #{msys_bin} and #{mingw_bin}..."
+        vars['PATH'] = mingw_bin + ";" + msys_bin + ";" + ENV['PATH']
+      end
+      vars['RI_DEVKIT'] = msys_path
+      vars['MSYSTEM'] = msystem.upcase
+      vars
+    end
+
+    def enable_msys_apps
+      vars = msys_apps_env
+      if vars["PATH"]
+        phrase = "Temporarily enhancing PATH for MSYS/MINGW..."
         if defined?(Gem)
           Gem.ui.say(phrase) if Gem.configuration.verbose
         else
           puts phrase if $DEBUG
         end
-        ENV['PATH'] = mingw_bin + ";" + msys_bin + ";" + ENV['PATH']
       end
-      ENV['RI_DEVKIT'] = msys_path
-      ENV['MSYSTEM'] = msystem.upcase
+      vars.each do |key, val|
+        ENV[key] = val
+      end
+    end
+
+    def msys_apps_envvars_for_cmd
+      msys_apps_envvars.map do |key, val|
+        "#{key}=#{val}"
+      end.join("\n")
     end
   end
 end

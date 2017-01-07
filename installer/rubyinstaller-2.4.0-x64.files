@@ -33,8 +33,7 @@ bin/libtasn1-6.dll
 bin/libtermcap-0.dll
 bin/libwinpthread-1.dll
 bin/libyaml-0-2.dll
-bin/racman
-bin/racman.cmd
+bin/rubydevkit.cmd
 bin/rake
 bin/rake.cmd
 bin/rdoc

@@ -86,13 +86,8 @@ rubies.each do |rubyver|
       File.write(t.name, out)
     end
 
-    file File.join(sandboxdirmgw, "bin/racman.cmd") => File.join(sandboxdirmgw, "bin/racman") do |t|
-      out = WINDOWS_CMD_SHEBANG + File.read(t.prerequisites.first)
-      File.write(t.name, out)
-    end
-
-    file File.join(sandboxdirmgw, "bin/racman") do |t|
-      cp "lib/racman.rb", t.name
+    file File.join(sandboxdirmgw, "bin/rubydevkit.cmd") do |t|
+      cp "lib/rubydevkit.cmd", t.name
     end
 
     file File.join(sandboxdirmgw, "lib/ruby/site_ruby/devkit.rb") do |t|
