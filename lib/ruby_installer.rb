@@ -78,7 +78,7 @@ module RubyInstaller
         else
           puts phrase if $DEBUG
         end
-        ENV['PATH'] = ENV['PATH'] + ";" + mingw_bin + ";" + msys_bin
+        ENV['PATH'] = mingw_bin + ";" + msys_bin + ";" + ENV['PATH']
       end
       ENV['RI_DEVKIT'] = msys_path
       ENV['MSYSTEM'] = msystem.upcase
