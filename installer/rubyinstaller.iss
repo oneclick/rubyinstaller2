@@ -13,7 +13,7 @@
 ;
 ; Usage:
 ;  iscc rubyinstaller.iss /dRubyVersion=X.Y.Z \
-;                         /dRubyPatch=123; \
+;                         /dPackageRelease=3 \
 ;                         /dRubyBuildPlatform=x64-mingw32 \
 ;                         /dRubyShortPlatform=-x64 \
 ;                         [/dInstVersion=26-OCT-2009] \
@@ -23,8 +23,8 @@
   #error Please provide a RubyVersion definition using a /d parameter.
 #endif
 
-#if Defined(RubyPatch) == 0
-  #error Please provide a RubyPatch level definition using a /d parameter.
+#if Defined(PackageRelease) == 0
+  #error Please provide a PackageRelease level definition using a /d parameter.
 #endif
 
 #if Defined(RubyBuildPlatform) == 0
@@ -41,7 +41,7 @@
 
 ; Grab MAJOR.MINOR info from RubyVersion (1.8)
 #define RubyMajorMinor Copy(RubyVersion, 1, 3)
-#define RubyFullVersion RubyVersion + '-p' + RubyPatch
+#define RubyFullVersion RubyVersion + '-' + PackageRelease
 
 ; Build Installer details using above values
 #define InstallerName "Ruby " + RubyFullVersion + RubyShortPlatform
@@ -81,7 +81,7 @@ VersionInfoCompany={#InstallerPublisher}
 VersionInfoCopyright=(c) {#CurrentYear} {#InstallerPublisher}
 VersionInfoDescription=Ruby Programming Language for Windows
 VersionInfoTextVersion={#RubyFullVersion}
-VersionInfoVersion={#RubyVersion}.{#RubyPatch}
+VersionInfoVersion={#RubyVersion}.{#PackageRelease}
 UninstallDisplayIcon={app}\bin\ruby.exe
 WizardImageFile={#SourcePath}\images\wizard-large.bmp
 WizardSmallImageFile={#SourcePath}\images\wizard-logo.bmp
@@ -163,7 +163,7 @@ Root: HKLM; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}; ValueType: st
 Root: HKLM; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}\{#RubyVersion}; ValueType: string; ValueName: ; ValueData: ; Flags: uninsdeletekey; Check: IsAdmin
 Root: HKLM; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}\{#RubyVersion}; ValueType: string; ValueName: InstallLocation ; ValueData: {app}; Check: IsAdmin
 Root: HKLM; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}\{#RubyVersion}; ValueType: string; ValueName: InstallDate ; ValueData: {code:GetInstallDate}; Check: IsAdmin
-Root: HKLM; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}\{#RubyVersion}; ValueType: string; ValueName: PatchLevel ; ValueData: {#RubyPatch}; Check: IsAdmin
+Root: HKLM; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}\{#RubyVersion}; ValueType: string; ValueName: PackageRelease ; ValueData: {#PackageRelease}; Check: IsAdmin
 Root: HKLM; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}\{#RubyVersion}; ValueType: string; ValueName: BuildPlatform ; ValueData: {#RubyBuildPlatform}; Check: IsAdmin
 
 ; RubyInstaller identification for non-admin
@@ -172,7 +172,7 @@ Root: HKCU; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}; ValueType: st
 Root: HKCU; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}\{#RubyVersion}; ValueType: string; ValueName: ; ValueData: ; Flags: uninsdeletekey; Check: IsNotAdmin
 Root: HKCU; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}\{#RubyVersion}; ValueType: string; ValueName: InstallLocation ; ValueData: {app}; Check: IsNotAdmin
 Root: HKCU; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}\{#RubyVersion}; ValueType: string; ValueName: InstallDate ; ValueData: {code:GetInstallDate}; Check: IsNotAdmin
-Root: HKCU; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}\{#RubyVersion}; ValueType: string; ValueName: PatchLevel ; ValueData: {#RubyPatch}; Check: IsNotAdmin
+Root: HKCU; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}\{#RubyVersion}; ValueType: string; ValueName: PackageRelease ; ValueData: {#PackageRelease}; Check: IsNotAdmin
 Root: HKCU; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}\{#RubyVersion}; ValueType: string; ValueName: BuildPlatform ; ValueData: {#RubyBuildPlatform}; Check: IsNotAdmin
 
 [Icons]

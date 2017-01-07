@@ -30,7 +30,8 @@ rubies.each do |rubyver|
     desc "Build pacman package for ruby-#{rubyver}"
     task "compile" => [:devkit, packagefile]
 
-    file packagefile => [File.join(packdir, "PKGBUILD")] do
+    pkgbuild = File.join(packdir, "PKGBUILD")
+    file packagefile => [pkgbuild] do
       chdir(packdir) do
         rm_rf(["pkg", "src"])
         sh "sh", "makepkg-mingw", "-sf"
@@ -63,8 +64,11 @@ rubies.each do |rubyver|
       touch ruby_exe
     end
 
-    installer_exe = "installer/rubyinstaller-#{rubyver}-x64.exe"
-    installerfile_listfile = "installer/#{File.basename(installer_exe, ".exe")}.files"
+    File.read(pkgbuild) =~ /^pkgrel=(\d+)$/
+    pkgrel = $1 or raise("'pkgrel' not defined in #{pkgbuild}")
+
+    installer_exe = "installer/rubyinstaller-#{rubyver}-#{pkgrel}-x64.exe"
+    installerfile_listfile = "installer/rubyinstaller-#{rubyver}-x64.files"
     installerfile_list = File.readlines(installerfile_listfile)
     installerfile_list = installerfile_list.map{|path| File.join(sandboxdirmgw, path.chomp)}
     installerfiles = installerfile_list.map do |path|
@@ -119,7 +123,7 @@ rubies.each do |rubyver|
     default_inst_dir = "C:\\Ruby#{rubyver2.gsub(".","")}-x64"
     iss_files = Dir["installer/*.iss"]
     file installer_exe => (installerfiles + iss_files + [filelist_iss]) do
-      sh "cmd", "/c", "iscc", "installer/rubyinstaller.iss", "/Q", "/dRubyVersion=#{rubyver}", "/dRubyPatch=0", "/dRubyBuildPlatform=x64-mingw32", "/dRubyShortPlatform=-x64", "/dDefaultDirName=#{default_inst_dir}", "/O#{File.dirname(installer_exe)}", "/F#{File.basename(installer_exe, ".exe")}"
+      sh "cmd", "/c", "iscc", "installer/rubyinstaller.iss", "/Q", "/dRubyVersion=#{rubyver}", "/dRubyPatch=0", "/dRubyBuildPlatform=x64-mingw32", "/dRubyShortPlatform=-x64", "/dDefaultDirName=#{default_inst_dir}", "/dPackageRelease=#{pkgrel}", "/O#{File.dirname(installer_exe)}", "/F#{File.basename(installer_exe, ".exe")}"
     end
   end
 end

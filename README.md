@@ -66,7 +66,7 @@ The DLL search paths of Ruby processes are extended as soon as rubygems is used,
 - Then compile and package ruby:
     rake ruby-2.4.0:installer
 
-- If everything works well, you will find: `installer/rubyinstaller-2.4.0-x64.exe`
+- If everything works well, you will find: `installer/rubyinstaller-2.4.0-1-x64.exe`
 
 ##Known Issues
 
