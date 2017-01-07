@@ -21,10 +21,12 @@ In order to build gems with C-extensions, install MSYS2 like so:
 - Install latest MSYS2 for x64 at the default path per installer: https://msys2.github.io/
 
 - Run cmd.exe with the following commands:
+```sh
     rubydevkit
     pacman -Sy pacman
     pacman -S base-devel mingw-w64-x86_64-toolchain
     gem install your-gem --platform ruby
+```
 
 `rubydevkit` is a cmd script which sets environment variables to enable MSYS commands like `pacman` .
 These are automatically set while `gem install` .
@@ -35,14 +37,18 @@ Installation of additional library dependencies can be done per pacman as well.
 For instance:
 
 - Install pg.gem
+```sh
     rubydevkit
     pacman -S mingw-w64-x86_64-postgresql
     gem install pg --platform ruby
+```
 
 - Install sqlite3.gem
+```sh
     rubydevkit
     pacman -S mingw-w64-x86_64-sqlite3
     gem install sqlite3 --platform ruby
+```
 
 - Install nokogiri.gem
     Sorry, doesn't work right now, but will be fixed soon.
@@ -56,15 +62,19 @@ The DLL search paths of Ruby processes are extended as soon as rubygems is used,
 - Install latest MSYS2 for x64 at the default path per installer: https://msys2.github.io/
 
 - Use MSYS shell to install the mingw64 toolchain:
+```sh
     pacman -Sy pacman
     pacman -S base-devel mingw-w64-x86_64-toolchain
+```
 
 - Install latest Inno-Setup (unicode): http://www.jrsoftware.org/isdl.php
 
 - Run cmd.exe and add iscc.exe to the Path: ```set PATH=%PATH%;"c:\Program Files (x86)\Inno Setup 5"```
 
 - Then compile and package ruby:
+```sh
     rake ruby-2.4.0:installer
+```
 
 - If everything works well, you will find: `installer/rubyinstaller-2.4.0-1-x64.exe`
 
