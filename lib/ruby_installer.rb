@@ -97,8 +97,18 @@ module RubyInstaller
       vars
     end
 
+    def with_msys_install_hint
+      begin
+        yield
+      rescue MsysNotFound
+        $stderr.puts "MSYS2 could not be found."
+        $stderr.puts "Please download and install MSYS2 from https://msys2.github.io/"
+        exit 1
+      end
+    end
+
     def enable_msys_apps
-      vars = msys_apps_envvars
+      vars = with_msys_install_hint{ msys_apps_envvars }
       if vars["PATH"]
         phrase = "Temporarily enhancing PATH for MSYS/MINGW..."
         if defined?(Gem)
@@ -113,7 +123,8 @@ module RubyInstaller
     end
 
     def msys_apps_envvars_for_cmd
-      msys_apps_envvars.map do |key, val|
+      vars = with_msys_install_hint{ msys_apps_envvars }
+      vars.map do |key, val|
         "#{key}=#{val}"
       end.join("\n")
     end
