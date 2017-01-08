@@ -2,6 +2,8 @@ module RubyInstaller
   class << self
     class WinApiError < RuntimeError
     end
+    class MsysNotFound < RuntimeError
+    end
 
     def add_dll_directory_winapi(path)
       kernel32 = Fiddle.dlopen('kernel32.dll')
@@ -29,9 +31,14 @@ module RubyInstaller
       when File.directory?("c:/msys32")
         backslachs("c:/msys32")
       else
-        key = "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/{1e909ba1-97d2-41c5-b7ce-a9264f4f723d}"
-        Win32::Registry::HKEY_CURRENT_USER.open(backslachs(key)) do |reg|
-          reg['InstallLocation']
+        require "win32/registry"
+        begin
+          key = "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/{1e909ba1-97d2-41c5-b7ce-a9264f4f723d}"
+          Win32::Registry::HKEY_CURRENT_USER.open(backslachs(key)) do |reg|
+            reg['InstallLocation']
+          end
+        rescue Win32::Registry::Error
+          raise MsysNotFound, "MSYS2 could not be found"
         end
       end
     end
@@ -65,7 +72,11 @@ module RubyInstaller
     end
 
     def enable_mingw_dlls
-      add_dll_directory(mingw_bin_path)
+      begin
+        add_dll_directory(mingw_bin_path)
+      rescue MsysNotFound
+        # We silently ignore this error to allow Ruby installations without MSYS2.
+      end
     end
 
     def ruby_bin_dir
