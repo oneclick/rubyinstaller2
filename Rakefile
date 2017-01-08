@@ -85,30 +85,30 @@ rubies.each do |rubyver|
     desc "Build installer for ruby-#{rubyver}"
     task "installer" => [:devkit, "sandbox", installer_exe]
 
-    file File.join(sandboxdirmgw, "bin/rake.cmd") do |t|
-      out = File.read(t.name.gsub(".cmd", ".bat"))
+    file File.join(sandboxdirmgw, "bin/rake.cmd") => File.join(sandboxdirmgw, "bin/rake.bat") do |t|
+      out = File.read(t.prerequisites.first)
         .gsub("\\mingw64\\bin\\", "%~dp0")
         .gsub(/"[^"]*\/bin\/rake"/, "\"%~dp0rake\"")
       File.write(t.name, out)
     end
 
-    file File.join(sandboxdirmgw, "bin/rubydevkit.cmd") do |t|
-      cp "lib/rubydevkit.cmd", t.name
+    file File.join(sandboxdirmgw, "bin/rubydevkit.cmd") => "lib/rubydevkit.cmd" do |t|
+      cp t.prerequisites.first, t.name
     end
 
-    file File.join(sandboxdirmgw, "lib/ruby/site_ruby/devkit.rb") do |t|
+    file File.join(sandboxdirmgw, "lib/ruby/site_ruby/devkit.rb") => "lib/devkit.rb" do |t|
       mkdir_p File.dirname(t.name)
-      cp "lib/devkit.rb", t.name
+      cp t.prerequisites.first, t.name
     end
 
-    file File.join(sandboxdirmgw, "lib/ruby/site_ruby/ruby_installer.rb") do |t|
+    file File.join(sandboxdirmgw, "lib/ruby/site_ruby/ruby_installer.rb") => "lib/ruby_installer.rb" do |t|
       mkdir_p File.dirname(t.name)
-      cp "lib/ruby_installer.rb", t.name
+      cp t.prerequisites.first, t.name
     end
 
-    file File.join(sandboxdirmgw, "lib/ruby/#{rubyver2}.0/rubygems/defaults/operating_system.rb") do |t|
+    file File.join(sandboxdirmgw, "lib/ruby/#{rubyver2}.0/rubygems/defaults/operating_system.rb") => "lib/operating_system.rb" do |t|
       mkdir_p File.dirname(t.name)
-      cp "lib/operating_system.rb", t.name
+      cp t.prerequisites.first, t.name
     end
 
     filelist_iss = "installer/filelist-ruby-#{rubyver}-x64-mingw32.iss"
