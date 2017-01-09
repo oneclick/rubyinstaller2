@@ -15,6 +15,11 @@ exec "$bindir/ruby" -x "$0" "$@" #
 } #
 EOT
 
+def msys_sh(cmd)
+  pwd = Dir.pwd
+  sh "sh", "--login", "-c", "cd `cygpath -u #{pwd.inspect}`; #{cmd}"
+end
+
 rubies = Dir["package/ruby-*"].map do |dir|
   File.basename(dir).gsub("ruby-", "")
 end
@@ -25,18 +30,18 @@ rubies.each do |rubyver|
     rootdir = __dir__
     packdir = File.join("package", "ruby-#{rubyver}")
 
-    # TODO: Fix quick'n dirty building of package name
-    packagefile = File.join(packdir, "mingw-w64-x86_64-ruby-#{rubyver}-1-any.pkg.tar.xz")
+    pkgbuild = File.join(packdir, "PKGBUILD")
+    File.read(pkgbuild) =~ /^pkgrel=(\d+)$/
+    pkgrel = $1 or raise("'pkgrel' not defined in #{pkgbuild}")
+    packagefile = File.join(packdir, "mingw-w64-x86_64-ruby-#{rubyver}-#{pkgrel}-any.pkg.tar.xz")
 
     desc "Build pacman package for ruby-#{rubyver}"
     task "compile" => [:devkit, packagefile]
 
-    pkgbuild = File.join(packdir, "PKGBUILD")
     file packagefile => [pkgbuild] do
       chdir(packdir) do
-        rm_rf(["pkg", "src"])
         cp Dir[File.join(rootdir, "resources/icons/*.ico")], "."
-        sh "sh", "makepkg-mingw", "-sf"
+        msys_sh "makepkg-mingw -sf"
       end
     end
 
@@ -60,14 +65,11 @@ rubies.each do |rubyver|
         mkdir_p File.join(sandboxdir, dir)
       end
 
-      sh "pacman --root #{pmrootdir} -Sy"
-      sh "pacman --root #{pmrootdir} --noconfirm -U #{packagefile}"
+      msys_sh "pacman --root #{pmrootdir} -Sy"
+      msys_sh "pacman --root #{pmrootdir} --noconfirm -U #{packagefile}"
       sh "umount", pmrootdir
       touch ruby_exe
     end
-
-    File.read(pkgbuild) =~ /^pkgrel=(\d+)$/
-    pkgrel = $1 or raise("'pkgrel' not defined in #{pkgbuild}")
 
     installer_exe = "installer/rubyinstaller-#{rubyver}-#{pkgrel}-x64.exe"
     installerfile_listfile = "installer/rubyinstaller-#{rubyver}-x64.files"
