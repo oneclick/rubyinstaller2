@@ -41,7 +41,7 @@ rubies.each do |rubyver|
     sandboxdir = "sandbox/ruby-#{rubyver}"
     sandboxdirmgw = File.join(sandboxdir, "mingw64")
     sandboxdir_abs = File.expand_path("../" + sandboxdir, __FILE__)
-    rootdir = "/tmp/rubyinstaller/ruby-#{rubyver}"
+    pmrootdir = "/tmp/rubyinstaller/ruby-#{rubyver}"
     ruby_exe = "#{sandboxdirmgw}/bin/ruby.exe"
 
     desc "Build sandbox for ruby-#{rubyver}"
@@ -49,18 +49,18 @@ rubies.each do |rubyver|
 
     file ruby_exe => packagefile do
       # pacman doesn't work on automount paths (/c/path), so mount explicit
-      mkdir_p File.join(ENV['RI_DEVKIT'], rootdir)
+      mkdir_p File.join(ENV['RI_DEVKIT'], pmrootdir)
       mkdir_p sandboxdir
       rm_rf sandboxdir
-      sh "mount", sandboxdir_abs, rootdir
+      sh "mount", sandboxdir_abs, pmrootdir
 
       %w[var/cache/pacman/pkg var/lib/pacman].each do |dir|
         mkdir_p File.join(sandboxdir, dir)
       end
 
-      sh "pacman --root #{rootdir} -Sy"
-      sh "pacman --root #{rootdir} --noconfirm -U #{packagefile}"
-      sh "umount", rootdir
+      sh "pacman --root #{pmrootdir} -Sy"
+      sh "pacman --root #{pmrootdir} --noconfirm -U #{packagefile}"
+      sh "umount", pmrootdir
       touch ruby_exe
     end
 
