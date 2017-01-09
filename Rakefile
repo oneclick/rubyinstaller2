@@ -22,6 +22,7 @@ end
 rubies.each do |rubyver|
   namespace "ruby-#{rubyver}" do
     rubyver2 = rubyver[/^\d+\.\d+/]
+    rootdir = __dir__
     packdir = File.join("package", "ruby-#{rubyver}")
 
     # TODO: Fix quick'n dirty building of package name
@@ -34,6 +35,7 @@ rubies.each do |rubyver|
     file packagefile => [pkgbuild] do
       chdir(packdir) do
         rm_rf(["pkg", "src"])
+        cp Dir[File.join(rootdir, "resources/icons/*.ico")], "."
         sh "sh", "makepkg-mingw", "-sf"
       end
     end

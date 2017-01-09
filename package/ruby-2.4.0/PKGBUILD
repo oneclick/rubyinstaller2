@@ -23,11 +23,15 @@ options=('staticlibs' 'strip')
 source=("https://cache.ruby-lang.org/pub/ruby/${pkgver%.*}/${_realname}-${pkgver}.tar.bz2"
         0001-mingw-w64-time-functions.patch
         0002-use-gnu-printf.patch
-        0003-fix-check-types.patch)
+        0003-fix-check-types.patch
+        ruby.ico
+        rubyw.ico)
 sha256sums=('440bbbdc49d08d3650f340dccb35986d9399177ad69a204def56e5d3954600cf'
             '329994d3bf7e692e18c1faffbedfbd076e5d00257b2100387a773b59b81ccd4e'
             '578bd0830fe96efc7656c732ec46b0658fc436a7a30d8945cf3b8240797809f0'
-            '846d73ad389249c54ff4e009ad2fd4cdbc46714fce25c724bc706b3ec2f2fe3a')
+            '846d73ad389249c54ff4e009ad2fd4cdbc46714fce25c724bc706b3ec2f2fe3a'
+            '6c80ba2ca49840e387a08b7fedc6e7acd298ac2ec853155209efb2af20397b22'
+            'c30fb04ac0e88ba634daaa811a81ea5a75027646617b895acd14df9518a4a55a')
 
 prepare() {
   cd ${srcdir}/${_realname}-${pkgver}
@@ -47,6 +51,9 @@ build() {
 
   [[ -d "${srcdir}/build-${MINGW_CHOST}" ]] && rm -rf "${srcdir}/build-${MINGW_CHOST}"
   mkdir -p "${srcdir}/build-${MINGW_CHOST}" && cd "${srcdir}/build-${MINGW_CHOST}"
+
+  cp ${srcdir}/*.ico .
+
   ../${_realname}-${pkgver}/configure \
     --prefix=${MINGW_PREFIX} \
     --build=${MINGW_CHOST} \
