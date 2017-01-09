@@ -60,7 +60,7 @@ build() {
     --host=${MINGW_CHOST} \
     --target=${MINGW_CHOST}
 
-  make -j2
+  make
 }
 
 #check() {
