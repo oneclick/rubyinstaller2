@@ -56,6 +56,11 @@ build() {
   make -j2
 }
 
+#check() {
+#  cd "${srcdir}/build-${MINGW_CHOST}"
+#  make -l "TESTOPTS=-v -q" test-all
+#}
+
 package() {
   cd "${srcdir}/build-${MINGW_CHOST}"
   make -f GNUMakefile DESTDIR="${pkgdir}" install-nodoc
