@@ -65,6 +65,7 @@ lib/ruby/2.4.0
 lib/ruby/gems/2.4.0
 lib/ruby/site_ruby/2.4.0
 lib/ruby/vendor_ruby/2.4.0
+share/doc/ruby/html/images/ruby-doc.ico
 ssl/cert.pem
 ssl/certs/ca-bundle.crt
 ssl/certs/ca-bundle.trust.crt

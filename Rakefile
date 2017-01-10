@@ -99,26 +99,19 @@ rubies.each do |rubyver|
       File.write(t.name, out)
     end
 
-    file File.join(sandboxdirmgw, "bin/rubydevkit.cmd") => "resources/files/rubydevkit.cmd" do |t|
-      cp t.prerequisites.first, t.name
-    end
-    file File.join(sandboxdirmgw, "bin/setrbvars.cmd") => "resources/files/setrbvars.cmd" do |t|
-      cp t.prerequisites.first, t.name
-    end
-
-    file File.join(sandboxdirmgw, "lib/ruby/site_ruby/devkit.rb") => "lib/devkit.rb" do |t|
-      mkdir_p File.dirname(t.name)
-      cp t.prerequisites.first, t.name
-    end
-
-    file File.join(sandboxdirmgw, "lib/ruby/site_ruby/ruby_installer.rb") => "lib/ruby_installer.rb" do |t|
-      mkdir_p File.dirname(t.name)
-      cp t.prerequisites.first, t.name
-    end
-
-    file File.join(sandboxdirmgw, "lib/ruby/#{rubyver2}.0/rubygems/defaults/operating_system.rb") => "resources/files/operating_system.rb" do |t|
-      mkdir_p File.dirname(t.name)
-      cp t.prerequisites.first, t.name
+    copy_files = {
+      "resources/files/rubydevkit.cmd" => "bin/rubydevkit.cmd",
+      "resources/files/setrbvars.cmd" => "bin/setrbvars.cmd",
+      "resources/files/operating_system.rb" => "lib/ruby/#{rubyver2}.0/rubygems/defaults/operating_system.rb",
+      "resources/icons/ruby-doc.ico" => "share/doc/ruby/html/images/ruby-doc.ico",
+      "lib/devkit.rb" => "lib/ruby/site_ruby/devkit.rb",
+      "lib/ruby_installer.rb" => "lib/ruby/site_ruby/ruby_installer.rb",
+    }
+    copy_files.each do |source, dest|
+      file File.join(sandboxdirmgw, dest) => source do |t|
+        mkdir_p File.dirname(t.name)
+        cp t.prerequisites.first, t.name
+      end
     end
 
     filelist_iss = "installer/filelist-ruby-#{rubyver}-x64-mingw32.iss"
