@@ -132,6 +132,7 @@ TheBookofRubyTitle=The Book of Ruby
 [Files]
 #define InstallerFileList "filelist-ruby-" + RubyVersion + "-" + RubyBuildPlatform + ".iss"
 #include InstallerFileList
+Source: ../sandbox/ruby-2.4.0/mingw64/share/doc/ruby/*; DestDir: {app}/share/doc/ruby; Excludes: "ChangeLog*"; Flags: recursesubdirs createallsubdirs
 
 [Registry]
 ; .rb file for admin
