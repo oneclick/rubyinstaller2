@@ -48,40 +48,34 @@ rubies.each do |rubyver|
     sandboxdir = "sandbox/ruby-#{rubyver}"
     sandboxdirmgw = File.join(sandboxdir, "mingw64")
     sandboxdir_abs = File.expand_path("../" + sandboxdir, __FILE__)
-    pmrootdir = "/tmp/rubyinstaller/ruby-#{rubyver}"
     ruby_exe = "#{sandboxdirmgw}/bin/ruby.exe"
 
     desc "Build sandbox for ruby-#{rubyver}"
     task "sandbox" => [:devkit, "compile", ruby_exe]
 
     file ruby_exe => packagefile do
-      # pacman doesn't work on automount paths (/c/path), so mount explicit
+      # pacman doesn't work on automount paths (/c/path), so that we
+      # mount to /tmp
+      pmrootdir = "/tmp/rubyinstaller/ruby-#{rubyver}"
       mkdir_p File.join(ENV['RI_DEVKIT'], pmrootdir)
       mkdir_p sandboxdir
       rm_rf sandboxdir
-      sh "mount", sandboxdir_abs, pmrootdir
-
       %w[var/cache/pacman/pkg var/lib/pacman].each do |dir|
         mkdir_p File.join(sandboxdir, dir)
       end
 
-      msys_sh "pacman --root #{pmrootdir} -Sy"
-      msys_sh "pacman --root #{pmrootdir} --noconfirm -U #{packagefile}"
-      sh "umount", pmrootdir
+      msys_sh <<-EOT
+        mount #{sandboxdir_abs.inspect} #{pmrootdir.inspect} &&
+        pacman --root #{pmrootdir.inspect} -Sy &&
+        pacman --root #{pmrootdir.inspect} --noconfirm -U #{packagefile.inspect};
+        umount #{pmrootdir.inspect}
+      EOT
       touch ruby_exe
     end
 
     installer_exe = "installer/rubyinstaller-#{rubyver}-#{pkgrel}-x64.exe"
     installerfile_listfile = "installer/rubyinstaller-#{rubyver}-x64.files"
-    installerfile_list = File.readlines(installerfile_listfile)
-    installerfile_list = installerfile_list.map{|path| File.join(sandboxdirmgw, path.chomp)}
-    installerfiles = installerfile_list.map do |path|
-      if File.directory?(path)
-        Dir[path+"/**/*"].reject{|f| File.directory?(f) }
-      else
-        path
-      end
-    end.flatten
+    installerfiles = File.readlines(installerfile_listfile).map{|path| File.join(sandboxdirmgw, path.chomp)}
     installerfiles.each do |path|
       file path
     end
@@ -96,7 +90,10 @@ rubies.each do |rubyver|
       File.write(t.name, out)
     end
 
-    file File.join(sandboxdirmgw, "bin/rubydevkit.cmd") => "lib/rubydevkit.cmd" do |t|
+    file File.join(sandboxdirmgw, "bin/rubydevkit.cmd") => "resources/files/rubydevkit.cmd" do |t|
+      cp t.prerequisites.first, t.name
+    end
+    file File.join(sandboxdirmgw, "bin/setrbvars.cmd") => "resources/files/setrbvars.cmd" do |t|
       cp t.prerequisites.first, t.name
     end
 
@@ -110,7 +107,7 @@ rubies.each do |rubyver|
       cp t.prerequisites.first, t.name
     end
 
-    file File.join(sandboxdirmgw, "lib/ruby/#{rubyver2}.0/rubygems/defaults/operating_system.rb") => "lib/operating_system.rb" do |t|
+    file File.join(sandboxdirmgw, "lib/ruby/#{rubyver2}.0/rubygems/defaults/operating_system.rb") => "resources/files/operating_system.rb" do |t|
       mkdir_p File.dirname(t.name)
       cp t.prerequisites.first, t.name
     end
@@ -119,7 +116,11 @@ rubies.each do |rubyver|
     file filelist_iss => [__FILE__, installerfile_listfile] do
       puts "generate #{filelist_iss}"
       out = installerfiles.map do |path|
-        "Source: ../#{path}; DestDir: {app}/#{File.dirname(path.gsub(sandboxdirmgw+"/", ""))}"
+        if File.directory?(path)
+          "Source: ../#{path}/*; DestDir: {app}/#{path.gsub(sandboxdirmgw+"/", "")}; Flags: recursesubdirs createallsubdirs"
+        else
+          "Source: ../#{path}; DestDir: {app}/#{File.dirname(path.gsub(sandboxdirmgw+"/", ""))}"
+        end
       end.join("\n")
       File.write(filelist_iss, out)
     end

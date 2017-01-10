@@ -42,6 +42,7 @@ bin/ri
 bin/ri.cmd
 bin/ruby.exe
 bin/rubyw.exe
+bin/setrbvars.cmd
 bin/ssleay32.dll
 bin/x64-msvcrt-ruby240.dll
 bin/zlib1.dll
@@ -64,13 +65,11 @@ lib/ruby/2.4.0
 lib/ruby/gems/2.4.0
 lib/ruby/site_ruby/2.4.0
 lib/ruby/vendor_ruby/2.4.0
-ssl
+share/doc/ruby
 ssl/cert.pem
-ssl/certs
 ssl/certs/ca-bundle.crt
 ssl/certs/ca-bundle.trust.crt
 ssl/openssl.cnf
-ssl/private
 lib/ruby/site_ruby/devkit.rb
 lib/ruby/site_ruby/ruby_installer.rb
 lib/ruby/2.4.0/rubygems/defaults/operating_system.rb

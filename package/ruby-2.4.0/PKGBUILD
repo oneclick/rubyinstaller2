@@ -7,7 +7,7 @@ _realname=ruby
 pkgbase=mingw-w64-${_realname}
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
 pkgver=2.4.0
-pkgrel=2
+pkgrel=3
 pkgdesc="An object-oriented language for quick and easy programming (mingw-w64)"
 arch=('any')
 url="https://www.ruby-lang.org/en"
@@ -60,7 +60,7 @@ build() {
     --host=${MINGW_CHOST} \
     --target=${MINGW_CHOST}
 
-  make
+  make showflags main html
 }
 
 #check() {
@@ -75,4 +75,8 @@ package() {
     install ${srcdir}/ruby-${pkgver}/bin/${script} \
       ${pkgdir}${MINGW_PREFIX}/bin/
   done
+
+  mkdir -p ${pkgdir}${MINGW_PREFIX}/share/doc/ruby/
+  cp -r .ext/html \
+    ${pkgdir}${MINGW_PREFIX}/share/doc/ruby/
 }
