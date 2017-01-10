@@ -42,7 +42,7 @@ rubies.each do |rubyver|
     file readline_packagefile => [pkgbuild] do |t|
       chdir(File.dirname(t.name)) do
         pkgfile = File.basename(readline_packagefile)
-        msys_sh "makepkg-mingw -sf &&
+        msys_sh "MINGW_INSTALLS=mingw64 makepkg-mingw -sf &&
         (pacman --noconfirm -U #{pkgfile.inspect} || rm -f #{pkgfile.inspect})"
       end
     end
@@ -50,7 +50,7 @@ rubies.each do |rubyver|
     file packagefile => [pkgbuild, readline_packagefile] do
       chdir(packdir) do
         cp Dir[File.join(rootdir, "resources/icons/*.ico")], "."
-        msys_sh "makepkg-mingw -sf"
+        msys_sh "MINGW_INSTALLS=mingw64 makepkg-mingw -sf"
       end
     end
 
