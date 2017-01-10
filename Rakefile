@@ -38,7 +38,16 @@ rubies.each do |rubyver|
     desc "Build pacman package for ruby-#{rubyver}"
     task "compile" => [:devkit, packagefile]
 
-    file packagefile => [pkgbuild] do
+    readline_packagefile = File.join("package", "mingw-w64-readline", "mingw-w64-x86_64-readline-6.3.008-1-any.pkg.tar.xz")
+    file readline_packagefile => [pkgbuild] do |t|
+      chdir(File.dirname(t.name)) do
+        pkgfile = File.basename(readline_packagefile)
+        msys_sh "makepkg-mingw -sf &&
+        (pacman --noconfirm -U #{pkgfile.inspect} || rm -f #{pkgfile.inspect})"
+      end
+    end
+
+    file packagefile => [pkgbuild, readline_packagefile] do
       chdir(packdir) do
         cp Dir[File.join(rootdir, "resources/icons/*.ico")], "."
         msys_sh "makepkg-mingw -sf"
@@ -67,7 +76,7 @@ rubies.each do |rubyver|
       msys_sh <<-EOT
         mount #{sandboxdir_abs.inspect} #{pmrootdir.inspect} &&
         pacman --root #{pmrootdir.inspect} -Sy &&
-        pacman --root #{pmrootdir.inspect} --noconfirm -U #{packagefile.inspect};
+        pacman --root #{pmrootdir.inspect} --noconfirm -U #{readline_packagefile.inspect} #{packagefile.inspect};
         umount #{pmrootdir.inspect}
       EOT
       touch ruby_exe
