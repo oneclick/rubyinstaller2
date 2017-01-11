@@ -10,7 +10,7 @@ end
 
 rubies = Dir["compile/ruby-*"]
 
-ENV['RI_ARCHS'] ||= 'x64'
+ENV['RI_ARCHS'] ||= 'x64:x86'
 ENV['RI_ARCHS'].split(":").each do |arch|
 
   rubies.each do |compiledir|
@@ -18,9 +18,9 @@ ENV['RI_ARCHS'].split(":").each do |arch|
 
     namespace pack.rake_namespace do
 
-      compile = CompileTask.new( package: pack ).freeze
-      sandbox = SandboxTask.new( package: pack, compile_task: compile ).freeze
-      InstallerTask.new( package: pack, sandbox_task: sandbox ).freeze
+      compile = CompileTask.new( package: pack )
+      sandbox = SandboxTask.new( package: pack, compile_task: compile )
+      InstallerTask.new( package: pack, sandbox_task: sandbox )
     end
   end
 end

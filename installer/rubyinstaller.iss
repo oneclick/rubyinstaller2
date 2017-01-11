@@ -63,7 +63,7 @@ DefaultDirName={#DefaultDirName}
 
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications!
-AppId=RubyInstaller-{#RubyMajorMinor}
+AppId=RubyInstaller-{#RubyMajorMinor}-{#RubyBuildPlatform}
 AppName={#InstallerName}
 AppVerName={#InstallerName}
 AppPublisher={#InstallerPublisher}

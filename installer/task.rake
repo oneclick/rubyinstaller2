@@ -1,25 +1,22 @@
-require "ostruct"
-require "rake"
+require "base_task"
 
-class InstallerTask < OpenStruct
-  include Rake::DSL
-
+class InstallerTask < BaseTask
   def initialize(*args)
     super
     sandboxdirmgw = sandbox_task.sandboxdirmgw
-    self.installer_exe = "installer/rubyinstaller-#{package.rubyver_pkgrel}-x64.exe"
-    installerfile_listfile = "installer/rubyinstaller-#{package.rubyver}-x64.files"
+    self.installer_exe = "installer/rubyinstaller-#{package.rubyver_pkgrel}-#{package.arch}.exe"
+    installerfile_listfile = "installer/rubyinstaller-#{package.rubyver}-#{package.arch}.files"
     installerfiles = File.readlines(installerfile_listfile).map{|path| File.join(sandboxdirmgw, path.chomp)}
     installerfiles.each do |path|
       file path
     end
 
-    desc "Build installer for ruby-#{package.rubyver}"
+    desc "Build installer for ruby-#{package.rubyver}-#{package.arch}"
     task "installer" => [:devkit, "sandbox", installer_exe]
 
     file File.join(sandboxdirmgw, "bin/rake.cmd") => File.join(sandboxdirmgw, "bin/rake.bat") do |t|
       out = File.read(t.prerequisites.first)
-        .gsub("\\mingw64\\bin\\", "%~dp0")
+        .gsub("\\#{package.mingwdir}\\bin\\", "%~dp0")
         .gsub(/"[^"]*\/bin\/rake"/, "\"%~dp0rake\"")
       File.write(t.name, out)
     end
@@ -39,7 +36,7 @@ class InstallerTask < OpenStruct
       end
     end
 
-    filelist_iss = "installer/filelist-ruby-#{package.rubyver}-x64-mingw32.iss"
+    filelist_iss = "installer/filelist-ruby-#{package.rubyver}-#{package.ruby_arch}.iss"
     file filelist_iss => [__FILE__, installerfile_listfile] do
       puts "generate #{filelist_iss}"
       out = installerfiles.map do |path|
@@ -52,10 +49,9 @@ class InstallerTask < OpenStruct
       File.write(filelist_iss, out)
     end
 
-    default_inst_dir = "C:\\Ruby#{package.rubyver2.gsub(".","")}-x64"
     iss_files = Dir["installer/*.iss"]
     file installer_exe => (installerfiles + iss_files + [filelist_iss]) do
-      sh "cmd", "/c", "iscc", "installer/rubyinstaller.iss", "/Q", "/dRubyVersion=#{package.rubyver}", "/dRubyBuildPlatform=x64-mingw32", "/dRubyShortPlatform=-x64", "/dDefaultDirName=#{default_inst_dir}", "/dPackageRelease=#{package.pkgrel}", "/O#{File.dirname(installer_exe)}", "/F#{File.basename(installer_exe, ".exe")}"
+      sh "cmd", "/c", "iscc", "installer/rubyinstaller.iss", "/Q", "/dRubyVersion=#{package.rubyver}", "/dRubyBuildPlatform=#{package.ruby_arch}", "/dRubyShortPlatform=-#{package.arch}", "/dDefaultDirName=#{package.default_instdir}", "/dPackageRelease=#{package.pkgrel}", "/O#{File.dirname(installer_exe)}", "/F#{File.basename(installer_exe, ".exe")}"
     end
   end
 end
