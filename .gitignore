@@ -1,5 +1,6 @@
 installer/filelist-*.iss
-package/ruby-*
+compile/mingw-w64-readline
+compile/ruby-*
 sandbox
 *.exe
 *.xz
