@@ -1,6 +1,9 @@
 installer/filelist-*.iss
-compile/mingw-w64-readline
-compile/ruby-*
-sandbox
+compile/*/pkg
+compile/*/src
+compile/*/*.ico
+sandbox/ruby-*
 *.exe
-*.xz
+*.tar.bz2
+*.tar.gz
+*.tar.xz
