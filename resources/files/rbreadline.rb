@@ -10,7 +10,7 @@
 
 require "rbreadline/version"
 
-class Fixnum
+class Integer
   def ord; self; end
 end
 
@@ -4067,7 +4067,7 @@ module RbReadline
   def _rl_isearch_dispatch(cxt, c)
     f = nil
 
-    if c.class == Fixnum && c < 0
+    if c.is_a?(Integer) && c < 0
       cxt.sflags |= SF_FAILED
       cxt.history_pos = cxt.last_found_line
       return -1
@@ -5660,7 +5660,7 @@ module RbReadline
     c = rl_read_key()
     rl_unsetstate(RL_STATE_MOREINPUT)
 
-    if c.class == Fixnum && c < 0
+    if c.is_a?(Integer) && c < 0
       return -1
     end
 
@@ -6655,7 +6655,7 @@ module RbReadline
       if (c == 'n' || c == 'N' || c == RUBOUT)
         return (0)
       end
-      if (c == ABORT_CHAR || (c.class == Fixnum && c < 0))
+      if (c == ABORT_CHAR || (c.is_a?(Integer) && c < 0))
         _rl_abort_internal()
       end
       if (for_pager && (c == NEWLINE || c == RETURN))
@@ -7637,7 +7637,7 @@ module RbReadline
     mbchar = ''
     mb_len = _rl_read_mbchar(mbchar, MB_LEN_MAX)
 
-    if (mbchar.class == Fixnum && c < 0) || mbchar == 0.chr
+    if (mbchar.is_a?(Integer) && c < 0) || mbchar == 0.chr
       return -1
     end
 
@@ -7822,7 +7822,7 @@ module RbReadline
         rl_restore_prompt()
         rl_clear_message()
         rl_unsetstate(RL_STATE_NUMERICARG)
-        if key.class == Fixnum && key < 0
+        if key.is_a?(Integer) && key < 0
           return -1
         end
         return (_rl_dispatch(key, @_rl_keymap))
@@ -8780,7 +8780,7 @@ module RbReadline
       c = rl_read_key()
       rl_unsetstate(RL_STATE_MOREINPUT)
 
-      break if c.class == Fixnum && c < 0
+      break if c.is_a?(Integer) && c < 0
 
       mbchar << c
       mb_len += 1
@@ -8810,7 +8810,7 @@ module RbReadline
         # Read more for multibyte character
         rl_setstate(RL_STATE_MOREINPUT)
         c = rl_read_key()
-        break if c.class == Fixnum && c < 0
+        break if c.is_a?(Integer) && c < 0
         rl_unsetstate(RL_STATE_MOREINPUT)
       else
         break
