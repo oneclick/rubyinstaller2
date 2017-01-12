@@ -5,8 +5,24 @@ class InstallerTask < BaseTask
     super
     sandboxdirmgw = sandbox_task.sandboxdirmgw
     self.installer_exe = "installer/rubyinstaller-#{package.rubyver_pkgrel}-#{package.arch}.exe"
+
+    copy_files = {
+      "resources/files/rubydevkit.cmd" => "bin/rubydevkit.cmd",
+      "resources/files/setrbvars.cmd" => "bin/setrbvars.cmd",
+      "resources/files/operating_system.rb" => "lib/ruby/#{package.rubyver2}.0/rubygems/defaults/operating_system.rb",
+      "resources/files/rbreadline/version.rb" => "lib/ruby/site_ruby/rbreadline/version.rb",
+      "resources/files/rbreadline.rb" => "lib/ruby/site_ruby/rbreadline.rb",
+      "resources/files/rb-readline.rb" => "lib/ruby/site_ruby/rb-readline.rb",
+      "resources/files/readline.rb"  => "lib/ruby/site_ruby/readline.rb",
+      "resources/icons/ruby-doc.ico" => "share/doc/ruby/html/images/ruby-doc.ico",
+      "lib/devkit.rb" => "lib/ruby/site_ruby/devkit.rb",
+      "lib/ruby_installer.rb" => "lib/ruby/site_ruby/ruby_installer.rb",
+    }
+
     installerfile_listfile = "installer/rubyinstaller-#{package.rubyver}-#{package.arch}.files"
-    installerfiles = File.readlines(installerfile_listfile).map{|path| File.join(sandboxdirmgw, path.chomp)}
+    installerfiles = File.readlines(installerfile_listfile)
+    installerfiles += copy_files.values
+    installerfiles = installerfiles.map{|path| File.join(sandboxdirmgw, path.chomp)}
     installerfiles.each do |path|
       file path
     end
@@ -21,14 +37,6 @@ class InstallerTask < BaseTask
       File.write(t.name, out)
     end
 
-    copy_files = {
-      "resources/files/rubydevkit.cmd" => "bin/rubydevkit.cmd",
-      "resources/files/setrbvars.cmd" => "bin/setrbvars.cmd",
-      "resources/files/operating_system.rb" => "lib/ruby/#{package.rubyver2}.0/rubygems/defaults/operating_system.rb",
-      "resources/icons/ruby-doc.ico" => "share/doc/ruby/html/images/ruby-doc.ico",
-      "lib/devkit.rb" => "lib/ruby/site_ruby/devkit.rb",
-      "lib/ruby_installer.rb" => "lib/ruby/site_ruby/ruby_installer.rb",
-    }
     copy_files.each do |source, dest|
       file File.join(sandboxdirmgw, dest) => source do |t|
         mkdir_p File.dirname(t.name)

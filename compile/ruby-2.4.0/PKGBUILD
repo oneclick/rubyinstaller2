@@ -7,7 +7,7 @@ _realname=ruby
 pkgbase=mingw-w64-${_realname}
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
 pkgver=2.4.0
-pkgrel=3
+pkgrel=4
 pkgdesc="An object-oriented language for quick and easy programming (mingw-w64)"
 arch=('any')
 url="https://www.ruby-lang.org/en"
@@ -17,7 +17,6 @@ depends=("${MINGW_PACKAGE_PREFIX}-gcc-libs"
          "${MINGW_PACKAGE_PREFIX}-gdbm"
          "${MINGW_PACKAGE_PREFIX}-libyaml"
          "${MINGW_PACKAGE_PREFIX}-libffi"
-         "${MINGW_PACKAGE_PREFIX}-readline"
          "${MINGW_PACKAGE_PREFIX}-openssl")
 options=('staticlibs' 'strip')
 source=("https://cache.ruby-lang.org/pub/ruby/${pkgver%.*}/${_realname}-${pkgver}.tar.bz2"
@@ -61,7 +60,8 @@ build() {
     --prefix=${MINGW_PREFIX} \
     --build=${MINGW_CHOST} \
     --host=${MINGW_CHOST} \
-    --target=${MINGW_CHOST}
+    --target=${MINGW_CHOST} \
+    --with-out-ext=dbm,readline
 
   make showflags main html
 }
