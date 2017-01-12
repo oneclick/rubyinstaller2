@@ -1,0 +1,26 @@
+diff --git a/.document b/.document
+index ac7c493..a21694f 100644
+--- a/.document
++++ b/.document
+@@ -18,11 +18,8 @@ lib
+ ext
+ 
+ # rdoc files
+-ChangeLog
+-
+-NEWS
+-
+ README.md
+ README.ja.md
+ 
++doc/
+ doc
+diff --git a/doc/.document b/doc/.document
+index b48c038..e4a39e0 100644
+--- a/doc/.document
++++ b/doc/.document
+@@ -1,4 +1,2 @@
+ *.rdoc
+-ChangeLog*
+-NEWS-*
+ syntax
