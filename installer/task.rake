@@ -19,8 +19,9 @@ class InstallerTask < BaseTask
       "lib/ruby_installer.rb" => "lib/ruby/site_ruby/ruby_installer.rb",
     }
 
-    installerfile_listfile = "installer/rubyinstaller-#{package.rubyver}-#{package.arch}.files"
-    installerfiles = File.readlines(installerfile_listfile)
+    installerfile_listfile = "installer/rubyinstaller-#{package.rubyver}.files"
+    installerfile_arch_listfile = "installer/rubyinstaller-#{package.rubyver}-#{package.arch}.files"
+    installerfiles = File.readlines(installerfile_listfile) + File.readlines(installerfile_arch_listfile)
     installerfiles += copy_files.values
     installerfiles = installerfiles.map{|path| File.join(sandboxdirmgw, path.chomp)}
     installerfiles.each do |path|
@@ -45,7 +46,7 @@ class InstallerTask < BaseTask
     end
 
     filelist_iss = "installer/filelist-ruby-#{package.rubyver}-#{package.ruby_arch}.iss"
-    file filelist_iss => [__FILE__, installerfile_listfile] do
+    file filelist_iss => [__FILE__, installerfile_listfile, installerfile_arch_listfile] do
       puts "generate #{filelist_iss}"
       out = installerfiles.map do |path|
         if File.directory?(path)
