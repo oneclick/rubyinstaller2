@@ -8,7 +8,7 @@ class SandboxTask < BaseTask
     self.sandboxdir_abs = File.expand_path(sandboxdir, package.rootdir)
     ruby_exe = "#{sandboxdirmgw}/bin/ruby.exe"
 
-    desc "Build sandbox for ruby-#{package.rubyver}"
+    desc "sandbox for ruby-#{package.rubyver}"
     task "sandbox" => [:devkit, "compile", ruby_exe]
 
     file ruby_exe => compile_task.pkgfile do

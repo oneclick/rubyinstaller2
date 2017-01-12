@@ -8,19 +8,26 @@ task :devkit do
   require "devkit"
 end
 
-rubies = Dir["compile/ruby-*"]
-
 ENV['RI_ARCHS'] ||= 'x64:x86'
-ENV['RI_ARCHS'].split(":").each do |arch|
 
-  rubies.each do |compiledir|
-    pack = RubyPackage.new( compiledir: compiledir, arch: arch, rootdir: __dir__ ).freeze
-
-    namespace pack.rake_namespace do
-
-      compile = CompileTask.new( package: pack )
-      sandbox = SandboxTask.new( package: pack, compile_task: compile )
-      InstallerTask.new( package: pack, sandbox_task: sandbox )
-    end
+ruby_packages = Dir["compile/ruby-*"].map do |compiledir|
+  ENV['RI_ARCHS'].split(":").map do |arch|
+    RubyPackage.new( compiledir: compiledir, arch: arch, rootdir: __dir__ ).freeze
   end
+end.flatten
+
+ruby_packages.each do |pack|
+
+  nsp = "ruby-#{pack.rubyver}-#{pack.arch}"
+  namespace nsp do
+    compile = CompileTask.new( package: pack )
+    sandbox = SandboxTask.new( package: pack, compile_task: compile )
+    InstallerTask.new( package: pack, sandbox_task: sandbox )
+  end
+
+  desc "Build all for #{nsp}"
+  task nsp => "#{nsp}:installer"
+
+  desc "Build installers for all rubies"
+  task :default => nsp
 end

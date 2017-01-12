@@ -10,7 +10,6 @@ class RubyPackage < BaseTask
     self.pkgrel = $1 or raise("'pkgrel' not defined in #{pkgbuild}")
     self.rubyver_pkgrel = "#{rubyver}-#{pkgrel}"
 
-    self.rake_namespace = "ruby-#{rubyver}-#{arch}"
     self.rubyver2 = rubyver[/^\d+\.\d+/]
 
     case arch

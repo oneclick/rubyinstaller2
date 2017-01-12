@@ -28,7 +28,7 @@ class InstallerTask < BaseTask
       file path
     end
 
-    desc "Build installer for ruby-#{package.rubyver}-#{package.arch}"
+    desc "installer for ruby-#{package.rubyver}-#{package.arch}"
     task "installer" => [:devkit, "sandbox", installer_exe]
 
     file File.join(sandboxdirmgw, "bin/rake.cmd") => File.join(sandboxdirmgw, "bin/rake.bat") do |t|

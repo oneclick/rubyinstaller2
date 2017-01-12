@@ -75,12 +75,12 @@ The DLL search paths of Ruby processes are extended as soon as rubygems is used,
 
 - Run cmd.exe and add iscc.exe to PATH: ```set PATH=%PATH%;"c:\Program Files (x86)\Inno Setup 5"```
 
-- Then compile and package Ruby:
+- Then compile and package RubyInstallers for x86 and x64:
 ```sh
-    rake ruby-2.4.0-x64:installer  ruby-2.4.0-x86:installer
+    rake
 ```
 
-- If everything works well, you will find the final setup files `installer/rubyinstaller-2.4.0-1-x64.exe` and `installer/rubyinstaller-2.4.0-1-x64.exe`
+- If everything works well, you will find the final setup files: `installer/rubyinstaller-<VERSION>-<ARCH>.exe`
 
 ##Known Issues
 

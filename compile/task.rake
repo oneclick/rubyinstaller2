@@ -5,7 +5,7 @@ class CompileTask < BaseTask
     super
     self.pkgfile = File.join(package.compiledir, "#{package.pacman_arch}-ruby-#{package.rubyver_pkgrel}-any.pkg.tar.xz")
 
-    desc "Build pacman package for ruby-#{package.rubyver}-#{package.arch}"
+    desc "pacman package for ruby-#{package.rubyver}-#{package.arch}"
     task "compile" => [:devkit, pkgfile]
 
     file pkgfile => [package.pkgbuild] do
