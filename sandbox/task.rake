@@ -3,7 +3,7 @@ require "base_task"
 class SandboxTask < BaseTask
   def initialize(*args)
     super
-    self.sandboxdir = "sandbox/ruby-#{package.rubyver}"
+    self.sandboxdir = "sandbox/ruby-#{package.rubyver}-#{package.arch}"
     self.sandboxdirmgw = File.join(sandboxdir, package.mingwdir)
     self.sandboxdir_abs = File.expand_path(sandboxdir, package.rootdir)
     ruby_exe = "#{sandboxdirmgw}/bin/ruby.exe"
@@ -14,7 +14,7 @@ class SandboxTask < BaseTask
     file ruby_exe => compile_task.pkgfile do
       # pacman doesn't work on automount paths (/c/path), so that we
       # mount to /tmp
-      pmrootdir = "/tmp/rubyinstaller/ruby-#{package.rubyver}"
+      pmrootdir = "/tmp/rubyinstaller/ruby-#{package.rubyver}-#{package.arch}"
       mkdir_p File.join(ENV['RI_DEVKIT'], pmrootdir)
       mkdir_p sandboxdir
       rm_rf sandboxdir
