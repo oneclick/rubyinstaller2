@@ -31,3 +31,13 @@ ruby_packages.each do |pack|
   desc "Build installers for all rubies"
   task :default => nsp
 end
+
+libtest = "test/helper/libtest.dll"
+file libtest => libtest.sub(".dll", ".c") do |t|
+  require "devkit"
+  sh RbConfig::CONFIG['CC'], "-shared", t.prerequisites.first, "-o", t.name
+end
+
+task :test => libtest do
+  sh "ruby -w -W2 -I. -Ilib -e \"#{Dir["test/**/test_*.rb"].map{|f| "require '#{f}';"}.join}\" -- -v"
+end

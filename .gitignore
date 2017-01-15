@@ -4,6 +4,7 @@ compile/*/src
 compile/*/*.ico
 sandbox/ruby-*
 *.exe
+*.dll
 *.tar.bz2
 *.tar.gz
 *.tar.xz

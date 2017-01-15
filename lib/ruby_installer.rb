@@ -5,7 +5,7 @@ module RubyInstaller
     class MsysNotFound < RuntimeError
     end
 
-    def add_dll_directory_winapi(path)
+    private def add_dll_directory_winapi(path)
       kernel32 = Fiddle.dlopen('kernel32.dll')
       add_dll_directory = Fiddle::Function.new(
         kernel32['AddDllDirectory'], [Fiddle::TYPE_VOIDP], Fiddle::TYPE_VOIDP
@@ -13,7 +13,8 @@ module RubyInstaller
       strutf16 = (path + "\0").encode(Encoding::UTF_16LE)
       strptr = Fiddle::Pointer.malloc(strutf16.bytesize)
       strptr[0, strptr.size] = strutf16
-      raise WinApiError, "AddDllDirectory failed" if add_dll_directory.call(strptr).null?
+      handle = add_dll_directory.call(strptr)
+      raise WinApiError, "AddDllDirectory failed" if handle.null?
 
       set_default_dll_directory = Fiddle::Function.new(
         kernel32['SetDefaultDllDirectories'], [Fiddle::TYPE_LONG], Fiddle::TYPE_INT
@@ -21,6 +22,7 @@ module RubyInstaller
       # set default search paths to LOAD_LIBRARY_SEARCH_DEFAULT_DIRS
       # to include path added by AddDllDirectory()
       raise WinApiError, "SetDefaultDllDirectories failed" if set_default_dll_directory.call(0x00001000)==0
+      handle
     end
 
     @@msys_path = nil
@@ -55,19 +57,63 @@ module RubyInstaller
       backslachs( File.join(msys_path, msystem, "bin") )
     end
 
-    def backslachs(path)
+    private def backslachs(path)
       path.gsub("/", "\\")
     end
 
+    class DllDirectory
+      attr_reader :path
+
+      def initialize(path, handle)
+        @path = path
+        @handle = handle
+      end
+
+      def remove
+        if @handle
+          kernel32 = Fiddle.dlopen('kernel32.dll')
+          remove_dll_directory = Fiddle::Function.new(
+            kernel32['RemoveDllDirectory'], [Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT
+          )
+          raise WinApiError, "RemoveDllDirectory failed" if remove_dll_directory.call(@handle) == 0
+        elsif @path
+          ENV['PATH'] = ENV['PATH'].sub(@path + ";", "")
+        end
+      end
+    end
+
+    # Add +path+ as a search path for DLLs
+    #
+    # This can be used to allow ruby extension files (typically named +<extension>.so+ ) to import dependent DLLs from another directory.
+    #
+    # If this method is called with a block, the path is temporary added until the block is finished.
+    # The method returns a DllDirectory instance, when called without a block.
+    # It can be used to remove the directory later.
     def add_dll_directory(path)
+      path = File.expand_path(path)
+
       require "fiddle"
-      begin
-        add_dll_directory_winapi(path)
+      handle = begin
+        # Prefer Winapi function AddDllDirectory(), which requires
+        # Windows 7 with KB2533623 or newer.
+        hand = add_dll_directory_winapi(path)
+        DllDirectory.new(path, hand)
       rescue WinApiError, Fiddle::DLError
-        unless ENV['PATH'].include?(path) then
+        # For older systems fall back to the legacy method of using PATH
+        # environment variable.
+        if ENV['PATH'].include?(path)
+          DllDirectory.new(nil, nil)
+        else
           puts "Temporarily enhancing PATH by #{path}..." if $DEBUG
           ENV['PATH'] = path + ";" + ENV['PATH']
+          DllDirectory.new(path, nil)
         end
+      end
+      return handle unless block_given?
+      begin
+        yield handle
+      ensure
+        handle.remove
       end
     end
 
