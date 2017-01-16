@@ -4,4 +4,4 @@ Gem.pre_install do |gem_installer|
   RubyInstaller.enable_msys_apps unless gem_installer.spec.extensions.empty?
 end
 
-RubyInstaller.enable_mingw_dlls
+RubyInstaller.enable_dll_search_paths

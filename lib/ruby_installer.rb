@@ -5,6 +5,17 @@ module RubyInstaller
     class MsysNotFound < RuntimeError
     end
 
+    # Set default search paths to LOAD_LIBRARY_SEARCH_DEFAULT_DIRS
+    # to include path added by add_dll_directory_winapi() and exclude paths
+    # set per PATH environment variable.
+    private def set_default_dll_directories_winapi
+      kernel32 = Fiddle.dlopen('kernel32.dll')
+      set_default_dll_directories = Fiddle::Function.new(
+        kernel32['SetDefaultDllDirectories'], [Fiddle::TYPE_LONG], Fiddle::TYPE_INT
+      )
+      raise WinApiError, "SetDefaultDllDirectories failed" if set_default_dll_directories.call(0x00001000)==0
+    end
+
     private def add_dll_directory_winapi(path)
       kernel32 = Fiddle.dlopen('kernel32.dll')
       add_dll_directory = Fiddle::Function.new(
@@ -15,13 +26,6 @@ module RubyInstaller
       strptr[0, strptr.size] = strutf16
       handle = add_dll_directory.call(strptr)
       raise WinApiError, "AddDllDirectory failed" if handle.null?
-
-      set_default_dll_directory = Fiddle::Function.new(
-        kernel32['SetDefaultDllDirectories'], [Fiddle::TYPE_LONG], Fiddle::TYPE_INT
-      )
-      # set default search paths to LOAD_LIBRARY_SEARCH_DEFAULT_DIRS
-      # to include path added by AddDllDirectory()
-      raise WinApiError, "SetDefaultDllDirectories failed" if set_default_dll_directory.call(0x00001000)==0
       handle
     end
 
@@ -96,9 +100,10 @@ module RubyInstaller
       handle = begin
         # Prefer Winapi function AddDllDirectory(), which requires
         # Windows 7 with KB2533623 or newer.
+        set_default_dll_directories_winapi
         hand = add_dll_directory_winapi(path)
         DllDirectory.new(path, hand)
-      rescue WinApiError, Fiddle::DLError
+      rescue Fiddle::DLError
         # For older systems fall back to the legacy method of using PATH
         # environment variable.
         if ENV['PATH'].include?(path)
@@ -117,20 +122,22 @@ module RubyInstaller
       end
     end
 
-    def enable_mingw_dlls
-      begin
-        add_dll_directory(mingw_bin_path)
-      rescue MsysNotFound
-        # We silently ignore this error to allow Ruby installations without MSYS2.
-      end
+    # Switch to explicit search paths added by add_dll_directory()
+    # and enable MSYS2-MINGW directory this way, if available.
+    def enable_dll_search_paths
+      require "fiddle"
+      set_default_dll_directories_winapi rescue Fiddle::DLError
+      # We silently ignore this error to allow Ruby installations without MSYS2.
+      path = mingw_bin_path rescue MsysNotFound
+      add_dll_directory(path) if path
     end
 
-    def ruby_bin_dir
+    private def ruby_bin_dir
       require "rbconfig"
       backslachs( File.join(RbConfig::TOPDIR, "bin") )
     end
 
-    def msys_apps_envvars
+    private def msys_apps_envvars
       vars = {}
       msys_bin = msys_bin_path
       mingw_bin = mingw_bin_path
@@ -143,7 +150,7 @@ module RubyInstaller
       vars
     end
 
-    def with_msys_install_hint
+    private def with_msys_install_hint
       begin
         yield
       rescue MsysNotFound
@@ -153,6 +160,11 @@ module RubyInstaller
       end
     end
 
+    # Add MSYS2 to the PATH and set other environment variables required
+    # to run MSYS2.
+    #
+    # This method tries to find a MSYS2 installation or exits with a description
+    # how to install MSYS2.
     def enable_msys_apps
       vars = with_msys_install_hint{ msys_apps_envvars }
       if vars["PATH"]
@@ -168,6 +180,7 @@ module RubyInstaller
       end
     end
 
+    # This method is used for rubydevkit command.
     def msys_apps_envvars_for_cmd
       vars = with_msys_install_hint{ msys_apps_envvars }
       vars.map do |key, val|
