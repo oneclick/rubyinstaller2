@@ -1,108 +1,41 @@
+#frozen_string_literal: true
 require "minitest/autorun"
 
 class TestStdlib < Minitest::Test
-  def test_bigdecimal
-    require "bigdecimal"
-    BigDecimal
-  end
+  std_lib = [
+    %w[ bigdecimal  BigDecimal    ],
+    %w[ coverage    Coverage      ],
+    %w[ cgi         CGI           ],
+    %w[ date        Date          ],
+    %w[ digest      Digest        ],
+    %w[ etc         Etc           ],
+    %w[ fcntl       Fcntl         ],
+    %w[ fiber       Fiber         ],
+    %w[ fiddle      Fiddle        ],
+    %w[ gdbm        GDBM::VERSION ],
+    %w[ json        JSON          ],
+    %w[ nkf         NKF           ],
+    %w[ objspace    ObjectSpace   ],
+    %w[ openssl     OpenSSL::OPENSSL_VERSION ],
+    %w[ pathname    Pathname      ],
+    %w[ psych       Psych::LIBYAML_VERSION   ],
+    %w[ racc/cparse Racc::Parser  ],
+    %w[ ripper      Ripper        ],
+    %w[ sdbm        SDBM          ],
+    %w[ socket      Socket        ],
+    %w[ stringio    StringIO      ],
+    %w[ strscan     StringScanner ],
+    %w[ win32ole    WIN32OLE      ],
+    %w[ zlib        Zlib::ZLIB_VERSION ]
+  ]
 
-  def test_coverage
-    require "coverage"
-    Coverage
+  std_lib.each do |d|
+    self.class_eval <<-CODE
+      def test_#{d[0].gsub('/', '_')}
+        require '#{d[0]}'
+        #{d[1]}
+      end
+    CODE
   end
-
-  def test_date
-    require "date"
-    Date
-  end
-
-  def test_digest
-    require "digest"
-    Digest
-  end
-
-  def test_etc
-    require "etc"
-    Etc
-  end
-
-  def test_fcntl
-    require "fcntl"
-    Fcntl
-  end
-
-  def test_fiber
-    require "fiber"
-    Fiber.current
-  end
-
-  def test_fiddle
-    require "fiddle"
-    Fiddle
-  end
-
-  def test_gdbm
-    require "gdbm"
-    GDBM
-  end
-
-  def test_nkf
-    require "nkf"
-    NKF
-  end
-
-  def test_objspace
-    require "objspace"
-    ObjectSpace
-  end
-
-  def test_openssl
-    require "openssl"
-    OpenSSL
-  end
-
-  def test_pathname
-    require "pathname"
-    Pathname
-  end
-
-  def test_psych
-    require "psych"
-    Psych
-  end
-
-  def test_ripper
-    require "ripper"
-    Ripper
-  end
-
-  def test_sdbm
-    require "sdbm"
-    SDBM
-  end
-
-  def test_socket
-    require "socket"
-    Socket
-  end
-
-  def test_stringio
-    require "stringio"
-    StringIO
-  end
-
-  def test_strscan
-    require "strscan"
-    StringScanner
-  end
-
-  def test_win32ole
-    require "win32ole"
-    WIN32OLE
-  end
-
-  def test_zlib
-    require "zlib"
-    Zlib
-  end
+  std_lib = nil
 end
