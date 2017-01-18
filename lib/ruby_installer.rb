@@ -57,8 +57,8 @@ module RubyInstaller
       RUBY_PLATFORM=~/x64/ ? 'MINGW64' : 'MINGW32'
     end
 
-    def mingw_bin_path
-      backslachs( File.join(msys_path, msystem, "bin") )
+    def mingw_bin_path(mingwarch=nil)
+      backslachs( File.join(msys_path, mingwarch || msystem, "bin") )
     end
 
     private def backslachs(path)
@@ -137,16 +137,16 @@ module RubyInstaller
       backslachs( File.join(RbConfig::TOPDIR, "bin") )
     end
 
-    private def msys_apps_envvars
+    private def msys_apps_envvars(mingwarch=nil)
       vars = {}
       msys_bin = msys_bin_path
-      mingw_bin = mingw_bin_path
+      mingw_bin = mingw_bin_path(mingwarch)
       ruby_bin = ruby_bin_dir
       unless ENV['PATH'].include?(msys_bin) then
         vars['PATH'] = ruby_bin + ";" + mingw_bin + ";" + msys_bin + ";" + ENV['PATH'].gsub(";"+ruby_bin, "")
       end
       vars['RI_DEVKIT'] = msys_path
-      vars['MSYSTEM'] = msystem.upcase
+      vars['MSYSTEM'] = (mingwarch || msystem).upcase
       vars
     end
 
@@ -160,13 +160,14 @@ module RubyInstaller
       end
     end
 
-    # Add MSYS2 to the PATH and set other environment variables required
-    # to run MSYS2.
+    # Add MSYS2 to the PATH and set other environment variables required to run MSYS2.
     #
-    # This method tries to find a MSYS2 installation or exits with a description
-    # how to install MSYS2.
-    def enable_msys_apps
-      vars = with_msys_install_hint{ msys_apps_envvars }
+    # This method tries to find a MSYS2 installation or exits with a description how to install MSYS2.
+    #
+    # +mingwarch+ should be either 'mingw32', 'mingw64' or nil.
+    # In the latter case the mingw architecture is used based on the architecture of the running Ruby process.
+    def enable_msys_apps(mingwarch=nil)
+      vars = with_msys_install_hint{ msys_apps_envvars(mingwarch) }
       if vars["PATH"]
         phrase = "Temporarily enhancing PATH for MSYS/MINGW..."
         if defined?(Gem)
