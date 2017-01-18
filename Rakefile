@@ -42,3 +42,12 @@ end
 task :test => libtest do
   sh "ruby -w -W2 -I. -Ilib -e \"#{Dir["test/**/test_*.rb"].map{|f| "require '#{f}';"}.join}\" -- -v"
 end
+
+namespace :update do
+  directory "resources/ssl"
+
+  desc "Download latest SSL trust certificates"
+  task :sslcerts => "resources/ssl" do
+    sh "curl -o resources/ssl/cacert.pem https://curl.haxx.se/ca/cacert.pem"
+  end
+end
