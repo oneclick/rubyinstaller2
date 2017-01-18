@@ -11,7 +11,7 @@ class CompileTask < BaseTask
     file pkgfile => [package.pkgbuild] do
       chdir(package.compiledir) do
         cp Dir[File.join(package.rootdir, "resources/icons/*.ico")], "."
-        msys_sh "MINGW_INSTALLS=#{package.mingwdir} makepkg-mingw -sf"
+        msys_sh "MINGW_INSTALLS=#{package.mingwdir} makepkg-mingw -sf --noconfirm"
       end
     end
   end
