@@ -12,7 +12,7 @@ build_script:
   - rake ruby-%target_ruby%-%arch%
 test_script:
   - ruby -e "Dir['installer/rubyinstaller-%target_ruby%-*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath')}"
-  - set PATH=c:/ri2-ruby;%PATH%
+  - set PATH=c:/ri2-ruby/bin;%PATH%
   - rake test
 environment:
   matrix:
