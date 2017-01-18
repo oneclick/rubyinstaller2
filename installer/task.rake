@@ -60,6 +60,7 @@ class InstallerTask < BaseTask
 
     iss_files = Dir["installer/*.iss"]
     file installer_exe => (installerfiles + iss_files + [filelist_iss]) do
+      sh "ls", File.join(sandboxdirmgw, "bin/*.dll")
       sh "cmd", "/c", "iscc", "installer/rubyinstaller.iss", "/Q", "/dRubyVersion=#{package.rubyver}", "/dRubyBuildPlatform=#{package.ruby_arch}", "/dRubyShortPlatform=-#{package.arch}", "/dDefaultDirName=#{package.default_instdir}", "/dPackageRelease=#{package.pkgrel}", "/O#{File.dirname(installer_exe)}", "/F#{File.basename(installer_exe, ".exe")}"
     end
   end
