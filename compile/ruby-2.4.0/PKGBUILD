@@ -61,15 +61,20 @@ build() {
     --build=${MINGW_CHOST} \
     --host=${MINGW_CHOST} \
     --target=${MINGW_CHOST} \
-    --with-out-ext=dbm,readline
+    --with-out-ext=dbm,readline,pty,syslog
 
-  make showflags main html
+  make showflags main
+  echo "Generate HTML documentation"
+  # Make rdoc outputs so many lines -> print dots only
+  make html 2>&1 | ruby --disable-gems -ne "STDERR.print '.'"
 }
 
-#check() {
-#  cd "${srcdir}/build-${MINGW_CHOST}"
-#  make -l "TESTOPTS=-v -q" test-all
-#}
+check() {
+  cd "${srcdir}/build-${MINGW_CHOST}"
+  echo $PATH
+  # TODO: Tests fail currently
+  make -l "TESTOPTS=-q" test-all || true
+}
 
 package() {
   cd "${srcdir}/build-${MINGW_CHOST}"
