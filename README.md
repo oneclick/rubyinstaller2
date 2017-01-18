@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/7ack9ax1gihvn2hb/branch/master?svg=true)](https://ci.appveyor.com/project/larskanis/rubyinstaller2/branch/master)
+
 #RubyInstaller2
 
 This project provides an Installer for Ruby on Windows based on the MSYS2 toolchain.

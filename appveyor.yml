@@ -1,0 +1,28 @@
+init:
+  - set PATH=c:/Program Files/Git/cmd;c:/ProgramData/chocolatey/bin;"c:/Program Files (x86)/Inno Setup 5";c:/Windows/system32
+install:
+ - choco install -y InnoSetup
+#  - pacman -Sy
+ - c:/msys64/usr/bin/bash -lc "pacman -S --noconfirm --needed mingw-w64-${archgcc}-toolchain"
+build_script:
+  - set PATH=C:/ruby%build_ruby%/bin;%PATH%
+  - ruby --version
+  - c:/msys64/%MSYSTEM%/bin/gcc.exe --version
+  - echo %PATH%
+  - rake ruby-%target_ruby%-%arch%
+test_script:
+  - ruby -e "Dir['installer/rubyinstaller-%target_ruby%-*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath')}"
+  - set PATH=c:/ri2-ruby;%PATH%
+  - rake test
+environment:
+  matrix:
+    - build_ruby: "22"
+      target_ruby: "2.4.0"
+      arch: "x86"
+      archgcc: "i686"
+      MSYSTEM: "MINGW32"
+    - build_ruby: "23"
+      target_ruby: "2.4.0"
+      arch: "x64"
+      archgcc: "x86_64"
+      MSYSTEM: "MINGW64"
