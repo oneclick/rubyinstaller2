@@ -2,10 +2,11 @@ $: << File.expand_path("../lib", __FILE__)
 
 require "build_utils"
 require "ruby_package"
+require "ruby_installer"
 Dir['*/task.rake'].each{|f| load(f) }
 
 task :devkit do
-  require "devkit"
+  RubyInstaller.enable_msys_apps
 end
 
 ENV['RI_ARCHS'] ||= 'x64:x86'

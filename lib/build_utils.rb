@@ -1,3 +1,4 @@
+require "ruby_installer"
 
 module BuildUtils
   WINDOWS_CMD_SHEBANG = <<-EOT.freeze
@@ -12,8 +13,8 @@ module BuildUtils
   EOT
 
   def msys_sh(cmd)
-    require "devkit"
+    RubyInstaller.enable_msys_apps
     pwd = Dir.pwd
-    sh "sh", "--login", "-c", "cd `cygpath -u #{pwd.inspect}`; #{cmd}"
+    sh "sh", "-lc", "cd `cygpath -u #{pwd.inspect}`; #{cmd}"
   end
 end
