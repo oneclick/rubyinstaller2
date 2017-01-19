@@ -1,19 +1,37 @@
 init:
+  # We use a clean PATH to avoid interferences with the hundreds of installed programs.
   - set PATH=c:/Program Files/Git/cmd;c:/ProgramData/chocolatey/bin;"c:/Program Files (x86)/Inno Setup 5";c:/Windows/system32
+
 install:
- - choco install -y InnoSetup
- - c:/msys64/usr/bin/bash -lc "pacman -Sy --noconfirm"
- - c:/msys64/usr/bin/bash -lc "pacman -S --noconfirm --needed ${MINGW_PACKAGE_PREFIX}-toolchain ${MINGW_PACKAGE_PREFIX}-gcc-libs ${MINGW_PACKAGE_PREFIX}-gdbm ${MINGW_PACKAGE_PREFIX}-libffi ${MINGW_PACKAGE_PREFIX}-libyaml ${MINGW_PACKAGE_PREFIX}-openssl ${MINGW_PACKAGE_PREFIX}-zlib"
+  - choco install -y InnoSetup
+  # Update pacman database.
+  - c:/msys64/usr/bin/bash -lc "pacman -Sy --noconfirm"
+  # Update compiler and ruby dependencies, because the pre-installed are outdated.
+  # Keep this in sync with the "depends" list in PKGBUILD files.
+  - c:/msys64/usr/bin/bash -lc "pacman -S --noconfirm --needed ${MINGW_PACKAGE_PREFIX}-toolchain ${MINGW_PACKAGE_PREFIX}-gcc-libs ${MINGW_PACKAGE_PREFIX}-gdbm ${MINGW_PACKAGE_PREFIX}-libffi ${MINGW_PACKAGE_PREFIX}-libyaml ${MINGW_PACKAGE_PREFIX}-openssl ${MINGW_PACKAGE_PREFIX}-zlib"
+
 build_script:
   - set PATH=C:/ruby%build_ruby%/bin;%PATH%
   - ruby --version
   - c:/msys64/%MSYSTEM%/bin/gcc.exe --version
   - echo %PATH%
+
+  # Build the installer
   - rake ruby-%target_ruby%-%arch%
+
 test_script:
+  # Run the built Ruby installer and install to c:/ri2-ruby
   - ruby -e "Dir['installer/rubyinstaller-%target_ruby%-*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath')}"
+  # Activate the new installed Ruby.
   - set PATH=c:/ri2-ruby/bin;%PATH%
+  # Run all tests against the new installed Ruby.
   - rake test
+
+# Provide the rubyinstaller.exe files for download
+artifacts:
+  - path: installer/rubyinstaller-$(target_ruby)-*-$(arch).exe
+    name: Executable Installer
+
 environment:
   matrix:
     - build_ruby: "22"
@@ -21,12 +39,9 @@ environment:
       arch: "x86"
       MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
       MSYSTEM: "MINGW32"
+
     - build_ruby: "23"
       target_ruby: "2.4.0"
       arch: "x64"
       MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
       MSYSTEM: "MINGW64"
-
-artifacts:
-  - path: installer/rubyinstaller-$(target_ruby)-*-$(arch).exe
-    name: Executable Installer
