@@ -15,9 +15,10 @@ license=("BSD, custom")
 makedepends=("${MINGW_PACKAGE_PREFIX}-gcc" "${MINGW_PACKAGE_PREFIX}-pkg-config")
 depends=("${MINGW_PACKAGE_PREFIX}-gcc-libs"
          "${MINGW_PACKAGE_PREFIX}-gdbm"
-         "${MINGW_PACKAGE_PREFIX}-libyaml"
          "${MINGW_PACKAGE_PREFIX}-libffi"
-         "${MINGW_PACKAGE_PREFIX}-openssl")
+         "${MINGW_PACKAGE_PREFIX}-libyaml"
+         "${MINGW_PACKAGE_PREFIX}-openssl"
+         "${MINGW_PACKAGE_PREFIX}-zlib")
 options=('staticlibs' 'strip')
 source=("https://cache.ruby-lang.org/pub/ruby/${pkgver%.*}/${_realname}-${pkgver}.tar.bz2"
         0001-mingw-w64-time-functions.patch
