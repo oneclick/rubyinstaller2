@@ -142,7 +142,7 @@ module RubyInstaller
       msys_bin = msys_bin_path
       mingw_bin = mingw_bin_path(mingwarch)
       ruby_bin = ruby_bin_dir
-      unless ENV['PATH'].include?(msys_bin) then
+      unless ENV['PATH'].include?(msys_bin) && ENV['PATH'].include?(mingw_bin)
         vars['PATH'] = ruby_bin + ";" + mingw_bin + ";" + msys_bin + ";" + ENV['PATH'].gsub(";"+ruby_bin, "")
       end
       vars['RI_DEVKIT'] = msys_path
