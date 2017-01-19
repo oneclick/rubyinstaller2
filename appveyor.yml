@@ -3,7 +3,7 @@ init:
 install:
  - choco install -y InnoSetup
  - c:/msys64/usr/bin/bash -lc "pacman -Sy --noconfirm"
- - c:/msys64/usr/bin/bash -lc "pacman -S --noconfirm mingw-w64-${archgcc}-toolchain"
+ - c:/msys64/usr/bin/bash -lc "pacman -S --noconfirm --needed ${MINGW_PACKAGE_PREFIX}-toolchain ${MINGW_PACKAGE_PREFIX}-gcc-libs ${MINGW_PACKAGE_PREFIX}-gdbm ${MINGW_PACKAGE_PREFIX}-libffi ${MINGW_PACKAGE_PREFIX}-libyaml ${MINGW_PACKAGE_PREFIX}-openssl ${MINGW_PACKAGE_PREFIX}-zlib"
 build_script:
   - set PATH=C:/ruby%build_ruby%/bin;%PATH%
   - ruby --version
@@ -19,14 +19,14 @@ environment:
     - build_ruby: "22"
       target_ruby: "2.4.0"
       arch: "x86"
-      archgcc: "i686"
+      MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
       MSYSTEM: "MINGW32"
     - build_ruby: "23"
       target_ruby: "2.4.0"
       arch: "x64"
-      archgcc: "x86_64"
+      MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
       MSYSTEM: "MINGW64"
 
 artifacts:
   - path: installer/rubyinstaller-$(target_ruby)-*-$(arch).exe
-    name: Executables
+    name: Executable Installer
