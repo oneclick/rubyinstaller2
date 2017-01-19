@@ -40,7 +40,7 @@ file libtest => libtest.sub(".dll", ".c") do |t|
 end
 
 task :test => libtest do
-  sh "ruby -w -W2 -I. -Ilib -e \"#{Dir["test/**/test_*.rb"].map{|f| "require '#{f}';"}.join}\" -- -v"
+  sh "ruby -w -W2 -I. -e \"#{Dir["test/**/test_*.rb"].map{|f| "require '#{f}';"}.join}\" -- -v"
 end
 
 namespace :update do
