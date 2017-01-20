@@ -40,7 +40,14 @@ file libtest => libtest.sub(".dll", ".c") do |t|
 end
 
 task :test => libtest do
-  sh "ruby -w -W2 -I. -Ilib -e \"#{Dir["test/**/test_*.rb"].map{|f| "require '#{f}';"}.join}\" -- -v"
+  sh "ruby -w -W2 -I. -e \"#{Dir["test/**/test_*.rb"].map{|f| "require '#{f}';"}.join}\" -- -v"
+
+  # Re-test with simulated legacy Windows version.
+  # This is done in a dedicated run, because it's not possible to revert a call to SetDefaultDllDirectories().
+  # See https://msdn.microsoft.com/de-de/library/windows/desktop/hh310515(v=vs.85).aspx
+  ENV['RI_FORCE_PATH_FOR_DLL'] = '1'
+  sh "ruby -w -W2 -I. -e \"#{Dir["test/ruby_installer/test_module.rb"].map{|f| "require '#{f}';"}.join}\" -- -v"
+  ENV['RI_FORCE_PATH_FOR_DLL'] = '0'
 end
 
 namespace :update do

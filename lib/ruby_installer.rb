@@ -1,32 +1,10 @@
 module RubyInstaller
+  autoload :DllDirectory, 'ruby_installer/dll_directory'
+
   class << self
     class WinApiError < RuntimeError
     end
     class MsysNotFound < RuntimeError
-    end
-
-    # Set default search paths to LOAD_LIBRARY_SEARCH_DEFAULT_DIRS
-    # to include path added by add_dll_directory_winapi() and exclude paths
-    # set per PATH environment variable.
-    private def set_default_dll_directories_winapi
-      kernel32 = Fiddle.dlopen('kernel32.dll')
-      set_default_dll_directories = Fiddle::Function.new(
-        kernel32['SetDefaultDllDirectories'], [Fiddle::TYPE_LONG], Fiddle::TYPE_INT
-      )
-      raise WinApiError, "SetDefaultDllDirectories failed" if set_default_dll_directories.call(0x00001000)==0
-    end
-
-    private def add_dll_directory_winapi(path)
-      kernel32 = Fiddle.dlopen('kernel32.dll')
-      add_dll_directory = Fiddle::Function.new(
-        kernel32['AddDllDirectory'], [Fiddle::TYPE_VOIDP], Fiddle::TYPE_VOIDP
-      )
-      strutf16 = (path + "\0").encode(Encoding::UTF_16LE)
-      strptr = Fiddle::Pointer.malloc(strutf16.bytesize)
-      strptr[0, strptr.size] = strutf16
-      handle = add_dll_directory.call(strptr)
-      raise WinApiError, "AddDllDirectory failed" if handle.null?
-      handle
     end
 
     @@msys_path = nil
@@ -65,27 +43,6 @@ module RubyInstaller
       path.gsub("/", "\\")
     end
 
-    class DllDirectory
-      attr_reader :path
-
-      def initialize(path, handle)
-        @path = path
-        @handle = handle
-      end
-
-      def remove
-        if @handle
-          kernel32 = Fiddle.dlopen('kernel32.dll')
-          remove_dll_directory = Fiddle::Function.new(
-            kernel32['RemoveDllDirectory'], [Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT
-          )
-          raise WinApiError, "RemoveDllDirectory failed" if remove_dll_directory.call(@handle) == 0
-        elsif @path
-          ENV['PATH'] = ENV['PATH'].sub(@path + ";", "")
-        end
-      end
-    end
-
     # Add +path+ as a search path for DLLs
     #
     # This can be used to allow ruby extension files (typically named +<extension>.so+ ) to import dependent DLLs from another directory.
@@ -93,43 +50,16 @@ module RubyInstaller
     # If this method is called with a block, the path is temporary added until the block is finished.
     # The method returns a DllDirectory instance, when called without a block.
     # It can be used to remove the directory later.
-    def add_dll_directory(path)
-      path = File.expand_path(path)
-
-      require "fiddle"
-      handle = begin
-        # Prefer Winapi function AddDllDirectory(), which requires
-        # Windows 7 with KB2533623 or newer.
-        set_default_dll_directories_winapi
-        hand = add_dll_directory_winapi(path)
-        DllDirectory.new(path, hand)
-      rescue Fiddle::DLError
-        # For older systems fall back to the legacy method of using PATH
-        # environment variable.
-        if ENV['PATH'].include?(path)
-          DllDirectory.new(nil, nil)
-        else
-          puts "Temporarily enhancing PATH by #{path}..." if $DEBUG
-          ENV['PATH'] = path + ";" + ENV['PATH']
-          DllDirectory.new(path, nil)
-        end
-      end
-      return handle unless block_given?
-      begin
-        yield handle
-      ensure
-        handle.remove
-      end
+    def add_dll_directory(path, &block)
+      DllDirectory.new(path, &block)
     end
 
-    # Switch to explicit search paths added by add_dll_directory()
-    # and enable MSYS2-MINGW directory this way, if available.
+    # Switch to explicit search paths added by add_dll_directory() and enable MSYS2-MINGW directory this way, if available.
     def enable_dll_search_paths
-      require "fiddle"
-      set_default_dll_directories_winapi rescue Fiddle::DLError
+      DllDirectory.set_defaults
       # We silently ignore this error to allow Ruby installations without MSYS2.
       path = mingw_bin_path rescue MsysNotFound
-      add_dll_directory(path) if path
+      DllDirectory.new(path) if path
     end
 
     private def ruby_bin_dir
