@@ -51,7 +51,7 @@ module RubyInstaller
           @handle = nil
           @path = nil
         else
-          puts "Temporarily enhancing PATH by #{path}..." #if $DEBUG
+          $stderr.puts "Temporarily enhancing PATH by #{path}..." if $DEBUG
           ENV['PATH'] = path + ";" + ENV['PATH']
           @handle = nil
           @path = path
