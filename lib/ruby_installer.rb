@@ -128,7 +128,7 @@ module RubyInstaller
       require "fiddle"
       set_default_dll_directories_winapi rescue Fiddle::DLError
       # We silently ignore this error to allow Ruby installations without MSYS2.
-      path = mingw_bin_path rescue MsysNotFound
+      path = mingw_bin_path rescue nil
       add_dll_directory(path) if path
     end
 
