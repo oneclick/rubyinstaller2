@@ -1,11 +1,7 @@
 module RubyInstaller
   autoload :DllDirectory, 'ruby_installer/dll_directory'
 
-  MSYS2_INSTALL_KEYS = [
-    "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/{1e909ba1-97d2-41c5-b7ce-a9264f4f723d}", # msys64
-    "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/{e65cee45-4b83-4d57-b26b-a926f0fdf827}", # msys32
-  ]
-
+  MSYS2_INSTALL_KEY = "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/"
   DEFAULT_MSYS64_PATH = "c:/msys64"
   DEFAULT_MSYS32_PATH = "c:/msys32"
 
@@ -24,16 +20,18 @@ module RubyInstaller
         backslachs(a)
       else
         require "win32/registry"
-        keys = MSYS2_INSTALL_KEYS.reverse
         begin
-          key = keys.pop
-          raise MsysNotFound, "MSYS2 could not be found" unless key
-          Win32::Registry::HKEY_CURRENT_USER.open(backslachs(key)) do |reg|
-            reg['InstallLocation']
+          Win32::Registry::HKEY_CURRENT_USER.open(backslachs(MSYS2_INSTALL_KEY)) do |reg|
+            reg.each_key do |subkey|
+              subreg = reg.open(subkey)
+              if subreg['DisplayName'] =~ /^MSYS2 /
+                return subreg['InstallLocation']
+              end
+            end
           end
         rescue Win32::Registry::Error
-          retry
         end
+        raise MsysNotFound, "MSYS2 could not be found"
       end
     end
 
