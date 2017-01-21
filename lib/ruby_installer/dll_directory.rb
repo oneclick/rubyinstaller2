@@ -3,6 +3,8 @@ require "fiddle"
 module RubyInstaller
   # :nodoc:
   class DllDirectory
+    class WinApiError < RuntimeError
+    end
 
     KERNEL32 = Fiddle.dlopen('kernel32.dll')
     begin

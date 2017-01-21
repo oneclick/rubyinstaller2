@@ -34,4 +34,130 @@ class TestModule < Minitest::Test
       end
     end
   end
+
+  private def clear_dir_cache
+    ENV.delete('RI_DEVKIT')
+    RubyInstaller.class_variable_set('@@msys_path', nil)
+  end
+
+  private def remove_mingwdir
+    RubyInstaller.class_variable_get('@@mingwdir').remove
+    RubyInstaller.class_variable_set('@@mingwdir', nil)
+  end
+
+  private def simulate_no_msysdir
+    clear_dir_cache
+    ok = RubyInstaller::MSYS2_INSTALL_KEYS.dup
+    RubyInstaller::MSYS2_INSTALL_KEYS.clear
+    File.rename("c:/msys64", "c:/msys64.ri_test") if File.exist?("c:/msys64")
+    File.rename("c:/msys32", "c:/msys32.ri_test") if File.exist?("c:/msys32")
+    begin
+      yield
+    ensure
+      File.rename("c:/msys64.ri_test", "c:/msys64") if File.exist?("c:/msys64.ri_test")
+      File.rename("c:/msys32.ri_test", "c:/msys32") if File.exist?("c:/msys32.ri_test")
+      RubyInstaller::MSYS2_INSTALL_KEYS.concat(ok)
+      clear_dir_cache
+    end
+  end
+
+  private def simulate_nonstd_msysdir
+    clear_dir_cache
+    RubyInstaller::DEFAULT_MSYS64_PATH << "non-exist"
+    RubyInstaller::DEFAULT_MSYS32_PATH << "non-exist"
+
+    yield
+
+    clear_dir_cache
+    RubyInstaller::DEFAULT_MSYS64_PATH.gsub!("non-exist", "")
+    RubyInstaller::DEFAULT_MSYS32_PATH.gsub!("non-exist", "")
+  end
+
+  # The following tests require that MSYS2 is installed on c:/msys64 per MSYS2-installer.
+  def test_enable_msys_apps_with_msys_installed
+    skip unless File.directory?("C:/msys64")
+    RubyInstaller.disable_msys_apps
+    refute_operator ENV['PATH'].downcase, :include?, "c:\\msys64"
+
+    out, err = capture_subprocess_io do
+      system("touch", "--version")
+    end
+    refute_match(/GNU coreutils/, out)
+
+    RubyInstaller.enable_msys_apps
+    assert_operator ENV['PATH'].downcase, :include?, "c:\\msys64"
+    assert_equal ENV['RI_DEVKIT'].downcase, "c:\\msys64"
+    assert_equal ENV['MSYSTEM'], RUBY_PLATFORM =~ /x64/ ? "MINGW64" : "MINGW32"
+
+    out, err = capture_subprocess_io do
+      system("touch", "--version")
+    end
+    assert_match(/GNU coreutils/, out)
+
+    RubyInstaller.disable_msys_apps
+    refute_operator ENV['PATH'].downcase, :include?, "c:\\msys64"
+    assert_nil ENV['RI_DEVKIT']
+    assert_nil ENV['MSYSTEM']
+  end
+
+  def test_enable_msys_apps_without_msys_installed
+    skip unless File.directory?("C:/msys64")
+    simulate_no_msysdir do
+      assert_raises(SystemExit) do
+        assert_output(nil, /MSYS2 could not be found/) do
+          RubyInstaller.enable_msys_apps
+        end
+      end
+      refute_operator File, :exist?, "c:\\msys64"
+    end
+  end
+
+  def test_enable_msys_apps_with_msys_installed_at_nonstddir
+    skip unless File.directory?("C:/msys64")
+    RubyInstaller.disable_msys_apps
+    refute_operator ENV['PATH'].downcase, :include?, "c:\\msys64"
+
+    simulate_nonstd_msysdir do
+      RubyInstaller.enable_msys_apps
+      assert_operator ENV['PATH'].downcase, :include?, "c:\\msys64"
+
+      RubyInstaller.disable_msys_apps
+      refute_operator ENV['PATH'].downcase, :include?, "c:\\msys64"
+    end
+  end
+
+  def test_enable_dll_search_paths_with_msys_installed
+    skip unless File.directory?("C:/msys64")
+    vars1 = %w[PATH RI_DEVKIT MSYSTEM].map{|var| ENV[var] }
+
+    RubyInstaller.enable_dll_search_paths
+    RubyInstaller.enable_dll_search_paths
+    Fiddle.dlopen("libobjc-4").close
+    remove_mingwdir
+    assert_raises(Fiddle::DLError) do
+      Fiddle.dlopen("libobjc-4").close
+    end
+
+    vars2 = %w[PATH RI_DEVKIT MSYSTEM].map{|var| ENV[var] }
+    assert_equal vars1, vars2
+  end
+
+  def test_enable_dll_search_paths_without_msys_installed
+    skip unless File.directory?("C:/msys64")
+    simulate_no_msysdir do
+      RubyInstaller.enable_dll_search_paths
+      assert_raises(Fiddle::DLError) do
+        Fiddle.dlopen("libobjc-4").close
+      end
+    end
+  end
+
+  def test_enable_dll_search_paths_with_msys_installed_at_nonstddir
+    skip unless File.directory?("C:/msys64")
+    simulate_nonstd_msysdir do
+      RubyInstaller.enable_dll_search_paths
+      Fiddle.dlopen("libobjc-4").close
+      remove_mingwdir
+    end
+  end
 end

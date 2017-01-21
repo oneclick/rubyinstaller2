@@ -1,28 +1,38 @@
 module RubyInstaller
   autoload :DllDirectory, 'ruby_installer/dll_directory'
 
+  MSYS2_INSTALL_KEYS = [
+    "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/{1e909ba1-97d2-41c5-b7ce-a9264f4f723d}", # msys64
+    "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/{e65cee45-4b83-4d57-b26b-a926f0fdf827}", # msys32
+  ]
+
+  DEFAULT_MSYS64_PATH = "c:/msys64"
+  DEFAULT_MSYS32_PATH = "c:/msys32"
+
   class << self
-    class WinApiError < RuntimeError
-    end
     class MsysNotFound < RuntimeError
     end
 
     @@msys_path = nil
     def msys_path
       @@msys_path ||= case
-      when File.directory?("c:/msys64")
-        backslachs("c:/msys64")
-      when File.directory?("c:/msys32")
-        backslachs("c:/msys32")
+      when a=ENV['RI_DEVKIT']
+        a
+      when File.directory?(a=DEFAULT_MSYS64_PATH)
+        backslachs(a)
+      when File.directory?(a=DEFAULT_MSYS32_PATH)
+        backslachs(a)
       else
         require "win32/registry"
+        keys = MSYS2_INSTALL_KEYS.reverse
         begin
-          key = "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/{1e909ba1-97d2-41c5-b7ce-a9264f4f723d}"
+          key = keys.pop
+          raise MsysNotFound, "MSYS2 could not be found" unless key
           Win32::Registry::HKEY_CURRENT_USER.open(backslachs(key)) do |reg|
             reg['InstallLocation']
           end
         rescue Win32::Registry::Error
-          raise MsysNotFound, "MSYS2 could not be found"
+          retry
         end
       end
     end
@@ -54,12 +64,17 @@ module RubyInstaller
       DllDirectory.new(path, &block)
     end
 
+    @@mingwdir = nil
+
     # Switch to explicit search paths added by add_dll_directory() and enable MSYS2-MINGW directory this way, if available.
     def enable_dll_search_paths
-      DllDirectory.set_defaults
-      # We silently ignore this error to allow Ruby installations without MSYS2.
-      path = mingw_bin_path rescue MsysNotFound
-      DllDirectory.new(path) if path
+      @@mingwdir ||= begin
+        DllDirectory.set_defaults
+        path = mingw_bin_path
+        DllDirectory.new(path)
+      rescue MsysNotFound
+        # We silently ignore this error to allow Ruby installations without MSYS2.
+      end
     end
 
     private def ruby_bin_dir
@@ -72,9 +87,7 @@ module RubyInstaller
       msys_bin = msys_bin_path
       mingw_bin = mingw_bin_path(mingwarch)
       ruby_bin = ruby_bin_dir
-      unless ENV['PATH'].include?(msys_bin) && ENV['PATH'].include?(mingw_bin)
-        vars['PATH'] = ruby_bin + ";" + mingw_bin + ";" + msys_bin + ";" + ENV['PATH'].gsub(";"+ruby_bin, "")
-      end
+      vars['PATH'] = ruby_bin + ";" + mingw_bin + ";" + msys_bin
       vars['RI_DEVKIT'] = msys_path
       vars['MSYSTEM'] = (mingwarch || msystem).upcase
       vars
@@ -98,16 +111,27 @@ module RubyInstaller
     # In the latter case the mingw architecture is used based on the architecture of the running Ruby process.
     def enable_msys_apps(mingwarch=nil)
       vars = with_msys_install_hint{ msys_apps_envvars(mingwarch) }
-      if vars["PATH"]
+      if (path=vars.delete("PATH")) && !ENV['PATH'].include?(path)
         phrase = "Temporarily enhancing PATH for MSYS/MINGW..."
         if defined?(Gem)
           Gem.ui.say(phrase) if Gem.configuration.verbose
         else
-          puts phrase if $DEBUG
+          $stderr.puts phrase if $DEBUG
         end
+        ENV['PATH'] = path + ";" + ENV['PATH']
       end
       vars.each do |key, val|
         ENV[key] = val
+      end
+    end
+
+    def disable_msys_apps(mingwarch=nil)
+      vars = with_msys_install_hint{ msys_apps_envvars(mingwarch) }
+      if path=vars.delete("PATH")
+        ENV['PATH'] = ENV['PATH'].gsub(path + ";", "")
+      end
+      vars.each do |key, val|
+        ENV.delete(key)
       end
     end
 
