@@ -177,7 +177,7 @@ Root: HKCU; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}\{#RubyVersion}
 Root: HKCU; Subkey: Software\RubyInstaller\{#RubyInstallerBaseId}\{#RubyVersion}; ValueType: string; ValueName: BuildPlatform ; ValueData: {#RubyBuildPlatform}; Check: IsNotAdmin
 
 [Icons]
-Name: {group}\{cm:InteractiveRubyTitle}; Filename: {app}\bin\irb.cmd; IconFilename: {app}\bin\ruby.exe
+Name: {group}\{cm:InteractiveRubyTitle}; Filename: {app}\bin\irb.cmd; Parameters: -rirb/completion; IconFilename: {app}\bin\ruby.exe
 Name: {group}\{cm:DocumentationTitle}\{cm:APIReferenceTitle,{#RubyVersion}}; Filename: {app}\share\doc\ruby\html\index.html; IconFilename: {app}\share\doc\ruby\html\images\ruby-doc.ico
 Name: {group}\{cm:RubyGemsDocumentationServerTitle}; Filename: {app}\bin\gem.cmd; Parameters: server --launch; IconFilename: {app}\share\doc\ruby\html\images\ruby-doc.ico; Flags: runminimized
 Name: {group}\{cm:StartCmdPromptWithRubyTitle}; Filename: {sys}\cmd.exe; Parameters: /E:ON /K {app}\bin\setrbvars.cmd; WorkingDir: {%HOMEDRIVE}{%HOMEPATH}; IconFilename: {sys}\cmd.exe
