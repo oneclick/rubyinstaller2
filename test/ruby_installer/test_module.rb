@@ -48,8 +48,7 @@ class TestModule < Minitest::Test
 
   private def simulate_no_msysdir
     clear_dir_cache
-    ok = RubyInstaller::MSYS2_INSTALL_KEYS.dup
-    RubyInstaller::MSYS2_INSTALL_KEYS.clear
+    RubyInstaller::MSYS2_INSTALL_KEY << "non-exist"
     File.rename("c:/msys64", "c:/msys64.ri_test") if File.exist?("c:/msys64")
     File.rename("c:/msys32", "c:/msys32.ri_test") if File.exist?("c:/msys32")
     begin
@@ -57,7 +56,7 @@ class TestModule < Minitest::Test
     ensure
       File.rename("c:/msys64.ri_test", "c:/msys64") if File.exist?("c:/msys64.ri_test")
       File.rename("c:/msys32.ri_test", "c:/msys32") if File.exist?("c:/msys32.ri_test")
-      RubyInstaller::MSYS2_INSTALL_KEYS.concat(ok)
+      RubyInstaller::MSYS2_INSTALL_KEY.gsub!("non-exist", "")
       clear_dir_cache
     end
   end
@@ -115,6 +114,7 @@ class TestModule < Minitest::Test
 
   def test_enable_msys_apps_with_msys_installed_at_nonstddir
     skip unless File.directory?("C:/msys64")
+    skip "MSYS2 has no installation entry in the registry on appveyor" if ENV['APPVEYOR']
     RubyInstaller.disable_msys_apps
     refute_operator ENV['PATH'].downcase, :include?, "c:\\msys64", "no msys in the path at the beginning"
 
@@ -157,6 +157,7 @@ class TestModule < Minitest::Test
 
   def test_enable_dll_search_paths_with_msys_installed_at_nonstddir
     skip unless File.directory?("C:/msys64")
+    skip "MSYS2 has no installation entry in the registry on appveyor" if ENV['APPVEYOR']
     simulate_nonstd_msysdir do
       RubyInstaller.enable_dll_search_paths
       Fiddle.dlopen("libobjc-4").close
