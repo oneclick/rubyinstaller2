@@ -41,6 +41,16 @@ class InstallerTask < BaseTask
       File.write(t.name, out)
     end
 
+    versionfile = File.join(sandboxdirmgw, "lib/ruby/site_ruby/ruby_installer/version.rb")
+    directory File.dirname(versionfile)
+    file versionfile => [File.dirname(versionfile), package.pkgbuild] do |t|
+      File.write t.name, <<-EOT
+module RubyInstaller
+  VERSION = #{package.rubyver_pkgrel.inspect}
+end
+      EOT
+    end
+
     copy_files.each do |source, dest|
       file File.join(sandboxdirmgw, dest) => source do |t|
         mkdir_p File.dirname(t.name)

@@ -1,6 +1,7 @@
 module RubyInstaller
   autoload :DllDirectory, 'ruby_installer/dll_directory'
   autoload :Msys2Installation, 'ruby_installer/msys2_installation'
+  autoload :VERSION, 'ruby_installer/version'
 
   class << self
     # Add +path+ as a search path for DLLs

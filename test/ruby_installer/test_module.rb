@@ -162,4 +162,8 @@ class TestModule < Minitest::Test
       remove_mingwdir
     end
   end
+
+  def test_version
+    assert_match(/\A\d+\.\d+\.\d+-\d+/, RubyInstaller::VERSION)
+  end
 end
