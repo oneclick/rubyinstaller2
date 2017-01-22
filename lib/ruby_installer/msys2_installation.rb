@@ -129,6 +129,9 @@ module RubyInstaller
 
     def msys_apps_envvars_for_cmd
       vars = with_msys_install_hint{ msys_apps_envvars }
+      if (path=vars.delete("PATH")) && !ENV['PATH'].include?(path)
+        vars['PATH'] = path + ";" + ENV['PATH']
+      end
       vars.map do |key, val|
         "#{key}=#{val}"
       end.join("\n")
