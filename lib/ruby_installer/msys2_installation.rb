@@ -21,8 +21,6 @@ module RubyInstaller
 
     def msys_path
       @msys_path ||= case
-      when a=ENV['RI_DEVKIT']
-        a
       when File.directory?(a=DEFAULT_MSYS64_PATH)
         backslachs(a)
       when File.directory?(a=DEFAULT_MSYS32_PATH)

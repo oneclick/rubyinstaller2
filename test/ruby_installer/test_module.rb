@@ -43,7 +43,6 @@ class TestModule < Minitest::Test
   end
 
   private def clear_dir_cache
-    ENV.delete('RI_DEVKIT')
     RubyInstaller.msys2_installation.reset_cache
   end
 
