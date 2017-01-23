@@ -50,12 +50,15 @@ module RubyInstaller
       else
         raise Error, "invalid path #{path}" unless File.directory?(path)
         # For older systems fall back to the legacy method of using PATH environment variable.
-        unless ENV['PATH'].include?(path)
+        if ENV['PATH'].include?(path)
+          @handle = nil
+          @path = nil
+        else
           $stderr.puts "Temporarily enhancing PATH by #{path}..." if $DEBUG
           ENV['PATH'] = path + ";" + ENV['PATH']
+          @handle = nil
+          @path = path
         end
-        @handle = nil
-        @path = path
       end
       return unless block_given?
       begin
