@@ -141,8 +141,11 @@ class TestModule < Minitest::Test
     RubyInstaller.enable_dll_search_paths
     Fiddle.dlopen("libobjc-4").close
     remove_mingwdir
-    assert_raises(Fiddle::DLError) do
-      Fiddle.dlopen("libobjc-4").close
+    # PATH based DLL search makes reliable anti-pattern impossible
+    unless ENV['RI_FORCE_PATH_FOR_DLL'] == '1'
+      assert_raises(Fiddle::DLError) do
+        Fiddle.dlopen("libobjc-4").close
+      end
     end
 
     vars2 = %w[PATH RI_DEVKIT MSYSTEM].map{|var| ENV[var] }
