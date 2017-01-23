@@ -10,7 +10,7 @@ It therefore integrates well into MSYS2 after installation on the target system 
 
 This project is currently in a very early stage.
 Testers and contributors are welcome.
-The aim is to build a successor to the [RubyInstaller](https://github.com/oneclick/rubyinstaller/) .
+The aim is to [build a successor to the RubyInstaller](https://github.com/oneclick/rubyinstaller/issues/352) .
 
 ## Using the Installer on a target system
 
