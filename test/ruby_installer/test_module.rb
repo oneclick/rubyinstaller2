@@ -35,6 +35,13 @@ class TestModule < Minitest::Test
     end
   end
 
+  def test_add_dll_directory_non_exist
+    err = assert_raises(RubyInstaller::DllDirectory::Error) do
+      RubyInstaller.add_dll_directory("C:/invalid_path")
+    end
+    assert_match(/C:.invalid_path/, err.to_s)
+  end
+
   private def clear_dir_cache
     ENV.delete('RI_DEVKIT')
     RubyInstaller.msys2_installation.reset_cache
