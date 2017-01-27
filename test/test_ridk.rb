@@ -81,11 +81,12 @@ class TestRidk < Minitest::Test
     assert_equal y["ruby"]["version"], RUBY_VERSION
     assert_equal y["ruby"]["platform"], RUBY_PLATFORM
     refute_nil y["ruby_installer"]["version"]
-    assert_equal y["msys2"]["path"], "c:\\msys64"
-    assert_match(/MSYS/, y["msys2"]["title"])
-    assert_match(/\d/, y["msys2"]["version"])
     assert_match(/gcc/, y["cc"])
     assert_match(/bash/, y["sh"])
+    assert_equal y["msys2"]["path"], "c:\\msys64"
+    skip "Appveyors MSYS version is too old for this test" if ENV['APPVEYOR']
+    assert_match(/MSYS/, y["msys2"]["title"])
+    assert_match(/\d/, y["msys2"]["version"])
   end
 
   def test_ridk_version_without_msys
