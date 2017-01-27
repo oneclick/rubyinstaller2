@@ -17,45 +17,40 @@ The aim is to build a successor to the [RubyInstaller](https://github.com/onecli
 - Download and install the latest RubyInstaller: https://github.com/larskanis/rubyinstaller2/releases
 
 That's enough to use pure Ruby gems or fat binary gems for x64-mingw32 or x86-mingw32.
-In order to build gems with C-extensions, install MSYS2 like so:
+In order to build gems with C-extensions from the sources, install MSYS2 like so:
 
 - Install the latest MSYS2 for x64 or x86 at the default path per installer: https://msys2.github.io/
 
-- Run cmd.exe with the following commands:
+- Install development tools per pacman (only once) and install the source gem:
 ```sh
-    rubydevkit
-    pacman -Sy pacman
-    pacman -S base-devel mingw-w64-i686-toolchain # for 32 bit RubyInstaller
-    pacman -S base-devel mingw-w64-x86_64-toolchain # for 64 bit RubyInstaller
+    ridk exec pacman -Sy pacman
+    ridk exec pacman -S base-devel mingw-w64-i686-toolchain # for 32 bit RubyInstaller
+    ridk exec pacman -S base-devel mingw-w64-x86_64-toolchain # for 64 bit RubyInstaller
     gem install your-gem --platform ruby
 ```
 
-`rubydevkit` is a cmd script which sets environment variables to enable MSYS commands like `pacman` .
-These are automatically set while `gem install` .
+`ridk` is a cmd script which can be used to issue MSYS commands like `pacman`. See `ridk help` for further options.
 
 ### Install gems with C-extensions and additional library dependencies
 
-Installation of additional library dependencies can be done per pacman as well. Exchange `mingw-w64-x86_64` by `mingw-w64-i686` for the 32-bit RubyInstaller.
+Installation of additional library dependencies for gems can be done per pacman as well. Exchange `mingw-w64-x86_64` by `mingw-w64-i686` for the 32-bit RubyInstaller.
 For instance:
 
 - Install pg.gem
 ```sh
-    rubydevkit
-    pacman -S mingw-w64-x86_64-postgresql
+    ridk exec pacman -S mingw-w64-x86_64-postgresql
     gem install pg --platform ruby
 ```
 
 - Install sqlite3.gem
 ```sh
-    rubydevkit
-    pacman -S mingw-w64-x86_64-sqlite3
+    ridk exec pacman -S mingw-w64-x86_64-sqlite3
     gem install sqlite3 --platform ruby
 ```
 
 - Install nokogiri.gem
 ```sh
-    rubydevkit
-    pacman -S mingw-w64-x86_64-libxslt
+    ridk exec pacman -S mingw-w64-x86_64-libxslt
     gem install nokogiri --platform ruby -- --use-system-libraries --with-xml2-include=c:/msys64/mingw64/include/libxml2 --with-xslt-dir=c:/msys64/mingw64
 ```
 
@@ -69,8 +64,8 @@ The DLL search paths of Ruby processes are extended as soon as rubygems is used,
 
 - Use MSYS shell to install the mingw64 toolchain:
 ```sh
-    pacman -Sy pacman
-    pacman -S base-devel  mingw-w64-x86_64-toolchain  mingw-w64-i686-toolchain
+    ridk exec pacman -Sy pacman
+    ridk exec pacman -S base-devel  mingw-w64-x86_64-toolchain  mingw-w64-i686-toolchain
 ```
 
 - Install the latest Inno-Setup (unicode): http://www.jrsoftware.org/isdl.php

@@ -1,8 +1,11 @@
 require "minitest/autorun"
 require "ruby_installer"
 require "fiddle"
+require "test/helper/msys"
 
 class TestModule < Minitest::Test
+  include Helper::Msys
+
   def assert_libtest_load_fails
     assert_raises(Fiddle::DLError) do
       Fiddle.dlopen("libtest.dll")
@@ -35,47 +38,11 @@ class TestModule < Minitest::Test
     end
   end
 
-  private def clear_dir_cache
-    ENV.delete('RI_DEVKIT')
-    RubyInstaller.msys2_installation.reset_cache
-  end
-
-  private def remove_mingwdir
-    RubyInstaller.msys2_installation.disable_dll_search_paths
-  end
-
-  private def simulate_no_msysdir
-    clear_dir_cache
-    RubyInstaller::Msys2Installation::MSYS2_INSTALL_KEY << "non-exist"
-    File.rename("c:/msys64", "c:/msys64.ri_test") if File.exist?("c:/msys64")
-    File.rename("c:/msys32", "c:/msys32.ri_test") if File.exist?("c:/msys32")
-    begin
-      yield
-    ensure
-      File.rename("c:/msys64.ri_test", "c:/msys64") if File.exist?("c:/msys64.ri_test")
-      File.rename("c:/msys32.ri_test", "c:/msys32") if File.exist?("c:/msys32.ri_test")
-      RubyInstaller::Msys2Installation::MSYS2_INSTALL_KEY.gsub!("non-exist", "")
-      clear_dir_cache
-    end
-  end
-
-  private def simulate_nonstd_msysdir
-    clear_dir_cache
-    RubyInstaller::Msys2Installation::DEFAULT_MSYS64_PATH << "non-exist"
-    RubyInstaller::Msys2Installation::DEFAULT_MSYS32_PATH << "non-exist"
-
-    yield
-
-    clear_dir_cache
-    RubyInstaller::Msys2Installation::DEFAULT_MSYS64_PATH.gsub!("non-exist", "")
-    RubyInstaller::Msys2Installation::DEFAULT_MSYS32_PATH.gsub!("non-exist", "")
-  end
-
   # The following tests require that MSYS2 is installed on c:/msys64 per MSYS2-installer.
   def test_enable_msys_apps_with_msys_installed
     skip unless File.directory?("C:/msys64")
     RubyInstaller.disable_msys_apps
-    refute_operator ENV['PATH'].downcase, :include?, "c:\\msys64", "no msys in the path at the beginning"
+    refute_operator ENV['PATH'].downcase, :include?, "c:\\msys64", "msys in the path at the start of the test"
 
     out, err = capture_subprocess_io do
       system("touch", "--version")
@@ -114,7 +81,7 @@ class TestModule < Minitest::Test
     skip unless File.directory?("C:/msys64")
     skip "MSYS2 has no installation entry in the registry on appveyor" if ENV['APPVEYOR']
     RubyInstaller.disable_msys_apps
-    refute_operator ENV['PATH'].downcase, :include?, "c:\\msys64", "no msys in the path at the beginning"
+    refute_operator ENV['PATH'].downcase, :include?, "c:\\msys64", "msys in the path at the start of the test"
 
     simulate_nonstd_msysdir do
       RubyInstaller.enable_msys_apps

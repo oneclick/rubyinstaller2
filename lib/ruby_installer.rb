@@ -1,6 +1,7 @@
 module RubyInstaller
   autoload :DllDirectory, 'ruby_installer/dll_directory'
   autoload :Msys2Installation, 'ruby_installer/msys2_installation'
+  autoload :Ridk, 'ruby_installer/ridk'
   autoload :VERSION, 'ruby_installer/version'
 
   class << self
@@ -32,17 +33,20 @@ module RubyInstaller
     #
     # +mingwarch+ should be either 'mingw32', 'mingw64' or nil.
     # In the latter case the mingw architecture is used based on the architecture of the running Ruby process.
-    def enable_msys_apps(mingwarch=nil)
-      msys2_installation.enable_msys_apps(mingwarch)
+    def enable_msys_apps(*opts)
+      msys2_installation.enable_msys_apps(*opts)
     end
 
-    def disable_msys_apps(mingwarch=nil)
-      msys2_installation.disable_msys_apps(mingwarch)
+    def disable_msys_apps(*opts)
+      msys2_installation.disable_msys_apps(*opts)
     end
 
-    # This method is used for the rubydevkit command.
-    def msys_apps_envvars_for_cmd
-      msys2_installation.msys_apps_envvars_for_cmd
+    # This methods are used for the ridk command.
+    def enable_msys_apps_per_cmd
+      msys2_installation.enable_msys_apps_per_cmd
+    end
+    def disable_msys_apps_per_cmd
+      msys2_installation.disable_msys_apps_per_cmd
     end
   end
 end

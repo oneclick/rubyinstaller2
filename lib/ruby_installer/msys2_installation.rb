@@ -21,8 +21,6 @@ module RubyInstaller
 
     def msys_path
       @msys_path ||= case
-      when a=ENV['RI_DEVKIT']
-        a
       when File.directory?(a=DEFAULT_MSYS64_PATH)
         backslachs(a)
       when File.directory?(a=DEFAULT_MSYS32_PATH)
@@ -33,8 +31,8 @@ module RubyInstaller
           Win32::Registry::HKEY_CURRENT_USER.open(backslachs(MSYS2_INSTALL_KEY)) do |reg|
             reg.each_key do |subkey|
               subreg = reg.open(subkey)
-              if subreg['DisplayName'] =~ /^MSYS2 /
-                return subreg['InstallLocation']
+              if subreg['DisplayName'] =~ /^MSYS2 / && File.directory?(il=subreg['InstallLocation'])
+                return il
               end
             end
           end
@@ -91,24 +89,33 @@ module RubyInstaller
       vars
     end
 
-    private def with_msys_install_hint
-      begin
+    private def with_msys_install_hint(if_no_msys = :hint)
+      case if_no_msys
+      when :hint
+        begin
+          yield
+        rescue MsysNotFound
+          $stderr.puts "MSYS2 could not be found."
+          $stderr.puts "Please download and install MSYS2 from https://msys2.github.io/"
+          exit 1
+        end
+      when :raise
         yield
-      rescue MsysNotFound
-        $stderr.puts "MSYS2 could not be found."
-        $stderr.puts "Please download and install MSYS2 from https://msys2.github.io/"
-        exit 1
+      else
+        raise ArgumentError, "invalid value #{if_no_msys.inspect} for variable if_no_msys"
       end
     end
 
-    def enable_msys_apps(mingwarch=nil)
-      vars = with_msys_install_hint{ msys_apps_envvars(mingwarch) }
+    def enable_msys_apps(mingwarch: nil, if_no_msys: :hint, for_gem_install: false)
+      vars = with_msys_install_hint(if_no_msys) do
+        msys_apps_envvars(mingwarch)
+      end
       if (path=vars.delete("PATH")) && !ENV['PATH'].include?(path)
         phrase = "Temporarily enhancing PATH for MSYS/MINGW..."
-        if defined?(Gem)
+        if for_gem_install && defined?(Gem)
           Gem.ui.say(phrase) if Gem.configuration.verbose
-        else
-          $stderr.puts phrase if $DEBUG
+        elsif $DEBUG
+          $stderr.puts phrase
         end
         ENV['PATH'] = path + ";" + ENV['PATH']
       end
@@ -117,8 +124,10 @@ module RubyInstaller
       end
     end
 
-    def disable_msys_apps(mingwarch=nil)
-      vars = with_msys_install_hint{ msys_apps_envvars(mingwarch) }
+    def disable_msys_apps(mingwarch: nil, if_no_msys: :hint)
+      vars = with_msys_install_hint(if_no_msys) do
+        msys_apps_envvars(mingwarch)
+      end
       if path=vars.delete("PATH")
         ENV['PATH'] = ENV['PATH'].gsub(path + ";", "")
       end
@@ -127,13 +136,24 @@ module RubyInstaller
       end
     end
 
-    def msys_apps_envvars_for_cmd
+    def enable_msys_apps_per_cmd
       vars = with_msys_install_hint{ msys_apps_envvars }
       if (path=vars.delete("PATH")) && !ENV['PATH'].include?(path)
         vars['PATH'] = path + ";" + ENV['PATH']
       end
       vars.map do |key, val|
         "#{key}=#{val}"
+      end.join("\n")
+    end
+
+    def disable_msys_apps_per_cmd
+      vars = with_msys_install_hint{ msys_apps_envvars }
+      str = "".dup
+      if path=vars.delete("PATH")
+        str << "PATH=#{ ENV['PATH'].gsub(path + ";", "") }\n"
+      end
+      str << vars.map do |key, val|
+        "#{key}="
       end.join("\n")
     end
   end

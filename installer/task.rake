@@ -7,7 +7,7 @@ class InstallerTask < BaseTask
     self.installer_exe = "installer/rubyinstaller-#{package.rubyver_pkgrel}-#{package.arch}.exe"
 
     copy_files = {
-      "resources/files/rubydevkit.cmd" => "bin/rubydevkit.cmd",
+      "resources/files/ridk.cmd" => "bin/ridk.cmd",
       "resources/files/setrbvars.cmd" => "bin/setrbvars.cmd",
       "resources/files/operating_system.rb" => "lib/ruby/#{package.rubyver2}.0/rubygems/defaults/operating_system.rb",
       "resources/files/rbreadline/version.rb" => "lib/ruby/site_ruby/rbreadline/version.rb",
@@ -19,6 +19,7 @@ class InstallerTask < BaseTask
       "lib/ruby_installer.rb" => "lib/ruby/site_ruby/ruby_installer.rb",
       "lib/ruby_installer/dll_directory.rb" => "lib/ruby/site_ruby/ruby_installer/dll_directory.rb",
       "lib/ruby_installer/msys2_installation.rb" => "lib/ruby/site_ruby/ruby_installer/msys2_installation.rb",
+      "lib/ruby_installer/ridk.rb" => "lib/ruby/site_ruby/ruby_installer/ridk.rb",
       "resources/ssl/cacert.pem" => "ssl/cert.pem",
     }
 
