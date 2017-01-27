@@ -84,7 +84,7 @@ class TestRidk < Minitest::Test
     assert_match(/gcc/, y["cc"])
     assert_match(/bash/, y["sh"])
     assert_equal y["msys2"]["path"], "c:\\msys64"
-    skip "Appveyors MSYS version is too old for this test" if ENV['APPVEYOR']
+    skip "Appveyors MSYS version is too old to have a components.xml" if ENV['APPVEYOR']
     assert_match(/MSYS/, y["msys2"]["title"])
     assert_match(/\d/, y["msys2"]["version"])
   end
