@@ -38,6 +38,13 @@ class TestModule < Minitest::Test
     end
   end
 
+  def test_add_dll_directory_non_exist
+    err = assert_raises(RubyInstaller::DllDirectory::Error) do
+      RubyInstaller.add_dll_directory("C:/invalid_path")
+    end
+    assert_match(/C:.invalid_path/, err.to_s)
+  end
+
   # The following tests require that MSYS2 is installed on c:/msys64 per MSYS2-installer.
   def test_enable_msys_apps_with_msys_installed
     skip unless File.directory?("C:/msys64")
@@ -102,8 +109,11 @@ class TestModule < Minitest::Test
     RubyInstaller.enable_dll_search_paths
     Fiddle.dlopen("libobjc-4").close
     remove_mingwdir
-    assert_raises(Fiddle::DLError) do
-      Fiddle.dlopen("libobjc-4").close
+    # PATH based DLL search makes reliable anti-pattern impossible
+    unless ENV['RI_FORCE_PATH_FOR_DLL'] == '1'
+      assert_raises(Fiddle::DLError) do
+        Fiddle.dlopen("libobjc-4").close
+      end
     end
 
     vars2 = %w[PATH RI_DEVKIT MSYSTEM].map{|var| ENV[var] }

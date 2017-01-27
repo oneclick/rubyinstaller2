@@ -3,7 +3,9 @@ require "fiddle"
 module RubyInstaller
   # :nodoc:
   class DllDirectory
-    class WinApiError < RuntimeError
+    class Error < RuntimeError
+    end
+    class WinApiError < Error
     end
 
     KERNEL32 = Fiddle.dlopen('kernel32.dll')
@@ -46,13 +48,17 @@ module RubyInstaller
         @handle = self.class.add_dll_directory_winapi(path)
         @path = path
       else
+        raise Error, "invalid path #{path}" unless File.directory?(path)
         # For older systems fall back to the legacy method of using PATH environment variable.
-        unless ENV['PATH'].include?(path)
+        if ENV['PATH'].include?(path)
+          @handle = nil
+          @path = nil
+        else
           $stderr.puts "Temporarily enhancing PATH by #{path}..." if $DEBUG
           ENV['PATH'] = path + ";" + ENV['PATH']
+          @handle = nil
+          @path = path
         end
-        @handle = nil
-        @path = path
       end
       return unless block_given?
       begin
@@ -72,13 +78,13 @@ module RubyInstaller
       strptr = Fiddle::Pointer.malloc(strutf16.bytesize)
       strptr[0, strptr.size] = strutf16
       handle = AddDllDirectory.call(strptr)
-      raise WinApiError, "AddDllDirectory failed" if handle.null?
+      raise WinApiError, "AddDllDirectory failed for #{path}" if handle.null?
       handle
     end
 
     def remove
       if @handle
-        raise WinApiError, "RemoveDllDirectory failed" if RemoveDllDirectory.call(@handle) == 0
+        raise WinApiError, "RemoveDllDirectory failed for #{@path}" if RemoveDllDirectory.call(@handle) == 0
       elsif @path
         ENV['PATH'] = ENV['PATH'].sub(@path + ";", "")
       end

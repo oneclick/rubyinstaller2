@@ -1,0 +1,7 @@
+--title "RubyInstaller2"
+--no-private
+lib/ruby_installer/**/*.rb
+lib/ruby_installer.rb
+-
+README.md
+LICENSE.txt
