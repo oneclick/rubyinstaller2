@@ -22,12 +22,14 @@ ruby_packages.each do |pack|
   nsp = "ruby-#{pack.rubyver}-#{pack.arch}"
   namespace nsp do
     compile = CompileTask.new( package: pack )
-    sandbox = SandboxTask.new( package: pack, compile_task: compile )
+    unpack = UnpackTask.new( package: pack, compile_task: compile )
+    sandbox = SandboxTask.new( package: pack, unpack_task: unpack )
     InstallerTask.new( package: pack, sandbox_task: sandbox )
+    ArchiveTask.new( package: pack, sandbox_task: sandbox )
   end
 
   desc "Build all for #{nsp}"
-  task nsp => "#{nsp}:installer"
+  task nsp => ["#{nsp}:installer", "#{nsp}:archive"]
 
   desc "Build installers for all rubies"
   task :default => nsp

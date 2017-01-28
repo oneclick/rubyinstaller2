@@ -31,6 +31,8 @@ test_script:
 artifacts:
   - path: installer/rubyinstaller-$(target_ruby)-*-$(arch).exe
     name: Executable Installer
+  - path: archive/rubyinstaller-$(target_ruby)-*-$(arch).7z
+    name: Executable Installer
 
 environment:
   matrix:

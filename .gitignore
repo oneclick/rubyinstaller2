@@ -3,6 +3,8 @@ compile/*/pkg
 compile/*/src
 compile/*/*.ico
 sandbox/ruby-*
+unpack/ruby-*
+*.7z
 *.exe
 *.dll
 *.tar.bz2

@@ -3,32 +3,68 @@ require "base_task"
 class SandboxTask < BaseTask
   def initialize(*args)
     super
-    self.sandboxdir = "sandbox/ruby-#{package.rubyver}-#{package.arch}"
-    self.sandboxdirmgw = File.join(sandboxdir, package.mingwdir)
-    self.sandboxdir_abs = File.expand_path(sandboxdir, package.rootdir)
-    ruby_exe = "#{sandboxdirmgw}/bin/ruby.exe"
+    unpackdirmgw = unpack_task.unpackdirmgw
+    self.sandboxdir = "sandbox/ruby-#{package.rubyver_pkgrel}-#{package.arch}"
 
-    desc "sandbox for ruby-#{package.rubyver}"
-    task "sandbox" => [:devkit, "compile", ruby_exe]
+    copy_files = {
+      "resources/files/ridk.cmd" => "bin/ridk.cmd",
+      "resources/files/setrbvars.cmd" => "bin/setrbvars.cmd",
+      "resources/files/operating_system.rb" => "lib/ruby/#{package.rubyver2}.0/rubygems/defaults/operating_system.rb",
+      "resources/files/rbreadline/version.rb" => "lib/ruby/site_ruby/rbreadline/version.rb",
+      "resources/files/rbreadline.rb" => "lib/ruby/site_ruby/rbreadline.rb",
+      "resources/files/rb-readline.rb" => "lib/ruby/site_ruby/rb-readline.rb",
+      "resources/files/readline.rb"  => "lib/ruby/site_ruby/readline.rb",
+      "resources/icons/ruby-doc.ico" => "share/doc/ruby/html/images/ruby-doc.ico",
+      "lib/devkit.rb" => "lib/ruby/site_ruby/devkit.rb",
+      "lib/ruby_installer.rb" => "lib/ruby/site_ruby/ruby_installer.rb",
+      "lib/ruby_installer/dll_directory.rb" => "lib/ruby/site_ruby/ruby_installer/dll_directory.rb",
+      "lib/ruby_installer/msys2_installation.rb" => "lib/ruby/site_ruby/ruby_installer/msys2_installation.rb",
+      "lib/ruby_installer/ridk.rb" => "lib/ruby/site_ruby/ruby_installer/ridk.rb",
+      "resources/ssl/cacert.pem" => "ssl/cert.pem",
+    }
 
-    file ruby_exe => compile_task.pkgfile do
-      # pacman doesn't work on automount paths (/c/path), so that we
-      # mount to /tmp
-      pmrootdir = "/tmp/rubyinstaller/ruby-#{package.rubyver}-#{package.arch}"
-      mkdir_p File.join(ENV['RI_DEVKIT'], pmrootdir)
-      mkdir_p sandboxdir
-      rm_rf sandboxdir
-      %w[var/cache/pacman/pkg var/lib/pacman].each do |dir|
-        mkdir_p File.join(sandboxdir, dir)
-      end
+    self.sandboxfile_listfile = "sandbox/rubyinstaller-#{package.rubyver}.files"
+    self.sandboxfile_arch_listfile = "sandbox/rubyinstaller-#{package.rubyver}-#{package.arch}.files"
+    self.sandboxfiles_rel = File.readlines(sandboxfile_listfile) + File.readlines(sandboxfile_arch_listfile)
+    self.sandboxfiles_rel = self.sandboxfiles_rel.map{|path| path.chomp }
+    self.sandboxfiles_rel += copy_files.values
+    self.sandboxfiles = self.sandboxfiles_rel.map{|path| File.join(sandboxdir, path)}
 
-      msys_sh <<-EOT
-        mount #{sandboxdir_abs.inspect} #{pmrootdir.inspect} &&
-        pacman --root #{pmrootdir.inspect} -Sy &&
-        pacman --root #{pmrootdir.inspect} --noconfirm -U #{compile_task.pkgfile.inspect};
-        umount #{pmrootdir.inspect}
-      EOT
-      touch ruby_exe
+    file File.join(sandboxdir, "bin/rake.cmd") => File.join(unpackdirmgw, "bin/rake.bat") do |t|
+      out = File.read(t.prerequisites.first)
+        .gsub("\\#{package.mingwdir}\\bin\\", "%~dp0")
+        .gsub(/"[^"]*\/bin\/rake"/, "\"%~dp0rake\"")
+      File.write(t.name, out)
     end
+
+    versionfile = File.join(sandboxdir, "lib/ruby/site_ruby/ruby_installer/version.rb")
+    directory File.dirname(versionfile)
+    file versionfile => [File.dirname(versionfile), package.pkgbuild] do |t|
+      File.write t.name, <<-EOT
+module RubyInstaller
+  VERSION = #{package.rubyver_pkgrel.inspect}
+end
+      EOT
+    end
+
+    copy_files.each do |source, dest|
+      file File.join(sandboxdir, dest) => source do |t|
+        mkdir_p File.dirname(t.name)
+        cp t.prerequisites.first, t.name
+      end
+    end
+
+    self.sandboxfiles_rel.each do |path|
+      destpath = File.join(sandboxdir, path)
+      directory File.dirname(destpath)
+      unless Rake::Task.task_defined?(destpath)
+        file destpath => [File.join(unpackdirmgw, path), File.dirname(destpath)] do |t|
+          cp_r(t.prerequisites.first, t.name)
+        end
+      end
+    end
+
+    desc "sandbox for ruby-#{package.rubyver}-#{package.arch}"
+    task "sandbox" => [:devkit, "unpack", __FILE__, sandboxfile_listfile, sandboxfile_arch_listfile] + sandboxfiles
   end
 end
