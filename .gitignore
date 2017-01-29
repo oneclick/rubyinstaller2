@@ -5,8 +5,9 @@ compile/*/*.ico
 sandbox/ruby-*
 unpack/ruby-*
 *.7z
-*.exe
 *.dll
+*.exe
+*.gem
 *.tar.bz2
 *.tar.gz
 *.tar.xz
