@@ -58,6 +58,10 @@ module RubyInstaller
       "/#{msystem.downcase}"
     end
 
+    def mingw_package_prefix
+      RUBY_PLATFORM=~/x64/ ? "mingw-w64-x86_64" : "mingw-w64-i686"
+    end
+
     def enable_dll_search_paths
       @mingwdir ||= begin
         DllDirectory.set_defaults
@@ -93,7 +97,8 @@ module RubyInstaller
       vars['MSYSTEM'] = (mingwarch || msystem).upcase
       vars['PKG_CONFIG_PATH'] = "#{mingw_prefix}/lib/pkgconfig:#{mingw_prefix}/share/pkgconfig"
       vars['ACLOCAL_PATH'] = "#{mingw_prefix}/share/aclocal:/usr/share/aclocal"
-      vars['MANPATH'] = "#{mingw_prefix}/share/man:${MANPATH}"
+      vars['MANPATH'] = "#{mingw_prefix}/share/man"
+      vars['MINGW_PACKAGE_PREFIX'] = mingw_package_prefix
 
       vars
     end
