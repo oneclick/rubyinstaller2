@@ -6,9 +6,13 @@ module RubyInstaller
         when 'install'
           puts "start MSYS2 install"
         when 'enable', 'exec'
-          puts RubyInstaller.enable_msys_apps_per_cmd
+          puts RubyInstaller.msys2_installation.enable_msys_apps_per_cmd
         when 'disable'
-          puts RubyInstaller.disable_msys_apps_per_cmd
+          puts RubyInstaller.msys2_installation.disable_msys_apps_per_cmd
+        when 'enableps1', 'execps1'
+          puts RubyInstaller.msys2_installation.enable_msys_apps_per_ps1
+        when 'disableps1'
+          puts RubyInstaller.msys2_installation.disable_msys_apps_per_ps1
         when 'version'
           print_version
         when 'help', '--help', '-?', '/?', nil

@@ -40,13 +40,5 @@ module RubyInstaller
     def disable_msys_apps(*opts)
       msys2_installation.disable_msys_apps(*opts)
     end
-
-    # This methods are used for the ridk command.
-    def enable_msys_apps_per_cmd
-      msys2_installation.enable_msys_apps_per_cmd
-    end
-    def disable_msys_apps_per_cmd
-      msys2_installation.disable_msys_apps_per_cmd
-    end
   end
 end

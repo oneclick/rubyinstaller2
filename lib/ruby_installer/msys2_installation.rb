@@ -145,6 +145,7 @@ module RubyInstaller
       end
     end
 
+    # This method is used for the ridk command.
     def enable_msys_apps_per_cmd
       vars = with_msys_install_hint{ msys_apps_envvars }
       if (path=vars.delete("PATH")) && !ENV['PATH'].include?(path)
@@ -155,6 +156,7 @@ module RubyInstaller
       end.join("\n")
     end
 
+    # This method is used for the ridk command.
     def disable_msys_apps_per_cmd
       vars = with_msys_install_hint{ msys_apps_envvars }
       str = "".dup
@@ -164,6 +166,29 @@ module RubyInstaller
       str << vars.map do |key, val|
         "#{key}="
       end.join("\n")
+    end
+
+    # This method is used for the ridk command.
+    def enable_msys_apps_per_ps1
+      vars = with_msys_install_hint{ msys_apps_envvars }
+      if (path=vars.delete("PATH")) && !ENV['PATH'].include?(path)
+        vars['PATH'] = path + ";" + ENV['PATH']
+      end
+      vars.map do |key, val|
+        "$env:#{key}=\"#{val}\""
+      end.join(";")
+    end
+
+    # This method is used for the ridk command.
+    def disable_msys_apps_per_ps1
+      vars = with_msys_install_hint{ msys_apps_envvars }
+      str = "".dup
+      if path=vars.delete("PATH")
+        str << "$env:PATH=\"#{ ENV['PATH'].gsub(path + ";", "").gsub('"', '`"') }\";"
+      end
+      str << vars.map do |key, val|
+        "$env:#{key}=''"
+      end.join(";")
     end
   end
 end
