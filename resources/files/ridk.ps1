@@ -1,0 +1,19 @@
+$rubydir = split-path $MyInvocation.MyCommand.Definition -parent
+
+# Execute 'enable' and 'disable' in the context of the current powershell session, so that env vars are effective for subsequent commands.
+if ($args[0] -eq "enable" -or $args[0] -eq "disable") {
+  $rubyfile = $rubydir + "\ruby"
+  $op = $args[0] + "ps1"
+  $vars = & $rubyfile --disable-gems -x $MyInvocation.MyCommand.Definition $op
+  Invoke-Expression $vars
+  exit $LastExitCode
+}
+
+# Pass all other commands through to ridk.cmd, so that a separate context for env vars is used.
+$cmdfile = $rubydir + "\ridk.cmd"
+& $cmdfile @args
+exit $LastExitCode
+
+#!/mingw64/bin/ruby
+require "ruby_installer"
+RubyInstaller::Ridk.run!(ARGV)

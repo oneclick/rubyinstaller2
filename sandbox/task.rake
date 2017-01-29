@@ -8,6 +8,7 @@ class SandboxTask < BaseTask
 
     copy_files = {
       "resources/files/ridk.cmd" => "bin/ridk.cmd",
+      "resources/files/ridk.ps1" => "bin/ridk.ps1",
       "resources/files/setrbvars.cmd" => "bin/setrbvars.cmd",
       "resources/files/operating_system.rb" => "lib/ruby/#{package.rubyver2}.0/rubygems/defaults/operating_system.rb",
       "resources/files/rbreadline/version.rb" => "lib/ruby/site_ruby/rbreadline/version.rb",
