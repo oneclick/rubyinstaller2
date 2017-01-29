@@ -18,11 +18,11 @@ module RidkTests
   def test_ridk_enable
     skip unless File.directory?("C:/msys64")
 
-    ENV['PATH'] += ";c:\\testpath"
+    ENV['PATH'] += ';"c:\\testpath"'
     out = run_output_vars([], ["ridk enable"], %w[PATH MSYSTEM])
 
     mingw = RUBY_PLATFORM =~ /x64/ ? "MINGW64" : "MINGW32"
-    assert_match(/PATH: .*;C:\\msys64\\#{mingw}\\bin;C:\\msys64\\usr\\bin.*c:\\testpath$/i, out)
+    assert_match(/PATH: .*;C:\\msys64\\#{mingw}\\bin;C:\\msys64\\usr\\bin.*;"c:\\testpath"$/i, out)
     assert_match(/MSYSTEM: #{mingw}/i, out)
   end
 
