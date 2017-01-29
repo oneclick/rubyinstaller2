@@ -175,7 +175,7 @@ module RubyInstaller
         vars['PATH'] = path + ";" + ENV['PATH']
       end
       vars.map do |key, val|
-        "$env:#{key}=\"#{val}\""
+        "$env:#{key}=\"#{val.gsub('"', '`"')}\""
       end.join(";")
     end
 
