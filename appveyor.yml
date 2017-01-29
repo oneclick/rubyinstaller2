@@ -30,9 +30,9 @@ test_script:
 # Provide the rubyinstaller.exe files for download
 artifacts:
   - path: installer/rubyinstaller-$(target_ruby)-*-$(arch).exe
-    name: Executable Installer
+    name: Executable installer
   - path: archive/rubyinstaller-$(target_ruby)-*-$(arch).7z
-    name: Executable Installer
+    name: Plain archive file
 
 environment:
   matrix:
