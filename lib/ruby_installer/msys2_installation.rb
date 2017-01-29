@@ -54,6 +54,10 @@ module RubyInstaller
       backslachs( File.join(msys_path, mingwarch || msystem, "bin") )
     end
 
+    def mingw_prefix
+      "/#{msystem.downcase}"
+    end
+
     def enable_dll_search_paths
       @mingwdir ||= begin
         DllDirectory.set_defaults
@@ -83,9 +87,14 @@ module RubyInstaller
       msys_bin = msys_bin_path
       mingw_bin = mingw_bin_path(mingwarch)
       ruby_bin = ruby_bin_dir
+
       vars['PATH'] = ruby_bin + ";" + mingw_bin + ";" + msys_bin
       vars['RI_DEVKIT'] = msys_path
       vars['MSYSTEM'] = (mingwarch || msystem).upcase
+      vars['PKG_CONFIG_PATH'] = "#{mingw_prefix}/lib/pkgconfig:#{mingw_prefix}/share/pkgconfig"
+      vars['ACLOCAL_PATH'] = "#{mingw_prefix}/share/aclocal:/usr/share/aclocal"
+      vars['MANPATH'] = "#{mingw_prefix}/share/man:${MANPATH}"
+
       vars
     end
 
