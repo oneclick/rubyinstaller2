@@ -22,6 +22,7 @@ class SandboxTask < BaseTask
       "lib/ruby_installer/msys2_installation.rb" => "lib/ruby/site_ruby/ruby_installer/msys2_installation.rb",
       "lib/ruby_installer/ridk.rb" => "lib/ruby/site_ruby/ruby_installer/ridk.rb",
       "resources/ssl/cacert.pem" => "ssl/cert.pem",
+      "resources/ssl/c_rehash.rb" => "ssl/certs/c_rehash.rb",
     }
 
     self.sandboxfile_listfile = "sandbox/rubyinstaller-#{package.rubyver}.files"
