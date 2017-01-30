@@ -50,16 +50,18 @@ class CHashDir
 
   def load_pem_file(filepath)
     str = File.read(filepath)
-    begin
-      OpenSSL::X509::Certificate.new(str)
-    rescue
+    str.scan(/-----BEGIN (?:X509 CRL|CERTIFICATE|CERTIFICATE REQUEST)-----.*?-----END (?:X509 CRL|CERTIFICATE|CERTIFICATE REQUEST)-----/m).map do |m|
       begin
-        OpenSSL::X509::CRL.new(str)
+        OpenSSL::X509::Certificate.new(m)
       rescue
         begin
-          OpenSSL::X509::Request.new(str)
+          OpenSSL::X509::CRL.new(m)
         rescue
-          nil
+          begin
+            OpenSSL::X509::Request.new(m)
+          rescue
+            nil
+          end
         end
       end
     end
@@ -75,14 +77,15 @@ private
     Dir.chdir(@dirpath) do
       delete_symlink
       Dir.glob('*.pem') do |pemfile|
-        cert = load_pem_file(pemfile)
-        case cert
-        when OpenSSL::X509::Certificate
-          link_hash_cert(pemfile, cert)
-        when OpenSSL::X509::CRL
-          link_hash_crl(pemfile, cert)
-        else
-          STDERR.puts("WARNING: #{pemfile} does not contain a certificate or CRL: skipping") unless @silent
+        load_pem_file(pemfile).each do |cert|
+          case cert
+          when OpenSSL::X509::Certificate
+            link_hash_cert(cert)
+          when OpenSSL::X509::CRL
+            link_hash_crl(cert)
+          else
+            STDERR.puts("WARNING: #{pemfile} does not contain a certificate or CRL: skipping") unless @silent
+          end
         end
       end
     end
@@ -95,37 +98,37 @@ private
     end
   end
 
-  def link_hash_cert(org_filename, cert)
+  def link_hash_cert(cert)
     name_hash = hash_name(cert.subject)
     fingerprint = fingerprint(cert.to_der)
-    filepath = link_hash(org_filename, name_hash, fingerprint) { |idx|
+    filepath = link_hash(cert, name_hash, fingerprint) { |idx|
       "#{name_hash}.#{idx}"
     }
     unless filepath
       unless @silent
-        STDERR.puts("WARNING: Skipping duplicate certificate #{org_filename}")
+        STDERR.puts("WARNING: Skipping duplicate certificate #{cert.subject}")
       end
     else
       (@cert_cache[name_hash] ||= []) << path(filepath)
     end
   end
 
-  def link_hash_crl(org_filename, crl)
+  def link_hash_crl(crl)
     name_hash = hash_name(crl.issuer)
     fingerprint = fingerprint(crl.to_der)
-    filepath = link_hash(org_filename, name_hash, fingerprint) { |idx|
+    filepath = link_hash(cert, name_hash, fingerprint) { |idx|
       "#{name_hash}.r#{idx}"
     }
     unless filepath
       unless @silent
-        STDERR.puts("WARNING: Skipping duplicate CRL #{org_filename}")
+        STDERR.puts("WARNING: Skipping duplicate CRL #{cert.subject}")
       end
     else
       (@crl_cache[name_hash] ||= []) << path(filepath)
     end
   end
 
-  def link_hash(org_filename, name, fingerprint)
+  def link_hash(cert, name, fingerprint)
     idx = 0
     filepath = nil
     while true
@@ -136,20 +139,10 @@ private
       end
       idx += 1
     end
-    STDOUT.puts("#{org_filename} => #{filepath}") unless @silent
-    symlink(org_filename, filepath)
+    STDOUT.puts("#{cert.subject} => #{filepath}") unless @silent
+    File.write(filepath, cert.to_pem)
     @fingerprint_cache[filepath] = fingerprint
     filepath
-  end
-
-  def symlink(from, to)
-    begin
-      File.symlink(from, to)
-    rescue
-      File.open(to, "w") do |f|
-        f << File.read(from)
-      end
-    end
   end
 
   def path(filename)
