@@ -59,6 +59,3 @@ lib/ruby/site_ruby/ruby_installer/version.rb
 lib/ruby/vendor_ruby/2.4.0
 share/doc/ruby/html
 ssl/cert.pem
-ssl/certs/ca-bundle.crt
-ssl/certs/ca-bundle.trust.crt
-ssl/openssl.cnf
