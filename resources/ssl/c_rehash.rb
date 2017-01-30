@@ -91,7 +91,7 @@ private
   def delete_symlink
     Dir.entries(".").each do |entry|
       next unless /^[\da-f]+\.r{0,1}\d+$/ =~ entry
-      File.unlink(entry) if FileTest.symlink?(entry)
+      File.unlink(entry) if FileTest.symlink?(entry) or FileTest.file?(entry)
     end
   end
 
@@ -167,7 +167,7 @@ end
 
 if $0 == __FILE__
   dirlist = ARGV
-  dirlist << '/usr/ssl/certs' if dirlist.empty?
+  dirlist << '.' if dirlist.empty?
   dirlist.each do |dir|
     CHashDir.new(dir).hash_dir
   end
