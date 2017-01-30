@@ -29,7 +29,7 @@ In order to build gems with C-extensions from the sources, install MSYS2 like so
     gem install your-gem --platform ruby
 ```
 
-`ridk` is a cmd script which can be used to issue MSYS commands like `pacman`. See `ridk help` for further options.
+`ridk` is a cmd/powershell script which can be used to issue MSYS commands like `pacman`. See `ridk help` for further options.
 
 ### Install gems with C-extensions and additional library dependencies
 
