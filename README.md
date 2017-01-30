@@ -14,7 +14,7 @@ The aim is to [build a successor to the RubyInstaller](https://github.com/onecli
 
 ## Using the Installer on a target system
 
-- Download and install the latest RubyInstaller: https://github.com/larskanis/rubyinstaller2/releases
+- Download and install the latest RubyInstaller2: https://github.com/larskanis/rubyinstaller2/releases
 
 That's enough to use pure Ruby gems or fat binary gems for x64-mingw32 or x86-mingw32.
 In order to build gems with C-extensions from the sources, install MSYS2 like so:
@@ -77,7 +77,7 @@ The DLL search paths of Ruby processes are extended as soon as rubygems is used,
     rake
 ```
 
-- If everything works well, you will find the final setup files: `installer/rubyinstaller-<VERSION>-<ARCH>.exe`
+- If everything works well, you will find the final setup and archive files: `installer/rubyinstaller-<VERSION>-<ARCH>.exe` and `archive/rubyinstaller-<VERSION>-<ARCH>.7z`
 
 ##Known Issues
 
