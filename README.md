@@ -58,11 +58,17 @@ The DLL search paths of Ruby processes are extended as soon as rubygems is used,
 
 ## Build the Installer
 
+The installer is regular built on [AppVeyor](https://ci.appveyor.com/project/larskanis/rubyinstaller2) for each push to the github respoitory.
+It also executes the installer and runs all tests on it.
+You can download the generated files as build artifacts.
+
+To build RubyInstaller2 on your own machine:
+
 - Make sure you have a working Ruby installation
 
 - Install the latest MSYS2 for x64 at the default path per installer: https://msys2.github.io/
 
-- Use MSYS shell to install the mingw64 toolchain:
+- Install the mingw toolchain for x86 and x64 per pacman:
 ```sh
     ridk exec pacman -Sy pacman
     ridk exec pacman -S base-devel  mingw-w64-x86_64-toolchain  mingw-w64-i686-toolchain
