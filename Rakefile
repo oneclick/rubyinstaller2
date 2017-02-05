@@ -52,11 +52,50 @@ task :test => libtest do
   ENV['RI_FORCE_PATH_FOR_DLL'] = '0'
 end
 
+MOZILLA_CA_CSV_URI = "https://mozillacaprogram.secure.force.com/CA/IncludedCACertificateReportPEMCSV"
+
 namespace :update do
   directory "resources/ssl"
 
   desc "Download latest SSL trust certificates"
   task :sslcerts => "resources/ssl" do
-    sh "curl -o resources/ssl/cacert.pem https://curl.haxx.se/ca/cacert.pem"
+    require 'open-uri'
+    require 'csv'
+    require 'openssl'
+
+    csv_data = OpenURI.open_uri(MOZILLA_CA_CSV_URI)
+
+    File.open("resources/ssl/cacert.pem", "wb") do |fd|
+      fd.write <<-EOT
+##
+## Bundle of CA Root Certificates
+##
+## Certificate data from Mozilla as of: #{Time.now.utc}
+##
+## This is a bundle of X.509 certificates of public Certificate Authorities (CA).
+## These were automatically extracted from Mozilla's root certificates CSV file
+## downloaded from:
+## #{MOZILLA_CA_CSV_URI}
+##
+## Further information about the CA certificate list can be found:
+## https://wiki.mozilla.org/CA:IncludedCAs
+##
+## This file is used as default CA certificate file for Ruby
+## based on RubyInstaller2.
+##
+EOT
+
+      CSV.parse(csv_data, headers: true).select do |row|
+        row["Trust Bits"].split(";").include?("Websites")
+      end.map do |row|
+        pem = row["PEM Info"]
+        OpenSSL::X509::Certificate.new(pem.gsub(/\A'/,"").gsub(/'\z/,""))
+      end.sort_by do |cert|
+        cert.subject.to_a.sort
+      end.each do |cert|
+        sj = OpenSSL::X509::Name.new(cert.subject.to_a.sort).to_s
+        fd.write "\n#{ sj }\n#{ "=" * sj.length }\n#{ cert.to_pem }\n"
+      end
+    end
   end
 end
