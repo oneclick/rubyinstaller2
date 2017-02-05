@@ -65,7 +65,13 @@ namespace :ssl do
 
   task :update_check do
     old_content = remove_comments(File.binread("resources/ssl/cacert.pem"))
+    print "Download SSL CA list..."
     new_content = remove_comments(download_ssl_cacert_pem)
-    raise "cacert.pem has changed" if old_content != new_content
+    if old_content == new_content
+      puts " => unchanged"
+    else
+      puts " => changed"
+      raise "cacert.pem has changed"
+    end
   end
 end
