@@ -5,6 +5,8 @@ require "ruby_package"
 require "ruby_installer"
 Dir['*/task.rake'].each{|f| load(f) }
 
+include BuildUtils
+
 task :devkit do
   RubyInstaller.enable_msys_apps
 end
@@ -52,50 +54,18 @@ task :test => libtest do
   ENV['RI_FORCE_PATH_FOR_DLL'] = '0'
 end
 
-MOZILLA_CA_CSV_URI = "https://mozillacaprogram.secure.force.com/CA/IncludedCACertificateReportPEMCSV"
-
-namespace :update do
+namespace :ssl do
   directory "resources/ssl"
 
   desc "Download latest SSL trust certificates"
-  task :sslcerts => "resources/ssl" do
-    require 'open-uri'
-    require 'csv'
-    require 'openssl'
+  task :update => "resources/ssl" do
+    pem_content = download_ssl_cacert_pem
+    File.binwrite("resources/ssl/cacert.pem", pem_content)
+  end
 
-    csv_data = OpenURI.open_uri(MOZILLA_CA_CSV_URI)
-
-    File.open("resources/ssl/cacert.pem", "wb") do |fd|
-      fd.write <<-EOT
-##
-## Bundle of CA Root Certificates
-##
-## Certificate data from Mozilla as of: #{Time.now.utc}
-##
-## This is a bundle of X.509 certificates of public Certificate Authorities (CA).
-## These were automatically extracted from Mozilla's root certificates CSV file
-## downloaded from:
-## #{MOZILLA_CA_CSV_URI}
-##
-## Further information about the CA certificate list can be found:
-## https://wiki.mozilla.org/CA:IncludedCAs
-##
-## This file is used as default CA certificate file for Ruby
-## based on RubyInstaller2.
-##
-EOT
-
-      CSV.parse(csv_data, headers: true).select do |row|
-        row["Trust Bits"].split(";").include?("Websites")
-      end.map do |row|
-        pem = row["PEM Info"]
-        OpenSSL::X509::Certificate.new(pem.gsub(/\A'/,"").gsub(/'\z/,""))
-      end.sort_by do |cert|
-        cert.subject.to_a.sort
-      end.each do |cert|
-        sj = OpenSSL::X509::Name.new(cert.subject.to_a.sort).to_s
-        fd.write "\n#{ sj }\n#{ "=" * sj.length }\n#{ cert.to_pem }\n"
-      end
-    end
+  task :update_check do
+    old_content = remove_comments(File.binread("resources/ssl/cacert.pem"))
+    new_content = remove_comments(download_ssl_cacert_pem)
+    raise "cacert.pem has changed" if old_content != new_content
   end
 end

@@ -25,8 +25,8 @@ test_script:
   - ruby -e "Dir['installer/rubyinstaller-%target_ruby%-*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath')}"
   # Activate the new installed Ruby.
   - set PATH=c:/ri2-ruby/bin;%PATH%
-  # Run all tests against the new installed Ruby.
-  - rake test
+  # Run all tests against the new installed Ruby and verify that the used CA list is still the latest.
+  - rake test ssl:update_check
 
 # Provide the rubyinstaller.exe files for download
 artifacts:
