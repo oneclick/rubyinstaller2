@@ -18,6 +18,7 @@ class SandboxTask < BaseTask
       "resources/icons/ruby-doc.ico" => "share/doc/ruby/html/images/ruby-doc.ico",
       "lib/devkit.rb" => "lib/ruby/site_ruby/devkit.rb",
       "lib/ruby_installer.rb" => "lib/ruby/site_ruby/ruby_installer.rb",
+      "lib/ruby_installer/colors.rb" => "lib/ruby/site_ruby/ruby_installer/colors.rb",
       "lib/ruby_installer/dll_directory.rb" => "lib/ruby/site_ruby/ruby_installer/dll_directory.rb",
       "lib/ruby_installer/msys2_installation.rb" => "lib/ruby/site_ruby/ruby_installer/msys2_installation.rb",
       "lib/ruby_installer/ridk.rb" => "lib/ruby/site_ruby/ruby_installer/ridk.rb",

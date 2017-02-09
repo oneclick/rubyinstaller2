@@ -1,4 +1,5 @@
 module RubyInstaller
+  autoload :Colors, 'ruby_installer/colors'
   autoload :DllDirectory, 'ruby_installer/dll_directory'
   autoload :Msys2Installation, 'ruby_installer/msys2_installation'
   autoload :Ridk, 'ruby_installer/ridk'
