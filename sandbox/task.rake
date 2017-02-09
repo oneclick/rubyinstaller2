@@ -46,6 +46,7 @@ class SandboxTask < BaseTask
       File.write t.name, <<-EOT
 module RubyInstaller
   VERSION = #{package.rubyver_pkgrel.inspect}
+  GIT_COMMIT = #{package.git_commit.inspect}
 end
       EOT
     end

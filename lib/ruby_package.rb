@@ -9,8 +9,9 @@ class RubyPackage < BaseTask
     File.read(pkgbuild) =~ /^pkgrel=(\d+)$/
     self.pkgrel = $1 or raise("'pkgrel' not defined in #{pkgbuild}")
     self.rubyver_pkgrel = "#{rubyver}-#{pkgrel}"
-
     self.rubyver2 = rubyver[/^\d+\.\d+/]
+
+    self.git_commit = `git rev-parse HEAD`.chomp[0, 7]
 
     case arch
     when 'x64'
