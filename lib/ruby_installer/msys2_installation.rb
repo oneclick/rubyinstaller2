@@ -150,6 +150,15 @@ module RubyInstaller
       end
     end
 
+    def with_msys_apps_enabled
+      enable_msys_apps
+      begin
+        yield
+      rescue
+        disable_msys_apps
+      end
+    end
+
     # This method is used for the ridk command.
     def enable_msys_apps_per_cmd
       vars = with_msys_install_hint{ msys_apps_envvars }

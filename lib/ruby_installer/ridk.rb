@@ -66,43 +66,74 @@ LOGO = %q{
       end
 
       def check_hash(path, hash)
-        print "Verify integrity of #{File.basename(path)} ..."
-        res = Digest::SHA256.file(path).hexdigest == hash.downcase
-        puts(res ? " OK" : " Failed")
-        res
+        if ENV['MSYS2_VERSION']
+          true
+        elsif !File.exist?(path)
+          false
+        else
+          require "digest"
+
+          print "Verify integrity of #{File.basename(path)} ..."
+          res = Digest::SHA256.file(path).hexdigest == hash.downcase
+          puts(res ? green(" OK") : red(" Failed"))
+          res
+        end
       end
 
       def install(args)
         require "tempfile"
         require "open-uri"
-        require "digest"
 
         print_logo
         puts
 
-        uri = msys2_download_uri
-        filename = File.basename(uri)
-        temp_path = File.join(ENV["TMP"] || ENV["TEMP"] || ENV["USERPROFILE"] || "C:/", filename)
+        msys = RubyInstaller.msys2_installation
+        begin
+          print "MSYS2 seems to be "
+          msys.msys_path
+          puts green("usable")
+        rescue Msys2Installation::MsysNotFound
+          puts red("unavaiable")
+          uri = msys2_download_uri
+          filename = File.basename(uri)
+          temp_path = File.join(ENV["TMP"] || ENV["TEMP"] || ENV["USERPROFILE"] || "C:/", filename)
 
-        until check_hash(temp_path, msys2_download_hash)
-          File.open(temp_path, "wb") do |fd|
-            progress = 0
-            total = 0
-            params = {
-              "Accept-Encoding" => 'identity',
-              :content_length_proc => lambda{|length| total = length },
-              :progress_proc => lambda{|bytes|
-                new_progress = (bytes * 100) / total
-                print "\rDownloading %s (%3d%%) " % [filename, new_progress]
-                progress = new_progress
+          until check_hash(temp_path, msys2_download_hash)
+            puts "Download #{yellow(uri)}\n  to #{yellow(temp_path)}"
+            File.open(temp_path, "wb") do |fd|
+              progress = 0
+              total = 0
+              params = {
+                "Accept-Encoding" => 'identity',
+                :content_length_proc => lambda{|length| total = length },
+                :progress_proc => lambda{|bytes|
+                  new_progress = (bytes * 100) / total
+                  print "\rDownloading %s (%3d%%) " % [filename, new_progress]
+                  progress = new_progress
+                }
               }
-            }
-            OpenURI.open_uri(uri, params) do |io|
-              fd << io.read
+              OpenURI.open_uri(uri, params) do |io|
+                fd << io.read
+              end
             end
           end
+
+          print "Running the MSYS2 installer ..."
+          if system([temp_path, temp_path])
+            puts green(" Success")
+          else
+            puts red(" Failed")
+            raise "MSYS2 installer failed"
+          end
+
+          retry
         end
 
+        msys.with_msys_apps_enabled do
+          puts "Install development toolchain"
+          res = system("pacman", "-Sy", "--needed", "--noconfirm", "base-devel", "#{msys.mingw_package_prefix}-toolchain")
+          puts "Development toolchain installation #{res ? green("succeeded") : red("failed")}"
+        end
       end
 
       def msys_version_info(msys_path)
