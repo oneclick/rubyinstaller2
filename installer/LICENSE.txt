@@ -1,13 +1,10 @@
-Copyright (c) 2007-2014 RubyInstaller Team.
+Copyright (c) 2007-2017 RubyInstaller Team.
 All rights reserved.
 
 Except:
 
   Ruby is copyrighted free software by Yukihiro Matsumoto.
   http://www.ruby-lang.org/en/LICENSE.txt
-
-  The Book of Ruby is copyrighted by Huw Collingbourne.
-  http://www.sapphiresteel.com/The-Book-Of-Ruby
 
   3rd party libraries (OpenSSL, ZLib, etc.)
 
