@@ -75,7 +75,7 @@ begin
 
   PathChkBox := TCheckBox.Create(Page);
   PathChkBox.Parent := Page.Surface;
-  PathChkBox.State := cbUnchecked;
+  PathChkBox.State := cbChecked;
   PathChkBox.Caption := CustomMessage('AddPath');
   PathChkBox.Hint := CustomMessage('AddPathHint');
   PathChkBox.ShowHint := True;
@@ -88,7 +88,7 @@ begin
 
   PathExtChkBox := TCheckBox.Create(Page);
   PathExtChkBox.Parent := Page.Surface;
-  PathExtChkBox.State := cbUnchecked;
+  PathExtChkBox.State := cbChecked;
   PathExtChkBox.Caption := CustomMessage('AssociateExt');
   PathExtChkBox.Hint := CustomMessage('AssociateExtHint');
   PathExtChkBox.ShowHint := True;
