@@ -1,13 +1,13 @@
 require "base_task"
 
-class ArchiveTask < BaseTask
+class Archive7zTask < BaseTask
   def initialize(*args)
     super
     sandboxdir = sandbox_task.sandboxdir
-    self.archivefile = "archive/rubyinstaller-#{package.rubyver_pkgrel}-#{package.arch}.7z"
+    self.archivefile = "archive-7z/rubyinstaller-#{package.rubyver_pkgrel}-#{package.arch}.7z"
 
     desc "7z archive for ruby-#{package.rubyver}-#{package.arch}"
-    task "archive" => [:devkit, "sandbox", archivefile]
+    task "archive-7z" => [:devkit, "sandbox", archivefile]
 
     file archivefile => sandbox_task.sandboxfiles do
       rm_f archivefile

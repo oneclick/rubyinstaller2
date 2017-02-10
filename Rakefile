@@ -26,8 +26,8 @@ ruby_packages.each do |pack|
     compile = CompileTask.new( package: pack )
     unpack = UnpackTask.new( package: pack, compile_task: compile )
     sandbox = SandboxTask.new( package: pack, unpack_task: unpack )
-    InstallerTask.new( package: pack, sandbox_task: sandbox )
-    ArchiveTask.new( package: pack, sandbox_task: sandbox )
+    InstallerInnoTask.new( package: pack, sandbox_task: sandbox )
+    Archive7zTask.new( package: pack, sandbox_task: sandbox )
   end
 
   desc "Build all for #{nsp}"
