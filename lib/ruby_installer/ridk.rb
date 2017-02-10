@@ -8,6 +8,8 @@ module RubyInstaller
         enable_colors
         case args[0]
           when 'install'
+            print_logo
+            puts
             install(args[1..-1])
           when 'enable', 'exec'
             puts RubyInstaller.msys2_installation.enable_msys_apps_per_cmd
@@ -20,6 +22,7 @@ module RubyInstaller
           when 'version'
             print_version
           when 'help', '--help', '-?', '/?', nil
+            print_logo
             print_help
           else
             $stderr.puts "Invalid option #{args[0].inspect}"
@@ -39,7 +42,7 @@ LOGO = %q{
                     __/ |   c        _                              c
                    |___/    c      _|_ _  __   | | o __  _| _     _ c
                             c       | (_) |    |^| | | |(_|(_)\^/_> c
-}
+}[1..-1]
 
       def print_logo
         puts  LOGO.gsub(/r(.*?)r/){ magenta($1) }
@@ -83,9 +86,6 @@ LOGO = %q{
       def install(args)
         require "tempfile"
         require "open-uri"
-
-        print_logo
-        puts
 
         msys = RubyInstaller.msys2_installation
         begin
