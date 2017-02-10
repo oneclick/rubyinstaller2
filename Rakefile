@@ -31,7 +31,7 @@ ruby_packages.each do |pack|
   end
 
   desc "Build all for #{nsp}"
-  task nsp => ["#{nsp}:installer", "#{nsp}:archive"]
+  task nsp => ["#{nsp}:installer-inno", "#{nsp}:archive-7z"]
 
   desc "Build installers for all rubies"
   task :default => nsp

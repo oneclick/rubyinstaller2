@@ -22,7 +22,7 @@ build_script:
 
 test_script:
   # Run the built Ruby installer and install to c:/ri2-ruby
-  - ruby -e "Dir['installer/rubyinstaller-%target_ruby%-*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath')}"
+  - ruby -e "Dir['installer-inno/rubyinstaller-%target_ruby%-*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath')}"
   # Activate the new installed Ruby.
   - set PATH=c:/ri2-ruby/bin;%PATH%
   # Run all tests against the new installed Ruby and verify that the used CA list is still the latest.
@@ -30,9 +30,9 @@ test_script:
 
 # Provide the rubyinstaller.exe files for download
 artifacts:
-  - path: installer/rubyinstaller-$(target_ruby)-*-$(arch).exe
+  - path: installer-inno/rubyinstaller-$(target_ruby)-*-$(arch).exe
     name: Executable installer
-  - path: archive/rubyinstaller-$(target_ruby)-*-$(arch).7z
+  - path: archive-7z/rubyinstaller-$(target_ruby)-*-$(arch).7z
     name: Plain archive file
 
 environment:
