@@ -25,6 +25,7 @@ class SandboxTask < BaseTask
       "resources/ssl/cacert.pem" => "ssl/cert.pem",
       "resources/ssl/README-SSL.md" => "ssl/README-SSL.md",
       "resources/ssl/c_rehash.rb" => "ssl/certs/c_rehash.rb",
+      "sandbox/LICENSE.txt" => "LICENSE.txt",
     }
 
     self.sandboxfile_listfile = "sandbox/rubyinstaller-#{package.rubyver}.files"
