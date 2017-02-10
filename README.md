@@ -29,7 +29,19 @@ In order to build gems with C-extensions from the sources, install MSYS2 like so
     gem install your-gem --platform ruby
 ```
 
-`ridk` is a cmd/powershell script which can be used to issue MSYS commands like `pacman`. See `ridk help` for further options.
+`ridk` is a cmd/powershell script which can be used to issue MSYS commands like `pacman`. See `ridk help` for further options:
+```sh
+    Usage:
+        C:/Ruby24-x64/bin/ridk.cmd [option]
+
+    Option:
+        install                   Install MSYS2 and MINGW dev tools
+        exec <command>            Execute a command within MSYS2 context
+        enable                    Set environment variables for MSYS2
+        disable                   Unset environment variables for MSYS2
+        version                   Print RubyInstaller and MSYS2 versions
+        help | --help | -? | /?   Display this help and exit
+```
 
 ### Install gems with C-extensions and additional library dependencies
 
@@ -78,12 +90,16 @@ To build RubyInstaller2 on your own machine:
 
 - Run cmd.exe and add iscc.exe to PATH: ```set PATH=%PATH%;"c:\Program Files (x86)\Inno Setup 5"```
 
-- Then compile and package RubyInstallers for x86 and x64:
+- Clone RubyInstaller2 and compile and package RubyInstallers for x86 and x64:
 ```sh
+    git clone https://github.com/larskanis/rubyinstaller2
+    cd rubyinstaller2
     rake
 ```
 
 - If everything works well, you will find the final setup and archive files: `installer-inno/rubyinstaller-<VERSION>-<ARCH>.exe` and `archive-7z/rubyinstaller-<VERSION>-<ARCH>.7z`
+
+- Try also `rake -T` to see the available build targets.
 
 ##Known Issues
 
