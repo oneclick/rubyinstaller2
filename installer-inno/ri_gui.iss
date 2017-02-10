@@ -11,7 +11,7 @@ const
   ChkBoxBaseLeft = 18;
 
 var
-  PathChkBox, PathExtChkBox: TCheckBox;
+  PathChkBox, PathExtChkBox, DevkitChkBox: TCheckBox;
 
 function IsAssociated(): Boolean;
 begin
@@ -21,6 +21,11 @@ end;
 function IsModifyPath(): Boolean;
 begin
   Result := PathChkBox.Checked;
+end;
+
+function IsDevkitInstall(): Boolean;
+begin
+  Result := DevkitChkBox.Checked;
 end;
 
 
@@ -58,6 +63,15 @@ var
 begin
   if Sender is TNewStaticText then
     ShellExec('open', TNewStaticText(Sender).Caption, '', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
+end;
+
+procedure RunDevkitInstall();
+var
+  ErrorCode: Integer;
+  ridkpath: String;
+begin
+  ridkpath := ExpandConstant('{app}') + '\bin\ridk.cmd';
+  ShellExec('open', ridkpath, 'install', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
 end;
 
 procedure InitializeWizard;
@@ -115,9 +129,27 @@ begin
 
   HostPage := WizardForm.FinishedPage;
 
+  DevkitChkBox := TCheckBox.Create(HostPage);
+  DevkitChkBox.Parent := HostPage;
+  DevkitChkBox.State := cbChecked;
+  DevkitChkBox.Caption := CustomMessage('DevkitInstall');
+  DevkitChkBox.Hint := CustomMessage('DevkitInstallHint');
+  DevkitChkBox.ShowHint := True;
+  DevkitChkBox.Alignment := taRightJustify;
+  DevkitChkBox.Top := ScaleY(160);
+  DevkitChkBox.Left := ScaleX(176);
+  DevkitChkBox.Width := HostPage.Width;
+
   TmpLabel := TNewStaticText.Create(HostPage);
   TmpLabel.Parent := HostPage;
-  TmpLabel.Top := ScaleY(180);
+  TmpLabel.Top := DevkitChkBox.Top + DevkitChkBox.Height;
+  TmpLabel.Left := DevkitChkBox.Left;
+  TmpLabel.AutoSize := True;
+  TmpLabel.Caption := CustomMessage('DevkitInstall2');
+
+  TmpLabel := TNewStaticText.Create(HostPage);
+  TmpLabel.Parent := HostPage;
+  TmpLabel.Top := ScaleY(220);
   TmpLabel.Left := ScaleX(176);
   TmpLabel.AutoSize := True;
   TmpLabel.Caption := CustomMessage('WebSiteLabel');
@@ -134,7 +166,7 @@ begin
 
   TmpLabel := TNewStaticText.Create(HostPage);
   TmpLabel.Parent := HostPage;
-  TmpLabel.Top := ScaleY(196);
+  TmpLabel.Top := ScaleY(236);
   TmpLabel.Left := ScaleX(176);
   TmpLabel.AutoSize := True;
   TmpLabel.Caption := CustomMessage('SupportGroupLabel');
@@ -151,7 +183,7 @@ begin
 
   TmpLabel := TNewStaticText.Create(HostPage);
   TmpLabel.Parent := HostPage;
-  TmpLabel.Top := ScaleY(212);
+  TmpLabel.Top := ScaleY(252);
   TmpLabel.Left := ScaleX(176);
   TmpLabel.AutoSize := True;
   TmpLabel.Caption := CustomMessage('WikiLabel');
@@ -161,31 +193,7 @@ begin
   URLText.Top := TmpLabel.Top;
   URLText.Left := TmpLabel.Left + TmpLabel.Width + ScaleX(4);
   URLText.AutoSize := True;
-  URLText.Caption := 'http://wiki.github.com/oneclick/rubyinstaller';
-  URLText.Cursor := crHand;
-  URLText.Font.Color := clBlue;
-  URLText.OnClick := @URLText_OnClick;
-
-  TmpLabel := TNewStaticText.Create(HostPage);
-  TmpLabel.Parent := HostPage;
-  TmpLabel.Top := ScaleY(245);
-  TmpLabel.Left := ScaleX(176);
-  TmpLabel.AutoSize := True;
-  TmpLabel.Caption := CustomMessage('IntroductionDevKitLabel');
-
-  TmpLabel := TNewStaticText.Create(HostPage);
-  TmpLabel.Parent := HostPage;
-  TmpLabel.Top := ScaleY(260);
-  TmpLabel.Left := ScaleX(176);
-  TmpLabel.AutoSize := True;
-  TmpLabel.Caption := CustomMessage('DevKitLabel');
-
-  URLText := TNewStaticText.Create(HostPage);
-  URLText.Parent := HostPage;
-  URLText.Top := TmpLabel.Top;
-  URLText.Left := TmpLabel.Left + TmpLabel.Width + ScaleX(4);
-  URLText.AutoSize := True;
-  URLText.Caption := 'http://rubyinstaller.org/add-ons/devkit';
+  URLText.Caption := 'https://wiki.github.com/larskanis/rubyinstaller2';
   URLText.Cursor := crHand;
   URLText.Font.Color := clBlue;
   URLText.OnClick := @URLText_OnClick;

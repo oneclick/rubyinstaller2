@@ -116,12 +116,13 @@ AddPath=Add Ruby executables to your PATH
 AddPathHint=Select to make this Ruby installation available from everywhere.%nThis may affect existing Ruby installations.
 AssociateExt=Associate .rb and .rbw files with this Ruby installation
 AssociateExtHint=Select to enable running your Ruby scripts by double clicking%nor simply typing the script name at your shell prompt. This may%naffect existing Ruby installations.
+DevkitInstall=Install MSYS2 and development toolchain now.
+DevkitInstall2=This is required to install gems with C extensions.
+DevkitInstallHint=Select to start MSYS2 installation and development tools.%nThis can also be done anytime later per 'ridk install' command.%nThe development tools consists of the GCC compiler suite and%ncommon UNIX tools required to build OpenSource software.
 MouseoverHint=TIP: Mouse over the above options for more detailed information.
 WebSiteLabel=Web Site:
 SupportGroupLabel=Support group:
 WikiLabel=Wiki:
-IntroductionDevKitLabel=How about a toolkit for building native C RubyGems?
-DevKitLabel=DevKit:
 InteractiveRubyTitle=Interactive Ruby
 RubyGemsDocumentationServerTitle=RubyGems Documentation Server
 StartCmdPromptWithRubyTitle=Start Command Prompt with Ruby
@@ -212,6 +213,13 @@ begin
       MsgBox('Looks like you''ve got on older, unsupported Windows version.' #13 +
              'Proceeding with a reduced feature set installation.',
              mbInformation, MB_OK);
+  end;
+
+  if CurStep = ssDone then
+  begin
+    Log(Format('Selected Tasks - DevkitInstall %d', [DevkitChkBox.State]));
+    if IsDevkitInstall then
+      RunDevkitInstall();
   end;
 end;
 
