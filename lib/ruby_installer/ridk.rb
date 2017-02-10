@@ -84,7 +84,6 @@ LOGO = %q{
       end
 
       def install(args)
-        require "tempfile"
         require "open-uri"
 
         msys = RubyInstaller.msys2_installation
