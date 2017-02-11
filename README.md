@@ -76,14 +76,14 @@ You can download the generated files as build artifacts.
 
 To build RubyInstaller2 on your own machine:
 
-- Make sure you have a working Ruby installation
+- Make sure you have a working Ruby and Git installation
 
 - Install the latest MSYS2 for x64 at the default path per installer: https://msys2.github.io/
 
-- Install the mingw toolchain for x86 and x64 per pacman:
+- Install the mingw toolchain for x86 and x64 per MSYS2 shell:
 ```sh
-    ridk exec pacman -Sy pacman
-    ridk exec pacman -S base-devel  mingw-w64-x86_64-toolchain  mingw-w64-i686-toolchain
+    pacman -Sy pacman
+    pacman -S base-devel  mingw-w64-x86_64-toolchain  mingw-w64-i686-toolchain
 ```
 
 - Install the latest Inno-Setup (unicode): http://www.jrsoftware.org/isdl.php
