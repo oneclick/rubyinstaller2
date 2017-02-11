@@ -154,7 +154,7 @@ module RubyInstaller
       enable_msys_apps
       begin
         yield
-      rescue
+      ensure
         disable_msys_apps
       end
     end
