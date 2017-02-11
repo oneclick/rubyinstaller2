@@ -116,6 +116,10 @@ class TestRidkCmd < Minitest::Test
       IO.popen(["cmd", "/c", fd.path]){|io| io.read }
     end
   end
+
+  def test_ridk_install
+    assert system("ridk install msys2 pacman_update")
+  end
 end
 
 class TestRidkPs1 < Minitest::Test
