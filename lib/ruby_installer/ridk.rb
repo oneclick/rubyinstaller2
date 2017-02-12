@@ -79,6 +79,7 @@ LOGO = %q{
             end
 
             if inst_list
+              puts
               begin
                 ci.install(args_to_tasks(ci, inst_list).map(&:name))
               rescue => err

@@ -13,6 +13,33 @@ class Base < Rake::Task
     enable_colors
     super
   end
+
+  # This is extracted from https://github.com/larskanis/shellwords
+  def shell_escape(str)
+    str = str.to_s
+
+    # An empty argument will be skipped, so return empty quotes.
+    return '""' if str.empty?
+
+    str = str.dup
+
+    str.gsub!(/((?:\\)*)"/){ "\\" * ($1.length*2) + "\\\"" }
+    if str =~ /\s/
+      str.gsub!(/(\\+)\z/){ "\\" * ($1.length*2) }
+      str = "\"#{str}\""
+    end
+
+    return str
+  end
+
+  def shell_join(array)
+    array.map { |arg| shell_escape(arg) }.join(' ')
+  end
+
+  def run_verbose(*args)
+    puts "> #{ cyan(shell_join(args)) }"
+    system(*args)
+  end
 end
 end
 end

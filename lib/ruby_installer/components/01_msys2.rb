@@ -42,11 +42,12 @@ class Msys2 < Base
         OpenURI.open_uri(uri, params) do |io|
           fd << io.read
         end
+        puts
       end
     end
 
-    print "Running the MSYS2 installer ..."
-    if system([temp_path, temp_path])
+    puts "Run the MSYS2 installer ..."
+    if run_verbose(temp_path)
       puts green(" Success")
     else
       puts red(" Failed")
