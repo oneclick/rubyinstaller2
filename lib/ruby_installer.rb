@@ -1,9 +1,14 @@
 module RubyInstaller
   autoload :Colors, 'ruby_installer/colors'
+  autoload :ComponentsInstaller, 'ruby_installer/components_installer'
   autoload :DllDirectory, 'ruby_installer/dll_directory'
   autoload :Msys2Installation, 'ruby_installer/msys2_installation'
   autoload :Ridk, 'ruby_installer/ridk'
   autoload :VERSION, 'ruby_installer/version'
+
+  module Components
+    autoload :Base, 'ruby_installer/components/base'
+  end
 
   class << self
     # Add +path+ as a search path for DLLs

@@ -50,89 +50,63 @@ LOGO = %q{
                   .gsub(/c(.*?)c/){ yellow($1) }
       end
 
-      MSYS2_VERSION = ENV['MSYS2_VERSION'] || "20161025"
-      MSYS2_URI = "http://repo.msys2.org/distrib/<arch>/msys2-<arch>-#{MSYS2_VERSION}.exe"
-
-      MSYS2_I686_SHA256 = "4951a47177777a54c7ad4ac99755ba4bbdf1a0cb23a174a72d91f71dc25bcb15"
-      MSYS2_X86_64_SHA256 = "2c198787ea1c4be39ff80466c4d831f8c7f06bd56d6d190bf63ede35292e344c"
-
-      def msys2_download_uri
-        arch = RUBY_PLATFORM=~/x64/ ? "x86_64" : "i686"
-        MSYS2_URI.gsub(/<arch>/, arch)
-      end
-
-      def msys2_download_hash
-        case RUBY_PLATFORM
-          when /x64/ then MSYS2_X86_64_SHA256
-          else MSYS2_I686_SHA256
-        end
-      end
-
-      def check_hash(path, hash)
-        if ENV['MSYS2_VERSION']
-          true
-        elsif !File.exist?(path)
-          false
-        else
-          require "digest"
-
-          print "Verify integrity of #{File.basename(path)} ..."
-          res = Digest::SHA256.file(path).hexdigest == hash.downcase
-          puts(res ? green(" OK") : red(" Failed"))
-          res
-        end
-      end
+      DEFAULT_COMPONENTS = %w[1 2 3]
 
       def install(args)
-        require "open-uri"
+        ci = ComponentsInstaller.new
+        inst_defaults = DEFAULT_COMPONENTS
 
-        msys = RubyInstaller.msys2_installation
-        begin
-          print "MSYS2 seems to be "
-          msys.msys_path
-          puts green("usable")
-        rescue Msys2Installation::MsysNotFound
-          puts red("unavaiable")
-          uri = msys2_download_uri
-          filename = File.basename(uri)
-          temp_path = File.join(ENV["TMP"] || ENV["TEMP"] || ENV["USERPROFILE"] || "C:/", filename)
+        if args.empty?
+          # Interactive installation
+          loop do
+            ci.installable_components.each do |comp|
+              puts format("  % 2d - %s", comp.task_index, comp.description)
+            end
+            print "Which components shall be installed? [#{inst_defaults.join(",")}] "
 
-          until check_hash(temp_path, msys2_download_hash)
-            puts "Download #{yellow(uri)}\n  to #{yellow(temp_path)}"
-            File.open(temp_path, "wb") do |fd|
-              progress = 0
-              total = 0
-              params = {
-                "Accept-Encoding" => 'identity',
-                :content_length_proc => lambda{|length| total = length },
-                :progress_proc => lambda{|bytes|
-                  new_progress = (bytes * 100) / total
-                  print "\rDownloading %s (%3d%%) " % [filename, new_progress]
-                  progress = new_progress
-                }
-              }
-              OpenURI.open_uri(uri, params) do |io|
-                fd << io.read
+            inp = STDIN.gets
+            inp = inp.tr(",", " ").strip if inp
+            if !inp
+              break
+            elsif inp.empty? && inst_defaults.empty?
+              break
+            elsif inp.empty?
+              inst_list = inst_defaults
+            elsif inp =~ /\A(?:(\d+|\w+)\s*)+\z/
+              inst_list = [inp]
+            else
+              puts red("Please enter a comma separated list of the components to be installed")
+            end
+
+            if inst_list
+              begin
+                ci.install(args_to_tasks(ci, inst_list).map(&:name))
+              rescue => err
+                puts red("Installation failed: #{err}")
               end
+
+              ci.reload
+              inst_defaults = []
+              puts
             end
           end
 
-          print "Running the MSYS2 installer ..."
-          if system([temp_path, temp_path])
-            puts green(" Success")
+        else
+          # Unattended installation
+          ci.install(args_to_tasks(ci, args).map(&:name))
+        end
+      end
+
+      private def args_to_tasks(ci, args)
+        tasks = args.join(" ").split(" ").map do |idx_or_name|
+          if idx_or_name =~ /\A\d+\z/ && (task=ci.installable_components.find{|c| idx_or_name.to_i == c.task_index })
+            task
+          elsif idx_or_name =~ /\A\w+\z/ && (task=ci.installable_components.find{|c| idx_or_name == c.name })
+            task
           else
-            puts red(" Failed")
-            raise "MSYS2 installer failed"
+            puts red("Can not find component #{idx_or_name.inspect}")
           end
-
-          retry
-        end
-
-        msys.with_msys_apps_enabled do
-          puts "Install development toolchain"
-          res = system("pacman", "-Sy", "--needed", "--noconfirm", "base-devel", "#{msys.mingw_package_prefix}-toolchain")
-          puts "Development toolchain installation #{res ? green("succeeded") : red("failed")}"
-        end
+        end.compact
       end
 
       def msys_version_info(msys_path)
@@ -146,7 +120,7 @@ LOGO = %q{
         }
       end
 
-      def ignore_err
+      private def ignore_err
         begin
           yield
         rescue

@@ -48,7 +48,11 @@ begin
         for N := 0 to Tasks.Count - 1 do
           case Trim(Tasks.Strings[N]) of
             'MODPATH': PathChkBox.State := cbChecked;
+            'NOMODPATH': PathChkBox.State := cbUnchecked;
             'ASSOCFILES': PathExtChkBox.State := cbChecked;
+            'NOASSOCFILES': PathExtChkBox.State := cbUnchecked;
+            'RIDKINSTALL': DevkitChkBox.State := cbChecked;
+            'NORIDKINSTALL': DevkitChkBox.State := cbUnchecked;
           end;
       finally
         Tasks.Free;
@@ -122,9 +126,6 @@ begin
   TmpLabel.WordWrap := True;
   TmpLabel.Caption := CustomMessage('MouseoverHint');
 
-  ParseSilentTasks;
-
-
   {* Labels and links back to RubyInstaller project pages *}
 
   HostPage := WizardForm.FinishedPage;
@@ -142,14 +143,14 @@ begin
 
   TmpLabel := TNewStaticText.Create(HostPage);
   TmpLabel.Parent := HostPage;
-  TmpLabel.Top := DevkitChkBox.Top + DevkitChkBox.Height;
-  TmpLabel.Left := DevkitChkBox.Left;
+  TmpLabel.Top := DevkitChkBox.Top + 20;
+  TmpLabel.Left := DevkitChkBox.Left + 17;
   TmpLabel.AutoSize := True;
   TmpLabel.Caption := CustomMessage('DevkitInstall2');
 
   TmpLabel := TNewStaticText.Create(HostPage);
   TmpLabel.Parent := HostPage;
-  TmpLabel.Top := ScaleY(220);
+  TmpLabel.Top := ScaleY(240);
   TmpLabel.Left := ScaleX(176);
   TmpLabel.AutoSize := True;
   TmpLabel.Caption := CustomMessage('WebSiteLabel');
@@ -166,7 +167,7 @@ begin
 
   TmpLabel := TNewStaticText.Create(HostPage);
   TmpLabel.Parent := HostPage;
-  TmpLabel.Top := ScaleY(236);
+  TmpLabel.Top := ScaleY(256);
   TmpLabel.Left := ScaleX(176);
   TmpLabel.AutoSize := True;
   TmpLabel.Caption := CustomMessage('SupportGroupLabel');
@@ -183,7 +184,7 @@ begin
 
   TmpLabel := TNewStaticText.Create(HostPage);
   TmpLabel.Parent := HostPage;
-  TmpLabel.Top := ScaleY(252);
+  TmpLabel.Top := ScaleY(272);
   TmpLabel.Left := ScaleX(176);
   TmpLabel.AutoSize := True;
   TmpLabel.Caption := CustomMessage('WikiLabel');
@@ -197,6 +198,8 @@ begin
   URLText.Cursor := crHand;
   URLText.Font.Color := clBlue;
   URLText.OnClick := @URLText_OnClick;
+
+  ParseSilentTasks;
 end;
 
 procedure CurPageChanged(CurPageID: Integer);
