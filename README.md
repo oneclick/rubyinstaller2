@@ -17,19 +17,11 @@ The aim is to [build a successor to the RubyInstaller](https://github.com/onecli
 - Download and install the latest RubyInstaller2: https://github.com/larskanis/rubyinstaller2/releases
 
 That's enough to use pure Ruby gems or fat binary gems for x64-mingw32 or x86-mingw32.
-In order to build gems with C-extensions from the sources, install MSYS2 like so:
+In order to build gems with C-extensions from the sources, MSYS2 development tools and MINGW compilers are required.
+They can be downloaded and installed per `ridk install` command.
 
-- Install the latest MSYS2 for x64 or x86 at the default path per installer: https://msys2.github.io/
-
-- Install development tools per pacman (only once) and install the source gem:
-```sh
-    ridk exec pacman -Sy pacman
-    ridk exec pacman -S base-devel mingw-w64-i686-toolchain # for 32 bit RubyInstaller
-    ridk exec pacman -S base-devel mingw-w64-x86_64-toolchain # for 64 bit RubyInstaller
-    gem install your-gem --platform ruby
-```
-
-`ridk` is a cmd/powershell script which can be used to issue MSYS commands like `pacman`. See `ridk help` for further options:
+`ridk` is a cmd/powershell script which can be used to install MSYS2 components and to issue MSYS commands like `pacman`.
+See `ridk help` for further options:
 ```sh
     Usage:
         C:/Ruby24-x64/bin/ridk.cmd [option]
@@ -41,6 +33,17 @@ In order to build gems with C-extensions from the sources, install MSYS2 like so
         disable                   Unset environment variables for MSYS2
         version                   Print RubyInstaller and MSYS2 versions
         help | --help | -? | /?   Display this help and exit
+```
+
+Alternatively MSYS2 might be installed manually like so:
+- Install the latest MSYS2 for x64 or x86 at the default path per installer: https://msys2.github.io/
+
+- Install development tools per pacman (only once) and install the source gem:
+```sh
+    ridk exec pacman -Sy pacman
+    ridk exec pacman -S base-devel mingw-w64-i686-toolchain # for 32 bit RubyInstaller
+    ridk exec pacman -S base-devel mingw-w64-x86_64-toolchain # for 64 bit RubyInstaller
+    gem install your-gem --platform ruby
 ```
 
 ### Install gems with C-extensions and additional library dependencies
