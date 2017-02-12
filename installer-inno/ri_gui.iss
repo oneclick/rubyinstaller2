@@ -48,7 +48,11 @@ begin
         for N := 0 to Tasks.Count - 1 do
           case Trim(Tasks.Strings[N]) of
             'MODPATH': PathChkBox.State := cbChecked;
+            'NOMODPATH': PathChkBox.State := cbUnchecked;
             'ASSOCFILES': PathExtChkBox.State := cbChecked;
+            'NOASSOCFILES': PathExtChkBox.State := cbUnchecked;
+            'RIDKINSTALL': DevkitChkBox.State := cbChecked;
+            'NORIDKINSTALL': DevkitChkBox.State := cbUnchecked;
           end;
       finally
         Tasks.Free;
@@ -122,9 +126,6 @@ begin
   TmpLabel.WordWrap := True;
   TmpLabel.Caption := CustomMessage('MouseoverHint');
 
-  ParseSilentTasks;
-
-
   {* Labels and links back to RubyInstaller project pages *}
 
   HostPage := WizardForm.FinishedPage;
@@ -197,6 +198,8 @@ begin
   URLText.Cursor := crHand;
   URLText.Font.Color := clBlue;
   URLText.OnClick := @URLText_OnClick;
+
+  ParseSilentTasks;
 end;
 
 procedure CurPageChanged(CurPageID: Integer);
