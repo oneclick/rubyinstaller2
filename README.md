@@ -42,9 +42,9 @@ MSYS2 can also be installed manually like so:
 
 - Install development tools per MSYS2/MINGW shell window:
 ```sh
-    ridk exec pacman -Sy pacman
-    ridk exec pacman -S base-devel mingw-w64-i686-toolchain # for 32 bit RubyInstaller
-    ridk exec pacman -S base-devel mingw-w64-x86_64-toolchain # for 64 bit RubyInstaller
+    pacman -Sy pacman
+    pacman -S base-devel mingw-w64-i686-toolchain # for 32 bit RubyInstaller
+    pacman -S base-devel mingw-w64-x86_64-toolchain # for 64 bit RubyInstaller
 ```
 
 ### Install gems with C-extensions and additional library dependencies
