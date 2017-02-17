@@ -1,4 +1,4 @@
-installer/filelist-*.iss
+installer-inno/filelist-*.iss
 compile/*/pkg
 compile/*/src
 compile/*/*.ico
