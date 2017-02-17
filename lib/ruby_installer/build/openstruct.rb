@@ -1,10 +1,6 @@
-require "rake"
-require "build_utils"
-
-class BaseTask
-  include Rake::DSL
-  include BuildUtils
-
+module RubyInstaller
+module Build
+class Openstruct
   def initialize(hash={})
     @__attrs = {}
     hash.each do |k,v|
@@ -28,4 +24,6 @@ class BaseTask
       super
     end
   end
+end
+end
 end

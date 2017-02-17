@@ -1,6 +1,4 @@
-require "base_task"
-
-class Archive7zTask < BaseTask
+class Archive7zTask < RubyInstaller::Build::BaseTask
   def initialize(*args)
     super
     sandboxdir = sandbox_task.sandboxdir

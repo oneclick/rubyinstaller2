@@ -1,6 +1,4 @@
-require "base_task"
-
-class InstallerInnoTask < BaseTask
+class InstallerInnoTask < RubyInstaller::Build::BaseTask
   def initialize(*args)
     super
     sandboxdir = sandbox_task.sandboxdir

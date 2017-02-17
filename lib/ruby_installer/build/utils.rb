@@ -1,6 +1,6 @@
-require "ruby_installer"
-
-module BuildUtils
+module RubyInstaller
+module Build
+module Utils
   WINDOWS_CMD_SHEBANG = <<-EOT.freeze
   :""||{ ""=> %q<-*- ruby -*-
   @"%~dp0ruby" -x "%~f0" %*
@@ -66,4 +66,6 @@ EOT
   def remove_comments(filecontent)
     filecontent.gsub(/^##.*$/, "")
   end
+end
+end
 end

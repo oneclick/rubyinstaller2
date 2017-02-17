@@ -4,7 +4,9 @@ module RubyInstaller
   autoload :DllDirectory, 'ruby_installer/dll_directory'
   autoload :Msys2Installation, 'ruby_installer/msys2_installation'
   autoload :Ridk, 'ruby_installer/ridk'
-  autoload :VERSION, 'ruby_installer/version'
+  autoload :GEM_VERSION, 'ruby_installer/gem_version'
+  autoload :PACKAGE_VERSION, 'ruby_installer/package_version'
+  autoload :GIT_COMMIT, 'ruby_installer/package_version'
 
   module Components
     autoload :Base, 'ruby_installer/components/base'

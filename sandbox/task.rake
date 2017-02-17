@@ -1,6 +1,4 @@
-require "base_task"
-
-class SandboxTask < BaseTask
+class SandboxTask < RubyInstaller::Build::BaseTask
   def initialize(*args)
     super
     unpackdirmgw = unpack_task.unpackdirmgw

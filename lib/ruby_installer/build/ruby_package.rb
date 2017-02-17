@@ -1,6 +1,6 @@
-require "base_task"
-
-class RubyPackage < BaseTask
+module RubyInstaller
+module Build
+class RubyPackage < Openstruct
   def initialize(*args)
     super
     self.rubyver = File.basename(compiledir).gsub("ruby-", "")
@@ -28,4 +28,6 @@ class RubyPackage < BaseTask
       raise "invalid arch #{arch}"
     end
   end
+end
+end
 end

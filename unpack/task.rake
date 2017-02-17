@@ -1,6 +1,4 @@
-require "base_task"
-
-class UnpackTask < BaseTask
+class UnpackTask < RubyInstaller::Build::BaseTask
   def initialize(*args)
     super
     self.unpackdir = "unpack/ruby-#{package.rubyver}-#{package.arch}"

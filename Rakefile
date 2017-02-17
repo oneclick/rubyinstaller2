@@ -1,11 +1,14 @@
 $: << File.expand_path("../lib", __FILE__)
 
-require "build_utils"
-require "ruby_package"
 require "ruby_installer"
+require "ruby_installer/build"
+require "bundler/gem_tasks"
+
+task :gem => :build
+
 Dir['*/task.rake'].each{|f| load(f) }
 
-include BuildUtils
+include RubyInstaller::Build::Utils
 
 task :devkit do
   RubyInstaller.enable_msys_apps
@@ -15,7 +18,7 @@ ENV['RI_ARCHS'] ||= 'x64:x86'
 
 ruby_packages = Dir["compile/ruby-*"].map do |compiledir|
   ENV['RI_ARCHS'].split(":").map do |arch|
-    RubyPackage.new( compiledir: compiledir, arch: arch, rootdir: __dir__ ).freeze
+    RubyInstaller::Build::RubyPackage.new( compiledir: compiledir, arch: arch, rootdir: __dir__ ).freeze
   end
 end.flatten
 
@@ -43,6 +46,7 @@ file libtest => libtest.sub(".dll", ".c") do |t|
   sh RbConfig::CONFIG['CC'], "-shared", t.prerequisites.first, "-o", t.name
 end
 
+desc "Run tests on the Ruby installation"
 task :test => libtest do
   sh "ruby -w -W2 -I. -e \"#{Dir["test/**/test_*.rb"].map{|f| "require '#{f}';"}.join}\" -- -v"
 
