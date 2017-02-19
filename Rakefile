@@ -6,39 +6,14 @@ require "bundler/gem_tasks"
 
 task :gem => :build
 
-Dir['*/task.rake'].each{|f| load(f) }
-
 include RubyInstaller::Build::Utils
 
 task :devkit do
   RubyInstaller.enable_msys_apps
 end
 
-ENV['RI_ARCHS'] ||= 'x64:x86'
-
-ruby_packages = Dir["compile/ruby-*"].map do |compiledir|
-  ENV['RI_ARCHS'].split(":").map do |arch|
-    RubyInstaller::Build::RubyPackage.new( compiledir: compiledir, arch: arch, rootdir: __dir__ ).freeze
-  end
-end.flatten
-
-ruby_packages.each do |pack|
-
-  nsp = "ruby-#{pack.rubyver}-#{pack.arch}"
-  namespace nsp do
-    compile = CompileTask.new( package: pack )
-    unpack = UnpackTask.new( package: pack, compile_task: compile )
-    sandbox = SandboxTask.new( package: pack, unpack_task: unpack )
-    InstallerInnoTask.new( package: pack, sandbox_task: sandbox )
-    Archive7zTask.new( package: pack, sandbox_task: sandbox )
-  end
-
-  desc "Build all for #{nsp}"
-  task nsp => ["#{nsp}:installer-inno", "#{nsp}:archive-7z"]
-
-  desc "Build installers for all rubies"
-  task :default => nsp
-end
+Dir['*/task.rake'].each{|f| load(f) }
+Dir['packages/*.rake'].each{|f| load(f) }
 
 libtest = "test/helper/libtest.dll"
 file libtest => libtest.sub(".dll", ".c") do |t|

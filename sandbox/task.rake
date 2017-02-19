@@ -39,6 +39,7 @@ class SandboxTask < RubyInstaller::Build::BaseTask
     self.sandboxfiles = self.sandboxfiles_rel.map{|path| File.join(sandboxdir, path)}
 
     file File.join(sandboxdir, "bin/rake.cmd") => File.join(unpackdirmgw, "bin/rake.bat") do |t|
+      puts "generate #{t.name}"
       out = File.read(t.prerequisites.first)
         .gsub("\\#{package.mingwdir}\\bin\\", "%~dp0")
         .gsub(/"[^"]*\/bin\/rake"/, "\"%~dp0rake\"")
@@ -47,11 +48,12 @@ class SandboxTask < RubyInstaller::Build::BaseTask
 
     versionfile = File.join(sandboxdir, "lib/ruby/site_ruby/ruby_installer/version.rb")
     directory File.dirname(versionfile)
-    file versionfile => [File.dirname(versionfile), package.pkgbuild] do |t|
+    file versionfile => [File.dirname(versionfile), package.pkgbuild, '.git/logs/HEAD'] do |t|
+      puts "generate #{t.name}"
       File.write t.name, <<-EOT
 module RubyInstaller
   VERSION = #{package.rubyver_pkgrel.inspect}
-  GIT_COMMIT = #{package.git_commit.inspect}
+  GIT_COMMIT = #{`git rev-parse HEAD`.chomp[0, 7].inspect}
 end
       EOT
     end
