@@ -46,13 +46,13 @@ class SandboxTask < RubyInstaller::Build::BaseTask
       File.write(t.name, out)
     end
 
-    versionfile = File.join(sandboxdir, "lib/ruby/site_ruby/ruby_installer/version.rb")
+    versionfile = File.join(sandboxdir, "lib/ruby/site_ruby/ruby_installer/package_version.rb")
     directory File.dirname(versionfile)
     file versionfile => [File.dirname(versionfile), package.pkgbuild, '.git/logs/HEAD'] do |t|
       puts "generate #{t.name}"
       File.write t.name, <<-EOT
 module RubyInstaller
-  VERSION = #{package.rubyver_pkgrel.inspect}
+  PACKAGE_VERSION = #{package.rubyver_pkgrel.inspect}
   GIT_COMMIT = #{`git rev-parse HEAD`.chomp[0, 7].inspect}
 end
       EOT

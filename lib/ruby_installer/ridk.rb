@@ -135,7 +135,8 @@ LOGO = %q{
         h = {
           "ruby" => { "version" => RUBY_VERSION,
                       "platform" => RUBY_PLATFORM },
-          "ruby_installer" => { "version" => RubyInstaller::VERSION,
+          "ruby_installer" => { "package_version" => RubyInstaller::PACKAGE_VERSION,
+                                "gem_version" => RubyInstaller::GEM_VERSION,
                                 "git_commit" => RubyInstaller::GIT_COMMIT },
         }
 
