@@ -55,6 +55,7 @@ module RidkTests
     out = run_capture_output "ridk version"
     y = YAML.load(out)
 
+    refute_nil y["ruby"]["path"]
     assert_equal y["ruby"]["version"], RUBY_VERSION
     assert_equal y["ruby"]["platform"], RUBY_PLATFORM
     refute_nil y["ruby_installer"]["version"]
