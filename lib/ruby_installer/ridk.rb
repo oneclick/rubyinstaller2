@@ -133,7 +133,8 @@ LOGO = %q{
         require "rbconfig"
 
         h = {
-          "ruby" => { "version" => RUBY_VERSION,
+          "ruby" => { "path" => RbConfig::TOPDIR,
+                      "version" => RUBY_VERSION,
                       "platform" => RUBY_PLATFORM },
           "ruby_installer" => { "package_version" => RubyInstaller::PACKAGE_VERSION,
                                 "gem_version" => RubyInstaller::GEM_VERSION,
