@@ -1,3 +1,5 @@
+Gem.try_activate("ruby_installer.rb")
+
 require "ruby_installer"
 
 Gem.pre_install do |gem_installer|
