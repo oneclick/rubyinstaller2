@@ -140,7 +140,15 @@ class TestModule < Minitest::Test
     end
   end
 
-  def test_version
-    assert_match(/\A\d+\.\d+\.\d+-\d+/, RubyInstaller::VERSION)
+  def test_gem_version
+    assert_match(/\A\d+\.\d+\.\d+\z/, RubyInstaller::GEM_VERSION)
+  end
+
+  def test_git_commit
+    assert_match(/\A[0-9a-f]{7}\z/i, RubyInstaller::GIT_COMMIT)
+  end
+
+  def test_package_version
+    assert_match(/\A\d+\.\d+\.\d+-\d+\z/, RubyInstaller::PACKAGE_VERSION)
   end
 end
