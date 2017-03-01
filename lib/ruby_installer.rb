@@ -2,6 +2,7 @@ module RubyInstaller
   autoload :Colors, 'ruby_installer/colors'
   autoload :ComponentsInstaller, 'ruby_installer/components_installer'
   autoload :DllDirectory, 'ruby_installer/dll_directory'
+  autoload :Gems, 'ruby_installer/gems'
   autoload :Msys2Installation, 'ruby_installer/msys2_installation'
   autoload :Ridk, 'ruby_installer/ridk'
   autoload :GEM_VERSION, 'ruby_installer/gem_version'

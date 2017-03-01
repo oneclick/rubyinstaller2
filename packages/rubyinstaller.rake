@@ -9,6 +9,8 @@ class RubyPackage < RubyInstaller::Build::Openstruct
     self.rubyver_pkgrel = "#{rubyver}-#{pkgrel}"
     self.rubyver2 = rubyver[/^\d+\.\d+/]
 
+    self.install_gems = %w[rubyinstaller-0.1.0 rb-readline-0.5.4]
+
     case arch
     when 'x64'
       self.pacman_arch = "mingw-w64-x86_64"

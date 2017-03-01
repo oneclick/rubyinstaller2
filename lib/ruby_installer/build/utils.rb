@@ -66,6 +66,20 @@ EOT
   def remove_comments(filecontent)
     filecontent.gsub(/^##.*$/, "")
   end
+
+  def with_env(hash)
+    olds = hash.each{|k, _| [k, ENV[k.to_s]] }
+    hash.each do |k, v|
+      ENV[k.to_s] = v
+    end
+    begin
+      yield
+    ensure
+      olds.each do |k, v|
+        ENV[k.to_s] = v
+      end
+    end
+  end
 end
 end
 end
