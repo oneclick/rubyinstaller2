@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{MSYS2 based RubyInstaller for Windows}
   spec.description   = %q{This project provides an Installer for Ruby on Windows based on the MSYS2 toolchain.}
   spec.homepage      = "https://github.com/larskanis/rubyinstaller2"
+  spec.license       = "BSD-3-Clause"
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
