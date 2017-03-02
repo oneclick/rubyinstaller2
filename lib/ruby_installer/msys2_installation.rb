@@ -19,26 +19,42 @@ module RubyInstaller
       @msys_path = nil
     end
 
-    def msys_path
-      @msys_path ||= case
-      when File.directory?(a=DEFAULT_MSYS64_PATH)
-        backslachs(a)
-      when File.directory?(a=DEFAULT_MSYS32_PATH)
-        backslachs(a)
-      else
-        require "win32/registry"
-        begin
-          Win32::Registry::HKEY_CURRENT_USER.open(backslachs(MSYS2_INSTALL_KEY)) do |reg|
-            reg.each_key do |subkey|
-              subreg = reg.open(subkey)
-              if subreg['DisplayName'] =~ /^MSYS2 / && File.directory?(il=subreg['InstallLocation'])
-                return il
-              end
+    def iterate_msys_paths
+      # If msys2 is installed at the default location
+      yield DEFAULT_MSYS64_PATH
+      yield DEFAULT_MSYS32_PATH
+
+      # If msys2 is installed per installer.exe
+      require "win32/registry"
+      begin
+        Win32::Registry::HKEY_CURRENT_USER.open(backslachs(MSYS2_INSTALL_KEY)) do |reg|
+          reg.each_key do |subkey|
+            subreg = reg.open(subkey)
+            if subreg['DisplayName'] =~ /^MSYS2 / && File.directory?(il=subreg['InstallLocation'])
+              yield il
             end
           end
-        rescue Win32::Registry::Error
         end
-        raise MsysNotFound, "MSYS2 could not be found"
+      rescue Win32::Registry::Error
+      end
+
+      ENV['PATH'].split(";").each do |path|
+        # If /path/to/msys64 is in the PATH (e.g. Chocolatey)
+        yield path
+        # If /path/to/msys64/usr/bin or /path/to/msys64/mingwXX/bin is in the PATH
+        yield File.join(path, "../..")
+      end
+
+      raise MsysNotFound, "MSYS2 could not be found"
+    end
+
+    def msys_path
+      @msys_path ||= begin
+        iterate_msys_paths do |path|
+          if File.exist?(File.join(path, "usr/bin/msys-2.0.dll"))
+            break backslachs(path)
+          end
+        end
       end
     end
 
