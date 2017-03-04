@@ -25,10 +25,9 @@ module RubyInstaller
       DllDirectory.new(path, &block)
     end
 
-    @@msys2_installation = nil
     # :nodoc:
     def msys2_installation
-      @@msys2_installation ||= Msys2Installation.new
+      @msys2_installation ||= Msys2Installation.new
     end
 
     # Switch to explicit search paths added by add_dll_directory() and enable MSYS2-MINGW directory this way, if available.
