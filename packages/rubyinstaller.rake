@@ -9,7 +9,7 @@ class RubyPackage < RubyInstaller::Build::Openstruct
     self.rubyver_pkgrel = "#{rubyver}-#{pkgrel}"
     self.rubyver2 = rubyver[/^\d+\.\d+/]
 
-    self.install_gems = %w[rubyinstaller-0.1.0 rb-readline-0.5.4]
+    self.install_gems = %w[rb-readline-0.5.4]
 
     case arch
     when 'x64'
@@ -28,7 +28,7 @@ class RubyPackage < RubyInstaller::Build::Openstruct
   end
 end
 
-ruby_packages = Dir["compile/ruby-*"].map do |compiledir|
+ruby_packages = Dir["recipes/compile/ruby-*"].map do |compiledir|
   %w[x64 x86].map do |arch|
     RubyPackage.new( compiledir: compiledir, arch: arch, rootdir: File.join(__dir__, "..") ).freeze
   end

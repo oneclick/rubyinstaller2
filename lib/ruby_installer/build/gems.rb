@@ -1,6 +1,7 @@
 require "yaml"
 
 module RubyInstaller
+module Build # Use for: Build, Runtime
   module Gems
     class InstallSpec
       attr_accessor :gem_name
@@ -65,4 +66,5 @@ module RubyInstaller
       end
     end
   end
+end
 end

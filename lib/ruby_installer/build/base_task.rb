@@ -5,7 +5,7 @@ module RubyInstaller
 module Build
 class BaseTask < Openstruct
   include Rake::DSL
-  include Build::Utils
+  include Utils
 end
 end
 end

@@ -2,7 +2,7 @@ class Archive7zTask < RubyInstaller::Build::BaseTask
   def initialize(*args)
     super
     sandboxdir = sandbox_task.sandboxdir
-    self.archivefile = "archive-7z/rubyinstaller-#{package.rubyver_pkgrel}-#{package.arch}.7z"
+    self.archivefile = "recipes/archive-7z/rubyinstaller-#{package.rubyver_pkgrel}-#{package.arch}.7z"
 
     desc "7z archive for ruby-#{package.rubyver}-#{package.arch}"
     task "archive-7z" => [:devkit, "sandbox", archivefile]

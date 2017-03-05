@@ -1,4 +1,5 @@
 module RubyInstaller
+module Runtime
 module Components
 class PacmanUpdate < Base
   def self.depends
@@ -10,7 +11,7 @@ class PacmanUpdate < Base
   end
 
   def execute(args)
-    msys = RubyInstaller.msys2_installation
+    msys = Runtime.msys2_installation
     msys.with_msys_apps_enabled do
       puts "#{description} ..."
       res = run_verbose("pacman", "-Sy", "--needed", "--noconfirm", "pacman")
@@ -18,6 +19,7 @@ class PacmanUpdate < Base
       raise "pacman failed" unless res
     end
   end
+end
 end
 end
 end

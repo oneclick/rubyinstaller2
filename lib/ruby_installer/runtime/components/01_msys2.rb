@@ -1,4 +1,5 @@
 module RubyInstaller
+module Runtime
 module Components
 class Msys2 < Base
   def description
@@ -6,7 +7,7 @@ class Msys2 < Base
   end
 
   def needed?
-    msys = RubyInstaller.msys2_installation
+    msys = Runtime.msys2_installation
     begin
       print "MSYS2 seems to be "
       msys.msys_path
@@ -89,6 +90,7 @@ class Msys2 < Base
       res
     end
   end
+end
 end
 end
 end

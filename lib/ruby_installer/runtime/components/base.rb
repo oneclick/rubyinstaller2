@@ -1,7 +1,8 @@
 module RubyInstaller
+module Runtime
 module Components
 class Base < Rake::Task
-  include RubyInstaller::Colors
+  include Colors
 
   attr_accessor :task_index
 
@@ -40,6 +41,7 @@ class Base < Rake::Task
     puts "> #{ cyan(shell_join(args)) }"
     system(*args)
   end
+end
 end
 end
 end

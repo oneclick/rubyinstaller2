@@ -1,6 +1,7 @@
 require "fiddle"
 
 module RubyInstaller
+module Build # Use for: Build, Runtime
   # :nodoc:
   class DllDirectory
     class Error < RuntimeError
@@ -90,4 +91,5 @@ module RubyInstaller
       end
     end
   end
+end
 end

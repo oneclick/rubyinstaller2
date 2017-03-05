@@ -1,4 +1,5 @@
 module RubyInstaller
+module Build # Use for: Build, Runtime
   # :nodoc:
   class Msys2Installation
     MSYS2_INSTALL_KEY = "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/"
@@ -221,4 +222,5 @@ module RubyInstaller
       end.join(";")
     end
   end
+end
 end

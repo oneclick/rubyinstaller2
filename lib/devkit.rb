@@ -1,3 +1,3 @@
-require "ruby_installer"
+require "ruby_installer/runtime"
 
-RubyInstaller.enable_msys_apps
+RubyInstaller::Runtime.enable_msys_apps

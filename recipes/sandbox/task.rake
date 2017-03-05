@@ -1,8 +1,11 @@
 class SandboxTask < RubyInstaller::Build::BaseTask
+  REWRITE_MARK = /module Build.*Use for: Build, Runtime/
+
   def initialize(*args)
     super
     unpackdirmgw = unpack_task.unpackdirmgw
-    self.sandboxdir = "sandbox/ruby-#{package.rubyver_pkgrel}-#{package.arch}"
+    thisdir = "recipes/sandbox"
+    self.sandboxdir = "#{thisdir}/ruby-#{package.rubyver_pkgrel}-#{package.arch}"
 
     copy_files = {
       "resources/files/ridk.cmd" => "bin/ridk.cmd",
@@ -13,11 +16,21 @@ class SandboxTask < RubyInstaller::Build::BaseTask
       "resources/ssl/cacert.pem" => "ssl/cert.pem",
       "resources/ssl/README-SSL.md" => "ssl/README-SSL.md",
       "resources/ssl/c_rehash.rb" => "ssl/certs/c_rehash.rb",
-      "sandbox/LICENSE.txt" => "LICENSE.txt",
+      "#{thisdir}/LICENSE.txt" => "LICENSE.txt",
     }
 
-    self.sandboxfile_listfile = "sandbox/rubyinstaller-#{package.rubyver}.files"
-    self.sandboxfile_arch_listfile = "sandbox/rubyinstaller-#{package.rubyver}-#{package.arch}.files"
+    # Add "ruby_installer/runtime" libs to the package.
+    # Copy certain files from "ruby_installer/build" to "ruby_installer/runtime".
+    `git ls-files lib -z`.split("\x0").each do |file|
+      rewrite = File.binread(file)[REWRITE_MARK]
+      next if file.match(%r{^lib/ruby_installer/build}) && !rewrite
+      dfile = file.sub(%r{^lib/}, "")
+      dfile.sub!(%r{/build/}, "/runtime/") if rewrite
+      copy_files[file] = "lib/ruby/site_ruby/2.4.0/#{dfile}"
+    end
+
+    self.sandboxfile_listfile = "#{thisdir}/rubyinstaller-#{package.rubyver}.files"
+    self.sandboxfile_arch_listfile = "#{thisdir}/rubyinstaller-#{package.rubyver}-#{package.arch}.files"
     self.sandboxfiles_rel = File.readlines(sandboxfile_listfile) + File.readlines(sandboxfile_arch_listfile)
     self.sandboxfiles_rel = self.sandboxfiles_rel.map{|path| path.chomp }
     self.sandboxfiles_rel += copy_files.values
@@ -25,20 +38,22 @@ class SandboxTask < RubyInstaller::Build::BaseTask
 
     file File.join(sandboxdir, "bin/rake.cmd") => File.join(unpackdirmgw, "bin/rake.bat") do |t|
       puts "generate #{t.name}"
-      out = File.read(t.prerequisites.first)
+      out = File.binread(t.prerequisites.first)
         .gsub("\\#{package.mingwdir}\\bin\\", "%~dp0")
         .gsub(/"[^"]*\/bin\/rake"/, "\"%~dp0rake\"")
-      File.write(t.name, out)
+      File.binwrite(t.name, out)
     end
 
-    versionfile = File.join(sandboxdir, "lib/ruby/site_ruby/ruby_installer/package_version.rb")
+    versionfile = File.join(sandboxdir, "lib/ruby/site_ruby/2.4.0/ruby_installer/runtime/package_version.rb")
     directory File.dirname(versionfile)
     file versionfile => [File.dirname(versionfile), package.pkgbuild, '.git/logs/HEAD'] do |t|
       puts "generate #{t.name}"
-      File.write t.name, <<-EOT
+      File.binwrite t.name, <<-EOT
 module RubyInstaller
+module Runtime
   PACKAGE_VERSION = #{package.rubyver_pkgrel.inspect}
   GIT_COMMIT = #{`git rev-parse HEAD`.chomp[0, 7].inspect}
+end
 end
       EOT
     end
@@ -46,7 +61,15 @@ end
     copy_files.each do |source, dest|
       file File.join(sandboxdir, dest) => source do |t|
         mkdir_p File.dirname(t.name)
-        cp t.prerequisites.first, t.name
+        content = File.binread(t.prerequisites.first)
+        # Rewrite certain files from RubyInstaller::Build to RubyInstaller::Runtime.
+        rewrite_done = false
+        content.gsub!(REWRITE_MARK) do
+          rewrite_done = true
+          "module Runtime # Rewrite from #{t.prerequisites.first}"
+        end
+        File.binwrite(t.name, content)
+        puts "copy#{" with rewrite" if rewrite_done} #{t.prerequisites.first} #{t.name}"
       end
     end
 
@@ -56,7 +79,7 @@ end
       file gemspec do
         with_env(GEM_HOME: nil, GEM_PATH: nil, RUBYOPT: nil, RUBYLIB: nil) do
           /(?<gem_name>.*)-(?<gem_ver>.*)/ =~ gem || raise(ArgumentError, "invalid gem name #{gem.inspect}")
-          RubyInstaller::Gems.install(gem_name, gem_version: gem_ver, gem_cmd: gem_cmd)
+          RubyInstaller::Build::Gems.install(gem_name, gem_version: gem_ver, gem_cmd: gem_cmd)
         end
       end
       self.sandboxfiles << gemspec

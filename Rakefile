@@ -1,6 +1,5 @@
 $: << File.expand_path("../lib", __FILE__)
 
-require "ruby_installer"
 require "ruby_installer/build"
 require "bundler/gem_tasks"
 
@@ -9,10 +8,10 @@ task :gem => :build
 include RubyInstaller::Build::Utils
 
 task :devkit do
-  RubyInstaller.enable_msys_apps
+  RubyInstaller::Build.enable_msys_apps
 end
 
-Dir['*/task.rake'].each{|f| load(f) }
+Dir['recipes/*/task.rake'].each{|f| load(f) }
 Dir['packages/*.rake'].each{|f| load(f) }
 
 libtest = "test/helper/libtest.dll"

@@ -59,7 +59,6 @@ module RidkTests
     assert_equal y["ruby"]["version"], RUBY_VERSION
     assert_equal y["ruby"]["platform"], RUBY_PLATFORM
     refute_nil y["ruby_installer"]["package_version"]
-    refute_nil y["ruby_installer"]["gem_version"]
     refute_nil y["ruby_installer"]["git_commit"]
     assert_match(/gcc/, y["cc"])
     assert_match(/bash/, y["sh"])
@@ -78,7 +77,6 @@ module RidkTests
     assert_equal y["ruby"]["version"], RUBY_VERSION
     assert_equal y["ruby"]["platform"], RUBY_PLATFORM
     refute_nil y["ruby_installer"]["package_version"]
-    refute_nil y["ruby_installer"]["gem_version"]
     refute_nil y["ruby_installer"]["git_commit"]
     assert_nil y["msys2"]
   end

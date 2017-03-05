@@ -15,5 +15,5 @@ $cmdfile = $rubydir + "\ridk.cmd"
 exit $LastExitCode
 
 #!/mingw64/bin/ruby
-require "ruby_installer"
-RubyInstaller::Ridk.run!(ARGV)
+require "ruby_installer/runtime"
+RubyInstaller::Runtime::Ridk.run!(ARGV)

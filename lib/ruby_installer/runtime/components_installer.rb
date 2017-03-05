@@ -1,6 +1,7 @@
 require "rake"
 
 module RubyInstaller
+module Runtime
 class ComponentsInstaller < Rake::Application
   attr_reader :installable_components
 
@@ -13,7 +14,7 @@ class ComponentsInstaller < Rake::Application
       idx, tname = File.basename(comppath, ".rb").split("_", 2)
       const_name = tname.sub(/^[a-z\d]*/) { |match| match.capitalize }
               .gsub(/(?:_|(\/))([a-z\d]*)/i) { "#{$1}#{$2.capitalize}" }
-      [idx.to_i, tname, RubyInstaller::Components.const_get(const_name)]
+      [idx.to_i, tname, Components.const_get(const_name)]
     end
 
     define_tasks
@@ -41,5 +42,6 @@ class ComponentsInstaller < Rake::Application
     # Do nothing if nothing is requested
     define_task(Rake::Task, :default)
   end
+end
 end
 end

@@ -1,9 +1,9 @@
-installer-inno/filelist-*.iss
-compile/*/pkg
-compile/*/src
-compile/*/*.ico
-sandbox/ruby-*
-unpack/ruby-*
+recipes/installer-inno/filelist-*.iss
+recipes/compile/*/pkg
+recipes/compile/*/src
+recipes/compile/*/*.ico
+recipes/sandbox/ruby-*
+recipes/unpack/ruby-*
 *.7z
 *.dll
 *.exe

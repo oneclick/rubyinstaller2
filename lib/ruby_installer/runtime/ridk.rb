@@ -1,8 +1,9 @@
 module RubyInstaller
+module Runtime
   # :nodoc:
   module Ridk
     class << self
-      include RubyInstaller::Colors
+      include Colors
 
       def run!(args)
         enable_colors
@@ -12,13 +13,13 @@ module RubyInstaller
             puts
             install(args[1..-1])
           when 'enable', 'exec'
-            puts RubyInstaller.msys2_installation.enable_msys_apps_per_cmd
+            puts Runtime.msys2_installation.enable_msys_apps_per_cmd
           when 'disable'
-            puts RubyInstaller.msys2_installation.disable_msys_apps_per_cmd
+            puts Runtime.msys2_installation.disable_msys_apps_per_cmd
           when 'enableps1', 'execps1'
-            puts RubyInstaller.msys2_installation.enable_msys_apps_per_ps1
+            puts Runtime.msys2_installation.enable_msys_apps_per_ps1
           when 'disableps1'
-            puts RubyInstaller.msys2_installation.disable_msys_apps_per_ps1
+            puts Runtime.msys2_installation.disable_msys_apps_per_ps1
           when 'version'
             print_version
           when 'help', '--help', '-?', '/?', nil
@@ -136,13 +137,12 @@ LOGO = %q{
           "ruby" => { "path" => RbConfig::TOPDIR,
                       "version" => RUBY_VERSION,
                       "platform" => RUBY_PLATFORM },
-          "ruby_installer" => { "package_version" => RubyInstaller::PACKAGE_VERSION,
-                                "gem_version" => RubyInstaller::GEM_VERSION,
-                                "git_commit" => RubyInstaller::GIT_COMMIT },
+          "ruby_installer" => { "package_version" => RubyInstaller::Runtime::PACKAGE_VERSION,
+                                "git_commit" => RubyInstaller::Runtime::GIT_COMMIT },
         }
 
         ignore_err do
-          msys = RubyInstaller.msys2_installation
+          msys = Runtime.msys2_installation
           msys.enable_msys_apps(if_no_msys: :raise)
 
           msys_ver = ignore_err{ msys_version_info(msys.msys_path) }
@@ -179,4 +179,5 @@ EOT
       end
     end
   end
+end
 end

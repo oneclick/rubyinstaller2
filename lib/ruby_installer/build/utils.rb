@@ -13,7 +13,7 @@ module Utils
   EOT
 
   def msys_sh(cmd)
-    RubyInstaller.enable_msys_apps
+    Build.enable_msys_apps
     pwd = Dir.pwd
     sh "sh", "-lc", "cd `cygpath -u #{pwd.inspect}`; #{cmd}"
   end
@@ -44,7 +44,7 @@ module Utils
 ## https://wiki.mozilla.org/CA:IncludedCAs
 ##
 ## This file is used as default CA certificate list for Ruby.
-## Conversion done with RubyInstaller2 version #{RubyInstaller::VERSION}.
+## Conversion done with rubyinstaller-build version #{RubyInstaller::Build::GEM_VERSION}.
 ##
 EOT
 

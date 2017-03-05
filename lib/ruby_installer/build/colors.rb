@@ -1,4 +1,5 @@
 module RubyInstaller
+module Build # Use for: Build, Runtime
   module Colors
     # Start an escape sequence
     ESC = "\e["
@@ -40,4 +41,5 @@ module RubyInstaller
       @colors_on = false
     end
   end
+end
 end

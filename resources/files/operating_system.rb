@@ -1,6 +1,7 @@
-ripath = Dir[File.join(Gem.dir, "gems/rubyinstaller-*/lib")].sort.last or
-  raise(LoadError, "Unable to find rubyinstaller gem")
-$LOAD_PATH << ripath
+require "ruby_installer/runtime"
 
-require "ruby_installer"
-RubyInstaller.rubygems_integration
+RubyInstaller::Runtime.enable_dll_search_paths
+
+Gem.pre_install do |gem_installer|
+  RubyInstaller::Runtime.enable_msys_apps(for_gem_install: true) unless gem_installer.spec.extensions.empty?
+end
