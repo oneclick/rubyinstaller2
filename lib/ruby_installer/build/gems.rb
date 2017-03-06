@@ -16,7 +16,7 @@ module Build # Use for: Build, Runtime
         @gem_cmd = "gem"
         @gem_install_opts = []
 
-        fname = File.expand_path("../gems/#{gem_name}.yaml", __FILE__)
+        fname = File.expand_path("../../../../gems/#{gem_name}.yaml", __FILE__)
         if File.exist?(fname)
           yaml = YAML.load_file(fname)
           raise ArgumentError, "Not a Hash in #{fname}" unless yaml.is_a?(Hash)
