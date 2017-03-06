@@ -1,4 +1,4 @@
-require "ruby_installer"
+require "ruby_installer/runtime"
 
 module Helper
   module Msys
