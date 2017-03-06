@@ -22,7 +22,7 @@ build_script:
 
 test_script:
   # Run the built Ruby installer and install to c:/ri2-ruby
-  - ruby -e "Dir['installer-inno/rubyinstaller-%target_ruby%-*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath')}"
+  - ruby -e "Dir['recipes/installer-inno/rubyinstaller-%target_ruby%-*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath')}"
   # Activate the new installed Ruby.
   - set PATH=c:/ri2-ruby/bin;%PATH%
   # Install dependent gems
@@ -33,9 +33,9 @@ test_script:
 
 # Provide the rubyinstaller.exe files for download
 artifacts:
-  - path: installer-inno/rubyinstaller-$(target_ruby)-*-$(arch).exe
+  - path: recipes/installer-inno/rubyinstaller-$(target_ruby)-*-$(arch).exe
     name: Executable installer
-  - path: archive-7z/rubyinstaller-$(target_ruby)-*-$(arch).7z
+  - path: recipes/archive-7z/rubyinstaller-$(target_ruby)-*-$(arch).7z
     name: Plain archive file
 
 environment:

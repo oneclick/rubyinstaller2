@@ -101,7 +101,7 @@ To build RubyInstaller2 on your own machine:
     rake
 ```
 
-- If everything works well, you will find the final setup and archive files: `installer-inno/rubyinstaller-<VERSION>-<ARCH>.exe` and `archive-7z/rubyinstaller-<VERSION>-<ARCH>.7z`
+- If everything works well, you will find the final setup and archive files: `recipes/installer-inno/rubyinstaller-<VERSION>-<ARCH>.exe` and `recipes/archive-7z/rubyinstaller-<VERSION>-<ARCH>.7z`
 
 - Try also `rake -T` to see the available build targets.
 
