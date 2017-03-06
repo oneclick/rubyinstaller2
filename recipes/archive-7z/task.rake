@@ -13,8 +13,8 @@ class Archive7zTask < RubyInstaller::Build::BaseTask
         pacman -S --needed --noconfirm p7zip
       EOT
 
-      chdir "sandbox" do
-        sh "sh 7z a -bd ../#{archivefile} #{sandboxdir.gsub("sandbox/", "")} | ruby -ne \"STDERR.print '.'\""
+      chdir "recipes/sandbox" do
+        sh "sh 7z a -bd ../../#{archivefile} #{sandboxdir.gsub("recipes/sandbox/", "")} | ruby -ne \"STDERR.print '.'\""
       end
     end
   end
