@@ -16,7 +16,7 @@ Dir['packages/*.rake'].each{|f| load(f) }
 
 libtest = "test/helper/libtest.dll"
 file libtest => libtest.sub(".dll", ".c") do |t|
-  require "devkit"
+  RubyInstaller::Build.enable_msys_apps
   sh RbConfig::CONFIG['CC'], "-shared", t.prerequisites.first, "-o", t.name
 end
 
