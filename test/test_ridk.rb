@@ -97,7 +97,7 @@ class TestRidkCmd < Minitest::Test
       "@call #{c} > NUL"
     end.join("\n")
 
-    out = run_in_shells <<-EOCMD, nil
+    run_in_shells <<-EOCMD, nil
 #{ vars_to_print(before_vars) }
 #{ jc }
 #{ vars_to_print(after_vars) }
@@ -105,7 +105,7 @@ class TestRidkCmd < Minitest::Test
   end
 
   def run_capture_output(command)
-    out = run_in_shells <<-EOCMD, nil
+    run_in_shells <<-EOCMD, nil
 @call #{command}
     EOCMD
   end
@@ -138,7 +138,7 @@ class TestRidkPs1 < Minitest::Test
       "$out = & #{c}"
     end.join("\n")
 
-    out = run_in_shells nil, <<-EOPS1
+    run_in_shells nil, <<-EOPS1
 #{ vars_to_print(before_vars) }
 #{ jc }
 #{ vars_to_print(after_vars) }
@@ -146,7 +146,7 @@ class TestRidkPs1 < Minitest::Test
   end
 
   def run_capture_output(command)
-    out = run_in_shells nil, <<-EOPS1
+    run_in_shells nil, <<-EOPS1
 & #{command}
     EOPS1
   end
