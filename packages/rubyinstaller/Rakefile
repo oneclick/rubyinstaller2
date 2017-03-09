@@ -1,10 +1,17 @@
+$: << File.expand_path("../../../lib", __FILE__)
+
+require "ruby_installer/build"
+
+include RubyInstaller::Build::Utils
+RubyInstaller::Build.enable_msys_apps
+
 class RubyPackage < RubyInstaller::Build::Openstruct
   def initialize(*args)
     super
     self.rubyver = File.basename(compiledir).gsub("ruby-", "")
 
     self.pkgbuild = File.join(compiledir, "PKGBUILD")
-    File.read(pkgbuild) =~ /^pkgrel=(\d+)$/
+    File.read(ovl_expand_file(pkgbuild)) =~ /^pkgrel=(\d+)$/
     self.pkgrel = $1 or raise("'pkgrel' not defined in #{pkgbuild}")
     self.rubyver_pkgrel = "#{rubyver}-#{pkgrel}"
     self.rubyver2 = rubyver[/^\d+\.\d+/]
@@ -28,14 +35,15 @@ class RubyPackage < RubyInstaller::Build::Openstruct
   end
 end
 
-ruby_packages = Dir["recipes/compile/ruby-*"].map do |compiledir|
+ovl_glob('recipes/*/task.rake').each{|f| load(ovl_expand_file(f)) }
+
+ruby_packages = ovl_glob("recipes/compile/ruby-*").map do |compiledir|
   %w[x64 x86].map do |arch|
-    RubyPackage.new( compiledir: compiledir, arch: arch, rootdir: File.join(__dir__, "..") ).freeze
+    RubyPackage.new( compiledir: compiledir, arch: arch, rootdir: __dir__ ).freeze
   end
 end.flatten
 
 ruby_packages.each do |pack|
-
   nsp = "ruby-#{pack.rubyver}-#{pack.arch}"
   namespace nsp do
     compile = CompileTask.new( package: pack )

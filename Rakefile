@@ -3,16 +3,25 @@ $: << File.expand_path("../lib", __FILE__)
 require "ruby_installer/build"
 require "bundler/gem_tasks"
 
-task :gem => :build
-
 include RubyInstaller::Build::Utils
 
-task :devkit do
-  RubyInstaller::Build.enable_msys_apps
-end
+task :gem => :build
 
-Dir['recipes/*/task.rake'].each{|f| load(f) }
-Dir['packages/*.rake'].each{|f| load(f) }
+# Forward rubyinstaller build tasks to the sub Rakefile.
+namespace "rubyinstaller" do |ns|
+  Rake::TaskManager.record_task_metadata = true
+  Rake.load_rakefile "packages/rubyinstaller/Rakefile"
+  ns.tasks.select(&:comment).each do |t|
+    name, comment = t.name.sub(/.*?:/, ""), t.comment
+    t.clear
+    desc comment
+    task name do
+      chdir "packages/rubyinstaller" do
+        sh "rake", name
+      end
+    end
+  end
+end
 
 libtest = "test/helper/libtest.dll"
 file libtest => libtest.sub(".dll", ".c") do |t|

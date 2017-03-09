@@ -1,6 +1,4 @@
 class SandboxTask < RubyInstaller::Build::BaseTask
-  REWRITE_MARK = /module Build.*Use for: Build, Runtime/
-
   def initialize(*args)
     super
     unpackdirmgw = unpack_task.unpackdirmgw
@@ -21,17 +19,15 @@ class SandboxTask < RubyInstaller::Build::BaseTask
 
     # Add "ruby_installer/runtime" libs to the package.
     # Copy certain files from "ruby_installer/build" to "ruby_installer/runtime".
-    `git ls-files lib -z`.split("\x0").each do |file|
-      rewrite = File.binread(file)[REWRITE_MARK]
-      next if file.match(%r{^lib/ruby_installer/build}) && !rewrite
+    lib_runtime_files.each do |file|
       dfile = file.sub(%r{^lib/}, "")
-      dfile.sub!(%r{/build/}, "/runtime/") if rewrite
+      dfile.sub!(%r{/build/}, "/runtime/")
       copy_files[file] = "lib/ruby/site_ruby/2.4.0/#{dfile}"
     end
 
     self.sandboxfile_listfile = "#{thisdir}/rubyinstaller-#{package.rubyver}.files"
     self.sandboxfile_arch_listfile = "#{thisdir}/rubyinstaller-#{package.rubyver}-#{package.arch}.files"
-    self.sandboxfiles_rel = File.readlines(sandboxfile_listfile) + File.readlines(sandboxfile_arch_listfile)
+    self.sandboxfiles_rel = File.readlines(ovl_expand_file(sandboxfile_listfile)) + File.readlines(ovl_expand_file(sandboxfile_arch_listfile))
     self.sandboxfiles_rel = self.sandboxfiles_rel.map{|path| path.chomp }
     self.sandboxfiles_rel += copy_files.values
     self.sandboxfiles = self.sandboxfiles_rel.map{|path| File.join(sandboxdir, path)}
@@ -46,7 +42,8 @@ class SandboxTask < RubyInstaller::Build::BaseTask
 
     versionfile = File.join(sandboxdir, "lib/ruby/site_ruby/2.4.0/ruby_installer/runtime/package_version.rb")
     directory File.dirname(versionfile)
-    file versionfile => [File.dirname(versionfile), package.pkgbuild, '.git/logs/HEAD'] do |t|
+    file versionfile => [File.dirname(versionfile), ovl_expand_file(package.pkgbuild),
+                         File.exist?('.git/logs/HEAD') && '.git/logs/HEAD'].select{|a|a} do |t|
       puts "generate #{t.name}"
       File.binwrite t.name, <<-EOT
 module RubyInstaller
@@ -59,7 +56,7 @@ end
     end
 
     copy_files.each do |source, dest|
-      file File.join(sandboxdir, dest) => source do |t|
+      file File.join(sandboxdir, dest) => ovl_expand_file(source) do |t|
         mkdir_p File.dirname(t.name)
         content = File.binread(t.prerequisites.first)
         # Rewrite certain files from RubyInstaller::Build to RubyInstaller::Runtime.
@@ -96,6 +93,6 @@ end
     end
 
     desc "sandbox for ruby-#{package.rubyver}-#{package.arch}"
-    task "sandbox" => [:devkit, "unpack", __FILE__, sandboxfile_listfile, sandboxfile_arch_listfile] + sandboxfiles
+    task "sandbox" => ["unpack", __FILE__, ovl_expand_file(sandboxfile_listfile), ovl_expand_file(sandboxfile_arch_listfile)] + sandboxfiles
   end
 end

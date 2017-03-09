@@ -80,6 +80,43 @@ EOT
       end
     end
   end
+
+  GEM_ROOT = File.expand_path("../../../..", __FILE__)
+  REWRITE_MARK = /module Build.*Use for: Build, Runtime/
+
+  def lib_runtime_files
+    spec = Gem.loaded_specs["rubyinstaller-build"]
+    spec ||= Gem::Specification.load(File.join(GEM_ROOT, "rubyinstaller-build.gemspec"))
+    spec.files.select do |file|
+      file.match(%r{^lib/}) &&
+      (!file.match(%r{^lib/ruby_installer/build}) || File.binread(ovl_expand_file(file))[REWRITE_MARK])
+    end
+  end
+
+  # Scan the current and the gem root directory for files matching rel_pattern.
+  #
+  # All paths returned are relative.
+  def ovl_glob(rel_pattern)
+    gem_files = Dir.glob(File.join(GEM_ROOT, rel_pattern)).map do |path|
+      path.sub(GEM_ROOT+"/", "")
+    end
+
+    (gem_files + Dir.glob(rel_pattern)).uniq
+  end
+
+  # Returns the absolute path of rel_file within the current directory or,
+  # if it doesn't exist, from the gem root directory.
+  #
+  # Raises Errno::ENOENT if neither of them exist.
+  def ovl_expand_file(rel_file)
+    if File.exist?(rel_file)
+      rel_file
+    elsif File.exist?(a=File.join(GEM_ROOT, rel_file))
+      a
+    else
+      raise Errno::ENOENT, rel_file
+    end
+  end
 end
 end
 end

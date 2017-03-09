@@ -7,7 +7,7 @@ class UnpackTask < RubyInstaller::Build::BaseTask
     ruby_exe = "#{unpackdirmgw}/bin/ruby.exe"
 
     desc "unpack ruby-#{package.rubyver} and dependend packages"
-    task "unpack" => [:devkit, "compile", ruby_exe]
+    task "unpack" => ["compile", ruby_exe]
 
     file ruby_exe => compile_task.pkgfile do
       # pacman doesn't work on automount paths (/c/path), so that we
