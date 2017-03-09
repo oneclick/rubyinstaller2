@@ -72,7 +72,7 @@ AppVersion={#RubyFullVersion}
 DefaultGroupName={#InstallerName}
 DisableWelcomePage=true
 DisableProgramGroupPage=true
-LicenseFile=../sandbox/LICENSE.txt
+LicenseFile=<%= ovl_expand_file("recipes/sandbox/LICENSE.txt") %>
 Compression=lzma2/ultra64
 SolidCompression=true
 AlwaysShowComponentsList=false
@@ -84,8 +84,8 @@ VersionInfoDescription=Ruby Programming Language for Windows
 VersionInfoTextVersion={#RubyFullVersion}
 VersionInfoVersion={#RubyVersion}.{#PackageRelease}
 UninstallDisplayIcon={app}\bin\ruby.exe
-WizardImageFile={#SourcePath}\images\wizard-large.bmp
-WizardSmallImageFile={#SourcePath}\images\wizard-logo.bmp
+WizardImageFile=<%=q ovl_expand_file("recipes/installer-inno/images/wizard-large.bmp") %>
+WizardSmallImageFile=<%=q ovl_expand_file("recipes/installer-inno/images/wizard-logo.bmp") %>
 PrivilegesRequired=lowest
 ChangesAssociations=yes
 ChangesEnvironment=yes
@@ -185,8 +185,8 @@ Name: {group}\{cm:StartCmdPromptWithRubyTitle}; Filename: {sys}\cmd.exe; Paramet
 Name: {group}\{cm:UninstallProgram,{#InstallerName}}; Filename: {uninstallexe}
 
 [Code]
-#include "util.iss"
-#include "ri_gui.iss"
+<%= include "recipes/installer-inno/util.iss" %>
+<%= include "recipes/installer-inno/ri_gui.iss" %>
 
 function GetInstallDate(Param: String): String;
 begin
