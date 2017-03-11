@@ -10,7 +10,7 @@ class RubyPackage < RubyInstaller::Build::Openstruct
     super
     self.rubyver = File.basename(compiledir).gsub("ruby-", "")
 
-    self.pkgbuild = File.join(compiledir, "PKGBUILD")
+    self.pkgbuild = File.join(compiledir, "PKGBUILD.erb")
     File.read(ovl_expand_file(pkgbuild)) =~ /^pkgrel=(\d+)$/
     self.pkgrel = $1 or raise("'pkgrel' not defined in #{pkgbuild}")
     self.rubyver_pkgrel = "#{rubyver}-#{pkgrel}"

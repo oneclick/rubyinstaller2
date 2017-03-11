@@ -110,9 +110,9 @@ EOT
   # Raises Errno::ENOENT if neither of them exist.
   def ovl_expand_file(rel_file)
     if File.exist?(rel_file)
-      rel_file
+      File.expand_path(rel_file)
     elsif File.exist?(a=File.join(GEM_ROOT, rel_file))
-      a
+      File.expand_path(a)
     else
       raise Errno::ENOENT, rel_file
     end

@@ -23,12 +23,16 @@ class InstallerInnoTask < RubyInstaller::Build::BaseTask
     end
 
     iss_files = ovl_glob("#{thisdir}/*.iss*").map{|f| ovl_expand_file(f) }
-    file installer_exe => (sandbox_task.sandboxfiles + iss_files + [filelist_iss]) do
-      # Compile the iss file from ERB template
-      iss_erb_file = File.join(thisdir, "rubyinstaller.iss.erb")
-      ri_iss_file = RubyInstaller::Build::ErbCompiler.new(iss_erb_file).write_result
 
-      sh "cmd", "/c", "iscc", ri_iss_file, "/Q", "/dRubyVersion=#{package.rubyver}", "/dRubyBuildPlatform=#{package.ruby_arch}", "/dRubyShortPlatform=-#{package.arch}", "/dDefaultDirName=#{package.default_instdir}", "/dPackageRelease=#{package.pkgrel}", "/O#{File.dirname(installer_exe)}", "/F#{File.basename(installer_exe, ".exe")}"
+    # Compile the iss file from ERB template
+    iss_compiler = RubyInstaller::Build::ErbCompiler.new(File.join(thisdir, "rubyinstaller.iss.erb"))
+    file iss_compiler.result_filename => [iss_compiler.erb_filename_abs] + iss_files - [iss_compiler.result_filename] do |t|
+      puts "erb #{t.name}"
+      iss_compiler.write_result
+    end
+
+    file installer_exe => (sandbox_task.sandboxfiles + [iss_compiler.result_filename, filelist_iss]) do
+      sh "cmd", "/c", "iscc", iss_compiler.result_filename, "/Q", "/dRubyVersion=#{package.rubyver}", "/dRubyBuildPlatform=#{package.ruby_arch}", "/dRubyShortPlatform=-#{package.arch}", "/dDefaultDirName=#{package.default_instdir}", "/dPackageRelease=#{package.pkgrel}", "/O#{File.dirname(installer_exe)}", "/F#{File.basename(installer_exe, ".exe")}"
     end
   end
 end
