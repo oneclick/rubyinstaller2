@@ -28,9 +28,6 @@ class CompileTask < RubyInstaller::Build::BaseTask
     directory package.compiledir
     file pkgfile => [pkgbuild_compiler.result_filename, package.compiledir, *source_files] do
       chdir(package.compiledir) do
-        files = ovl_glob(File.join(package.rootdir, "resources/icons/*.ico"))
-        absfiles = files.map{|f| ovl_expand_file(f) }
-        cp absfiles, "."
         msys_sh "MINGW_INSTALLS=#{package.mingwdir} makepkg-mingw -sf --noconfirm"
       end
     end
