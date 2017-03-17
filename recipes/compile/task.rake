@@ -19,7 +19,7 @@ class CompileTask < RubyInstaller::Build::BaseTask
         .reject{|f| f=~/https?:\/\// }
         .map{|f| File.join(package.compiledir, f) }
     source_files.each do |f|
-      file f => [ovl_expand_file(f)] - [File.expand_path(f)] do |t|
+      file f => gem_expand_file(f) do |t|
         cp t.prerequisites.first, f
       end
     end

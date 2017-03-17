@@ -117,6 +117,17 @@ EOT
       raise Errno::ENOENT, rel_file
     end
   end
+
+  # Returns the absolute path of rel_file within the gem root directory.
+  #
+  # Raises Errno::ENOENT if it doesn't exist.
+  def gem_expand_file(rel_file)
+    if File.exist?(a=File.join(GEM_ROOT, rel_file))
+      File.expand_path(a)
+    else
+      raise Errno::ENOENT, rel_file
+    end
+  end
 end
 end
 end
