@@ -128,6 +128,11 @@ EOT
       raise Errno::ENOENT, rel_file
     end
   end
+
+  def eval_file(filename)
+    code = File.read(filename, encoding: "UTF-8")
+    instance_eval(code, filename)
+  end
 end
 end
 end

@@ -35,6 +35,17 @@ class RubyPackage < RubyInstaller::Build::Openstruct
   end
 end
 
+class SandboxTask < RubyInstaller::Build::BaseTask
+end
+class UnpackTask < RubyInstaller::Build::BaseTask
+end
+class InstallerInnoTask < RubyInstaller::Build::BaseTask
+end
+class Archive7zTask < RubyInstaller::Build::BaseTask
+end
+class CompileTask < RubyInstaller::Build::BaseTask
+end
+
 ovl_glob('recipes/*/task.rake').each{|f| load(ovl_expand_file(f)) }
 
 ruby_packages = ovl_glob("recipes/compile/ruby-*").map do |compiledir|
@@ -46,11 +57,11 @@ end.flatten
 ruby_packages.each do |pack|
   nsp = "ruby-#{pack.rubyver}-#{pack.arch}"
   namespace nsp do
-    compile = CompileTask.new( package: pack )
-    unpack = UnpackTask.new( package: pack, compile_task: compile )
-    sandbox = SandboxTask.new( package: pack, unpack_task: unpack )
-    InstallerInnoTask.new( package: pack, sandbox_task: sandbox )
-    Archive7zTask.new( package: pack, sandbox_task: sandbox )
+    compile = CompileTask.new( thisdir: "recipes/compile", package: pack )
+    unpack = UnpackTask.new( thisdir: "recipes/unpack", package: pack, compile_task: compile )
+    sandbox = SandboxTask.new( thisdir: "recipes/sandbox", package: pack, unpack_task: unpack )
+    InstallerInnoTask.new( thisdir: "recipes/installer-inno", package: pack, sandbox_task: sandbox )
+    Archive7zTask.new( thisdir: "recipes/archive-7z", package: pack, sandbox_task: sandbox )
   end
 
   desc "Build all for #{nsp}"
