@@ -2,15 +2,15 @@ module RubyInstaller
 module Build
 module Utils
   WINDOWS_CMD_SHEBANG = <<-EOT.freeze
-  :""||{ ""=> %q<-*- ruby -*-
-  @"%~dp0ruby" -x "%~f0" %*
-  @exit /b %ERRORLEVEL%
-  };{ #
-  bindir="${0%/*}" #
-  exec "$bindir/ruby" -x "$0" "$@" #
-  >, #
-  } #
-  EOT
+:""||{ ""=> %q<-*- ruby -*-
+@"%~dp0ruby" -x "%~f0" %*
+@exit /b %ERRORLEVEL%
+};{ #
+bindir="${0%/*}" #
+exec "$bindir/ruby" -x "$0" "$@" #
+>, #
+} #
+EOT
 
   def msys_sh(cmd)
     Build.enable_msys_apps

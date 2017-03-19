@@ -1,4 +1,4 @@
-self.import_files.merge({
+self.import_files.merge!({
   "resources/files/ridk.cmd" => "bin/ridk.cmd",
   "resources/files/ridk.ps1" => "bin/ridk.ps1",
   "resources/files/setrbvars.cmd" => "bin/setrbvars.cmd",
