@@ -6,7 +6,7 @@ module Build
   autoload :Gems, 'ruby_installer/build/gems'
   autoload :Msys2Installation, 'ruby_installer/build/msys2_installation'
   autoload :GEM_VERSION, 'ruby_installer/build/gem_version'
-  autoload :BaseTask, 'ruby_installer/build/base_task'
+  autoload :Task, 'ruby_installer/build/task'
   autoload :Openstruct, 'ruby_installer/build/openstruct'
   autoload :Utils, 'ruby_installer/build/utils'
 
