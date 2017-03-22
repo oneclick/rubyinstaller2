@@ -24,11 +24,13 @@ class RubyPackage < RubyInstaller::Build::Openstruct
       self.ruby_arch = "x64-mingw32"
       self.mingwdir = "mingw64"
       self.default_instdir = "C:\\Ruby#{rubyver2.gsub(".","")}-x64"
+      self.name = "rubyinstaller-#{rubyver}-x64"
     when 'x86'
       self.pacman_arch = "mingw-w64-i686"
       self.ruby_arch = "i386-mingw32"
       self.mingwdir = "mingw32"
       self.default_instdir = "C:\\Ruby#{rubyver2.gsub(".","")}"
+      self.name = "rubyinstaller-#{rubyver}-x86"
     else
       raise "invalid arch #{arch}"
     end

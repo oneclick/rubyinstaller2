@@ -7,37 +7,11 @@
 ; Revision: 2012-05-28 13:57:37 -0600
 ; License: Modified BSD License
 
-; PRE-CHECK
-; Verify that RubyPath, RubyVersion, and RubyPath are defined by ISCC using
-; /d command line arguments.
-;
-; Usage:
-;  iscc rubyinstaller.iss /dRubyVersion=X.Y.Z \
-;                         /dPackageRelease=3 \
-;                         /dRubyBuildPlatform=x64-mingw32 \
-;                         /dRubyShortPlatform=-x64 \
-;                         [/dInstVersion=26-OCT-2009] \
-;                         [/dNoDocs=true]
-
-#if Defined(RubyVersion) == 0
-  #error Please provide a RubyVersion definition using a /d parameter.
-#endif
-
-#if Defined(PackageRelease) == 0
-  #error Please provide a PackageRelease level definition using a /d parameter.
-#endif
-
-#if Defined(RubyBuildPlatform) == 0
-  # error Please provide a value for RubyBuildPlatform using /d parameter.
-#endif
-
-#if Defined(RubyShortPlatform) == 0
-  # error Please provide a value for RubyShortPlatform using /d parameter.
-#endif
-
-#if Defined(InstVersion) == 0
-  #define InstVersion GetDateTimeString('dd-mmm-yy"T"hhnn', '', '')
-#endif
+#define RubyVersion <%=q package.rubyver %>
+#define PackageRelease <%=q package.pkgrel %>
+#define RubyBuildPlatform <%=q package.ruby_arch %>
+#define RubyShortPlatform <%=q("-" + package.arch) %>
+#define InstVersion GetDateTimeString('dd-mmm-yy"T"hhnn', '', '')
 
 ; Grab MAJOR.MINOR info from RubyVersion (1.8)
 #define RubyMajorMinor Copy(RubyVersion, 1, 3)
@@ -59,7 +33,7 @@
 #define RubyInstallerBaseId "MRI"
 
 [Setup]
-DefaultDirName={#DefaultDirName}
+DefaultDirName=<%=q package.default_instdir %>
 
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications!
@@ -185,8 +159,8 @@ Name: {group}\{cm:StartCmdPromptWithRubyTitle}; Filename: {sys}\cmd.exe; Paramet
 Name: {group}\{cm:UninstallProgram,{#InstallerName}}; Filename: {uninstallexe}
 
 [Code]
-<%= include "recipes/installer-inno/util.iss" %>
-<%= include "recipes/installer-inno/ri_gui.iss" %>
+<%= ovl_read_file "recipes/installer-inno/util.iss" %>
+<%= ovl_read_file "recipes/installer-inno/ri_gui.iss" %>
 
 function GetInstallDate(Param: String): String;
 begin
