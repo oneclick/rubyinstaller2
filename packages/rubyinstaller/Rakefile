@@ -8,11 +8,8 @@ RubyInstaller::Build.enable_msys_apps
 class RubyPackage < RubyInstaller::Build::Openstruct
   def initialize(*args)
     super
-    self.rubyver = File.basename(compiledir).gsub("ruby-", "")
 
-    self.pkgbuild = File.join(compiledir, "PKGBUILD.erb")
-    File.read(ovl_expand_file(pkgbuild)) =~ /^pkgrel=(\d+)$/
-    self.pkgrel = $1 or raise("'pkgrel' not defined in #{pkgbuild}")
+    self.pkgrel = "pre9"
     self.rubyver_pkgrel = "#{rubyver}-#{pkgrel}"
     self.rubyver2 = rubyver[/^\d+\.\d+/]
 
@@ -39,9 +36,9 @@ end
 
 ovl_glob('recipes/*/task.rake').each{|f| load(ovl_expand_file(f)) }
 
-ruby_packages = ovl_glob("recipes/compile/ruby-*").map do |compiledir|
+ruby_packages = %w[2.4.1].map do |rubyver|
   %w[x64 x86].map do |arch|
-    RubyPackage.new( compiledir: compiledir, arch: arch, rootdir: __dir__ ).freeze
+    RubyPackage.new( rubyver: rubyver, arch: arch, rootdir: __dir__ ).freeze
   end
 end.flatten
 
