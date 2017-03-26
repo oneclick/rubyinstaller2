@@ -14,7 +14,7 @@ class PacmanUpdate < Base
     msys = Runtime.msys2_installation
     msys.with_msys_apps_enabled do
       puts "#{description} ..."
-      res = run_verbose("pacman", "-Sy", "--needed", "--noconfirm", "pacman")
+      res = run_verbose("pacman", "-Sy", "--needed", "--noconfirm")
       puts "#{description} #{res ? green("succeeded") : red("failed")}"
       raise "pacman failed" unless res
     end
