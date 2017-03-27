@@ -1,4 +1,7 @@
-versionfile = File.join(sandboxdir, "lib/ruby/site_ruby/2.4.0/ruby_installer/runtime/package_version.rb")
+# Create a version file for the rubyinstaller runtime
+
+versionfile_rel = "lib/ruby/site_ruby/#{package.rubyver2}.0/ruby_installer/runtime/package_version.rb"
+versionfile = File.join(sandboxdir, versionfile_rel)
 directory File.dirname(versionfile)
 file versionfile => [ File.dirname(versionfile),
                       File.exist?('.git/logs/HEAD') && '.git/logs/HEAD',
@@ -13,3 +16,5 @@ end
 end
   EOT
 end
+
+self.sandboxfiles << versionfile
