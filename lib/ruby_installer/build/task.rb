@@ -3,7 +3,7 @@ require "ruby_installer/build"
 
 module RubyInstaller
 module Build
-class BaseTask < Openstruct
+class Task < Openstruct
   include Rake::DSL
   include Utils
 

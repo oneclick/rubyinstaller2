@@ -133,6 +133,19 @@ EOT
     code = File.read(filename, encoding: "UTF-8")
     instance_eval(code, filename)
   end
+
+
+  def ovl_read_file(file_rel)
+    File.read(ovl_expand_file(file_rel), encoding: "UTF-8")
+  end
+
+  def ovl_compile_erb(erb_file_rel)
+    ErbCompiler.new(erb_file_rel).result
+  end
+
+  def q_inno(text)
+    '"' + text.gsub('"', '""') + '"'
+  end
 end
 end
 end

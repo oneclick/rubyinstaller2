@@ -8,11 +8,8 @@ RubyInstaller::Build.enable_msys_apps
 class RubyPackage < RubyInstaller::Build::Openstruct
   def initialize(*args)
     super
-    self.rubyver = File.basename(compiledir).gsub("ruby-", "")
 
-    self.pkgbuild = File.join(compiledir, "PKGBUILD.erb")
-    File.read(ovl_expand_file(pkgbuild)) =~ /^pkgrel=(\d+)$/
-    self.pkgrel = $1 or raise("'pkgrel' not defined in #{pkgbuild}")
+    self.pkgrel = "pre9"
     self.rubyver_pkgrel = "#{rubyver}-#{pkgrel}"
     self.rubyver2 = rubyver[/^\d+\.\d+/]
 
@@ -24,44 +21,35 @@ class RubyPackage < RubyInstaller::Build::Openstruct
       self.ruby_arch = "x64-mingw32"
       self.mingwdir = "mingw64"
       self.default_instdir = "C:\\Ruby#{rubyver2.gsub(".","")}-x64"
+      self.name = "rubyinstaller-#{rubyver}-x64"
     when 'x86'
       self.pacman_arch = "mingw-w64-i686"
       self.ruby_arch = "i386-mingw32"
       self.mingwdir = "mingw32"
       self.default_instdir = "C:\\Ruby#{rubyver2.gsub(".","")}"
+      self.name = "rubyinstaller-#{rubyver}-x86"
     else
       raise "invalid arch #{arch}"
     end
   end
 end
 
-class SandboxTask < RubyInstaller::Build::BaseTask
-end
-class UnpackTask < RubyInstaller::Build::BaseTask
-end
-class InstallerInnoTask < RubyInstaller::Build::BaseTask
-end
-class Archive7zTask < RubyInstaller::Build::BaseTask
-end
-class CompileTask < RubyInstaller::Build::BaseTask
-end
-
 ovl_glob('recipes/*/task.rake').each{|f| load(ovl_expand_file(f)) }
 
-ruby_packages = ovl_glob("recipes/compile/ruby-*").map do |compiledir|
+ruby_packages = %w[2.4.1].map do |rubyver|
   %w[x64 x86].map do |arch|
-    RubyPackage.new( compiledir: compiledir, arch: arch, rootdir: __dir__ ).freeze
+    RubyPackage.new( rubyver: rubyver, arch: arch, rootdir: __dir__ ).freeze
   end
 end.flatten
 
 ruby_packages.each do |pack|
   nsp = "ruby-#{pack.rubyver}-#{pack.arch}"
   namespace nsp do
-    compile = CompileTask.new( thisdir: "recipes/compile", package: pack )
-    unpack = UnpackTask.new( thisdir: "recipes/unpack", package: pack, compile_task: compile )
-    sandbox = SandboxTask.new( thisdir: "recipes/sandbox", package: pack, unpack_task: unpack )
-    InstallerInnoTask.new( thisdir: "recipes/installer-inno", package: pack, sandbox_task: sandbox )
-    Archive7zTask.new( thisdir: "recipes/archive-7z", package: pack, sandbox_task: sandbox )
+    compile = RubyInstaller::Build::Task.new( thisdir: "recipes/compile", package: pack )
+    unpack = RubyInstaller::Build::Task.new( thisdir: "recipes/unpack", package: pack, compile_task: compile )
+    sandbox = RubyInstaller::Build::Task.new( thisdir: "recipes/sandbox", package: pack, unpack_task: unpack )
+    RubyInstaller::Build::Task.new( thisdir: "recipes/installer-inno", package: pack, sandbox_task: sandbox )
+    RubyInstaller::Build::Task.new( thisdir: "recipes/archive-7z", package: pack, sandbox_task: sandbox )
   end
 
   desc "Build all for #{nsp}"

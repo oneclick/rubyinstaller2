@@ -1,1 +1,3 @@
-self.pkgfile = File.join(package.compiledir, "#{package.pacman_arch}-ruby-#{package.rubyver_pkgrel}-any.pkg.tar.xz")
+self.compiledir = File.join(thisdir, "ruby-#{package.rubyver}")
+self.pkgbuild = File.join(compiledir, "PKGBUILD.erb")
+self.pkgfile = File.join(compiledir, "#{package.pacman_arch}-ruby-#{package.rubyver}-1-any.pkg.tar.xz")
