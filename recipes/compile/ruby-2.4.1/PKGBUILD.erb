@@ -74,8 +74,9 @@ build() {
 check() {
   cd "${srcdir}/build-${MINGW_CHOST}"
   echo $PATH
-  # TODO: Tests fail currently
-  make -l "TESTOPTS=-q" test-all || true
+  make -l "TESTOPTS=-v -q" btest test-basic
+  # TODO: Full tests fail currently
+  # make -l "TESTOPTS=-q" test-all || true
 }
 
 package() {
