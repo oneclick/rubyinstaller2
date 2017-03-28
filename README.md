@@ -67,7 +67,7 @@ For instance:
 - Install nokogiri.gem
 ```sh
     ridk exec pacman -S mingw-w64-x86_64-libxslt
-    gem install nokogiri --platform ruby -- --use-system-libraries --with-xml2-include=c:/msys64/mingw64/include/libxml2 --with-xslt-dir=c:/msys64/mingw64
+    gem install nokogiri --platform ruby -- --use-system-libraries
 ```
 
 The DLL search paths of Ruby processes are extended as soon as rubygems is used, so that MINGW DLLs are found at runtime.
