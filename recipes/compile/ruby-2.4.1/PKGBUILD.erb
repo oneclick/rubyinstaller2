@@ -74,7 +74,7 @@ build() {
 check() {
   cd "${srcdir}/build-${MINGW_CHOST}"
   echo $PATH
-  make -l "TESTOPTS=-v -q" btest test-basic
+  make -l "TESTOPTS=-q" btest test-basic
   # TODO: Full tests fail currently
   # make -l "TESTOPTS=-q" test-all || true
 }
