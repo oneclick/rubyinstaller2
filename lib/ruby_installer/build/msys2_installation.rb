@@ -8,6 +8,8 @@ module Build # Use for: Build, Runtime
 
     class MsysNotFound < RuntimeError
     end
+    class CommandError < RuntimeError
+    end
 
     attr_reader :mingwdir
 
@@ -227,6 +229,23 @@ module Build # Use for: Build, Runtime
       str << vars.map do |key, val|
         "$env:#{key}=''"
       end.join(";")
+    end
+
+    def install_mingw_packages(packages, verbose: false)
+      return if packages.empty?
+
+      with_msys_apps_enabled do
+        Gem.ui.say("Installing required msys2 packages: #{packages.join(" ")}") if verbose
+
+        mingwpackages = packages.map{|pack| "#{mingw_package_prefix}-#{pack}" }
+        args = ["pacman", "-S", "--needed", "--noconfirm", *mingwpackages]
+        Gem.ui.say("> #{args.join(" ")}") if verbose==1
+
+        res = IO.popen(args, &:read)
+        raise CommandError, "pacman failed with the following output:\n#{res}" if !$? || $?.exitstatus != 0
+
+        Gem.ui.say(res) if verbose==1
+      end
     end
   end
 end
