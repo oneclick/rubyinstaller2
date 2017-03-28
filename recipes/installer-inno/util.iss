@@ -36,6 +36,11 @@ begin
     Result := 'Environment';
 end;
 
+function GetInstallDate(Param: String): String;
+begin
+  Result := GetDateTimeString('yyyymmdd', #0 , #0);
+end;
+
 procedure ModifyFileExts(Exts: Array of String);
 begin
   ModifyPathish(Exts, 'PATHEXT', ';');

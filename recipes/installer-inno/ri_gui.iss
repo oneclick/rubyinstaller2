@@ -78,7 +78,7 @@ begin
   ShellExec('open', ridkpath, 'install', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
 end;
 
-procedure InitializeWizard;
+procedure InitializeGUI;
 var
   ChkBoxCurrentY: Integer;
   Page: TWizardPage;
@@ -200,10 +200,4 @@ begin
   URLText.OnClick := @URLText_OnClick;
 
   ParseSilentTasks;
-end;
-
-procedure CurPageChanged(CurPageID: Integer);
-begin
-  if CurPageID = wpSelectDir then
-    WizardForm.NextButton.Caption := SetupMessage(msgButtonInstall);
 end;
