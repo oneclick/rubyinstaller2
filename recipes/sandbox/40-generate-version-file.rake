@@ -10,7 +10,7 @@ file versionfile => [ File.dirname(versionfile),
   File.binwrite t.name, <<-EOT
 module RubyInstaller
 module Runtime
-PACKAGE_VERSION = #{package.rubyver_pkgrel.inspect}
+PACKAGE_VERSION = #{package.packagever.inspect}
 GIT_COMMIT = #{`git rev-parse HEAD`.chomp[0, 7].inspect}
 end
 end

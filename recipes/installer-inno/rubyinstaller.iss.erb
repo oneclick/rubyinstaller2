@@ -15,7 +15,7 @@
 
 ; Grab MAJOR.MINOR info from RubyVersion (1.8)
 #define RubyMajorMinor Copy(RubyVersion, 1, 3)
-#define RubyFullVersion RubyVersion + '-' + PackageRelease
+#define RubyFullVersion <%=q package.packagever %>
 
 ; Build Installer details using above values
 #define InstallerName "Ruby " + RubyFullVersion + RubyShortPlatform

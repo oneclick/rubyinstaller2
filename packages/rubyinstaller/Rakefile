@@ -10,7 +10,8 @@ class RubyPackage < RubyInstaller::Build::Openstruct
     super
 
     self.pkgrel = "pre9"
-    self.rubyver_pkgrel = "#{rubyver}-#{pkgrel}"
+    self.packagever = "#{rubyver}-#{pkgrel}"
+    self.packagename = "rubyinstaller"
     self.rubyver2 = rubyver[/^\d+\.\d+/]
 
     self.install_gems = %w[rb-readline-0.5.4]
@@ -31,6 +32,7 @@ class RubyPackage < RubyInstaller::Build::Openstruct
     else
       raise "invalid arch #{arch}"
     end
+    self.packagenameverarch = "#{packagename}-#{packagever}-#{arch}"
   end
 end
 
