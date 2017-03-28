@@ -141,6 +141,9 @@ module Build # Use for: Build, Runtime
       vars = with_msys_install_hint(if_no_msys) do
         msys_apps_envvars(mingwarch)
       end
+
+      changed = false
+
       if (path=vars.delete("PATH")) && !ENV['PATH'].include?(path)
         phrase = "Temporarily enhancing PATH for MSYS/MINGW..."
         if for_gem_install && defined?(Gem)
@@ -148,11 +151,15 @@ module Build # Use for: Build, Runtime
         elsif $DEBUG
           $stderr.puts phrase
         end
+        changed = true
         ENV['PATH'] = path + ";" + ENV['PATH']
       end
       vars.each do |key, val|
+        changed = true if ENV[key] != val
         ENV[key] = val
       end
+
+      changed
     end
 
     def disable_msys_apps(mingwarch: nil, if_no_msys: :hint)
@@ -168,11 +175,11 @@ module Build # Use for: Build, Runtime
     end
 
     def with_msys_apps_enabled
-      enable_msys_apps
+      changed = enable_msys_apps
       begin
         yield
       ensure
-        disable_msys_apps
+        disable_msys_apps if changed
       end
     end
 
