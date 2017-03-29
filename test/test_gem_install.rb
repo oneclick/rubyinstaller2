@@ -12,7 +12,9 @@ gem install testgem-1.0.0.gem --verbose
     out = IO.popen("ruby -rtestgem -e \"puts Libguess.determine_encoding('abc', 'Greek')\"", &:read)
     assert_match(/UTF-8/, out)
 
-    out = IO.popen("ed --version", &:read)
+    out = RubyInstaller::Runtime.msys2_installation.with_msys_apps_enabled do
+      IO.popen("ed --version", &:read)
+    end
     assert_match(/GNU ed/, out)
   end
 end
