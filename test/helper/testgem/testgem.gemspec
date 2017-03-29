@@ -11,4 +11,6 @@ Gem::Specification.new do |s|
   s.license = 'BSD-3-Clause'
   s.require_paths << 'lib'
   s.required_ruby_version = '>= 2.1.0'
+  s.metadata['msys2_dependencies'] = 'ed'
+  s.metadata['msys2_mingw_dependencies'] = 'libguess'
 end

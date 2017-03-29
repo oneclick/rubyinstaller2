@@ -231,14 +231,13 @@ module Build # Use for: Build, Runtime
       end.join(";")
     end
 
-    def install_mingw_packages(packages, verbose: false)
+    def install_packages(packages, verbose: false)
       return if packages.empty?
 
       with_msys_apps_enabled do
         Gem.ui.say("Installing required msys2 packages: #{packages.join(" ")}") if verbose
 
-        mingwpackages = packages.map{|pack| "#{mingw_package_prefix}-#{pack}" }
-        args = ["pacman", "-S", "--needed", "--noconfirm", *mingwpackages]
+        args = ["pacman", "-S", "--needed", "--noconfirm", *packages]
         Gem.ui.say("> #{args.join(" ")}") if verbose==1
 
         res = IO.popen(args, &:read)
@@ -246,6 +245,11 @@ module Build # Use for: Build, Runtime
 
         Gem.ui.say(res) if verbose==1
       end
+    end
+
+    def install_mingw_packages(packages, verbose: false)
+      packages = packages.map{|pack| "#{mingw_package_prefix}-#{pack}" }
+      install_packages(packages, verbose: verbose)
     end
   end
 end
