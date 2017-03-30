@@ -16,7 +16,7 @@ if "x%~1" == "xexec" (
 :exec
 rem pass the command to a bash shell
 setlocal
-for /f "delims=" %%x in ('"%~dp0ruby" --disable-gems -x %~f0 %1') do set "%%x"
+for /f "delims=" %%x in ('"%~dp0ruby" --disable-gems -x '%~f0' %1') do set "%%x"
 shift
 shift
 %0 %1 %2 %3 %4 %5 %6 %7 %8 %9
@@ -24,7 +24,7 @@ shift
 
 :setvars
 @echo on
-@for /f "delims=" %%x in ('"%~dp0ruby" --disable-gems -x %~f0 %*') do set "%%x"
+@for /f "delims=" %%x in ('"%~dp0ruby" --disable-gems -x '%~f0' %*') do set "%%x"
 @exit /b %ERRORLEVEL%
 
 #!/mingw64/bin/ruby
