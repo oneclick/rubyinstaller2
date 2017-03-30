@@ -21,10 +21,10 @@ build_script:
   - rake rubyinstaller:ruby-%target_ruby%-%arch%
 
 test_script:
-  # Run the built Ruby installer and install to "c:/ri2 ruby"
-  - ruby -e "Dir['packages/rubyinstaller/recipes/installer-inno/rubyinstaller-%target_ruby%-*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2 ruby', '/tasks=assocfiles,modpath')}"
+  # Run the built Ruby installer and install to c:/ri2-ruby
+  - ruby -e "Dir['packages/rubyinstaller/recipes/installer-inno/rubyinstaller-%target_ruby%-*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath')}"
   # Activate the new installed Ruby.
-  - set PATH=c:/ri2 ruby/bin;%PATH%
+  - set PATH=c:/ri2-ruby/bin;%PATH%
   # Install dependent gems
   - gem install bundler
   - bundle install
