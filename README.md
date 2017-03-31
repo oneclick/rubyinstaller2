@@ -52,12 +52,6 @@ MSYS2 can also be installed manually like so:
 Installation of additional library dependencies for gems can be done per pacman as well. Exchange `mingw-w64-x86_64` by `mingw-w64-i686` for the 32-bit RubyInstaller.
 For instance:
 
-- Install pg.gem
-```sh
-    ridk exec pacman -S mingw-w64-x86_64-postgresql
-    gem install pg --platform ruby
-```
-
 - Install sqlite3.gem
 ```sh
     ridk exec pacman -S mingw-w64-x86_64-sqlite3
@@ -71,6 +65,8 @@ For instance:
 ```
 
 The DLL search paths of Ruby processes are extended as soon as rubygems is used, so that MINGW DLLs are found at runtime.
+
+See also the [FAQ](https://github.com/larskanis/rubyinstaller2/wiki/FAQ) for additional recommendations.
 
 ## Build the Installer
 
