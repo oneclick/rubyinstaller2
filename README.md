@@ -8,9 +8,8 @@ It is licensed under the 3-clause Modified BSD License.
 In contrast to the [RubyInstaller](https://github.com/oneclick/rubyinstaller/) it does not provide it's own DevKit, but makes use of the rich set of [MINGW libraries](https://github.com/Alexpux/MINGW-packages) of the [MSYS2 project](https://msys2.github.io/) .
 It therefore integrates well into MSYS2 after installation on the target system to provide a build- and runtime environment for installation of gems with C-extensions.
 
-This project is currently in a very early stage.
-Testers and contributors are welcome.
-The aim is to [build a successor to the RubyInstaller](https://github.com/oneclick/rubyinstaller/issues/352) .
+The aim of this project is to [build a successor to the RubyInstaller](https://github.com/oneclick/rubyinstaller/issues/352) .
+Since we are near to a first release, testers and contributors are very welcome.
 
 ## Using the Installer on a target system
 
@@ -105,7 +104,7 @@ To build RubyInstaller2 on your own machine:
 
 - Try also `rake -T` to see the available build targets.
 
-##Known Issues
+## Known Issues
 
 * Avoid running this project in a PATH containing spaces.
 * See also [the issue list](https://github.com/larskanis/rubyinstaller2/issues)
