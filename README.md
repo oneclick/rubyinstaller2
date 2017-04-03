@@ -3,25 +3,19 @@
 # RubyInstaller2
 
 This project provides an Installer for Ruby on Windows based on the MSYS2 toolchain.
+It is the successor to the MSYS1 based [RubyInstaller(1)](https://github.com/oneclick/rubyinstaller/).
 It is licensed under the 3-clause Modified BSD License.
 
-In contrast to the [RubyInstaller](https://github.com/oneclick/rubyinstaller/) it does not provide its own DevKit, but makes use of the rich set of [MINGW libraries](https://github.com/Alexpux/MINGW-packages) from the [MSYS2 project](https://msys2.github.io/). It therefore integrates well into MSYS2 after installation on the target system to provide a build-and-runtime environment for installation of gems with C-extensions.
-
+In contrast to the old RubyInstaller it does not provide its own DevKit, but makes use of the rich set of [MINGW libraries](https://github.com/Alexpux/MINGW-packages) from the [MSYS2 project](https://msys2.github.io/). It therefore integrates well into MSYS2 after installation on the target system to provide a build-and-runtime environment for installation of gems with C-extensions.
 This and more changes are documented in the [CHANGELOG](https://github.com/larskanis/rubyinstaller2/blob/master/CHANGELOG.md).
-
-The aim of this project is to [build a successor to the RubyInstaller](https://github.com/oneclick/rubyinstaller/issues/352).
-Since we are near to a first release, testers and contributors are very welcome.
-
 
 ## Using the Installer on a target system
 
 - Download and install the latest RubyInstaller2: https://github.com/larskanis/rubyinstaller2/releases
 
-That's already enough to use pure Ruby gems or fat binary gems for x64-mingw32 or x86-mingw32.
-
-In order to build gems with C-extensions from the sources, MSYS2 development tools and MINGW compilers are required.
-They can be downloaded and installed as part of the installation wizard or later per `ridk install` command.
-
+The base ruby installation packaged into the installer file is enough to use pure Ruby gems or fat binary gems for x64-mingw32 or x86-mingw32.
+However in the last step of the installation wizard the `ridk install` command can be executed.
+It downloads and installs all necessary MSYS2 build tools to compile C based ruby gems.
 
 ### The `ridk` command
 
