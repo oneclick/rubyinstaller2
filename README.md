@@ -99,7 +99,8 @@ To build RubyInstaller2 on your own machine:
   ```sh
     git clone https://github.com/larskanis/rubyinstaller2
     cd rubyinstaller2
-    rake
+    bundle install
+    bundle exec rake
   ```
 - If everything works well, you will find the final setup and archive files: `recipes/installer-inno/rubyinstaller-<VERSION>-<ARCH>.exe` and `recipes/archive-7z/rubyinstaller-<VERSION>-<ARCH>.7z`
 - Also try `rake -T` to see the available build targets.
