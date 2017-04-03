@@ -7,10 +7,10 @@ It is licensed under the 3-clause Modified BSD License.
 
 In contrast to the [RubyInstaller](https://github.com/oneclick/rubyinstaller/) it does not provide it's own DevKit, but makes use of the rich set of [MINGW libraries](https://github.com/Alexpux/MINGW-packages) of the [MSYS2 project](https://msys2.github.io/) .
 It therefore integrates well into MSYS2 after installation on the target system to provide a build- and runtime environment for installation of gems with C-extensions.
+This and more changes are documented in the [CHANGELOG](https://github.com/larskanis/rubyinstaller2/blob/master/CHANGELOG.md) .
 
-This project is currently in a very early stage.
-Testers and contributors are welcome.
-The aim is to [build a successor to the RubyInstaller](https://github.com/oneclick/rubyinstaller/issues/352) .
+The aim of this project is to [build a successor to the RubyInstaller](https://github.com/oneclick/rubyinstaller/issues/352) .
+Since we are near to a first release, testers and contributors are very welcome.
 
 ## Using the Installer on a target system
 
@@ -52,12 +52,6 @@ MSYS2 can also be installed manually like so:
 Installation of additional library dependencies for gems can be done per pacman as well. Exchange `mingw-w64-x86_64` by `mingw-w64-i686` for the 32-bit RubyInstaller.
 For instance:
 
-- Install pg.gem
-```sh
-    ridk exec pacman -S mingw-w64-x86_64-postgresql
-    gem install pg --platform ruby
-```
-
 - Install sqlite3.gem
 ```sh
     ridk exec pacman -S mingw-w64-x86_64-sqlite3
@@ -71,6 +65,8 @@ For instance:
 ```
 
 The DLL search paths of Ruby processes are extended as soon as rubygems is used, so that MINGW DLLs are found at runtime.
+
+See also the [FAQ](https://github.com/larskanis/rubyinstaller2/wiki/FAQ) for additional recommendations.
 
 ## Build the Installer
 
@@ -105,7 +101,7 @@ To build RubyInstaller2 on your own machine:
 
 - Try also `rake -T` to see the available build targets.
 
-##Known Issues
+## Known Issues
 
 * Avoid running this project in a PATH containing spaces.
 * See also [the issue list](https://github.com/larskanis/rubyinstaller2/issues)

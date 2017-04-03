@@ -9,8 +9,7 @@ class RubyPackage < RubyInstaller::Build::Openstruct
   def initialize(*args)
     super
 
-    self.pkgrel = "pre9"
-    self.packagever = "#{rubyver}-#{pkgrel}"
+    self.rubyver, self.pkgrel = packagever.split("-", 2)
     self.packagename = "rubyinstaller"
     self.rubyver2 = rubyver[/^\d+\.\d+/]
 
@@ -38,9 +37,9 @@ end
 
 ovl_glob('recipes/*/task.rake').each{|f| load(ovl_expand_file(f)) }
 
-ruby_packages = %w[2.4.1].map do |rubyver|
+ruby_packages = %w[2.4.1-1rc1].map do |packagever|
   %w[x64 x86].map do |arch|
-    RubyPackage.new( rubyver: rubyver, arch: arch, rootdir: __dir__ ).freeze
+    RubyPackage.new( packagever: packagever, arch: arch, rootdir: __dir__ ).freeze
   end
 end.flatten
 
