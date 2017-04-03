@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/7ack9ax1gihvn2hb/branch/master?svg=true)](https://ci.appveyor.com/project/larskanis/rubyinstaller2/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/kq2b5dqv9ay132a2/branch/master?svg=true)](https://ci.appveyor.com/project/larskanis/rubyinstaller2-hbuor/branch/master)
 
 # RubyInstaller2
 
