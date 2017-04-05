@@ -1,0 +1,416 @@
+/* Basic ------------------------------------------------------------------- */
+
+body {
+        font: Arial, Helvetica, sans-serif;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        border:0px;
+        margin:0px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #333333;
+}
+a, a:visited {
+        color: #ad050a;
+        text-decoration: none;
+        cursor: pointer;
+}
+a:hover {
+        color: #333333;
+        text-decoration: underline;
+}
+
+p {
+  font-size: 14px;
+  margin-bottom: .75em;
+  line-height: 1.5em;
+}
+
+code {
+font-family: Consolas, "Courier New", Courier, Monospace; color: #555555;
+}
+
+pre{
+color: #555555;
+padding: 10px;
+border: 1px solid #dddddd;
+}
+
+h2 {
+        font-size: 25px;
+        font-weight: bold;
+}
+
+h3 {
+text-transform: uppercase;
+font-weight: bold;
+font-size: 14px;
+}
+
+thead th {
+background-color: #d1eafa;
+border-bottom: 1px solid #B4D8EF}
+
+th, td, caption {padding:4px 10px 4px 10px;}
+
+tr.even td {
+background-color: #f1f1f1;}
+
+
+
+/* Headings ---------------------------------------------------------------- */
+
+div#logo h1 {
+        margin:0 0 0 0;
+        padding: 0;
+        position:relative;
+        overflow:hidden;
+        width: 290px;
+        height: 82px;
+}
+div#logo h1 span {
+        margin: 0;
+        padding: 0;
+        display:block;
+        position: absolute;
+        left:0;
+        top:0;
+        z-index:1;
+        background:url(../assets/logo.png) top left no-repeat;
+        width: 290px;
+        height: 82px;
+}
+div#main h2 {
+        margin: 0 0 10px 0;
+}
+div#right_content_sub h2 {
+        margin: 0 0 20px 0;
+        border-bottom: 1px solid #cccccc;
+}
+/* Layout ------------------------------------------------------------------ */
+
+#page {
+        background: #ffffff url(../assets/bg.png) repeat-x top left;
+}
+#page-sub {
+        background: #ffffff url(../assets/bg_sub.png) repeat-x top left;
+}
+div#header {
+        height: 85px;
+}
+div#left_content {
+        padding-bottom: 20px;
+        padding-top: 32px;
+}
+div#left_content_sub {
+        padding-top: 32px;
+        padding-bottom: 20px;
+        background: #ffffff url(../assets/bg_subnav.png) no-repeat top right;
+        height: 390px;
+        overflow-y: auto;
+}
+div#right_content {
+        padding-bottom: 20px;
+        padding-top: 32px;
+}
+div#right_content_sub {
+        padding: 32px 0 20px 40px;
+}
+ul#navbar {
+        list-style: none;
+        margin: 27px 0 0 100px;
+        font: bold 18px/1.5 Arial, Helvetica, sans-serif;
+        height: 29px;
+}
+ul#navbar li {
+        list-style: none;
+        float:left;
+        line-height:29px;
+}
+ul#navbar li#active {
+        background:url("../assets/menu_active.png") no-repeat bottom right;
+}
+ul#navbar li a, ul#navbar li span {
+        display:block;
+        padding: 0 10px 0 10px;
+}
+
+.cufon-active #navbar li a { /* for Cufon.replace('h1') */
+        font-size: 20px;
+        text-decoration: none;
+        padding: 0 12px 0 12px;
+}
+
+.cufon-active #navbar li{ /* for Cufon.replace('h1') */
+        font-size: 20px;
+}
+
+ul#navbar li#active span {
+        color: #ffffff;
+        background:url("../assets/menu_active_left.png") no-repeat left center;
+}
+div#graphic {
+        height: 263px;
+        width: 950px;
+}
+div#graphic_sub {
+        height:84px;
+        width: 950px;
+}
+div#graphic h1, div#graphic_sub h1 {
+        font-size: 33px;
+        font-weight: bold;
+        margin: 20px 0 10px 0px;
+        text-shadow: #ffffff 0px 1px 0px;
+}
+div#graphic p {
+        font-size: 17px;
+        margin: 0 0 15px 0px;
+        text-shadow: #ffffff 0px 1px 0px;
+}
+div#graphic a {
+        text-decoration: none;
+}
+img#gembox {
+        margin-left: 35px;
+}
+div#download_btn span {
+        font-size: 30px;
+        font-weight:bold;
+        line-height: 2.7;
+        color: #fff;
+}
+div#download_btn a, div#download_btn a:link, div#download_btn a:visited {
+        float: left;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+        width: 229px;
+        height: 85px;
+        background:url("../assets/download_btn.gif") repeat-x 0 0;
+        cursor: pointer;
+}
+div#download_btn a:hover {
+        color: #fff;
+        background:url("../assets/download_btn.gif") repeat-x 0 -85px;
+}
+
+div#download_btn a:active {
+        margin-top: 1px;
+}
+
+div#addon_btn span {
+        font-size: 30px;
+        font-weight:bold;
+        line-height: 2.7;
+        color: #333;
+}
+div#addon_btn a, div#addon_btn a:link, div#addon_btn a:visited {
+        float: left;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+        width: 209px;
+        height: 85px;
+        margin-left: 10px;
+        background:url("../assets/addon_btn.gif") repeat-x 0 0;
+        cursor: pointer;
+}
+div#addon_btn a:hover {
+        color: #fff;
+        background: #333;
+        background:url("../assets/addon_btn.gif") repeat-x 0 -85px;
+}
+
+div#addon_btn a:active {
+        margin-top: 1px;
+}
+
+ul#subnavbar {
+        list-style: none;
+        font-size: 16px;
+        margin:0;
+        padding: 1px 0 0 0;
+        background:url(../assets/line_submenu.png) top right no-repeat;
+}
+ul#subnavbar li {
+        height: 35px;
+        padding-left: 20px;
+        background:url(../assets/line_submenu.png) bottom right no-repeat;
+        line-height: 2.0;
+}
+ul#subnavbar li.current {
+        background-color: #ffffff;
+}
+ul#subnavbar a {
+        background:url("../assets/bullet.png") no-repeat 0 2px;
+        padding-left: 20px;
+}
+ul#subnavbar a:hover {
+        background:url("../assets/bullet.png") no-repeat 0 -18px;
+}
+ul#subnavbar span {
+        background:url("../assets/bullet.png") no-repeat 0 -18px;
+        padding-left: 20px;
+}
+ul#breadcrumbs {
+        list-style: none;
+        margin: 0 0 10px 0;
+        padding: 0;
+        height: 29px;
+}
+ul#breadcrumbs li {
+        list-style: none;
+        float:left;
+        line-height:29px;
+        color:#777;
+        background:url("../assets/bcrumbs.png") no-repeat bottom right;
+}
+ul#breadcrumbs li a, ul#breadcrumbs li span {
+        display:block;
+        background:url("../assets/bcrumbs_left.png") no-repeat left center;
+        padding: 0 15px 0 10px;
+}
+ul#breadcrumbs li:first-child a {
+        background:url("../assets/bcrumbs_left_first.png") no-repeat left center;
+}
+
+div#fastbar {
+        margin: 0 0 30px 0;
+}
+
+div.news_item {
+        padding: 0 20px 20px 0;
+}
+div.news_item h3 {
+        font: 17px/1.5 Arial, Helvetica, sans-serif;
+        text-transform:none;
+        font-weight: bold;
+        color: #960407;
+        text-decoration: none;
+        margin: 0 0 .25em 0;
+}
+div.news_item span.date,
+p.posted {
+        font-size: 12px;
+        color: #848383;
+        margin-right: 20px;
+}
+div.news_item a.more {
+        background:url("../assets/bullet.png") no-repeat 0 0px;
+        padding-left: 20px;
+}
+div.news_item a:hover.more {
+        background:url("../assets/bullet.png") no-repeat 0 -20px;
+}
+p, div.news_item p {
+  font-size: 14px;
+  margin-bottom: .75em;
+  line-height: 1.5em;
+}
+div.knowledge_item {
+        padding: 0 20px 20px 0;
+}
+div.knowledge_item h3 {
+        font: 12px/1.875 Arial, Helvetica, sans-serif;
+        text-transform:none;
+        font-weight: bold;
+        color: #960407;
+        text-decoration: none;
+        margin: 0 0 0px 0;
+}
+div.knowledge_item span.date {
+        font-size: 12px;
+        color: #848383;
+        margin-right: 20px;
+}
+div.knowledge_item a.more {
+        background: url("../assets/bullet_green.png") no-repeat 0 0px;
+        padding-left: 20px;
+}
+div.knowledge_item a:hover.more {
+        background:url("../assets/bullet_green.png") no-repeat 0 -20px;
+}
+div.knowledge_item p {
+        font-size: 12px;
+        line-height: 1.5;
+        margin: 0;
+}
+div.fastlink {
+        padding: 10px 0 10px 0;
+}
+div.fastlink p {
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+}
+
+div.fastlink h3, div.fastlink p {
+margin-left: 85px;
+}
+
+div.fastlink h3 {
+font-size: 20px;
+font-weight: bold;
+text-transform: none;
+margin-bottom: 4px;
+}
+
+
+
+div#contribute{
+        background:url("../assets/green_plus.png") no-repeat 0px 7px;
+}
+div#mailing{
+        background:url("../assets/grey_letters.png") no-repeat 0px 7px;
+}
+div#questions{
+        background:url("../assets/green_question.png") no-repeat 0px 7px;
+}
+
+
+div#download{
+        background: url("../assets/green_arrow.png") no-repeat 0px 7px;
+}
+
+div#footer {
+        border-top: 1px solid #ccc;
+        padding-top: 15px;
+        padding-bottom: 25px;
+}
+div#footer ul, div#footer ul li {
+        list-style: none;
+        padding:0;
+        margin: 0;
+}
+div#footer a, div#footer a:visited {
+        color: #848383;
+        text-decoration: underline;
+}
+div#footer a:hover {
+        color: #000;
+        text-decoration: underline;
+}
+div#copyright {
+        color: #848383;
+        text-align: right;
+}
+
+.cufon-active h2 { /* for Cufon.replace('h1') */
+font-size: 27px;
+}
+
+/* Downloads */
+#downloads #main { margin-top:32px; }
+#downloads #main h2 { border-bottom:1px solid #CCC; margin-bottom:20px; }
+#downloads #main #right_content_sub { margin-top:1.5em; }
+#downloads #download-links li { line-height:2em; }
+
+a#archive { float:right; }
+a#archive:hover { text-decoration:none; }
+a#archive:after { content:"\BB"; }
+
+li.exe { list-style-image:url("../assets/exe_16x16.png"); list-style-position:inside; }
+li.sevenz { list-style-image:url("../assets/sevenz_16x16.png"); list-style-position:inside; }
+li.chksum { list-style-image:url("../assets/chksum_16x16.png"); list-style-position:inside; }
+li.sfx { list-style-image:url("../assets/sfx_24x19.png"); list-style-position:inside; }
