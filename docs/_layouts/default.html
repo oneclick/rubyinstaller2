@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="cufon-active cufon-ready">
   {% include head.html %}
-
-  {% include header.html %}
   <body>
-    <section class="page-wrapper">
+    <div id="page">
+    {% include header.html %}
+    {% include banner.html %}
+    <div id="main">
       {{content}}
-    </section>
+    </div>
+    {% include footer.html %}
   </body>
-
-  {% include footer.html %}
 </html>

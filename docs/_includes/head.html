@@ -1,12 +1,16 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
   <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
 
-  <link rel="stylesheet" href="{{ "/assets/site.css" | relative_url }}">
+  <link rel="stylesheet" href="https://cdn.rubyinstaller.org/styles/blueprint/screen.css" type="text/css" media="screen, projection">
+  <link rel="stylesheet" href="https://cdn.rubyinstaller.org/styles/blueprint/print.css" type="text/css" media="print">
+  <link rel="stylesheet" href="https://cdn.rubyinstaller.org/styles/site.9.css" type="text/css" media="screen, projection, print">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.rubyinstaller.org/js/Myriad_400-Myriad_600.font.js"></script>
+
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ "/feed.xml" | relative_url }}">
 
