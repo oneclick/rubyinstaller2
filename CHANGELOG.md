@@ -1,4 +1,14 @@
-## [rubyinstaller-2.4.1-1rc1] - 2017-03-31
+## RubyInstaller-2.4.1-1rc2 - unreleased
+
+### Added
+- Allow MSYS2 to be shipped together with Ruby, independent from the install path.
+
+### Changed
+- Removed some unecessary DLLs previously shipped with the installer.
+- Decrease the number of MSYS2 packages installed per default using 'ridk install'.
+
+
+## RubyInstaller-2.4.1-1rc1 - 2017-03-31
 
 The following notable changes are for the transition from [RubyInstaller1](https://github.com/oneclick/rubyinstaller) to [RubyInstaller2](https://github.com/oneclick/rubyinstaller2)
 
