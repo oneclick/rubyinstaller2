@@ -1,8 +1,14 @@
+require "rbconfig"
+
 module RubyInstaller
 module Build # Use for: Build, Runtime
   # :nodoc:
   class Msys2Installation
     MSYS2_INSTALL_KEY = "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/"
+    RUBY_MSYS64_PATH = File.join(RbConfig::TOPDIR, "msys64")
+    RUBY_MSYS32_PATH = File.join(RbConfig::TOPDIR, "msys32")
+    SIBLING_MSYS64_PATH = File.join(File.dirname(RbConfig::TOPDIR), "msys64")
+    SIBLING_MSYS32_PATH = File.join(File.dirname(RbConfig::TOPDIR), "msys32")
     DEFAULT_MSYS64_PATH = "c:/msys64"
     DEFAULT_MSYS32_PATH = "c:/msys32"
 
@@ -23,6 +29,14 @@ module Build # Use for: Build, Runtime
     end
 
     def iterate_msys_paths
+      # Prefer MSYS2 when installed within the ruby directory.
+      yield RUBY_MSYS64_PATH
+      yield RUBY_MSYS32_PATH
+
+      # Then try MSYS2 next to the ruby directory.
+      yield SIBLING_MSYS64_PATH
+      yield SIBLING_MSYS32_PATH
+
       # If msys2 is installed at the default location
       yield DEFAULT_MSYS64_PATH
       yield DEFAULT_MSYS32_PATH
