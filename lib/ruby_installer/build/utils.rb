@@ -82,15 +82,11 @@ EOT
   end
 
   GEM_ROOT = File.expand_path("../../../..", __FILE__)
-  REWRITE_MARK = /module Build.*Use for: Build, Runtime/
 
-  def lib_runtime_files
-    spec = Gem.loaded_specs["rubyinstaller-build"]
-    spec ||= Gem::Specification.load(File.join(GEM_ROOT, "rubyinstaller-build.gemspec"))
-    spec.files.select do |file|
-      file.match(%r{^lib/}) &&
-      (!file.match(%r{^lib/ruby_installer/build}) || File.binread(ovl_expand_file(file))[REWRITE_MARK])
-    end
+  # Return the gemspec of "rubyinstaller-build" which is either already loaded or taken from our root directory.
+  def rubyinstaller_build_gemspec
+    Gem.loaded_specs["rubyinstaller-build"] or
+        Gem::Specification.load(File.join(GEM_ROOT, "rubyinstaller-build.gemspec"))
   end
 
   # Scan the current and the gem root directory for files matching rel_pattern.
@@ -143,6 +139,7 @@ EOT
     ErbCompiler.new(erb_file_rel).result
   end
 
+  # Quote a string according to the rules of Inno-Setup
   def q_inno(text)
     '"' + text.gsub('"', '""') + '"'
   end

@@ -1,3 +1,5 @@
+# Define files that are imported into the package either from the current working dir or from the rubyinstaller-build gem.
+
 self.import_files.merge!({
   "resources/files/ridk.cmd" => "bin/ridk.cmd",
   "resources/files/ridk.ps1" => "bin/ridk.ps1",
