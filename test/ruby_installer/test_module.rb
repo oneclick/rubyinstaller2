@@ -2,6 +2,7 @@ require "minitest/autorun"
 require "ruby_installer/runtime"
 require "fiddle"
 require "test/helper/msys"
+require "rbconfig"
 
 class TestModule < Minitest::Test
   include Helper::Msys
@@ -84,19 +85,36 @@ class TestModule < Minitest::Test
     end
   end
 
-  def test_enable_msys_apps_with_msys_installed_at_nonstddir
-    skip unless File.directory?("C:/msys64")
-    skip "MSYS2 has no installation entry in the registry on appveyor" if ENV['APPVEYOR']
-    RubyInstaller::Runtime.disable_msys_apps
-    refute_operator ENV['PATH'].downcase, :include?, "c:\\msys64", "msys in the path at the start of the test"
-
-    simulate_nonstd_msysdir do
-      RubyInstaller::Runtime.enable_msys_apps
-      assert_operator ENV['PATH'].downcase, :include?, "c:\\msys64", "should find msys by looking into the registry"
-
-      RubyInstaller::Runtime.disable_msys_apps
-      refute_operator ENV['PATH'].downcase, :include?, "c:\\msys64", "should have removed the msys path"
+  def test_iterate_msys_paths
+    RbConfig::TOPDIR << "/longer/path/ruby"
+    paths = []
+    begin
+      assert_raises(RubyInstaller::Runtime::Msys2Installation::MsysNotFound) do
+        with_env({PATH: "D:/xyz/abc/def;E:/"}) do
+          RubyInstaller::Runtime.msys2_installation.iterate_msys_paths do |path|
+            paths << path
+          end
+        end
+      end
+      paths = paths.map{|path| path.gsub("\\", "/").gsub(File.dirname(RbConfig::TOPDIR), "<inst>") }
+    ensure
+      RbConfig::TOPDIR.delete("/longer/path/ruby")
     end
+
+    # Test for Paths in the ruby install dir, for default paths and for the PATH dirs.
+    # MSYS paths from the registry are not (yet) tested.
+    min_paths = %w[
+      <inst>/ruby/msys64
+      <inst>/ruby/msys32
+      <inst>/msys64
+      <inst>/msys32
+      c:/msys64
+      c:/msys32
+      D:/xyz/abc/def
+      D:/xyz
+      E:/
+    ]
+    assert_equal( min_paths, paths & min_paths )
   end
 
   def test_enable_dll_search_paths_with_msys_installed
@@ -127,16 +145,6 @@ class TestModule < Minitest::Test
       assert_raises(Fiddle::DLError, "enable_dll_search_paths should succeed, but without effect") do
         Fiddle.dlopen("libobjc-4").close
       end
-    end
-  end
-
-  def test_enable_dll_search_paths_with_msys_installed_at_nonstddir
-    skip unless File.directory?("C:/msys64")
-    skip "MSYS2 has no installation entry in the registry on appveyor" if ENV['APPVEYOR']
-    simulate_nonstd_msysdir do
-      RubyInstaller::Runtime.enable_dll_search_paths
-      Fiddle.dlopen("libobjc-4").close
-      remove_mingwdir
     end
   end
 

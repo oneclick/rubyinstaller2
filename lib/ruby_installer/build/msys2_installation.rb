@@ -5,12 +5,6 @@ module Build # Use for: Build, Runtime
   # :nodoc:
   class Msys2Installation
     MSYS2_INSTALL_KEY = "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/"
-    RUBY_MSYS64_PATH = File.join(RbConfig::TOPDIR, "msys64")
-    RUBY_MSYS32_PATH = File.join(RbConfig::TOPDIR, "msys32")
-    SIBLING_MSYS64_PATH = File.join(File.dirname(RbConfig::TOPDIR), "msys64")
-    SIBLING_MSYS32_PATH = File.join(File.dirname(RbConfig::TOPDIR), "msys32")
-    DEFAULT_MSYS64_PATH = "c:/msys64"
-    DEFAULT_MSYS32_PATH = "c:/msys32"
 
     class MsysNotFound < RuntimeError
     end
@@ -30,16 +24,16 @@ module Build # Use for: Build, Runtime
 
     def iterate_msys_paths
       # Prefer MSYS2 when installed within the ruby directory.
-      yield RUBY_MSYS64_PATH
-      yield RUBY_MSYS32_PATH
+      yield File.join(RbConfig::TOPDIR, "msys64")
+      yield File.join(RbConfig::TOPDIR, "msys32")
 
       # Then try MSYS2 next to the ruby directory.
-      yield SIBLING_MSYS64_PATH
-      yield SIBLING_MSYS32_PATH
+      yield File.join(File.dirname(RbConfig::TOPDIR), "msys64")
+      yield File.join(File.dirname(RbConfig::TOPDIR), "msys32")
 
       # If msys2 is installed at the default location
-      yield DEFAULT_MSYS64_PATH
-      yield DEFAULT_MSYS32_PATH
+      yield "c:/msys64"
+      yield "c:/msys32"
 
       # If msys2 is installed per installer.exe
       require "win32/registry"
@@ -59,7 +53,7 @@ module Build # Use for: Build, Runtime
         # If /path/to/msys64 is in the PATH (e.g. Chocolatey)
         yield path
         # If /path/to/msys64/usr/bin or /path/to/msys64/mingwXX/bin is in the PATH
-        yield File.join(path, "../..")
+        yield File.expand_path(File.join(path, "../.."))
       end
 
       raise MsysNotFound, "MSYS2 could not be found"
