@@ -56,13 +56,13 @@ module RidkTests
     y = YAML.load(out)
 
     refute_nil y["ruby"]["path"]
-    assert_equal y["ruby"]["version"], RUBY_VERSION
-    assert_equal y["ruby"]["platform"], RUBY_PLATFORM
+    assert_equal RUBY_VERSION, y["ruby"]["version"]
+    assert_equal RUBY_PLATFORM, y["ruby"]["platform"]
     refute_nil y["ruby_installer"]["package_version"]
     refute_nil y["ruby_installer"]["git_commit"]
     assert_match(/gcc/, y["cc"])
     assert_match(/bash/, y["sh"])
-    assert_equal y["msys2"]["path"], "c:\\msys64"
+    assert_equal "c:\\msys64", y["msys2"]["path"].downcase
     skip "Appveyors MSYS version is too old to have a components.xml" if ENV['APPVEYOR']
     assert_match(/MSYS/, y["msys2"]["title"])
     assert_match(/\d/, y["msys2"]["version"])
@@ -74,8 +74,8 @@ module RidkTests
     end
     y = YAML.load(out)
 
-    assert_equal y["ruby"]["version"], RUBY_VERSION
-    assert_equal y["ruby"]["platform"], RUBY_PLATFORM
+    assert_equal RUBY_VERSION, y["ruby"]["version"]
+    assert_equal RUBY_PLATFORM, y["ruby"]["platform"]
     refute_nil y["ruby_installer"]["package_version"]
     refute_nil y["ruby_installer"]["git_commit"]
     assert_nil y["msys2"]
