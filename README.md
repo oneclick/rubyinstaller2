@@ -71,7 +71,7 @@ Also refer the [FAQ](https://github.com/larskanis/rubyinstaller2/wiki/FAQ) for a
 
 ## Building the Installer
 
-The installer is regularly built on [AppVeyor](https://ci.appveyor.com/project/larskanis/rubyinstaller2) for each push to the github respoitory. AppVeyor also executes the installer and runs all tests on it.
+The installer is regularly built on [AppVeyor](https://ci.appveyor.com/project/larskanis/rubyinstaller2-hbuor) for each push to the github respoitory. AppVeyor also executes the installer and runs all tests on it.
 
 You can download the generated files as build artifacts.
 
