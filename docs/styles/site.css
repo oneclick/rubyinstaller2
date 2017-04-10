@@ -1,7 +1,6 @@
 /* Basic ------------------------------------------------------------------- */
 
 body {
-        font: Arial, Helvetica, sans-serif;
         padding-top: 0px;
         padding-bottom: 0px;
         border:0px;
@@ -37,6 +36,7 @@ border: 1px solid #dddddd;
 }
 
 h2 {
+        font-family: Vegur;
         font-size: 25px;
         font-weight: bold;
 }
@@ -158,7 +158,8 @@ div#graphic_sub {
         width: 950px;
 }
 div#graphic h1, div#graphic_sub h1 {
-        font-size: 33px;
+        font-family: Vegur;
+        font-size: 34px;
         font-weight: bold;
         margin: 20px 0 10px 0px;
         text-shadow: #ffffff 0px 1px 0px;
@@ -414,3 +415,13 @@ li.exe { list-style-image:url("../assets/exe_16x16.png"); list-style-position:in
 li.sevenz { list-style-image:url("../assets/sevenz_16x16.png"); list-style-position:inside; }
 li.chksum { list-style-image:url("../assets/chksum_16x16.png"); list-style-position:inside; }
 li.sfx { list-style-image:url("../assets/sfx_24x19.png"); list-style-position:inside; }
+
+@font-face {
+    font-family: "Vegur";
+    src: url("fonts/Vegur-Regular.woff") format('woff');
+}
+@font-face {
+    font-family: "Vegur";
+    src: url("fonts/Vegur-Bold.woff") format('woff');
+    font-weight: bold;
+}
