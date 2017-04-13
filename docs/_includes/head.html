@@ -5,10 +5,11 @@
   <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
   <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
 
-  <link rel="stylesheet" href="styles/blueprint/screen.css" type="text/css" media="screen, projection">
-  <link rel="stylesheet" href="styles/blueprint/print.css" type="text/css" media="print">
-  <link rel="stylesheet" href="styles/site.css" type="text/css" media="screen, projection, print">
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="{{ "/styles/blueprint/screen.css" | relative_url }}" type="text/css" media="screen, projection">
+  <link rel="stylesheet" href="{{ "/styles/blueprint/print.css" | relative_url }}" type="text/css" media="print">
+  <link rel="stylesheet" href="{{ "/styles/site.css" | relative_url }}" type="text/css" media="screen, projection, print">
+  <script type="text/javascript" src="{{ "/assets/jquery.min.js" | relative_url }}"></script>
+  <!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script-->
 
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | absolute_url }}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title | escape }}" href="{{ "/feed.xml" | relative_url }}">
