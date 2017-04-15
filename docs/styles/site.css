@@ -411,10 +411,10 @@ a#archive { float:right; }
 a#archive:hover { text-decoration:none; }
 a#archive:after { content:"\BB"; }
 
-li.exe { list-style-image:url("../assets/exe_16x16.png"); list-style-position:inside; }
-li.sevenz { list-style-image:url("../assets/sevenz_16x16.png"); list-style-position:inside; }
+li.rubyinstallerexe { list-style-image:url("../assets/exe_16x16.png"); list-style-position:inside; }
+li.rubyinstaller7z, li.rubychm7z { list-style-image:url("../assets/sevenz_16x16.png"); list-style-position:inside; }
 li.chksum { list-style-image:url("../assets/chksum_16x16.png"); list-style-position:inside; }
-li.sfx { list-style-image:url("../assets/sfx_24x19.png"); list-style-position:inside; }
+li.devkitsfx { list-style-image:url("../assets/sfx_24x19.png"); list-style-position:inside; }
 
 @font-face {
     font-family: "Vegur";
