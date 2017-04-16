@@ -103,4 +103,4 @@ To build RubyInstaller2 on your own machine:
 ## Known Issues
 
 - Avoid running this project in a PATH containing spaces.
-- Also refer [the issue list](https://github.com/larskanis/rubyinstaller2/issues).
+- Also refer to [the issue list](https://github.com/larskanis/rubyinstaller2/issues).
