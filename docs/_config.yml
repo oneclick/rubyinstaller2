@@ -29,3 +29,7 @@ gems:
 exclude:
   - Gemfile
   - Gemfile.lock
+
+collections:
+  "add-ons":
+    output: true

@@ -11,7 +11,11 @@ title: "News"
       <div id="left_content_sub">
         <ul id="subnavbar">
           {% for post in site.posts %}
-            <li><a href="{{ post.url | relative_url }}">{{ post.date | date: "%Y-%m-%d" }}</a></li>
+            {% if page.url == post.url %}
+              <li class='current'><span>{{ post.date | date: "%Y-%m-%d" }}</span></li>
+            {% else %}
+              <li><a href="{{ post.url | relative_url }}">{{ post.date | date: "%Y-%m-%d" }}</a></li>
+            {% endif %}
           {% endfor %}
         </ul>
       </div>

@@ -1,0 +1,32 @@
+---
+layout: default
+title: "Add-ons"
+---
+<div id="page-sub">
+  {% include header.html %}
+  {% include banner_sub.html %}
+
+  <div id="main" class="container clear">
+    <div class="span-7">
+      <div id="left_content_sub">
+        <ul id="subnavbar">
+          {% assign addons = (site.add-ons | sort: "order") %}
+          {% for addon in addons %}
+            {% if page.url == addon.url %}
+              <li class='current'><span>{{ addon.titel }}</span></li>
+            {% else %}
+              <li><a href="{{ addon.url | relative_url }}">{{ addon.titel }}</a></li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="span-17 last">
+      <div id="right_content_sub">
+        {{ content }}
+      </div>
+    </div>
+  </div>
+  {% include footer.html %}
+</div>
