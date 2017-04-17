@@ -1,0 +1,16 @@
+<div id="header" class="container">
+  <div id="logo" class="span-10">
+    <h1><a href="{{ "/" | relative_url }}" title="To Homepage"><span/></a></h1>
+  </div>
+  <div class="span-14 last">
+    <ul id="navbar">
+      <li {% if page.url contains "/about" %}id="active"{% endif %}><a href="{{ "/about" | relative_url }}">About</a></li>
+      <li {% if page.url contains "/downloads" %}id="active"{% endif %}><a href="{{ "/downloads" | relative_url }}">Download</a></li>
+    <!--
+      <li><a href="http://wiki.github.com/oneclick/rubyinstaller">Knowledge Base</a></li>
+    -->
+      <li><a href="http://github.com/oneclick/rubyinstaller/wiki/">Help</a></li>
+      <li><a href="http://github.com/oneclick/rubyinstaller/wiki/How-to-Contribute/">Contribute</a></li>
+    </ul>
+  </div>
+</div>
