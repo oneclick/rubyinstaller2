@@ -22,7 +22,7 @@ Down this page, several and <em>different</em> versions of Development Kits (Dev
 
 The [RubyInstaller Development Kit (DevKit)](http://github.com/oneclick/rubyinstaller/wiki/Development-Kit) is
 a MSYS/MinGW based toolkit than enables you to build many of the native C/C++ extensions available for Ruby.
-Starting with Ruby 2.4.0 it is replaced by the [MSYS2 toolkit](https://www.msys2.org).
+Starting with Ruby 2.4.0 it is replaced by the [MSYS2 toolkit](http://www.msys2.org).
 
 ### Speed and Compatibility
 
