@@ -39,21 +39,14 @@ Not sure what version to download? Please read the right column for recommendati
 
 ### Development Kit
 
-#### For use with Ruby 1.8.7 and 1.9.3:
-
-<ul>
-  {% include fileicon.html text="DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe" filetype="devkitsfx" href="https://dl.bintray.com/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-sfx.exe" %}
-</ul>
-
-
-#### For use with Ruby 2.0 and above (32bits version only):
+#### For use with Ruby 2.0 to 2.3 (32bits version only):
 
 <ul>
   {% include fileicon.html text="DevKit-mingw64-32-4.7.2-20130224-1151-sfx.exe" filetype="devkitsfx" href="https://dl.bintray.com/oneclick/rubyinstaller/DevKit-mingw64-32-4.7.2-20130224-1151-sfx.exe" %}
 </ul>
 
 
-#### For use with Ruby 2.0 and above (x64 - 64bits only)
+#### For use with Ruby 2.0 to 2.3 (x64 - 64bits only)
 
 <ul>
   {% include fileicon.html text="DevKit-mingw64-64-4.7.2-20130224-1432-sfx.exe" filetype="devkitsfx" href="https://dl.bintray.com/oneclick/rubyinstaller/DevKit-mingw64-64-4.7.2-20130224-1432-sfx.exe" %}
