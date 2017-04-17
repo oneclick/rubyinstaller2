@@ -33,3 +33,5 @@ exclude:
 collections:
   "add-ons":
     output: true
+  "about":
+    output: true

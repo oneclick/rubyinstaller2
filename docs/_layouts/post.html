@@ -1,44 +1,36 @@
 ---
-layout: default
+layout: page
 title: "News"
 ---
-<div id="page-sub">
-  {% include header.html %}
-  {% include banner_sub.html %}
-
-  <div id="main" class="container clear">
-    <div class="span-7">
-      <div id="left_content_sub">
-        <ul id="subnavbar">
-          {% for post in site.posts %}
-            {% if page.url == post.url %}
-              <li class='current'><span>{{ post.date | date: "%Y-%m-%d" }}</span></li>
-            {% else %}
-              <li><a href="{{ post.url | relative_url }}">{{ post.date | date: "%Y-%m-%d" }}</a></li>
-            {% endif %}
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-
-    <div class="span-17 last">
-      <div id="right_content_sub">
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-          <header class="post-header">
-            <h2 class="post-title" itemprop="name headline">{{ page.title | escape }}</h2>
-          </header>
-          <div class="post-content" itemprop="articleBody">
-            {{ content }}
-          </div>
-          {% if site.disqus.shortname %}
-            {% include disqus_comments.html %}
-          {% endif %}
-          <footer class="post-footer">
-            <p class="posted">{% if page.author %} Posted by <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span> on {% endif %}<time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time></p>
-          </footer>
-        </article>
-      </div>
-    </div>
+<div class="span-7">
+  <div id="left_content_sub">
+    <ul id="subnavbar">
+      {% for post in site.posts %}
+        {% if page.url == post.url %}
+          <li class='current'><span>{{ post.date | date: "%Y-%m-%d" }}</span></li>
+        {% else %}
+          <li><a href="{{ post.url | relative_url }}">{{ post.date | date: "%Y-%m-%d" }}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ul>
   </div>
-  {% include footer.html %}
+</div>
+
+<div class="span-17 last">
+  <div id="right_content_sub">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">{{ page.title | escape }}</h2>
+      </header>
+      <div class="post-content" itemprop="articleBody">
+        {{ content }}
+      </div>
+      {% if site.disqus.shortname %}
+        {% include disqus_comments.html %}
+      {% endif %}
+      <footer class="post-footer">
+        <p class="posted">{% if page.author %} Posted by <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span> on {% endif %}<time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time></p>
+      </footer>
+    </article>
+  </div>
 </div>

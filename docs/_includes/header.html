@@ -4,8 +4,8 @@
   </div>
   <div class="span-14 last">
     <ul id="navbar">
-      <li><a href="/about">About</a></li>
-      <li><a href="/downloads/">Download</a></li>
+      <li {% if page.url contains "/about" %}id="active"{% endif %}><a href="{{ "/about" | relative_url }}">About</a></li>
+      <li {% if page.url contains "/downloads" %}id="active"{% endif %}><a href="{{ "/downloads" | relative_url }}">Download</a></li>
     <!--
       <li><a href="http://wiki.github.com/oneclick/rubyinstaller">Knowledge Base</a></li>
     -->

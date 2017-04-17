@@ -145,7 +145,7 @@ ul#navbar li a, ul#navbar li span {
         font-size: 20px;
 }
 
-ul#navbar li#active span {
+ul#navbar li#active a {
         color: #ffffff;
         background:url("../assets/menu_active_left.png") no-repeat left center;
 }

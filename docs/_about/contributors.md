@@ -1,7 +1,8 @@
 ---
-layout: home
-title: About
-permalink: /about/
+layout: about
+titel: Project contributors
+permalink: /about/contributors/
+order: 20
 ---
 ## Thanks to (alphabetic)
 
