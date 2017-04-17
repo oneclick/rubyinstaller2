@@ -86,6 +86,7 @@ class TestModule < Minitest::Test
   end
 
   def test_iterate_msys_paths
+    clear_dir_cache
     RbConfig::TOPDIR << "/longer/path/ruby"
     paths = []
     begin
@@ -98,7 +99,8 @@ class TestModule < Minitest::Test
       end
       paths = paths.map{|path| path.gsub("\\", "/").gsub(File.dirname(RbConfig::TOPDIR), "<inst>") }
     ensure
-      RbConfig::TOPDIR.delete("/longer/path/ruby")
+      RbConfig::TOPDIR.gsub!("/longer/path/ruby", "")
+      clear_dir_cache
     end
 
     # Test for Paths in the ruby install dir, for default paths and for the PATH dirs.
