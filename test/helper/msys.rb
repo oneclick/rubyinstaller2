@@ -27,7 +27,7 @@ module Helper
     end
 
     private def with_env(hash)
-      olds = hash.each{|k, _| [k, ENV[k.to_s]] }
+      olds = hash.map{|k, _| [k, ENV[k.to_s]] }
       hash.each do |k, v|
         ENV[k.to_s] = v
       end
