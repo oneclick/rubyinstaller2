@@ -13,7 +13,7 @@ layout: default
           {% for post in site.posts limit:5 %}
               <div class="news_item">
                 <h3><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h3>
-                <p>{{ post.excerpt | truncate: 160 }}</p>
+                <p>{{ post.excerpt }}</p>
 
                 <span class="date">{{ post.date | date: "%Y-%m-%d" }}</span> <a href="{{ post.url | relative_url }}" class="more">Read full article</a>
               </div>
