@@ -11,7 +11,7 @@ The DevKit that’s who!
 
 ### MSYS2-DevKit (only Ruby >= 2.4)
 Stating with RubyInstaller-2.4 we're no longer using our own DevKit compilation, but make use of MSYS2 for both, building ruby itself, as well as building Ruby gems with C-extensions.
-It can be installed per `ridk install` command, which is part of RubyInstaller-2.4. Alternatively a manual download and installation from [MSYS2](https://www.msys2.org) is also possible.
+It can be installed per `ridk install` command, which is part of RubyInstaller-2.4. Alternatively a manual download and installation from [MSYS2](http://www.msys2.org) is also possible.
 
 ### Dedicated DevKit (only Ruby < 2.4)
 
