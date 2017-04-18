@@ -2,6 +2,7 @@
 
 ### Added
 - Allow MSYS2 to be shipped together with Ruby, independent from the install path.
+  Refer to the [FAQ](https://github.com/oneclick/rubyinstaller2/wiki/FAQ#user-content-portable-install).
 
 ### Changed
 - Removed some unecessary DLLs previously shipped with the installer.
