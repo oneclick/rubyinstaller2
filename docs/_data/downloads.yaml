@@ -1,22 +1,22 @@
 ---
 - filetype: rubyinstaller7z
-  href: https://github.com/oneclick/rubyinstaller2/releases/download/2.4.1-1rc1/rubyinstaller-2.4.1-1rc1-x64.7z
-  name: Ruby 2.4.1-1rc1 (x64)
+  href: https://github.com/oneclick/rubyinstaller2/releases/download/2.4.1-1rc2/rubyinstaller-2.4.1-1rc2-x64.7z
+  name: Ruby 2.4.1-1rc2 (x64)
   show: true
 
 - filetype: rubyinstallerexe
-  href: https://github.com/oneclick/rubyinstaller2/releases/download/2.4.1-1rc1/rubyinstaller-2.4.1-1rc1-x64.exe
-  name: Ruby 2.4.1-1rc1 (x64)
+  href: https://github.com/oneclick/rubyinstaller2/releases/download/2.4.1-1rc2/rubyinstaller-2.4.1-1rc2-x64.exe
+  name: Ruby 2.4.1-1rc2 (x64)
   show: true
 
 - filetype: rubyinstaller7z
-  href: https://github.com/oneclick/rubyinstaller2/releases/download/2.4.1-1rc1/rubyinstaller-2.4.1-1rc1-x86.7z
-  name: Ruby 2.4.1-1rc1 (x86)
+  href: https://github.com/oneclick/rubyinstaller2/releases/download/2.4.1-1rc2/rubyinstaller-2.4.1-1rc2-x86.7z
+  name: Ruby 2.4.1-1rc2 (x86)
   show: true
 
 - filetype: rubyinstallerexe
-  href: https://github.com/oneclick/rubyinstaller2/releases/download/2.4.1-1rc1/rubyinstaller-2.4.1-1rc1-x86.exe
-  name: Ruby 2.4.1-1rc1 (x86)
+  href: https://github.com/oneclick/rubyinstaller2/releases/download/2.4.1-1rc2/rubyinstaller-2.4.1-1rc2-x86.exe
+  name: Ruby 2.4.1-1rc2 (x86)
   show: true
 
 - filetype: rubyinstallerexe
