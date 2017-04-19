@@ -1,0 +1,752 @@
+---
+- filetype: rubyinstaller7z
+  href: https://github.com/oneclick/rubyinstaller2/releases/download/2.4.1-1rc2/rubyinstaller-2.4.1-1rc2-x64.7z
+  name: Ruby 2.4.1-1rc2 (x64)
+  show: true
+
+- filetype: rubyinstallerexe
+  href: https://github.com/oneclick/rubyinstaller2/releases/download/2.4.1-1rc2/rubyinstaller-2.4.1-1rc2-x64.exe
+  name: Ruby 2.4.1-1rc2 (x64)
+  show: true
+
+- filetype: rubyinstaller7z
+  href: https://github.com/oneclick/rubyinstaller2/releases/download/2.4.1-1rc2/rubyinstaller-2.4.1-1rc2-x86.7z
+  name: Ruby 2.4.1-1rc2 (x86)
+  show: true
+
+- filetype: rubyinstallerexe
+  href: https://github.com/oneclick/rubyinstaller2/releases/download/2.4.1-1rc2/rubyinstaller-2.4.1-1rc2-x86.exe
+  name: Ruby 2.4.1-1rc2 (x86)
+  show: true
+
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.3.3.exe
+  name: Ruby 2.3.3
+  show: true
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.3.3-x64.exe
+  name: Ruby 2.3.3 (x64)
+  show: true
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.3.1.exe
+  name: Ruby 2.3.1
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.3.1-x64.exe
+  name: Ruby 2.3.1 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.3.0.exe
+  name: Ruby 2.3.0
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.3.0-x64.exe
+  name: Ruby 2.3.0 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.2.6.exe
+  name: Ruby 2.2.6
+  show: true
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.2.6-x64.exe
+  name: Ruby 2.2.6 (x64)
+  show: true
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.2.5.exe
+  name: Ruby 2.2.5
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.2.5-x64.exe
+  name: Ruby 2.2.5 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.2.4.exe
+  name: Ruby 2.2.4
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.2.4-x64.exe
+  name: Ruby 2.2.4 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.2.3.exe
+  name: Ruby 2.2.3
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.2.3-x64.exe
+  name: Ruby 2.2.3 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.2.2.exe
+  name: Ruby 2.2.2
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.2.2-x64.exe
+  name: Ruby 2.2.2 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.2.1.exe
+  name: Ruby 2.2.1
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.2.1-x64.exe
+  name: Ruby 2.2.1 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.1.9.exe
+  name: Ruby 2.1.9
+  show: true
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.1.9-x64.exe
+  name: Ruby 2.1.9 (x64)
+  show: true
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.1.8.exe
+  name: Ruby 2.1.8
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.1.8-x64.exe
+  name: Ruby 2.1.8 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.1.7.exe
+  name: Ruby 2.1.7
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.1.7-x64.exe
+  name: Ruby 2.1.7 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.1.6.exe
+  name: Ruby 2.1.6
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.1.6-x64.exe
+  name: Ruby 2.1.6 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.1.5.exe
+  name: Ruby 2.1.5
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.1.5-x64.exe
+  name: Ruby 2.1.5 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.1.4.exe
+  name: Ruby 2.1.4
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.1.4-x64.exe
+  name: Ruby 2.1.4 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.1.3.exe
+  name: Ruby 2.1.3
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.1.3-x64.exe
+  name: Ruby 2.1.3 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p648.exe
+  name: Ruby 2.0.0-p648
+  show: true
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p648-x64.exe
+  name: Ruby 2.0.0-p648 (x64)
+  show: true
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p647.exe
+  name: Ruby 2.0.0-p647
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p647-x64.exe
+  name: Ruby 2.0.0-p647 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p645.exe
+  name: Ruby 2.0.0-p645
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p645-x64.exe
+  name: Ruby 2.0.0-p645 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p643.exe
+  name: Ruby 2.0.0-p643
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p643-x64.exe
+  name: Ruby 2.0.0-p643 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p598.exe
+  name: Ruby 2.0.0-p598
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p598-x64.exe
+  name: Ruby 2.0.0-p598 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p594.exe
+  name: Ruby 2.0.0-p594
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p594-x64.exe
+  name: Ruby 2.0.0-p594 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p576.exe
+  name: Ruby 2.0.0-p576
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p576-x64.exe
+  name: Ruby 2.0.0-p576 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p481.exe
+  name: Ruby 2.0.0-p481
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p481-x64.exe
+  name: Ruby 2.0.0-p481 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p451.exe
+  name: Ruby 2.0.0-p451
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p451-x64.exe
+  name: Ruby 2.0.0-p451 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p353.exe
+  name: Ruby 2.0.0-p353
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p353-x64.exe
+  name: Ruby 2.0.0-p353 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p247.exe
+  name: Ruby 2.0.0-p247
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p247-x64.exe
+  name: Ruby 2.0.0-p247 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p195.exe
+  name: Ruby 2.0.0-p195
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p195-x64.exe
+  name: Ruby 2.0.0-p195 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p0.exe
+  name: Ruby 2.0.0-p0
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p0-x64.exe
+  name: Ruby 2.0.0-p0 (x64)
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p551.exe
+  name: Ruby 1.9.3-p551
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p550.exe
+  name: Ruby 1.9.3-p550
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p545.exe
+  name: Ruby 1.9.3-p545
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p484.exe
+  name: Ruby 1.9.3-p484
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p448.exe
+  name: Ruby 1.9.3-p448
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p429.exe
+  name: Ruby 1.9.3-p429
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p392.exe
+  name: Ruby 1.9.3-p392
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p385.exe
+  name: Ruby 1.9.3-p385
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p374.exe
+  name: Ruby 1.9.3-p374
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p362.exe
+  name: Ruby 1.9.3-p362
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p327.exe
+  name: Ruby 1.9.3-p327
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p286.exe
+  name: Ruby 1.9.3-p286
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p194.exe
+  name: Ruby 1.9.3-p194
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p125.exe
+  name: Ruby 1.9.3-p125
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.3-p0.exe
+  name: Ruby 1.9.3-p0
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.2-p290.exe
+  name: Ruby 1.9.2-p290
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.2-p180.exe
+  name: Ruby 1.9.2-p180
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.2-p136.exe
+  name: Ruby 1.9.2-p136
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.9.2-p0.exe
+  name: Ruby 1.9.2-p0
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.8.7-p374.exe
+  name: Ruby 1.8.7-p374
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.8.7-p371.exe
+  name: Ruby 1.8.7-p371
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.8.7-p370.exe
+  name: Ruby 1.8.7-p370
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.8.7-p358.exe
+  name: Ruby 1.8.7-p358
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.8.7-p357.exe
+  name: Ruby 1.8.7-p357
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.8.7-p352.exe
+  name: Ruby 1.8.7-p352
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.8.7-p334.exe
+  name: Ruby 1.8.7-p334
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.8.7-p330.exe
+  name: Ruby 1.8.7-p330
+- filetype: rubyinstallerexe
+  href: https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-1.8.7-p302.exe
+  name: Ruby 1.8.7-p302
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.3.3-i386-mingw32.7z
+  name: Ruby 2.3.3
+  show: true
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.3.3-x64-mingw32.7z
+  name: Ruby 2.3.3 (x64)
+  show: true
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.3.1-i386-mingw32.7z
+  name: Ruby 2.3.1
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.3.1-x64-mingw32.7z
+  name: Ruby 2.3.1 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.3.0-i386-mingw32.7z
+  name: Ruby 2.3.0
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.3.0-x64-mingw32.7z
+  name: Ruby 2.3.0 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.6-i386-mingw32.7z
+  name: Ruby 2.2.6
+  show: true
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.6-x64-mingw32.7z
+  name: Ruby 2.2.6 (x64)
+  show: true
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.5-i386-mingw32.7z
+  name: Ruby 2.2.5
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.5-x64-mingw32.7z
+  name: Ruby 2.2.5 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.4-i386-mingw32.7z
+  name: Ruby 2.2.4
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.4-x64-mingw32.7z
+  name: Ruby 2.2.4 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.3-i386-mingw32.7z
+  name: Ruby 2.2.3
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.3-x64-mingw32.7z
+  name: Ruby 2.2.3 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.2-i386-mingw32.7z
+  name: Ruby 2.2.2
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.2-x64-mingw32.7z
+  name: Ruby 2.2.2 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.1-i386-mingw32.7z
+  name: Ruby 2.2.1
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.1-x64-mingw32.7z
+  name: Ruby 2.2.1 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.9-i386-mingw32.7z
+  name: Ruby 2.1.9
+  show: true
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.9-x64-mingw32.7z
+  name: Ruby 2.1.9 (x64)
+  show: true
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.8-i386-mingw32.7z
+  name: Ruby 2.1.8
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.8-x64-mingw32.7z
+  name: Ruby 2.1.8 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.7-i386-mingw32.7z
+  name: Ruby 2.1.7
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.7-x64-mingw32.7z
+  name: Ruby 2.1.7 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.6-i386-mingw32.7z
+  name: Ruby 2.1.6
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.6-x64-mingw32.7z
+  name: Ruby 2.1.6 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.5-i386-mingw32.7z
+  name: Ruby 2.1.5
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.5-x64-mingw32.7z
+  name: Ruby 2.1.5 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.4-i386-mingw32.7z
+  name: Ruby 2.1.4
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.4-x64-mingw32.7z
+  name: Ruby 2.1.4 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.3-i386-mingw32.7z
+  name: Ruby 2.1.3
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.3-x64-mingw32.7z
+  name: Ruby 2.1.3 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p648-i386-mingw32.7z
+  name: Ruby 2.0.0-p648
+  show: true
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p648-x64-mingw32.7z
+  name: Ruby 2.0.0-p648 (x64)
+  show: true
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p647-i386-mingw32.7z
+  name: Ruby 2.0.0-p647
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p647-x64-mingw32.7z
+  name: Ruby 2.0.0-p647 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p645-i386-mingw32.7z
+  name: Ruby 2.0.0-p645
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p645-x64-mingw32.7z
+  name: Ruby 2.0.0-p645 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p643-i386-mingw32.7z
+  name: Ruby 2.0.0-p643
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p643-x64-mingw32.7z
+  name: Ruby 2.0.0-p643 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p598-i386-mingw32.7z
+  name: Ruby 2.0.0-p598
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p598-x64-mingw32.7z
+  name: Ruby 2.0.0-p598 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p594-i386-mingw32.7z
+  name: Ruby 2.0.0-p594
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p594-x64-mingw32.7z
+  name: Ruby 2.0.0-p594 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p576-i386-mingw32.7z
+  name: Ruby 2.0.0-p576
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p576-x64-mingw32.7z
+  name: Ruby 2.0.0-p576 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p481-i386-mingw32.7z
+  name: Ruby 2.0.0-p481
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p481-x64-mingw32.7z
+  name: Ruby 2.0.0-p481 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p451-i386-mingw32.7z
+  name: Ruby 2.0.0-p451
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p451-x64-mingw32.7z
+  name: Ruby 2.0.0-p451 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p353-i386-mingw32.7z
+  name: Ruby 2.0.0-p353
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p353-x64-mingw32.7z
+  name: Ruby 2.0.0-p353 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p247-i386-mingw32.7z
+  name: Ruby 2.0.0-p247
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p247-x64-mingw32.7z
+  name: Ruby 2.0.0-p247 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p195-i386-mingw32.7z
+  name: Ruby 2.0.0-p195
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p195-x64-mingw32.7z
+  name: Ruby 2.0.0-p195 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p0-i386-mingw32.7z
+  name: Ruby 2.0.0-p0
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p0-x64-mingw32.7z
+  name: Ruby 2.0.0-p0 (x64)
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p551-i386-mingw32.7z
+  name: Ruby 1.9.3-p551
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p550-i386-mingw32.7z
+  name: Ruby 1.9.3-p550
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p545-i386-mingw32.7z
+  name: Ruby 1.9.3-p545
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p484-i386-mingw32.7z
+  name: Ruby 1.9.3-p484
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p448-i386-mingw32.7z
+  name: Ruby 1.9.3-p448
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p429-i386-mingw32.7z
+  name: Ruby 1.9.3-p429
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p392-i386-mingw32.7z
+  name: Ruby 1.9.3-p392
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p385-i386-mingw32.7z
+  name: Ruby 1.9.3-p385
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p374-i386-mingw32.7z
+  name: Ruby 1.9.3-p374
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p362-i386-mingw32.7z
+  name: Ruby 1.9.3-p362
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p327-i386-mingw32.7z
+  name: Ruby 1.9.3-p327
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p286-i386-mingw32.7z
+  name: Ruby 1.9.3-p286
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p194-i386-mingw32.7z
+  name: Ruby 1.9.3-p194
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p125-i386-mingw32.7z
+  name: Ruby 1.9.3-p125
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p0-i386-mingw32.7z
+  name: Ruby 1.9.3-p0
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.2-p290-i386-mingw32.7z
+  name: Ruby 1.9.2-p290
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.2-p180-i386-mingw32.7z
+  name: Ruby 1.9.2-p180
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.2-p136-i386-mingw32.7z
+  name: Ruby 1.9.2-p136
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.2-p0-i386-mingw32.7z
+  name: Ruby 1.9.2-p0
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p374-i386-mingw32.7z
+  name: Ruby 1.8.7-p374
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p371-i386-mingw32.7z
+  name: Ruby 1.8.7-p371
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p370-i386-mingw32.7z
+  name: Ruby 1.8.7-p370
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p358-i386-mingw32.7z
+  name: Ruby 1.8.7-p358
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p357-i386-mingw32.7z
+  name: Ruby 1.8.7-p357
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p352-i386-mingw32.7z
+  name: Ruby 1.8.7-p352
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p334-i386-mingw32.7z
+  name: Ruby 1.8.7-p334
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p330-i386-mingw32.7z
+  name: Ruby 1.8.7-p330
+- filetype: rubyinstaller7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p302-i386-mingw32.7z
+  name: Ruby 1.8.7-p302
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.3.3-doc-chm.7z
+  name: Ruby 2.3.3 documentation (CHM format)
+  show: true
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.3.1-doc-chm.7z
+  name: Ruby 2.3.1 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.3.0-doc-chm.7z
+  name: Ruby 2.3.0 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.6-doc-chm.7z
+  name: Ruby 2.2.6 documentation (CHM format)
+  show: true
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.5-doc-chm.7z
+  name: Ruby 2.2.5 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.4-doc-chm.7z
+  name: Ruby 2.2.4 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.3-doc-chm.7z
+  name: Ruby 2.2.3 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.2-doc-chm.7z
+  name: Ruby 2.2.2 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.2.1-doc-chm.7z
+  name: Ruby 2.2.1 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.9-doc-chm.7z
+  name: Ruby 2.1.9 documentation (CHM format)
+  show: true
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.8-doc-chm.7z
+  name: Ruby 2.1.8 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.7-doc-chm.7z
+  name: Ruby 2.1.7 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.5-doc-chm.7z
+  name: Ruby 2.1.6 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.5-doc-chm.7z
+  name: Ruby 2.1.5 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.4-doc-chm.7z
+  name: Ruby 2.1.4 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.1.3-doc-chm.7z
+  name: Ruby 2.1.3 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p648-doc-chm.7z
+  name: Ruby 2.0.0-p648 documentation (CHM format)
+  show: true
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p647-doc-chm.7z
+  name: Ruby 2.0.0-p647 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p643-doc-chm.7z
+  name: Ruby 2.0.0-p645 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p643-doc-chm.7z
+  name: Ruby 2.0.0-p643 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p598-doc-chm.7z
+  name: Ruby 2.0.0-p598 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p594-doc-chm.7z
+  name: Ruby 2.0.0-p594 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p576-doc-chm.7z
+  name: Ruby 2.0.0-p576 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p481-doc-chm.7z
+  name: Ruby 2.0.0-p481 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p451-doc-chm.7z
+  name: Ruby 2.0.0-p451 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p353-doc-chm.7z
+  name: Ruby 2.0.0-p353 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p247-doc-chm.7z
+  name: Ruby 2.0.0-p247 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p195-doc-chm.7z
+  name: Ruby 2.0.0-p195 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-2.0.0-p0-doc-chm.7z
+  name: Ruby 2.0.0-p0 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p551-doc-chm.7z
+  name: Ruby 1.9.3-p551 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p550-doc-chm.7z
+  name: Ruby 1.9.3-p550 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p545-doc-chm.7z
+  name: Ruby 1.9.3-p545 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p484-doc-chm.7z
+  name: Ruby 1.9.3-p484 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p448-doc-chm.7z
+  name: Ruby 1.9.3-p448 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p429-doc-chm.7z
+  name: Ruby 1.9.3-p429 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p392-doc-chm.7z
+  name: Ruby 1.9.3-p392 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p385-doc-chm.7z
+  name: Ruby 1.9.3-p385 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p374-doc-chm.7z
+  name: Ruby 1.9.3-p374 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p362-doc-chm.7z
+  name: Ruby 1.9.3-p362 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p327-doc-chm.7z
+  name: Ruby 1.9.3-p327 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p286-doc-chm.7z
+  name: Ruby 1.9.3-p286 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p194-doc-chm.7z
+  name: Ruby 1.9.3-p194 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p125-doc-chm.7z
+  name: Ruby 1.9.3-p125 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.3-p0-doc-chm.7z
+  name: Ruby 1.9.3-p0 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.2-p290-doc-chm.7z
+  name: Ruby 1.9.2-p290 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.2-p180-doc-chm.7z
+  name: Ruby 1.9.2-p180 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.2-p136-doc-chm.7z
+  name: Ruby 1.9.2-p136 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.9.2-p0-doc-chm.7z
+  name: Ruby 1.9.2-p0 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p374-doc-chm.7z
+  name: Ruby 1.8.7-p374 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p371-doc-chm.7z
+  name: Ruby 1.8.7-p371 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p370-doc-chm.7z
+  name: Ruby 1.8.7-p370 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p358-doc-chm.7z
+  name: Ruby 1.8.7-p358 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p357-doc-chm.7z
+  name: Ruby 1.8.7-p357 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p352-doc-chm.7z
+  name: Ruby 1.8.7-p352 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p334-doc-chm.7z
+  name: Ruby 1.8.7-p334 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p330-doc-chm.7z
+  name: Ruby 1.8.7-p330 CHM
+- filetype: rubychm7z
+  href: https://dl.bintray.com/oneclick/rubyinstaller/ruby-1.8.7-p302-doc-chm.7z
+  name: Ruby 1.8.7-p302 CHM
+- filetype: devkitsfx
+  href: https://dl.bintray.com/oneclick/rubyinstaller/defunct/DevKit-tdm-32-4.5.2-20110712-1620-devkitsfx.exe
+  name: DevKit-tdm-32-4.5.2-20110712-1620-devkitsfx.exe
+- filetype: devkitsfx
+  href: https://dl.bintray.com/oneclick/rubyinstaller/DevKit-tdm-32-4.5.1-20101214-1400-devkitsfx.exe
+  name: DevKit-tdm-32-4.5.1-20101214-1400-devkitsfx.exe
+- filetype: devkitsfx
+  href: https://dl.bintray.com/oneclick/rubyinstaller/DevKit-4.5.0-20100819-1536-devkitsfx.exe
+  name: DevKit-4.5.0-20100819-1536-devkitsfx.exe
+- filetype: devkitsfx
+  href: https://dl.bintray.com/oneclick/rubyinstaller/DevKit-3.4.5-20100819-1535-devkitsfx.exe
+  name: DevKit-3.4.5-20100819-1535-devkitsfx.exe
+- filetype: devkitsfx
+  href: https://dl.bintray.com/oneclick/rubyinstaller/DevKit-tdm-32-4.5.2-20111229-1559-devkitsfx.exe
+  name: DevKit-tdm-32-4.5.2-20111229-1559-devkitsfx.exe
+  show: true
+- filetype: devkitsfx
+  href: https://dl.bintray.com/oneclick/rubyinstaller/DevKit-mingw64-32-4.7.2-20130224-1151-devkitsfx.exe
+  name: DevKit-mingw64-32-4.7.2-20130224-1151-devkitsfx.exe
+  show: true
+- filetype: devkitsfx
+  href: https://dl.bintray.com/oneclick/rubyinstaller/DevKit-mingw64-64-4.7.2-20130224-1432-devkitsfx.exe
+  name: DevKit-mingw64-64-4.7.2-20130224-1432-devkitsfx.exe
+  show: true

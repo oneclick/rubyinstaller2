@@ -1,5 +1,6 @@
 module RubyInstaller
 module Build
+  autoload :CaCertFile, 'ruby_installer/build/ca_cert_file'
   autoload :Colors, 'ruby_installer/build/colors'
   autoload :DllDirectory, 'ruby_installer/build/dll_directory'
   autoload :ErbCompiler, 'ruby_installer/build/erb_compiler'

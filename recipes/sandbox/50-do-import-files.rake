@@ -1,8 +1,11 @@
+# Define copy tasks for import_files.
+# All the files can be overlayed in the current working directory.
+
 import_files.each do |source, dest|
   file File.join(sandboxdir, dest) => ovl_expand_file(source) do |t|
     mkdir_p File.dirname(t.name)
     content = File.binread(t.prerequisites.first)
-    # Rewrite certain files from RubyInstaller::Build to RubyInstaller::Runtime.
+    # Rewrite marked files from RubyInstaller::Build to RubyInstaller::Runtime.
     rewrite_done = false
     content.gsub!(REWRITE_MARK) do
       rewrite_done = true

@@ -46,15 +46,15 @@ namespace :ssl do
 
   desc "Download latest SSL trust certificates"
   task :update => "resources/ssl" do
-    pem_content = download_ssl_cacert_pem
-    File.binwrite("resources/ssl/cacert.pem", pem_content)
+    ca_file = RubyInstaller::Build::CaCertFile.new
+    File.binwrite("resources/ssl/cacert.pem", ca_file.content)
   end
 
   task :update_check do
-    old_content = remove_comments(File.binread("resources/ssl/cacert.pem"))
+    old_file = RubyInstaller::Build::CaCertFile.new(File.binread("resources/ssl/cacert.pem"))
     print "Download SSL CA list..."
-    new_content = remove_comments(download_ssl_cacert_pem)
-    if old_content == new_content
+    new_file = RubyInstaller::Build::CaCertFile.new
+    if old_file == new_file
       puts " => unchanged"
     else
       puts " => changed"

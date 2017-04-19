@@ -1,0 +1,47 @@
+---
+layout: default
+---
+<div id="page">
+  {% include header.html %}
+  {% include banner.html %}
+  <div id="main" class="container clear">
+    <div class="home">
+      <div class="span-16">
+        <div id="left_content">
+          <h2>Latest News</h2>
+
+          {% for post in site.posts limit:5 %}
+              <div class="news_item">
+                <h3><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h3>
+                <p>{{ post.excerpt }}</p>
+
+                <span class="date">{{ post.date | date: "%Y-%m-%d" }}</span> <a href="{{ post.url | relative_url }}" class="more">Read full article</a>
+              </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="span-8 last">
+        <div id="right_content">
+          {{ content }}
+        </div>
+      </div>
+
+      <div id="fastbar" class="container clear">
+        <div id="contribute" class="fastlink span-8">
+          <h3><a href="https://github.com/oneclick/rubyinstaller/wiki/How-to-Contribute/">Contribute</a></h3>
+          <p>How can I help the project?</p>
+        </div>
+        <div id="mailing" class="fastlink span-8">
+          <h3> <a href="https://groups.google.com/group/rubyinstaller">Mailing List</a></h3>
+          <p>How can I stay up-to-date? </p>
+        </div>
+        <div id="questions" class="fastlink span-8 last">
+          <h3><a href="https://github.com/oneclick/rubyinstaller2/wiki/faq">FAQ</a></h3>
+          <p>Frequently Asked Questions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% include footer.html %}
+</div>

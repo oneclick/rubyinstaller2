@@ -26,16 +26,18 @@ module Helper
       end
     end
 
-    private def simulate_nonstd_msysdir
-      clear_dir_cache
-      RubyInstaller::Runtime::Msys2Installation::DEFAULT_MSYS64_PATH << "non-exist"
-      RubyInstaller::Runtime::Msys2Installation::DEFAULT_MSYS32_PATH << "non-exist"
-
-      yield
-
-      clear_dir_cache
-      RubyInstaller::Runtime::Msys2Installation::DEFAULT_MSYS64_PATH.gsub!("non-exist", "")
-      RubyInstaller::Runtime::Msys2Installation::DEFAULT_MSYS32_PATH.gsub!("non-exist", "")
+    private def with_env(hash)
+      olds = hash.map{|k, _| [k, ENV[k.to_s]] }
+      hash.each do |k, v|
+        ENV[k.to_s] = v
+      end
+      begin
+        yield
+      ensure
+        olds.each do |k, v|
+          ENV[k.to_s] = v
+        end
+      end
     end
   end
 end
