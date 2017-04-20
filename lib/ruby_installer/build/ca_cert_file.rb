@@ -45,9 +45,9 @@ EOT
       pem = row["PEM Info"]
       OpenSSL::X509::Certificate.new(pem.gsub(/\A'/,"").gsub(/'\z/,""))
     end.sort_by do |cert|
-      cert.subject.to_a.sort
+      [cert.subject.to_a.sort, -cert.serial.to_i]
     end.each do |cert|
-      sj = OpenSSL::X509::Name.new(cert.subject.to_a.sort).to_s
+      sj = "#{ OpenSSL::X509::Name.new(cert.subject.to_a.sort) } - #{cert.serial.to_i}"
       fd.write "\n#{ sj }\n#{ "=" * sj.length }\n#{ cert.to_pem }\n"
     end
 
