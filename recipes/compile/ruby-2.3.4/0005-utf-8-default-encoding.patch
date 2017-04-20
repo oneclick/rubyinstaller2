@@ -1,0 +1,13 @@
+diff --git a/ruby.c b/ruby.c
+index 3f89bb4..a46aea3 100644
+--- a/ruby.c
++++ b/ruby.c
+@@ -1553,7 +1553,7 @@ process_options(int argc, char **argv, ruby_cmdline_options_t *opt)
+ 	enc = rb_enc_from_index(opt->ext.enc.index);
+     }
+     else {
+-	enc = lenc;
++	enc = rb_utf8_encoding();
+     }
+     rb_enc_set_default_external(rb_enc_from_encoding(enc));
+     if (opt->intern.enc.index >= 0) {

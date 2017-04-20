@@ -51,3 +51,15 @@ environment:
       arch: "x64"
       MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
       MSYSTEM: "MINGW64"
+
+    - build_ruby: "22"
+      target_ruby: "2.3.4"
+      arch: "x86"
+      MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
+      MSYSTEM: "MINGW32"
+
+    - build_ruby: "23"
+      target_ruby: "2.3.4"
+      arch: "x64"
+      MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
+      MSYSTEM: "MINGW64"
