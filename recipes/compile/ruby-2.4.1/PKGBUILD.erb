@@ -70,7 +70,7 @@ build() {
   make showflags main
   echo "Generate HTML documentation"
   # Make rdoc outputs so many lines -> print dots only
-  make html 2>&1 | ./ruby --disable-gems -ne "STDERR.print '.'"
+  make html 2>&1 | ./miniruby -ne "STDERR.print '.'"
 }
 
 check() {
