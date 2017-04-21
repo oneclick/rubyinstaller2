@@ -5,6 +5,7 @@
   <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
   <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
 
+  <link rel="icon" type="image/png" href="{{ "/assets/favicon.png" | relative_url }}">
   <link rel="stylesheet" href="{{ "/styles/blueprint/screen.css" | relative_url }}" type="text/css" media="screen, projection">
   <link rel="stylesheet" href="{{ "/styles/blueprint/print.css" | relative_url }}" type="text/css" media="print">
   <link rel="stylesheet" href="{{ "/styles/site.css" | relative_url }}" type="text/css" media="screen, projection, print">
