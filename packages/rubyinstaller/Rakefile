@@ -13,7 +13,7 @@ class RubyPackage < RubyInstaller::Build::Openstruct
     self.packagename = "rubyinstaller"
     self.rubyver2 = rubyver[/^\d+\.\d+/]
 
-    self.install_gems = %w[rb-readline-0.5.4]
+    self.install_gems = %w[]
 
     case arch
     when 'x64'
