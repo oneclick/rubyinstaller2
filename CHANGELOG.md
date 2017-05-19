@@ -1,4 +1,16 @@
-## RubyInstaller-2.4.1-1rc2 - unreleased
+## RubyInstaller-2.4.1-1rc3 - 2017-05-20
+
+### Added
+- Add an "inofficial" RubyInstaller-2.3 build target.
+
+### Changed
+- Revert UTF-8 default encoding due to some issues described in #38.
+- Install rb-readline in site_ruby instead of as a gem. Fixes #36
+- Fix shebang line in bin/rake. Fixes #34
+- Remove two unnecessary build patches.
+
+
+## RubyInstaller-2.4.1-1rc2 - 2017-04-17
 
 ### Added
 - Allow MSYS2 to be shipped together with Ruby, independent from the install path.
