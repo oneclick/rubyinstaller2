@@ -19,6 +19,9 @@ begin
       if IsAssociated then
         ModifyFileExts(['.rb', '.rbw']);
 
+      if IsUtf8 then
+        ModifyRubyopt(['-Eutf-8']);
+
     end else
       MsgBox('Looks like you''ve got on older, unsupported Windows version.' #13 +
              'Proceeding with a reduced feature set installation.',
@@ -46,6 +49,8 @@ begin
     SetPreviousData(PreviousDataKey, 'PathModified', 'yes');
   if IsAssociated then
     SetPreviousData(PreviousDataKey, 'FilesAssociated', 'yes');
+  if IsUtf8 then
+    SetPreviousData(PreviousDataKey, 'Utf8', 'yes');
 
   SetPreviousData(PreviousDataKey, 'RubyInstallerId', ExpandConstant('{#PackageBaseId}\{#RubyVersion}'));
 end;
@@ -61,6 +66,9 @@ begin
 
       if GetPreviousData('FilesAssociated', 'no') = 'yes' then
         ModifyFileExts(['.rb', '.rbw']);
+
+      if GetPreviousData('Utf8', 'no') = 'yes' then
+        ModifyRubyopt(['-Eutf-8']);
     end;
   end;
 end;

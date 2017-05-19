@@ -22,7 +22,7 @@ build_script:
 
 test_script:
   # Run the built Ruby installer and install to c:/ri2-ruby
-  - ruby -e "Dir['packages/rubyinstaller/recipes/installer-inno/rubyinstaller-%target_ruby%-*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath')}"
+  - ruby -e "Dir['packages/rubyinstaller/recipes/installer-inno/rubyinstaller-%target_ruby%-*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath,defaultutf8')}"
   # Activate the new installed Ruby.
   - set PATH=c:/ri2-ruby/bin;%PATH%
   # Install dependent gems

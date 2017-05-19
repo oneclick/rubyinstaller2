@@ -2,7 +2,7 @@ require "minitest/autorun"
 
 class TestEncoding < Minitest::Test
   def test_default_external
-    assert_equal Encoding.find("locale"), Encoding.default_external
+    assert_equal Encoding::UTF_8, Encoding.default_external
   end
 
   def test_default_internal
@@ -10,7 +10,7 @@ class TestEncoding < Minitest::Test
   end
 
   def test_default_external_file_read
-    content = File.read(__FILE__, encoding: __ENCODING__)
+    content = File.read(__FILE__)
     assert_equal Encoding::UTF_8, content.encoding
     assert_match(/ÄöüßЖ/, content)
   end

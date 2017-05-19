@@ -51,6 +51,11 @@ begin
   ModifyPathish(Exts, 'PATH', ';');
 end;
 
+procedure ModifyRubyopt(Exts: Array of String);
+begin
+  ModifyPathish(Exts, 'RUBYOPT', ' ');
+end;
+
 // Modifies path-like registry keys such as PATH, PATHEXT
 procedure ModifyPathish(NewData: Array of String; RegValue, Delim: String);
 var
@@ -83,7 +88,7 @@ begin
 
       case AnsiUppercase(RegValue) of
         'PATH': RegWriteExpandStringValue(RootKey, SubKey, 'Path', NewPathish);
-        'PATHEXT': RegWriteExpandStringValue(RootKey, SubKey, 'PATHEXT', NewPathish);
+        ELSE RegWriteExpandStringValue(RootKey, SubKey, AnsiUppercase(RegValue), NewPathish);
       end;
       Log(AnsiUppercase(RegValue) + ' updated to: ' + NewPathish);
 
@@ -192,7 +197,7 @@ begin
       if SrcList.IndexOf(Item) = -1 then
       begin
         case AnsiUppercase(RegValue) of
-          'PATH': SrcList.Insert(0, Item);
+          'PATH', 'RUBYOPT': SrcList.Insert(0, Item);
           'PATHEXT': SrcList.Add(AnsiUppercase(Item));
         end;
         RegChangeFlag := True;
