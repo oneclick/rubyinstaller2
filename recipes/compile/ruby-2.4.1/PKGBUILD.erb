@@ -18,7 +18,6 @@ options=('staticlibs' 'strip')
 source=("https://cache.ruby-lang.org/pub/ruby/${pkgver%.*}/${_realname}-${pkgver}.tar.bz2"
         0002-use-gnu-printf.patch
         0004-exclude-changelog-from-rdoc.patch
-        0005-utf-8-default-encoding.patch
         0006-fix-conversion-warning-win32-powl.patch
         ruby.ico
         rubyw.ico)
@@ -28,7 +27,6 @@ source=("https://cache.ruby-lang.org/pub/ruby/${pkgver%.*}/${_realname}-${pkgver
 sha256sums=('ccfb2d0a61e2a9c374d51e099b0d833b09241ee78fc17e1fe38e3b282160237c'
             '578bd0830fe96efc7656c732ec46b0658fc436a7a30d8945cf3b8240797809f0'
             '389236bdca5f283adde9b4b56febcfc25e228716e06a0edc21ea8fd7f27b75fa'
-            '339538b8b06feaf54de525dcae3c11ee548a1fb97fbe0ad319019027d6d19044'
             'e7f83bc6e3b7ddadb5e3b14aa7d3a4e30eb97aea02df38796ca78714ad20e9b7'
             '6c80ba2ca49840e387a08b7fedc6e7acd298ac2ec853155209efb2af20397b22'
             'c30fb04ac0e88ba634daaa811a81ea5a75027646617b895acd14df9518a4a55a')
@@ -37,7 +35,6 @@ prepare() {
   cd ${srcdir}/${_realname}-${pkgver}
   patch -p1 -i ${srcdir}/0002-use-gnu-printf.patch
   patch -p1 -i ${srcdir}/0004-exclude-changelog-from-rdoc.patch
-  patch -p1 -i ${srcdir}/0005-utf-8-default-encoding.patch
   patch -p1 -i ${srcdir}/0006-fix-conversion-warning-win32-powl.patch
 
   autoreconf -fi
