@@ -16,9 +16,7 @@ depends=("${MINGW_PACKAGE_PREFIX}-gcc-libs"
          "${MINGW_PACKAGE_PREFIX}-zlib")
 options=('staticlibs' 'strip')
 source=("https://cache.ruby-lang.org/pub/ruby/${pkgver%.*}/${_realname}-${pkgver}.tar.bz2"
-        0001-mingw-w64-time-functions.patch
         0002-use-gnu-printf.patch
-        0003-fix-check-types.patch
         0004-exclude-changelog-from-rdoc.patch
         0005-utf-8-default-encoding.patch
         0006-fix-conversion-warning-win32-powl.patch
@@ -28,9 +26,7 @@ source=("https://cache.ruby-lang.org/pub/ruby/${pkgver%.*}/${_realname}-${pkgver
 # To update SHA256 hashs run: ridk exec sh -c "updpkgsums PKGBUILD.erb"
 
 sha256sums=('ccfb2d0a61e2a9c374d51e099b0d833b09241ee78fc17e1fe38e3b282160237c'
-            '329994d3bf7e692e18c1faffbedfbd076e5d00257b2100387a773b59b81ccd4e'
             '578bd0830fe96efc7656c732ec46b0658fc436a7a30d8945cf3b8240797809f0'
-            '846d73ad389249c54ff4e009ad2fd4cdbc46714fce25c724bc706b3ec2f2fe3a'
             '389236bdca5f283adde9b4b56febcfc25e228716e06a0edc21ea8fd7f27b75fa'
             '339538b8b06feaf54de525dcae3c11ee548a1fb97fbe0ad319019027d6d19044'
             'e7f83bc6e3b7ddadb5e3b14aa7d3a4e30eb97aea02df38796ca78714ad20e9b7'
@@ -39,9 +35,7 @@ sha256sums=('ccfb2d0a61e2a9c374d51e099b0d833b09241ee78fc17e1fe38e3b282160237c'
 
 prepare() {
   cd ${srcdir}/${_realname}-${pkgver}
-  patch -p1 -i ${srcdir}/0001-mingw-w64-time-functions.patch
   patch -p1 -i ${srcdir}/0002-use-gnu-printf.patch
-  patch -p1 -i ${srcdir}/0003-fix-check-types.patch
   patch -p1 -i ${srcdir}/0004-exclude-changelog-from-rdoc.patch
   patch -p1 -i ${srcdir}/0005-utf-8-default-encoding.patch
   patch -p1 -i ${srcdir}/0006-fix-conversion-warning-win32-powl.patch
