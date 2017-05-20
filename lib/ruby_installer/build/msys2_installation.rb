@@ -52,8 +52,6 @@ module Build # Use for: Build, Runtime
       ENV['PATH'].split(";").each do |path|
         # If /path/to/msys64 is in the PATH (e.g. Chocolatey)
         yield path
-        # If /path/to/msys64/usr/bin or /path/to/msys64/mingwXX/bin is in the PATH
-        yield File.expand_path(File.join(path, "../.."))
       end
 
       raise MsysNotFound, "MSYS2 could not be found"

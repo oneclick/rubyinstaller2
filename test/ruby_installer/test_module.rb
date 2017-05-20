@@ -113,7 +113,6 @@ class TestModule < Minitest::Test
       c:/msys64
       c:/msys32
       D:/xyz/abc/def
-      D:/xyz
       E:/
     ]
     assert_equal( min_paths, paths & min_paths )
