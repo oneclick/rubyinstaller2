@@ -53,12 +53,17 @@ namespace :ssl do
   task :update_check do
     old_file = RubyInstaller::Build::CaCertFile.new(File.binread("resources/ssl/cacert.pem"))
     print "Download SSL CA list..."
-    new_file = RubyInstaller::Build::CaCertFile.new
-    if old_file == new_file
-      puts " => unchanged"
+    begin
+      new_file = RubyInstaller::Build::CaCertFile.new
+    rescue SocketError => err
+      puts " failed: #{err} (#{err.class})"
     else
-      puts " => changed"
-      raise "cacert.pem has changed"
+      if old_file == new_file
+        puts " => unchanged"
+      else
+        puts " => changed"
+        raise "cacert.pem has changed"
+      end
     end
   end
 end
