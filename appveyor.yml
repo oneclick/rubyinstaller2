@@ -18,7 +18,9 @@ build_script:
   - echo %PATH%
 
   # Build the installers
-  - rake rubyinstaller:ruby-%target_ruby%-%arch% rubybundle:ruby-%target_ruby%-%arch%:installer-inno
+  - rake rubyinstaller:ruby-%target_ruby%-%arch%
+  - xcopy packages/rubyinstaller/recipes/compile/ruby-2.4.1/mingw-w64-x86_64-ruby-2.4.1-1-any.pkg.tar.xz packages/rubybundle/recipes/compile/ruby-2.4.1/
+  - rake rubybundle:ruby-%target_ruby%-%arch%:installer-inno
 
 test_script:
   # Run the built Ruby installer and install to c:/ri2-ruby
