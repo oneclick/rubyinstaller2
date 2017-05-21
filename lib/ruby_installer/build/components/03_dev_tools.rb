@@ -1,5 +1,5 @@
 module RubyInstaller
-module Runtime
+module Build # Use for: Build, Runtime
 module Components
 class DevTools < Base
   def self.depends

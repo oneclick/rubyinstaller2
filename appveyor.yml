@@ -17,8 +17,8 @@ build_script:
   - c:/msys64/%MSYSTEM%/bin/gcc.exe --version
   - echo %PATH%
 
-  # Build the installer
-  - rake rubyinstaller:ruby-%target_ruby%-%arch%
+  # Build the installers
+  - rake rubyinstaller:ruby-%target_ruby%-%arch% rubybundle:ruby-%target_ruby%-%arch%:installer-inno
 
 test_script:
   # Run the built Ruby installer and install to c:/ri2-ruby
@@ -37,9 +37,9 @@ test_script:
 
 # Provide the rubyinstaller.exe files for download
 artifacts:
-  - path: packages/rubyinstaller/recipes/installer-inno/rubyinstaller-$(target_ruby)-*-$(arch).exe
+  - path: packages/rubyinstaller/recipes/installer-inno/ruby*-$(target_ruby)-*-$(arch).exe
     name: Executable installer
-  - path: packages/rubyinstaller/recipes/archive-7z/rubyinstaller-$(target_ruby)-*-$(arch).7z
+  - path: packages/rubyinstaller/recipes/archive-7z/ruby*-$(target_ruby)-*-$(arch).7z
     name: Plain archive file
 
 environment:

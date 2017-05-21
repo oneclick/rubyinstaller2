@@ -13,13 +13,14 @@ module Build # Use for: Build, Runtime
 
     attr_reader :mingwdir
 
-    def initialize
-      @msys_path = nil
+    def initialize(msys_path=nil)
+      @msys_path = msys_path
+      @msys_path_fixed = true if msys_path
       @mingwdir = nil
     end
 
     def reset_cache
-      @msys_path = nil
+      @msys_path = nil unless @msys_path_fixed
     end
 
     def iterate_msys_paths

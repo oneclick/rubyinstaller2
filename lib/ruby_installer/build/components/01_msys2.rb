@@ -1,5 +1,5 @@
 module RubyInstaller
-module Runtime
+module Build # Use for: Build, Runtime
 module Components
 class Msys2 < Base
   def description

@@ -1,7 +1,7 @@
 require "rake"
 
 module RubyInstaller
-module Runtime
+module Build # Use for: Build, Runtime
 class ComponentsInstaller < Rake::Application
   attr_reader :installable_components
 
