@@ -53,7 +53,7 @@ class DevTools < Base
   ]
 
   def execute(args)
-    msys = Runtime.msys2_installation
+    msys = BuildOrRuntime.msys2_installation
     msys.with_msys_apps_enabled do
       puts "Install #{description} ..."
       packages = PACKAGES.map do |package|

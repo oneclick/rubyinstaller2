@@ -7,7 +7,7 @@ class Msys2 < Base
   end
 
   def needed?
-    msys = Runtime.msys2_installation
+    msys = BuildOrRuntime.msys2_installation
     begin
       print "MSYS2 seems to be "
       msys.msys_path

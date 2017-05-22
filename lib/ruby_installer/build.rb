@@ -17,5 +17,6 @@ module Build
   end
 
   require 'ruby_installer/build/singleton'
+  BuildOrRuntime = self
 end
 end
