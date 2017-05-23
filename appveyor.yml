@@ -17,9 +17,13 @@ build_script:
   - c:/msys64/%MSYSTEM%/bin/gcc.exe --version
   - echo %PATH%
 
-  # Build the installers
+  # Build the installer
   - rake rubyinstaller:ruby-%target_ruby%-%arch%
-  - xcopy packages/rubyinstaller/recipes/compile/ruby-2.4.1/mingw-w64-x86_64-ruby-2.4.1-1-any.pkg.tar.xz packages/rubybundle/recipes/compile/ruby-2.4.1/
+  # Reuse compiled and installed ruby
+  - c:/msys64/usr/bin/mkdir -p packages/rubybundle/recipes/compile/ruby-%target_ruby%/
+  - c:/msys64/usr/bin/cp -r packages/rubyinstaller/recipes/compile/ruby-%target_ruby% packages/rubybundle/recipes/compile/
+  - c:/msys64/usr/bin/cp -r packages/rubyinstaller/recipes/unpack packages/rubybundle/recipes/
+  # Build the installer
   - rake rubybundle:ruby-%target_ruby%-%arch%:installer-inno
 
 test_script:
