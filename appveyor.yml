@@ -47,6 +47,10 @@ artifacts:
     name: Executable installer
   - path: packages/rubyinstaller/recipes/archive-7z/ruby*-$(target_ruby)-*-$(arch).7z
     name: Plain archive file
+  - path: packages/rubybundle/recipes/installer-inno/ruby*-$(target_ruby)-*-$(arch).exe
+    name: Executable installer with MYS2
+  - path: packages/rubybundle/recipes/archive-7z/ruby*-$(target_ruby)-*-$(arch).7z
+    name: Plain archive file with MYS2
 
 environment:
   matrix:
