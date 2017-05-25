@@ -53,13 +53,12 @@ class DevTools < Base
   ]
 
   def execute(args)
-    msys = BuildOrRuntime.msys2_installation
     msys.with_msys_apps_enabled do
       puts "Install #{description} ..."
       packages = PACKAGES.map do |package|
         package.sub(/^mingw-w64/, msys.mingw_package_prefix)
       end
-      res = run_verbose("pacman", "-S", "--needed", "--noconfirm", *packages)
+      res = run_verbose("pacman", "-S", *pacman_args, *packages)
       puts "Install #{description} #{res ? green("succeeded") : red("failed")}"
       raise "pacman failed" unless res
     end

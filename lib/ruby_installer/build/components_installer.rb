@@ -4,9 +4,13 @@ module RubyInstaller
 module Build # Use for: Build, Runtime
 class ComponentsInstaller < Rake::Application
   attr_reader :installable_components
+  attr_accessor :msys
+  attr_accessor :pacman_args
 
-  def initialize
-    super
+  def initialize(msys: nil, pacman_args: ["--needed", "--noconfirm"])
+    super()
+    @msys = msys
+    @pacman_args = pacman_args
 
     @task_consts = Dir[File.expand_path("../components/??_*.rb", __FILE__)].sort.map do |comppath|
       require comppath
@@ -36,6 +40,8 @@ class ComponentsInstaller < Rake::Application
     @installable_components = @task_consts.map do |idx, tname, task_const|
       t = define_task(task_const, tname => task_const.depends)
       t.task_index = idx
+      t.msys = msys
+      t.pacman_args = pacman_args
       t
     end
 

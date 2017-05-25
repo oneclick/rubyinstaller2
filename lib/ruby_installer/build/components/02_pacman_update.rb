@@ -11,10 +11,9 @@ class PacmanUpdate < Base
   end
 
   def execute(args)
-    msys = BuildOrRuntime.msys2_installation
     msys.with_msys_apps_enabled do
       puts "#{description} ..."
-      res = run_verbose("pacman", "-Sy", "--needed", "--noconfirm")
+      res = run_verbose("pacman", "-Sy", *pacman_args)
       puts "#{description} #{res ? green("succeeded") : red("failed")}"
       raise "pacman failed" unless res
     end

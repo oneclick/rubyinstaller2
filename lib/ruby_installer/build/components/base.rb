@@ -5,14 +5,21 @@ class Base < Rake::Task
   include Colors
 
   attr_accessor :task_index
+  attr_writer :msys
+  attr_accessor :pacman_args
 
   def self.depends
     []
   end
 
   def initialize(*_)
+    @msys = nil
     enable_colors
     super
+  end
+
+  def msys
+    msys ||= BuildOrRuntime.msys2_installation
   end
 
   # This is extracted from https://github.com/larskanis/shellwords
