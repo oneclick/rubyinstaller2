@@ -21,8 +21,8 @@ build_script:
   - rake rubyinstaller:ruby-%target_ruby%-%arch%
   # Reuse compiled and installed ruby
   - c:/msys64/usr/bin/mkdir -p packages/rubybundle/recipes/compile/ruby-%target_ruby%/
-  - c:/msys64/usr/bin/cp -r packages/rubyinstaller/recipes/compile/ruby-%target_ruby% packages/rubybundle/recipes/compile/
-  - c:/msys64/usr/bin/cp -r packages/rubyinstaller/recipes/unpack packages/rubybundle/recipes/
+  - c:/msys64/usr/bin/cp -a packages/rubyinstaller/recipes/compile/ruby-%target_ruby% packages/rubybundle/recipes/compile/
+  - c:/msys64/usr/bin/cp -a packages/rubyinstaller/recipes/unpack packages/rubybundle/recipes/
   # Build the installer
   - rake rubybundle:ruby-%target_ruby%-%arch%:installer-inno
 
