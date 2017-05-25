@@ -1,28 +1,4 @@
-## RubyInstaller-2.4.1-1rc3 - 2017-05-20
-
-### Added
-- Add an "inofficial" RubyInstaller-2.3 build target. #33
-
-### Changed
-- Revert default encoding from 'UTF-8' back to 'locale' due to some issues described in #38.
-- Add an installer option to set the default external encoding to UTF-8.
-- Install rb-readline in `site_ruby` instead of as a gem. Fixes #36
-- Fix shebang line in bin/rake. Fixes #34
-- Remove two unnecessary build patches. #35
-
-
-## RubyInstaller-2.4.1-1rc2 - 2017-04-17
-
-### Added
-- Allow MSYS2 to be shipped together with Ruby, independent from the install path.
-  Refer to the [FAQ](https://github.com/oneclick/rubyinstaller2/wiki/FAQ#user-content-portable-install).
-
-### Changed
-- Removed some unecessary DLLs previously shipped with the installer.
-- Decrease the number of MSYS2 packages installed per default using 'ridk install'.
-
-
-## RubyInstaller-2.4.1-1rc1 - 2017-03-31
+## RubyInstaller-2.4.1-1 - 2017-05-25
 
 The following notable changes are for the transition from [RubyInstaller1](https://github.com/oneclick/rubyinstaller) to [RubyInstaller2](https://github.com/oneclick/rubyinstaller2)
 
@@ -33,12 +9,14 @@ The following notable changes are for the transition from [RubyInstaller1](https
 - Ability to add and use `rubyinstaller-build.gem` for customized Ruby-Applications. Documentation coming soon...
 - Run CI tests on AppVeyor for each `git push` to repository.
 - Build and deploy `rubyinstaller.exe` and `7z` packages per AppVeyor and GitHub releases.
+- Allow MSYS2 to be shipped together with Ruby, when installed side by side or within the ruby directory.
+  Refer to the [FAQ](https://github.com/oneclick/rubyinstaller2/wiki/FAQ#user-content-portable-install).
+- Add an installer option to set `RUBYOPT=-Eutf-8`, which sets `Encoding.default_external` to `UTF-8`.
 
 ### Changed
 - Built with MINGW GCC-6.3 from the [MSYS2 repository](https://github.com/Alexpux/MINGW-packages).
 - Updated to Ruby-2.4.1.
 - Updated bundled libraries/DLLs.
-- `Encoding.default_external` is now `UTF-8` &mdash; no longer ancient `cpXYZ` encoding when reading files.
 - RubyInstaller2 uses a separate DLL directory to avoid conflicting DLLs in the PATH.
 - RubyInstaller2 uses a DLL loading mechanism which ignores the `PATH` environment variable for DLL lookups, but provides a API for DLL directory-addition.
 - Use pure HTML for `Ruby Core + stdlib` documentation instead of CHM files.
