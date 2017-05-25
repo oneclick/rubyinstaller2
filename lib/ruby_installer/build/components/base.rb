@@ -19,7 +19,7 @@ class Base < Rake::Task
   end
 
   def msys
-    msys ||= BuildOrRuntime.msys2_installation
+    @msys ||= BuildOrRuntime.msys2_installation
   end
 
   # This is extracted from https://github.com/larskanis/shellwords

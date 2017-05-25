@@ -2,7 +2,7 @@
 cachedir = File.join(Build.msys2_installation.msys_path, "/var/cache/pacman/pkg")
 
 file self.devtools => [self.sandboxdir] do |t|
-  msys = RubyInstaller::Build::Msys2Installation.new(self.sandboxdir)
+  msys = RubyInstaller::Build::Msys2Installation.new(msys_path: self.sandboxdir, mingwarch: package.mingwdir, mingw_package_prefix: package.pacman_arch)
   msys.with_msys_apps_enabled do
     # initialize MSYS2
     sh "sh", "-lc", "true"
