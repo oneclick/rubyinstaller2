@@ -17,7 +17,7 @@ module Build # Use for: Build, Runtime
 
     def initialize(msys_path: nil, mingwarch: nil, mingw_package_prefix: nil)
       @msys_path = msys_path
-      @msys_path_fixed = true if msys_path
+      @msys_path_fixed = msys_path ? true : false
       @mingwdir = nil
       @mingwarch = mingwarch || (RUBY_PLATFORM=~/x64/ ? 'mingw64' : 'mingw32')
       @mingw_package_prefix = mingw_package_prefix || (RUBY_PLATFORM=~/x64/ ? "mingw-w64-x86_64" : "mingw-w64-i686")
