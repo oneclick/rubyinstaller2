@@ -9,7 +9,7 @@ class CaCertFile
     @content = content
   end
 
-  MOZILLA_CA_CSV_URI = "https://mozillacaprogram.secure.force.com/CA/IncludedCACertificateReportPEMCSV"
+  MOZILLA_CA_CSV_URI = "https://ccadb-public.secure.force.com/mozilla/IncludedCACertificateReportPEMCSV"
 
   def download_ssl_cacert_pem
     require 'open-uri'
