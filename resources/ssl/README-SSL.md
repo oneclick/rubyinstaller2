@@ -3,7 +3,7 @@ RubyInstaller2 - SSL/TLS configuration
 
 RubyInstaller2 is packaged with a predefined list of trusted certificate authorities (CAs).
 This list is stored in the file `<install-path>/ssl/cert.pem` .
-It contains the certificates of the [default list of the Mozilla Foundation](https://wiki.mozilla.org/CA:IncludedCAs) .
+It contains the certificates of the [default list of the Mozilla Foundation](https://wiki.mozilla.org/CA/Included_Certificates) .
 The file `cert.pem` is loaded when `require "openssl"` is executed.
 New releases of the RubyInstaller2 update the CA list to the latest version at the release date.
 `cert.pem` will be overwritten while the installation of RubyInstaller2.
