@@ -7,8 +7,8 @@ module RidkTests
   include Helper::Msys
 
   def setup
-    RubyInstaller::Runtime.disable_msys_apps
     @old_path = ENV['PATH']
+    RubyInstaller::Runtime.disable_msys_apps
   end
 
   def teardown
