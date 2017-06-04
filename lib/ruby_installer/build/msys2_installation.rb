@@ -14,13 +14,15 @@ module Build # Use for: Build, Runtime
     attr_reader :mingwdir
     attr_reader :mingwarch
     attr_reader :mingw_package_prefix
+    attr_reader :ruby_bin_dir
 
-    def initialize(msys_path: nil, mingwarch: nil, mingw_package_prefix: nil)
+    def initialize(msys_path: nil, mingwarch: nil, mingw_package_prefix: nil, ruby_bin_dir: nil)
       @msys_path = msys_path
       @msys_path_fixed = msys_path ? true : false
       @mingwdir = nil
       @mingwarch = mingwarch || (RUBY_PLATFORM=~/x64/ ? 'mingw64' : 'mingw32')
       @mingw_package_prefix = mingw_package_prefix || (RUBY_PLATFORM=~/x64/ ? "mingw-w64-x86_64" : "mingw-w64-i686")
+      @ruby_bin_dir = ruby_bin_dir || File.join(RbConfig::TOPDIR, "bin")
     end
 
     def reset_cache
@@ -103,16 +105,11 @@ module Build # Use for: Build, Runtime
       path.gsub("/", "\\")
     end
 
-    private def ruby_bin_dir
-      require "rbconfig"
-      backslachs( File.join(RbConfig::TOPDIR, "bin") )
-    end
-
     private def msys_apps_envvars
       vars = {}
       msys_bin = msys_bin_path
       mingw_bin = mingw_bin_path
-      ruby_bin = ruby_bin_dir
+      ruby_bin = backslachs( ruby_bin_dir )
 
       vars['PATH'] = ruby_bin + ";" + mingw_bin + ";" + msys_bin
       vars['RI_DEVKIT'] = msys_path
