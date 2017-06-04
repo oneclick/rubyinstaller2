@@ -25,7 +25,7 @@ test_script:
   - ruby -e "Dir['packages/rubyinstaller/recipes/installer-inno/rubyinstaller-%target_ruby%-*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath,defaultutf8')}"
   # Activate the environment variables set by the installer, but exclude
   # git's /usr/bin, because it conflicts with one RubyInstaller test.
-  - ps: $env:PATH = [Environment]::GetEnvironmentVariable("PATH","Machine") -replace "C:\\Program Files\\Git\\usr\\bin"
+  - ps: $env:PATH = [Environment]::GetEnvironmentVariable("PATH","Machine") -replace ";C:\\Program Files\\Git\\usr\\bin" -replace ";C:\\Ruby193\\bin"
   - ps: $env:RUBYOPT = [Environment]::GetEnvironmentVariable("RUBYOPT","Machine")
   - echo %PATH%
   - echo %RUBYOPT%
