@@ -119,7 +119,7 @@ class TestRidkCmd < Minitest::Test
   end
 
   def test_ridk_install
-    assert system("ridk install msys2 pacman_update")
+    assert system("ridk install msys2")
   end
 end
 

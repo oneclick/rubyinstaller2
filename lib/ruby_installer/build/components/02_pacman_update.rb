@@ -12,8 +12,13 @@ class PacmanUpdate < Base
 
   def execute(args)
     msys.with_msys_apps_enabled do
-      puts "#{description} ..."
-      res = run_verbose("pacman", "-Sy", *pacman_args)
+      puts "#{description} part 1  ..."
+      res = run_verbose("pacman", "-Syu", *pacman_args)
+      puts "#{description} #{res ? green("succeeded") : red("failed")}"
+      raise "pacman failed" unless res
+
+      puts "#{description} part 2 ..."
+      res = run_verbose("pacman", "-Su", *pacman_args)
       puts "#{description} #{res ? green("succeeded") : red("failed")}"
       raise "pacman failed" unless res
     end
