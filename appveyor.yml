@@ -32,8 +32,10 @@ test_script:
   # Install dependent gems
   - gem install bundler
   - bundle install
-  # Run all tests against the new installed Ruby and verify that the used CA list is still the latest.
-  - bundle exec rake test ssl:update_check
+  # Run all tests against the new installed Ruby
+  - rake test
+  # Verify that the used CA list is still the latest.
+  - rake ssl:update_check
 
 # Provide the rubyinstaller.exe files for download
 artifacts:
