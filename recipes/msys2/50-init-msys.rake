@@ -3,6 +3,6 @@ file self.after_init_filelist => [self.before_init_filelist] do |t|
     # initialize MSYS2
     sh "usr/bin/sh", "-lc", "true"
 
-    sh "find > #{File.basename self.after_init_filelist}"
+    sh "find -type f > #{File.basename self.after_init_filelist}"
   end
 end

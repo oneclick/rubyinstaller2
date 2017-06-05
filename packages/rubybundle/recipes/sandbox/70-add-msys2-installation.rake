@@ -7,6 +7,8 @@ file msysdir => [msys2_task.devtools, File.dirname(msysdir)] do |t|
 
   # Remove files created while MSYS init.
   # These files are re-created on the target computer.
-  rm_rf init_files
+  chdir t.name do
+    rm init_files
+  end
 end
 self.sandboxfiles << msysdir
