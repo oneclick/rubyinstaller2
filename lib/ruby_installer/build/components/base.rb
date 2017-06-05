@@ -48,6 +48,10 @@ class Base < Rake::Task
     puts "> #{ cyan(shell_join(args)) }"
     system(*args)
   end
+
+  def puts(*args)
+    $stderr.puts *args
+  end
 end
 end
 end
