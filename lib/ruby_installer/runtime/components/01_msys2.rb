@@ -14,7 +14,7 @@ class Msys2 < Base
       puts green("already installed")
       false
     rescue Msys2Installation::MsysNotFound
-      puts red("unavaiable")
+      puts red("unavailable")
       true
     end
   end
