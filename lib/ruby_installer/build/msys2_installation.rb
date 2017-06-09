@@ -76,7 +76,7 @@ module Build # Use for: Build, Runtime
     end
 
     def mingw_bin_path(mingwarch=nil)
-      backslachs( File.join(msys_path, mingwarch || msystem, "bin") )
+      backslachs( File.join(msys_path, mingwarch || msystem.downcase, "bin") )
     end
 
     def mingw_prefix
