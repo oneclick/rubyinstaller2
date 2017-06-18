@@ -1,6 +1,4 @@
 recipes/installer-inno/filelist-*.iss
-recipes/compile/*/pkg
-recipes/compile/*/src
 recipes/sandbox/ruby-*
 recipes/unpack/ruby-*
 *.7z

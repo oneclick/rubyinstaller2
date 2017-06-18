@@ -42,7 +42,7 @@ end
 ovl_glob('recipes/*/task.rake').each{|f| load(ovl_expand_file(f)) }
 
 ruby_arch_packages = %w[x64 x86].map do |arch|
-  %w[2.4.1-1rc3].map do |packagever|
+  %w[2.4.1-1rc3 2.5.0-snapshot].map do |packagever|
     RubyPackage.new( packagever: packagever, arch: arch, rootdir: __dir__ ).freeze
   end
 end
@@ -57,8 +57,7 @@ ruby_arch_packages.each do |ruby_packages|
   ruby_packages.each do |pack|
     nsp = "ruby-#{pack.rubyver}-#{pack.arch}"
     namespace nsp do
-      compile = RubyInstaller::Build::Task.new( thisdir: "recipes/compile", package: pack )
-      unpack = RubyInstaller::Build::Task.new( thisdir: "recipes/unpack", package: pack, compile_task: compile )
+      unpack = RubyInstaller::Build::Task.new( thisdir: "recipes/unpack", package: pack )
       sandbox = RubyInstaller::Build::Task.new( thisdir: "recipes/sandbox", package: pack, unpack_task: unpack, msys2_task: msys2 )
       RubyInstaller::Build::Task.new( thisdir: "recipes/installer-inno", package: pack, sandbox_task: sandbox )
       RubyInstaller::Build::Task.new( thisdir: "recipes/archive-7z", package: pack, sandbox_task: sandbox )
