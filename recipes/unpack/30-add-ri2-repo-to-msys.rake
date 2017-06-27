@@ -3,7 +3,7 @@ file self.repo_added => [File.dirname(self.repo_added)] do |t|
   msys_path = RubyInstaller::Build.msys2_installation.msys_path
   pacman_conf = File.join(msys_path, "/etc/pacman.conf")
 
-  unless File.read(pacman_conf).include?("[ci.ri2]")
+  unless File.read(pacman_conf) =~ /^\[ci\.ri2\]/
     File.open(pacman_conf, "a+") do |fd|
       fd.puts
       fd.puts "# Added for RubyInstaller2 packaging by #{__FILE__}"
