@@ -168,12 +168,18 @@ module Build # Use for: Build, Runtime
       vars = with_msys_install_hint(if_no_msys) do
         msys_apps_envvars
       end
+      changed = false
       if path=vars.delete("PATH")
-        ENV['PATH'] = ENV['PATH'].gsub(path + ";", "")
+        old_path = ENV['PATH']
+        ENV['PATH'] = old_path.gsub(path + ";", "")
+        changed = ENV['PATH'] != old_path
       end
       vars.each do |key, val|
+        changed = true if ENV[key]
         ENV.delete(key)
       end
+
+      changed
     end
 
     def with_msys_apps_enabled(*args)
@@ -182,6 +188,15 @@ module Build # Use for: Build, Runtime
         yield
       ensure
         disable_msys_apps(*args) if changed
+      end
+    end
+
+    def with_msys_apps_disabled(*args)
+      changed = disable_msys_apps(*args)
+      begin
+        yield
+      ensure
+        enable_msys_apps(*args) if changed
       end
     end
 
