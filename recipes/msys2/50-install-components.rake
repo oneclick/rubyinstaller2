@@ -2,7 +2,11 @@
 cachedir = File.join(Build.msys2_installation.msys_path, "/var/cache/pacman/pkg")
 
 file self.devtools => [self.after_init_filelist] do |t|
-  msys = RubyInstaller::Build::Msys2Installation.new(msys_path: self.sandboxdir, mingwarch: package.mingwdir, mingw_package_prefix: package.pacman_arch)
+  msys = RubyInstaller::Build::Msys2Installation.new(
+      msys_path: File.expand_path(self.sandboxdir),
+      mingwarch: package.mingwdir,
+      mingw_package_prefix: package.pacman_arch
+  )
   msys.with_msys_apps_enabled do
     # retrieve the pacman cache dir
     cachedir2 = IO.popen(["cygpath", "-u", cachedir], &:read).chomp
