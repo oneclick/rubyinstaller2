@@ -1,0 +1,4 @@
+bin/libgcc_s_dw2-1.dll
+bin/msvcrt-ruby250.dll
+bin/libwinpthread-1.dll
+lib/libmsvcrt-ruby250.dll.a

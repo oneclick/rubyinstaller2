@@ -13,5 +13,6 @@ module Runtime
   end
 
   require 'ruby_installer/runtime/singleton'
+  BuildOrRuntime = self
 end
 end

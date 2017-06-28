@@ -7,8 +7,8 @@ module RidkTests
   include Helper::Msys
 
   def setup
-    RubyInstaller::Runtime.disable_msys_apps
     @old_path = ENV['PATH']
+    RubyInstaller::Runtime.disable_msys_apps
   end
 
   def teardown
@@ -119,7 +119,7 @@ class TestRidkCmd < Minitest::Test
   end
 
   def test_ridk_install
-    assert system("ridk install msys2 pacman_update")
+    assert system("ridk install msys2")
   end
 end
 

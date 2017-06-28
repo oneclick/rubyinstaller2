@@ -7,17 +7,19 @@ include RubyInstaller::Build::Utils
 
 task :gem => :build
 
-# Forward rubyinstaller build tasks to the sub Rakefile.
-namespace "rubyinstaller" do |ns|
-  Rake::TaskManager.record_task_metadata = true
-  Rake.load_rakefile "packages/rubyinstaller/Rakefile"
-  ns.tasks.select(&:comment).each do |t|
-    name, comment = t.name.sub(/.*?:/, ""), t.comment
-    t.clear
-    desc comment
-    task name do
-      chdir "packages/rubyinstaller" do
-        sh "rake", name
+# Forward package build tasks to the sub Rakefiles.
+%w[rubyinstaller rubybundle].each do |packname|
+  namespace packname do |ns|
+    Rake::TaskManager.record_task_metadata = true
+    Rake.load_rakefile "packages/#{packname}/Rakefile"
+    ns.tasks.select(&:comment).each do |t|
+      name, comment = t.name.sub(/.*?:/, ""), t.comment
+      t.clear
+      desc comment
+      task name do
+        chdir "packages/#{packname}" do
+          sh "rake", name
+        end
       end
     end
   end
