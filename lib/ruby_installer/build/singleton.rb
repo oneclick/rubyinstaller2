@@ -17,8 +17,13 @@ module Build # Use for: Build, Runtime
       @msys2_installation ||= Msys2Installation.new
     end
 
-    # Switch to explicit search paths added by add_dll_directory() and enable MSYS2-MINGW directory this way, if available.
+    # Switch to explicit DLL search paths added by add_dll_directory().
+    # Then enable paths set by RUBY_DLL_PATH environment variable and the MSYS2-MINGW directory, if available.
     def enable_dll_search_paths
+      ENV['RUBY_DLL_PATH'].to_s.split(File::PATH_SEPARATOR).each do |path|
+        DllDirectory.new(path) rescue DllDirectory::Error
+      end
+
       msys2_installation.enable_dll_search_paths
     end
 

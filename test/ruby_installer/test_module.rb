@@ -46,6 +46,16 @@ class TestModule < Minitest::Test
     assert_match(/C:.invalid_path/, err.to_s)
   end
 
+  def test_RUBY_DLL_PATH
+    ENV['RUBY_DLL_PATH'] = "non-exist;#{ File.expand_path("test/helper") };another-dummy"
+    begin
+      res = IO.popen("ruby -rfiddle -e \"p Fiddle.dlopen('libtest.dll')\"", &:read)
+      assert_match(/Fiddle::Handle/, res)
+    ensure
+      ENV.delete('RUBY_DLL_PATH')
+    end
+  end
+
   # The following tests require that MSYS2 is installed on c:/msys64 per MSYS2-installer.
   def test_enable_msys_apps_with_msys_installed
     skip unless File.directory?("C:/msys64")
