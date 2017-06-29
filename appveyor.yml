@@ -7,7 +7,7 @@ install:
   - choco install -y InnoSetup
   # Update pacman database.
   - c:/msys64/usr/bin/bash -lc "pacman -Sy --noconfirm"
-  # Update compiler and ruby dependencies, because the pre-installed are outdated.
+  # Update ruby dependencies, because the pre-installed are outdated.
   # Keep this in sync with the "depends" list in PKGBUILD files.
   - c:/msys64/usr/bin/bash -lc "pacman -S --noconfirm --needed ${MINGW_PACKAGE_PREFIX}-toolchain ${MINGW_PACKAGE_PREFIX}-gcc-libs ${MINGW_PACKAGE_PREFIX}-gdbm ${MINGW_PACKAGE_PREFIX}-libffi ${MINGW_PACKAGE_PREFIX}-libyaml ${MINGW_PACKAGE_PREFIX}-openssl ${MINGW_PACKAGE_PREFIX}-zlib"
 
@@ -19,51 +19,64 @@ build_script:
 
   # Build the installer
   - rake rubyinstaller:ruby-%target_ruby%-%arch%
+  # Reuse installed ruby
+  - c:/msys64/usr/bin/mkdir -p packages/rubybundle/recipes/
+  - c:/msys64/usr/bin/cp -a packages/rubyinstaller/recipes/unpack packages/rubybundle/recipes/
+  # Remove broken pkg files from cache
+  - c:/msys64/usr/bin/rm -f c:/msys64/var/cache/pacman/pkg/{autoconf,automake}*
+  # Build the installer
+  - rake rubybundle:ruby-%target_ruby%-%arch%
 
 test_script:
   # Run the built Ruby installer and install to c:/ri2-ruby
   - ruby -e "Dir['packages/rubyinstaller/recipes/installer-inno/rubyinstaller-%target_ruby%-*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath,defaultutf8')}"
   # Activate the environment variables set by the installer, but exclude
   # git's /usr/bin, because it conflicts with one RubyInstaller test.
-  - ps: $env:PATH = [Environment]::GetEnvironmentVariable("PATH","Machine") -replace "C:\\Program Files\\Git\\usr\\bin"
+  - ps: $env:PATH = [Environment]::GetEnvironmentVariable("PATH","Machine") -replace ";C:\\Program Files\\Git\\usr\\bin" -replace ";C:\\Ruby193\\bin"
   - ps: $env:RUBYOPT = [Environment]::GetEnvironmentVariable("RUBYOPT","Machine")
   - echo %PATH%
   - echo %RUBYOPT%
   # Install dependent gems
   - gem install bundler
   - bundle install
-  # Run all tests against the new installed Ruby and verify that the used CA list is still the latest.
-  - bundle exec rake test ssl:update_check
+  # Run all tests against the new installed Ruby
+  - rake test
+  # Verify that the used CA list is still the latest.
+  - rake ssl:update_check
 
 # Provide the rubyinstaller.exe files for download
 artifacts:
-  - path: packages/rubyinstaller/recipes/installer-inno/rubyinstaller-$(target_ruby)-*-$(arch).exe
+  - path: packages/rubyinstaller/recipes/installer-inno/ruby*-$(target_ruby)-*-$(arch).exe
     name: Executable installer
-  - path: packages/rubyinstaller/recipes/archive-7z/rubyinstaller-$(target_ruby)-*-$(arch).7z
+  - path: packages/rubyinstaller/recipes/archive-7z/ruby*-$(target_ruby)-*-$(arch).7z
     name: Plain archive file
+  - path: packages/rubybundle/recipes/installer-inno/ruby*-$(target_ruby)-*-$(arch).exe
+    name: Executable installer with MYS2
+  - path: packages/rubybundle/recipes/archive-7z/ruby*-$(target_ruby)-*-$(arch).7z
+    name: Plain archive file with MYS2
 
 environment:
   matrix:
-    - build_ruby: "22"
-      target_ruby: "2.4.1"
+    - target_ruby: "2.4.1"
       arch: "x86"
+      build_ruby: "22"
       MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
       MSYSTEM: "MINGW32"
 
-    - build_ruby: "23"
-      target_ruby: "2.4.1"
+    - target_ruby: "2.4.1"
       arch: "x64"
+      build_ruby: "23"
       MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
       MSYSTEM: "MINGW64"
 
-    - build_ruby: "22"
-      target_ruby: "2.3.4"
+    - target_ruby: "2.5.0"
       arch: "x86"
+      build_ruby: "24"
       MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
       MSYSTEM: "MINGW32"
 
-    - build_ruby: "23"
-      target_ruby: "2.3.4"
+    - target_ruby: "2.5.0"
       arch: "x64"
+      build_ruby: "24"
       MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
       MSYSTEM: "MINGW64"

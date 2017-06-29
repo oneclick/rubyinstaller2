@@ -152,7 +152,8 @@ begin
 
   DevkitChkBox := TCheckBox.Create(HostPage);
   DevkitChkBox.Parent := HostPage;
-  DevkitChkBox.State := cbChecked;
+  if WizardSilent then DevkitChkBox.State := cbUnchecked
+  else DevkitChkBox.State := cbChecked;
   DevkitChkBox.Caption := CustomMessage('DevkitInstall');
   DevkitChkBox.Hint := CustomMessage('DevkitInstallHint');
   DevkitChkBox.ShowHint := True;

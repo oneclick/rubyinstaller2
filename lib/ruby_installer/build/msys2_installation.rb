@@ -12,14 +12,21 @@ module Build # Use for: Build, Runtime
     end
 
     attr_reader :mingwdir
+    attr_reader :mingwarch
+    attr_reader :mingw_package_prefix
+    attr_reader :ruby_bin_dir
 
-    def initialize
-      @msys_path = nil
+    def initialize(msys_path: nil, mingwarch: nil, mingw_package_prefix: nil, ruby_bin_dir: nil)
+      @msys_path = msys_path
+      @msys_path_fixed = msys_path ? true : false
       @mingwdir = nil
+      @mingwarch = mingwarch || (RUBY_PLATFORM=~/x64/ ? 'mingw64' : 'mingw32')
+      @mingw_package_prefix = mingw_package_prefix || (RUBY_PLATFORM=~/x64/ ? "mingw-w64-x86_64" : "mingw-w64-i686")
+      @ruby_bin_dir = ruby_bin_dir || File.join(RbConfig::TOPDIR, "bin")
     end
 
     def reset_cache
-      @msys_path = nil
+      @msys_path = nil unless @msys_path_fixed
     end
 
     def iterate_msys_paths
@@ -71,20 +78,12 @@ module Build # Use for: Build, Runtime
       backslachs( File.join(msys_path, "/usr/bin") )
     end
 
-    def msystem
-      RUBY_PLATFORM=~/x64/ ? 'MINGW64' : 'MINGW32'
-    end
-
-    def mingw_bin_path(mingwarch=nil)
-      backslachs( File.join(msys_path, mingwarch || msystem, "bin") )
+    def mingw_bin_path
+      backslachs( File.join(msys_path, mingwarch, "bin") )
     end
 
     def mingw_prefix
-      "/#{msystem.downcase}"
-    end
-
-    def mingw_package_prefix
-      RUBY_PLATFORM=~/x64/ ? "mingw-w64-x86_64" : "mingw-w64-i686"
+      "/#{mingwarch}"
     end
 
     def enable_dll_search_paths
@@ -106,20 +105,15 @@ module Build # Use for: Build, Runtime
       path.gsub("/", "\\")
     end
 
-    private def ruby_bin_dir
-      require "rbconfig"
-      backslachs( File.join(RbConfig::TOPDIR, "bin") )
-    end
-
-    private def msys_apps_envvars(mingwarch=nil)
+    private def msys_apps_envvars
       vars = {}
       msys_bin = msys_bin_path
-      mingw_bin = mingw_bin_path(mingwarch)
-      ruby_bin = ruby_bin_dir
+      mingw_bin = mingw_bin_path
+      ruby_bin = backslachs( ruby_bin_dir )
 
       vars['PATH'] = ruby_bin + ";" + mingw_bin + ";" + msys_bin
       vars['RI_DEVKIT'] = msys_path
-      vars['MSYSTEM'] = (mingwarch || msystem).upcase
+      vars['MSYSTEM'] = mingwarch.upcase
       vars['PKG_CONFIG_PATH'] = "#{mingw_prefix}/lib/pkgconfig:#{mingw_prefix}/share/pkgconfig"
       vars['ACLOCAL_PATH'] = "#{mingw_prefix}/share/aclocal:/usr/share/aclocal"
       vars['MANPATH'] = "#{mingw_prefix}/share/man"
@@ -145,9 +139,9 @@ module Build # Use for: Build, Runtime
       end
     end
 
-    def enable_msys_apps(mingwarch: nil, if_no_msys: :hint, for_gem_install: false)
+    def enable_msys_apps(if_no_msys: :hint, for_gem_install: false)
       vars = with_msys_install_hint(if_no_msys) do
-        msys_apps_envvars(mingwarch)
+        msys_apps_envvars
       end
 
       changed = false
@@ -170,24 +164,39 @@ module Build # Use for: Build, Runtime
       changed
     end
 
-    def disable_msys_apps(mingwarch: nil, if_no_msys: :hint)
+    def disable_msys_apps(if_no_msys: :hint)
       vars = with_msys_install_hint(if_no_msys) do
-        msys_apps_envvars(mingwarch)
+        msys_apps_envvars
       end
+      changed = false
       if path=vars.delete("PATH")
-        ENV['PATH'] = ENV['PATH'].gsub(path + ";", "")
+        old_path = ENV['PATH']
+        ENV['PATH'] = old_path.gsub(path + ";", "")
+        changed = ENV['PATH'] != old_path
       end
       vars.each do |key, val|
+        changed = true if ENV[key]
         ENV.delete(key)
       end
+
+      changed
     end
 
-    def with_msys_apps_enabled
-      changed = enable_msys_apps
+    def with_msys_apps_enabled(*args)
+      changed = enable_msys_apps(*args)
       begin
         yield
       ensure
-        disable_msys_apps if changed
+        disable_msys_apps(*args) if changed
+      end
+    end
+
+    def with_msys_apps_disabled(*args)
+      changed = disable_msys_apps(*args)
+      begin
+        yield
+      ensure
+        enable_msys_apps(*args) if changed
       end
     end
 

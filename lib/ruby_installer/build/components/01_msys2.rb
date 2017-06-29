@@ -1,5 +1,5 @@
 module RubyInstaller
-module Runtime
+module Build # Use for: Build, Runtime
 module Components
 class Msys2 < Base
   def description
@@ -7,14 +7,13 @@ class Msys2 < Base
   end
 
   def needed?
-    msys = Runtime.msys2_installation
     begin
       print "MSYS2 seems to be "
       msys.msys_path
       puts green("already installed")
       false
     rescue Msys2Installation::MsysNotFound
-      puts red("unavaiable")
+      puts red("unavailable")
       true
     end
   end

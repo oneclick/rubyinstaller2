@@ -1,4 +1,4 @@
-file ruby_exe => compile_task.pkgfile do
+file ruby_exe => [self.repo_added] do
   # pacman doesn't work on automount paths (/c/path), so that we
   # mount to /tmp
   pmrootdir = "/tmp/rubyinstaller/ruby-#{package.rubyver}-#{package.arch}"
@@ -12,7 +12,7 @@ file ruby_exe => compile_task.pkgfile do
   msys_sh <<-EOT
     mount #{unpackdir_abs.inspect} #{pmrootdir.inspect} &&
     pacman --root #{pmrootdir.inspect} -Sy &&
-    pacman --root #{pmrootdir.inspect} --noconfirm -U #{install_packages.map(&:inspect).join(" ")};
+    pacman --root #{pmrootdir.inspect} --noconfirm -S #{install_packages.map(&:inspect).join(" ")};
     umount #{pmrootdir.inspect}
   EOT
   touch ruby_exe
