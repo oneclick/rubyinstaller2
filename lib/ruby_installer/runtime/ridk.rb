@@ -63,7 +63,9 @@ LOGO = %q{
             ci.installable_components.each do |comp|
               puts format("  % 2d - %s", comp.task_index, comp.description)
             end
-            print "Which components shall be installed? [#{inst_defaults.join(",")}] "
+            puts
+            puts "Press ENTER to install recommended MSYS2 components or"
+            print "list desired component numbers [#{inst_defaults.join(",")}] "
 
             inp = STDIN.gets
             inp = inp.tr(",", " ").strip if inp
