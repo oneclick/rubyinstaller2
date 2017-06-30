@@ -1,3 +1,19 @@
+## RubyInstaller-2.4.1-2 - YYYY-MM-DD
+
+### Added
+- Add package called 'rubybundle' with embedded MSYS2 tree as preview.
+- Add daily ruby-2.5 snapshot builds, downloadable from [Appveyor](https://ci.appveyor.com/project/larskanis/rubyinstaller2-hbuor/branch/master).
+- Add possibility to set DLL paths per environment variable RUBY_DLL_PATH. Fixes #51
+- Don't run 'ridk install' when installing with silent option. Fixes #43
+
+### Changed
+- Do full MSYS2 system update instead of inventory update only.
+  Fixes possible library inconsistences on a partially updated system.
+- Spin off compile task to https://github.com/oneclick/rubyinstaller2-packages to speedup packaging.
+- Update of dependent DLLs to latest MSYS2 versions.
+- Update of the SSL CA certificate list.
+
+
 ## RubyInstaller-2.4.1-1 - 2017-05-25
 
 The following notable changes are for the transition from [RubyInstaller1](https://github.com/oneclick/rubyinstaller) to [RubyInstaller2](https://github.com/oneclick/rubyinstaller2)
