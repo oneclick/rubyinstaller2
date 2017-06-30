@@ -53,8 +53,8 @@ MSYS2 can also be installed manually like so (as an alternative to `ridk install
 
 The base MSYS2 setup includes compilers and other build tools, but doesn't include libraries or DLLs that some gems require as their dependencies.
 Fortunatelly many of the required libraries are available through the MSYS2 repositories.
-They can be installed per `ridk exec pacman -S mingw-w64-x86_64-libraryname`.
-Exchange `mingw-w64-x86_64` by `mingw-w64-i686` for the 32-bit RubyInstaller.
+They can be installed per `ridk exec pacman -S mingw-w64-x86_64-libraryname` similar to `apt-get` on Linux.
+Exchange the prefix `mingw-w64-x86_64` by `mingw-w64-i686` for the 32-bit RubyInstaller.
 
 For instance these popular gems can be installed like so from the source gem:
 
@@ -71,7 +71,7 @@ For instance these popular gems can be installed like so from the source gem:
 
 Some gems are properly labeled to install dependent libraries per pacman.
 See [the wiki](https://github.com/oneclick/rubyinstaller2/wiki/For-gem-developers#msys2-library-dependency) how such a label can be added to gems.
-Also refer the [FAQ](https://github.com/larskanis/rubyinstaller2/wiki/FAQ) for additional recommendations.
+Also refer the [FAQ](https://github.com/larskanis/rubyinstaller2/wiki/FAQ) for additional install recommendations.
 
 
 ## Building the Installer
