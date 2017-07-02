@@ -7,7 +7,7 @@ class PacmanUpdate < Base
   end
 
   def description
-    "MSYS2 repository update"
+    "MSYS2 system update"
   end
 
   def execute(args)
