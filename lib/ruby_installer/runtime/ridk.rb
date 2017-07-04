@@ -64,8 +64,7 @@ LOGO = %q{
               puts format("  % 2d - %s", comp.task_index, comp.description)
             end
             puts
-            puts "Press ENTER to install recommended MSYS2 components or"
-            print "list desired component numbers [#{inst_defaults.join(",")}] "
+            print "Which components shall be installed? If unsure press ENTER [#{inst_defaults.join(",")}] "
 
             inp = STDIN.gets
             inp = inp.tr(",", " ").strip if inp
