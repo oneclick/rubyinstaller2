@@ -1,4 +1,4 @@
-## RubyInstaller-2.4.1-2 - YYYY-MM-DD
+## RubyInstaller-2.4.1-2 - 2017-07-04
 
 ### Added
 - Add package called 'rubybundle' with embedded MSYS2 tree as preview.
