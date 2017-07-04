@@ -10,7 +10,7 @@
 - Do full MSYS2 system update instead of inventory update only.
   Fixes possible library inconsistences on a partially updated system.
 - Spin off compile task to https://github.com/oneclick/rubyinstaller2-packages to speedup packaging.
-- Update of dependent DLLs to latest MSYS2 versions.
+- Update of dependent DLLs and build tools to latest MSYS2 versions.
 - Update of the SSL CA certificate list.
 
 
