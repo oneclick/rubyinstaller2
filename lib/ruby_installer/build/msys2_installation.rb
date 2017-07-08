@@ -118,6 +118,8 @@ module Build # Use for: Build, Runtime
       vars['ACLOCAL_PATH'] = "#{mingw_prefix}/share/aclocal:/usr/share/aclocal"
       vars['MANPATH'] = "#{mingw_prefix}/share/man"
       vars['MINGW_PACKAGE_PREFIX'] = mingw_package_prefix
+      locale = IO.popen([File.join(msys_bin, "locale"), "-uU"], &:read) rescue SystemCallError
+      vars['LANG'] = locale=~/UTF-8/ ? locale.to_s.strip : 'C'
 
       vars
     end
