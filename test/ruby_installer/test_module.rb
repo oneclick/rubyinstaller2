@@ -69,8 +69,9 @@ class TestModule < Minitest::Test
 
     RubyInstaller::Runtime.enable_msys_apps
     assert_operator ENV['PATH'].downcase, :include?, "c:\\msys64", "msys should be in the path after enable_msys_apps"
-    assert_equal ENV['RI_DEVKIT'].downcase, "c:\\msys64", "enable_msys_apps should set RI_DEVKIT"
-    assert_equal ENV['MSYSTEM'], RUBY_PLATFORM =~ /x64/ ? "MINGW64" : "MINGW32", "enable_msys_apps should set MSYSTEM according to RUBY_PLATFORM"
+    assert_equal "c:\\msys64", ENV['RI_DEVKIT'].downcase, "enable_msys_apps should set RI_DEVKIT"
+    assert_equal RUBY_PLATFORM =~ /x64/ ? "MINGW64" : "MINGW32", ENV['MSYSTEM'], "enable_msys_apps should set MSYSTEM according to RUBY_PLATFORM"
+    assert_match(/./, ENV['LANG'], "enable_msys_apps should set LANG")
 
     out, err = capture_subprocess_io do
       system("touch", "--version")

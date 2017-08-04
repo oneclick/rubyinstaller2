@@ -33,13 +33,14 @@ module Build # Use for: Build, Runtime
     # Set default search paths to the application directory (where ruby.exe resides) and to paths that are added per DllDirectory.new().
     # It disables the PATH environment variable for DLL search.
     #
-    # This methos is usually called while RubyInstaller startup.
+    # This method is usually called while RubyInstaller startup.
     def self.set_defaults
       if @@add_dll_dir_available
         set_default_dll_directories_winapi
       end
     end
 
+    # See RubyInstaller::Build.add_dll_directory
     def initialize(path)
       path = File.expand_path(path)
 
@@ -83,6 +84,7 @@ module Build # Use for: Build, Runtime
       handle
     end
 
+    # This method removes the given directory from the active DLL search paths.
     def remove
       if @handle
         raise WinApiError, "RemoveDllDirectory failed for #{@path}" if RemoveDllDirectory.call(@handle) == 0
