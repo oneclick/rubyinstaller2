@@ -161,6 +161,10 @@ LOGO = %q{
           h["sh"] = ver
         end
 
+        ignore_err do
+          h["os"] = `ver`.strip
+        end
+
         puts h.to_yaml
       end
 

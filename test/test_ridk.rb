@@ -62,6 +62,7 @@ module RidkTests
     refute_nil y["ruby_installer"]["git_commit"]
     assert_match(/gcc/, y["cc"])
     assert_match(/bash/, y["sh"])
+    assert_match(/windows/i, y["os"])
     assert_equal "c:\\msys64", y["msys2"]["path"].downcase
     skip "Appveyors MSYS version is too old to have a components.xml" if ENV['APPVEYOR']
     assert_match(/MSYS/, y["msys2"]["title"])
