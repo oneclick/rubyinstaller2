@@ -4,7 +4,7 @@ require "net/https"
 require "uri"
 require "openssl"
 
-class TestStdlib < Minitest::Test
+class TestSslCacerts < Minitest::Test
   EXTERNAL_HTTPS = "https://torproject.org"
 
   def test_https_external
