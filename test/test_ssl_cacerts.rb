@@ -7,6 +7,7 @@ require "openssl"
 class TestSslCacerts < Minitest::Test
   EXTERNAL_HTTPS = "https://torproject.org"
 
+  # Can we connect to a external host with our default RubyInstaller CA list?
   def test_https_external
     uri = URI(EXTERNAL_HTTPS)
     res = Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |https|
@@ -15,14 +16,9 @@ class TestSslCacerts < Minitest::Test
     assert_equal("302", res)
   end
 
+  # Can we generate a valid PKI?
   def test_generate_certs
-    ks = pki
-    assert ks.server_cert.verify(ks.ca_cert.public_key)
-
-    File.write("ca_key.pem", ks.ca_key.to_pem)
-    File.write("ca_cert.pem", ks.ca_cert.to_pem)
-    File.write("server_key.pem", ks.server_key.to_pem)
-    File.write("server_cert.pem", ks.server_cert.to_pem)
+    assert pki.server_cert.verify(pki.ca_cert.public_key)
   end
 
   def test_ssl_connection_ipv4
@@ -33,74 +29,124 @@ class TestSslCacerts < Minitest::Test
     check_ssl_with_ipvX('::1', '::1', 6)
   end
 
-  def check_ssl_with_ipvX(bind, host, ipvX)
-    ks = pki
+  # Can CA certificates overwritten per SSL_CERT_FILE environment variable?
+  def test_SSL_CERT_FILE
+    if ENV['SSL_CERT_FILE']
+      # Connect per system CA list (overwritten per SSL_CERT_FILE)
+      sclient = connect_ssl_client("localhost", 23456)
+      res = read_and_close_ssl(sclient, "hello client->server")
+      assert "hello server->client", res
+    else
+      server  = TCPServer.new "localhost", 23456
+      server_th = Thread.new do
+        sserver = run_ssl_server(server, pki)
+        read_and_close_ssl(sserver, "hello server->client")
+      end
 
-    server  = TCPServer.new bind, 0
+      Tempfile.open(["cert", ".pem"]) do |fd|
+        fd.write pki.ca_cert.to_pem
+        fd.close
+        ENV['SSL_CERT_FILE'] = fd.path
+        cmd = ["ruby", __FILE__, "-n", __method__.to_s]
+        res = IO.popen(cmd, &:read)
+        assert_equal 0, $?.exitstatus, "res #{cmd.join(" ")} failed: #{res}"
+      end
+
+      assert "hello client->server", server_th.value
+    end
+  end
+
+  # Can CA certificates added into C:/Ruby24/ssl/certs/<hash>.0 ?
+  def test_ssl_certs_dir
+    certfile = "#{RbConfig::TOPDIR}/ssl/certs/#{pki.ca_cert.subject.hash.to_s(16)}.0"
+    File.write(certfile, pki.ca_cert.to_pem)
+
+    server  = TCPServer.new "localhost", 0
     server_th = Thread.new do
-      context = OpenSSL::SSL::SSLContext.new
-      context.client_ca = ks.ca_cert
-      context.cert = ks.server_cert
-      context.key  = ks.server_key
-      sserver = OpenSSL::SSL::SSLServer.new(server, context)
-      ssconn = sserver.accept
-      sserver.close
-      server.close
-      ssconn
+      run_ssl_server(server, pki)
     end
 
-    client  = TCPSocket.new host, server.local_address.ip_port
-    context = OpenSSL::SSL::SSLContext.new
-    context.verify_mode = OpenSSL::SSL::VERIFY_PEER | OpenSSL::SSL::VERIFY_FAIL_IF_NO_PEER_CERT
-    cert_store = OpenSSL::X509::Store.new
-    cert_store.add_cert ks.ca_cert
-    context.cert_store = cert_store
+    # Connect per system CA list (with addition of our certificate)
+    sclient = connect_ssl_client("localhost", server.local_address.ip_port)
+    assert_ssl_connection_is_usable(server_th.value, sclient)
 
-    sclient = OpenSSL::SSL::SSLSocket.new(client, context)
-    sclient.connect
-    assert client.local_address.send("ipv#{ipvX}?"), "connection should be ipv#{ipvX}"
+    File.unlink(certfile)
+  end
+
+  def check_ssl_with_ipvX(bind, host, ipvX)
+    server  = TCPServer.new bind, 0
+    server_th = Thread.new do
+      run_ssl_server(server, pki)
+    end
+
+    sclient = connect_ssl_client(host, server.local_address.ip_port, pki)
+    assert sclient.to_io.local_address.send("ipv#{ipvX}?"), "connection should be ipv#{ipvX}"
     assert server_th.value.to_io.local_address.send("ipv#{ipvX}?"), "connection should be ipv#{ipvX}"
 
     assert_ssl_connection_is_usable(server_th.value, sclient)
   end
 
-  def assert_ssl_connection_is_usable(server, client)
-    server_th = Thread.new do
-      server.write("hello server->client")
-      server.flush
-      server.to_io.close_write
-      res = server.read
-      server.close
-      server.to_io.close
-      res
-    end
-
-    client.write("hello client->server")
-    client.flush
-    client.to_io.close_write
-
-    assert "hello server->client", client.read
-    assert "hello client->server", server_th.value
-
-    client.close
-    client.to_io.close
+  def run_ssl_server(server, pki)
+    context = OpenSSL::SSL::SSLContext.new
+    context.client_ca = pki.ca_cert
+    context.cert = pki.server_cert
+    context.key  = pki.server_key
+    sserver = OpenSSL::SSL::SSLServer.new(server, context)
+    ssconn = sserver.accept
+    sserver.close
+    server.close
+    ssconn
   end
 
-  trap(2) do
-    Thread.list.each do |th|
-      puts th.backtrace
+  def connect_ssl_client(host, port, pki=nil)
+    client  = TCPSocket.new host, port
+    context = OpenSSL::SSL::SSLContext.new
+    context.verify_mode = OpenSSL::SSL::VERIFY_PEER | OpenSSL::SSL::VERIFY_FAIL_IF_NO_PEER_CERT
+    if pki
+      cert_store = OpenSSL::X509::Store.new
+      cert_store.add_cert pki.ca_cert
+    else
+      cert_store = OpenSSL::X509::Store.new
+      cert_store.set_default_paths
     end
-    exit -1
+    context.cert_store = cert_store
+
+    sclient = OpenSSL::SSL::SSLSocket.new(client, context)
+    sclient.connect
+    sclient
+  end
+
+  def assert_ssl_connection_is_usable(server, client)
+    server_th = Thread.new do
+      read_and_close_ssl(server, "hello server->client")
+    end
+
+    res = read_and_close_ssl(client, "hello client->server")
+    assert "hello server->client", res
+    assert "hello client->server", server_th.value
+  end
+
+  def read_and_close_ssl(sio, msg)
+    sio.write(msg)
+    sio.flush
+    sio.to_io.close_write
+    res = sio.read
+    sio.close
+    sio.to_io.close
+    res
   end
 
   @@keys = {}
   @@certs = {}
+  @@mutex = Thread::Mutex.new
 
   def pki
-    ca_cert, ca_key = create_cert("ca")
-    server_cert, server_key = create_cert("server", ca_cert, ca_key)
-    Struct.new(:ca_cert, :ca_key, :server_cert, :server_key)
-          .new(ca_cert, ca_key, server_cert, server_key)
+    @@mutex.synchronize do
+      ca_cert, ca_key = create_cert("ca")
+      server_cert, server_key = create_cert("server", ca_cert, ca_key)
+      Struct.new(:ca_cert, :ca_key, :server_cert, :server_key)
+            .new(ca_cert, ca_key, server_cert, server_key)
+    end
   end
 
   def create_cert(name, ca_cert=nil, ca_key=nil)
