@@ -50,6 +50,7 @@ class TestSslCacerts < Minitest::Test
         cmd = ["ruby", __FILE__, "-n", __method__.to_s]
         res = IO.popen(cmd, &:read)
         assert_equal 0, $?.exitstatus, "res #{cmd.join(" ")} failed: #{res}"
+        ENV.delete('SSL_CERT_FILE')
       end
 
       assert "hello client->server", server_th.value
