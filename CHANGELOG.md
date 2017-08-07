@@ -41,3 +41,4 @@ The following notable changes are for the transition from [RubyInstaller1](https
 
 ### Removed
 - No more DevKit, but integrates with MSYS2 libraries and toolchain.
+- Remove `tk` from stdlibs, still available per `gem install tk`. This is a upstream change in ruby-2.4.
