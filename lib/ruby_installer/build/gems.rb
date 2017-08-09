@@ -4,6 +4,8 @@ module RubyInstaller
 module Build
   module Gems
     class InstallSpec
+      include RubyInstaller::Build::Utils
+
       attr_accessor :gem_name
       attr_accessor :gem_version
       attr_accessor :gem_build
@@ -16,8 +18,10 @@ module Build
         @gem_cmd = "gem"
         @gem_install_opts = []
 
-        fname = File.expand_path("../../../../gems/#{gem_name}.yaml", __FILE__)
-        if File.exist?(fname)
+        begin
+          fname = ovl_expand_file("gems/#{gem_name}.yaml")
+        rescue Errno::ENOENT
+        else
           yaml = YAML.load_file(fname)
           raise ArgumentError, "Not a Hash in #{fname}" unless yaml.is_a?(Hash)
 
