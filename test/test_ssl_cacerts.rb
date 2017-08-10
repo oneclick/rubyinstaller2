@@ -35,7 +35,7 @@ class TestSslCacerts < Minitest::Test
       # Connect per system CA list (overwritten per SSL_CERT_FILE)
       sclient = connect_ssl_client("localhost", 23456)
       res = read_and_close_ssl(sclient, "hello client->server")
-      assert "hello server->client", res
+      assert_equal "hello server->client", res
     else
       server  = TCPServer.new "localhost", 23456
       server_th = Thread.new do
@@ -53,7 +53,7 @@ class TestSslCacerts < Minitest::Test
         ENV.delete('SSL_CERT_FILE')
       end
 
-      assert "hello client->server", server_th.value
+      assert_equal "hello client->server", server_th.value
     end
   end
 
@@ -123,8 +123,8 @@ class TestSslCacerts < Minitest::Test
     end
 
     res = read_and_close_ssl(client, "hello client->server")
-    assert "hello server->client", res
-    assert "hello client->server", server_th.value
+    assert_equal "hello server->client", res
+    assert_equal "hello client->server", server_th.value
   end
 
   def read_and_close_ssl(sio, msg)
