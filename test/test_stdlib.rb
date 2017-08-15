@@ -7,6 +7,7 @@ class TestStdlib < Minitest::Test
     %w[ coverage    Coverage      ],
     %w[ cgi         CGI           ],
     %w[ date        Date          ],
+    %w[ dbm         DBM           ],
     %w[ digest      Digest        ],
     %w[ etc         Etc           ],
     %w[ fcntl       Fcntl         ],
