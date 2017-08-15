@@ -36,6 +36,7 @@ test_script:
   - ps: $env:RUBYOPT = [Environment]::GetEnvironmentVariable("RUBYOPT","Machine")
   - echo %PATH%
   - echo %RUBYOPT%
+  - ridk version
   # Install dependent gems
   - gem install bundler
   - bundle install
@@ -43,6 +44,20 @@ test_script:
   - rake test
   # Verify that the used CA list is still the latest.
   - rake ssl:update_check
+
+  # Run upload to github only on tag builds
+  - set DEPLOY_TAG=%APPVEYOR_REPO_TAG_NAME%
+  - IF DEFINED DEPLOY_TAG (
+    echo.%DEPLOY_TAG% | findstr /C:"%target_ruby%">nul && (
+      echo Upload %DEPLOY_TAG% &
+      ridk enable &&
+      c:/msys64/usr/bin/mkdir -p /home/appveyor/.gnupg &&
+      gpg --passphrase %GPGPASSWD% --decrypt appveyor-key.asc.asc | gpg --import &&
+      c:/msys64/usr/bin/mkdir artifacts &&
+      cp -v packages/rubyinstaller/recipes/installer-inno/%DEPLOY_TAG%-%arch%.exe packages/rubyinstaller/recipes/archive-7z/%DEPLOY_TAG%-%arch%.7z artifacts/ &&
+      ls artifacts/* | xargs -n1 gpg --verbose --detach-sign --armor &&
+      rake release:upload -- artifacts/* || ( exit 1 ) )
+    ) || ( ruby -e "puts 'No release upload'" )
 
 # Provide the rubyinstaller.exe files for download
 artifacts:
@@ -56,6 +71,11 @@ artifacts:
     name: Plain archive file with MYS2
 
 environment:
+  GPGPASSWD:
+    secure: /DELcKSZC+R4HdXgsqR1RtC+IrDZ3Xut/vzV/KgepE3M8OsjJtmWutN0+Jvc2Iv2
+  DEPLOY_REPO_NAME: oneclick/rubyinstaller2
+  DEPLOY_TOKEN:
+    secure: HIQ7Ovn+zMKskPWhnlYGvQMvdLPlZB5lhn62wzw0AUSno8UfntuTgFmPvS1pUwOW
   matrix:
     - target_ruby: "2.4.1"
       arch: "x86"
