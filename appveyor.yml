@@ -45,6 +45,11 @@ test_script:
   # Verify that the used CA list is still the latest.
   - rake ssl:update_check
 
+  # Run the Ruby Spec Suite
+  - git clone https://github.com/ruby/mspec
+  - git clone https://github.com/ruby/spec
+  - ridk exec ruby -C spec ../mspec/bin/mspec -j --exclude "BasicObject#instance_eval evaluates string with given filename and negative linenumber"
+
   # Run upload to github only on tag builds
   - set DEPLOY_TAG=%APPVEYOR_REPO_TAG_NAME%
   - IF DEFINED DEPLOY_TAG (
