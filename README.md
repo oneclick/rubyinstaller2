@@ -15,9 +15,14 @@ This and more changes are documented in the [CHANGELOG](https://github.com/larsk
 - Download and install the latest RubyInstaller2: https://github.com/larskanis/rubyinstaller2/releases
 
 The base ruby installation packaged into the installer file is enough to use pure Ruby gems or fat binary gems for x64-mingw32 or x86-mingw32.
-However in the last step of the installation wizard the `ridk install` command can be executed.
+However installing C based source gems fail, due to unavailable development tools.
+Fortunately it can be added easily.
+
+- Run the `ridk install` step on the last step of the installation wizard
+
 It downloads and installs all necessary MSYS2 build tools that are typically required to compile C based ruby gems.
 Some gems require additional packages, which can be installed per `pacman`. See below.
+Its also possible to install MSYS2 manually from https://msys2.github.io/ and run `ridk install` afterwards to add non default, but required development tools.
 
 ### The `ridk` command
 
@@ -38,16 +43,8 @@ See `ridk help` for further options:
       help | --help | -? | /?   Display this help and exit
 ```
 
-### Setup MSYS2 without `ridk`
-
-MSYS2 can also be installed manually like so (as an alternative to `ridk install`):
-- Install the latest MSYS2 for x64 or x86 via installer from https://msys2.github.io/
-- Install development tools via MSYS2/MINGW shell window:
-  ```sh
-    pacman -Sy pacman
-    pacman -S base-devel mingw-w64-i686-toolchain # for 32 bit RubyInstaller
-    pacman -S base-devel mingw-w64-x86_64-toolchain # for 64 bit RubyInstaller
-  ```
+`ridk enable` can be used to enable MSYS2 development tools on the running console.
+This makes `sh`, `pacman`, `make` etc. available on the command line.
 
 ### Install gems with C-extensions and additional library dependencies
 
