@@ -1,4 +1,4 @@
-## RubyInstaller-2.4.1-3pre1 - YYYY-MM-DD
+## RubyInstaller-2.4.2-1 - YYYY-MM-DD
 
 ### Added
 - Sign published files per PGP signature.
