@@ -4,15 +4,17 @@
 - Sign published files per PGP signature.
 - Set `LANG` variable in `ridk enable` because some MSYS apps require a valid setting.
   This also enables message translation of gettext enabled apps.
-- Add stdlib gem "dbm", which was missing in previous RI2 versions.
+- Add stdlib gem "dbm", which was missing in previous RI2 versions. #65
 - Add OS name and version to `ridk version`.
 
 ### Changed
 - Upload signed files directly from Appveyor to Github for releases.
 - Update of the SSL CA certificate list.
+- Fix gdbm open error by downgrading to gdbm-1.10. [#4](https://github.com/oneclick/rubyinstaller2-packages/pull/4)
 
 ### Removed
 - Remove deprecated `RubyInstaller.add_dll_directory`.
+- Remove superflous build flags for libffi from RbConfig. [#8](https://github.com/oneclick/rubyinstaller2-packages/pull/8)
 
 
 ## RubyInstaller-2.4.1-2 - 2017-07-04
