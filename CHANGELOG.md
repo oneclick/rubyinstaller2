@@ -1,3 +1,10 @@
+## RubyInstaller-2.4.2-2 - 2017-09-15
+
+### Changed
+- Fix a regession of ruby-2.4.2 to not link to libgmp.
+  See [ruby-2.4.2 release notes](https://www.ruby-lang.org/en/news/2017/09/14/ruby-2-4-2-released/) .
+
+
 ## RubyInstaller-2.4.2-1 - 2017-09-15
 
 ### Added
