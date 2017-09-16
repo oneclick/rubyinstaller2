@@ -38,5 +38,9 @@ class TestStdlib < Minitest::Test
       end
     CODE
   end
-  std_lib = nil
+
+  # Make sure ruby is linked to libgmp
+  def test_gmp
+    assert_match /GMP \d/, Integer::GMP_VERSION
+  end
 end
