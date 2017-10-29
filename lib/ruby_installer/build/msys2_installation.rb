@@ -48,8 +48,12 @@ module Build # Use for: Build, Runtime
         Win32::Registry::HKEY_CURRENT_USER.open(backslachs(MSYS2_INSTALL_KEY)) do |reg|
           reg.each_key do |subkey|
             subreg = reg.open(subkey)
-            if subreg['DisplayName'] =~ /^MSYS2 / && File.directory?(il=subreg['InstallLocation'])
-              yield il
+            begin
+              if subreg['DisplayName'] =~ /^MSYS2 / && File.directory?(il=subreg['InstallLocation'])
+                yield il
+              end
+            rescue Encoding::InvalidByteSequenceError
+              # Ignore entries with broken character encoding
             end
           end
         end
