@@ -49,7 +49,7 @@ This makes `sh`, `pacman`, `make` etc. available on the command line.
 ### Install gems with C-extensions and additional library dependencies
 
 The base MSYS2 setup includes compilers and other build tools, but doesn't include libraries or DLLs that some gems require as their dependencies.
-Fortunatelly many of the required libraries are available through the MSYS2 repositories.
+Fortunately many of the required libraries are available through the MSYS2 repositories.
 They can be installed per `ridk exec pacman -S mingw-w64-x86_64-libraryname` similar to `apt-get` on Linux.
 Exchange the prefix `mingw-w64-x86_64` by `mingw-w64-i686` for the 32-bit RubyInstaller.
 
