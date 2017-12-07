@@ -109,4 +109,5 @@ AppVeyor also executes the installer and runs all tests on it, so that we are no
 ## Known Issues
 
 - Avoid running this project in a PATH containing spaces.
+- Ruby on Windows is still using non UTF-8 default external encoding: Raised [as ruby bug](https://bugs.ruby-lang.org/issues/13488).
 - Also refer to [the issue list](https://github.com/larskanis/rubyinstaller2/issues).
