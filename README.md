@@ -23,6 +23,7 @@ Fortunately it can be added easily.
 It downloads and installs all necessary MSYS2 build tools that are typically required to compile C based ruby gems.
 Some gems require additional packages, which can be installed per `pacman`. See below.
 Its also possible to install MSYS2 manually from https://msys2.github.io/ and run `ridk install` afterwards to add non default, but required development tools.
+For unattended install of Ruby and MSYS2 see the [FAQ chocolatey install](https://github.com/oneclick/rubyinstaller2/wiki/FAQ#user-content-choco-install).
 
 ### The `ridk` command
 
