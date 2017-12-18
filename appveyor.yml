@@ -38,7 +38,7 @@ test_script:
   - echo %RUBYOPT%
   - ridk version
   # Install dependent gems
-  - gem install bundler
+  - IF "%target_ruby%" LSS "2.5" ( gem install bundler )
   - bundle install
   # Run all tests against the new installed Ruby
   - rake test
