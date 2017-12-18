@@ -41,6 +41,20 @@ class TestStdlib < Minitest::Test
 
   # Make sure ruby is linked to libgmp
   def test_gmp
-    assert_match /GMP \d/, Integer::GMP_VERSION
+    assert_match(/GMP \d/, Integer::GMP_VERSION)
+  end
+
+  # Make sure we're using the expected OpenSSL version
+  def test_openssl_version
+    require "openssl"
+
+    case RUBY_VERSION
+      when /^2\.[34]\./
+        assert_match(/OpenSSL 1.0./, OpenSSL::OPENSSL_VERSION)
+        assert_match(/OpenSSL 1.0./, OpenSSL::OPENSSL_LIBRARY_VERSION)
+      when /^2\.[5]\./
+        assert_match(/OpenSSL 1.1./, OpenSSL::OPENSSL_VERSION)
+        assert_match(/OpenSSL 1.1./, OpenSSL::OPENSSL_LIBRARY_VERSION)
+    end
   end
 end
