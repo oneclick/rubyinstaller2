@@ -1,0 +1,4 @@
+bin/libcrypto-1_1-x64.dll
+bin/libssl-1_1-x64.dll
+bin/x64-msvcrt-ruby250.dll
+lib/libx64-msvcrt-ruby250.dll.a

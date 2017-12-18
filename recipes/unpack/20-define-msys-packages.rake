@@ -1,1 +1,1 @@
-self.install_packages = ["#{package.pacman_arch}-ruby#{package.rubyver2.gsub(".","")}"]
+self.install_packages = [package.pacman_ruby]
