@@ -17,12 +17,4 @@ gem install testgem-1.0.0.gem --verbose
     end
     assert_match(/GNU ed/, out)
   end
-
-  def test_gem_install_nokogiri
-    msys = RubyInstaller::Runtime.msys2_installation
-    msys.with_msys_apps_enabled do
-      assert system("pacman -S #{msys.mingw_package_prefix}-libxslt --needed --noconfirm")
-      assert system("gem inst nokogiri --platform ruby -- --use-system-libraries")
-    end
-  end
 end
