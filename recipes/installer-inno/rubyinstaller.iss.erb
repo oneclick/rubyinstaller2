@@ -43,7 +43,7 @@ VersionInfoCompany={#InstallerPublisher}
 VersionInfoCopyright=(c) {#CurrentYear} {#InstallerPublisher}
 VersionInfoDescription=Ruby Programming Language for Windows
 VersionInfoTextVersion=<%=q package.packagever %>
-VersionInfoVersion=<%=q package.rubyver %>
+VersionInfoVersion=<%=q package.rubyver[/^\d+\.\d+\.\d+/] %>
 UninstallDisplayIcon={app}\bin\ruby.exe
 WizardImageFile=<%=q ovl_expand_file("recipes/installer-inno/images/wizard-large.bmp") %>
 WizardSmallImageFile=<%=q ovl_expand_file("recipes/installer-inno/images/wizard-logo.bmp") %>

@@ -170,6 +170,6 @@ class TestModule < Minitest::Test
   end
 
   def test_package_version
-    assert_match(/\A\d+\.\d+\.\d+-\w+\z/, RubyInstaller::Runtime::PACKAGE_VERSION)
+    assert_match(/\A\d+\.\d+\.\d+(\.[a-z]\w*)?-\w+\z/, RubyInstaller::Runtime::PACKAGE_VERSION)
   end
 end
