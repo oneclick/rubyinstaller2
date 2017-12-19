@@ -6,7 +6,7 @@ class Release
   end
 
   def headline_regex
-    '(?<pre>[^\w]*)(?<release>[\w]+-\d+\.\d+\.\d+(\.[a-z]\w*)?-[\d\w]+)(?<sp1>[^\w]+)(?<date>[2Y][0Y][0-9Y][0-9Y]-[0-1M][0-9M]-[0-3D][0-9D])(?<sp2>[ \w]*)$'
+    '^(?<pre>[^\w]*)(?<release>[\w]+-\d+\.\d+\.\d+(\.[a-z]\w*)?-[\d\w]+)(?<sp1>[^\w]+)(?<date>[2Y][0Y][0-9Y][0-9Y]-[0-1M][0-9M]-[0-3D][0-9D])(?<sp2>[ \w]*)$'
   end
 
   def reldate
