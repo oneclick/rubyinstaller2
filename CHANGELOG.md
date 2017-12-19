@@ -10,6 +10,10 @@
   [#78](https://github.com/oneclick/rubyinstaller2/issues/78#issuecomment-330115604).
   See also [updating RubyInstaller](https://github.com/oneclick/rubyinstaller2/wiki/FAQ#q-what-is-recommended-way-to-update-a-ruby-installation).
 
+### Removed
+- Remove package 'winstorecompat' from default dev tools, to make `ridk install` step 2 optional.
+  [#88](https://github.com/oneclick/rubyinstaller2/issues/88)
+
 
 ## RubyInstaller-2.4.2-2 - 2017-09-15
 
