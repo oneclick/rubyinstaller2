@@ -19,13 +19,14 @@ build_script:
 
   # Build the installer
   - rake rubyinstaller:ruby-%target_ruby%-%arch%
-  ## Reuse installed ruby
-  #- c:/msys64/usr/bin/mkdir -p packages/rubybundle/recipes/
-  #- c:/msys64/usr/bin/cp -a packages/rubyinstaller/recipes/unpack packages/rubybundle/recipes/
-  ## Remove broken pkg files from cache
-  #- c:/msys64/usr/bin/rm -f c:/msys64/var/cache/pacman/pkg/{autoconf,automake,bash-completion,ca-certificates}*
-  ## Build the rubybundle installer
-  #- rake rubybundle:ruby-%target_ruby%-%arch%
+
+  # Reuse installed ruby
+  - c:/msys64/usr/bin/mkdir -p packages/rubybundle/recipes/
+  - c:/msys64/usr/bin/cp -a packages/rubyinstaller/recipes/unpack packages/rubybundle/recipes/
+  # Remove broken pkg files from cache
+  - c:/msys64/usr/bin/rm -f c:/msys64/var/cache/pacman/pkg/{autoconf,automake,bash-completion,ca-certificates}*
+  # Build the rubybundle installer
+  - rake rubybundle:ruby-%target_ruby%-%arch%
 
 test_script:
   # Run the built Ruby installer and install to c:/ri2-ruby
