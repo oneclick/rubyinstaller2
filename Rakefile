@@ -89,4 +89,24 @@ namespace "release" do
       files: files
     )
   end
+
+  task "appveyor_upload" do
+    files = ARGV[ARGV.index("--")+1 .. -1]
+    files.each { |f| task(f) }
+    if ENV['DEPLOY_TAG'].to_s.include?(ENV['target_ruby'])
+      puts "Upload #{ENV['DEPLOY_TAG']}: #{files}"
+
+      require "ruby_installer/build"
+      RubyInstaller::Build.enable_msys_apps
+
+      sh "c:/msys64/usr/bin/mkdir -p /home/appveyor/.gnupg"
+      sh "gpg --passphrase %GPGPASSWD% --decrypt appveyor-key.asc.asc | gpg --import"
+      sh "c:/msys64/usr/bin/mkdir artifacts"
+      sh "cp", "-v", *files, "artifacts/"
+      sh "ls artifacts/* | xargs -n1 gpg --verbose --detach-sign --armor"
+      sh "rake release:upload -- artifacts/*"
+    else
+      puts "No release upload"
+    end
+  end
 end

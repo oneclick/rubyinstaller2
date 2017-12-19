@@ -59,19 +59,9 @@ test_script:
       ridk exec ruby -C ruby/spec/ruby ../mspec/bin/mspec -j --exclude "BasicObject#instance_eval evaluates string with given filename and negative linenumber"
     )
 
-  # Run upload to github only on tag builds
+  # Run upload to github (only on tag builds)
   - set DEPLOY_TAG=%APPVEYOR_REPO_TAG_NAME%
-  - IF DEFINED DEPLOY_TAG (
-    echo.%DEPLOY_TAG% | findstr /C:"%target_ruby%">nul && (
-      echo Upload %DEPLOY_TAG% &
-      ridk enable &&
-      c:/msys64/usr/bin/mkdir -p /home/appveyor/.gnupg &&
-      gpg --passphrase %GPGPASSWD% --decrypt appveyor-key.asc.asc | gpg --import &&
-      c:/msys64/usr/bin/mkdir artifacts &&
-      cp -v packages/rubyinstaller/recipes/installer-inno/%DEPLOY_TAG%-%arch%.exe packages/rubyinstaller/recipes/archive-7z/%DEPLOY_TAG%-%arch%.7z artifacts/ &&
-      ls artifacts/* | xargs -n1 gpg --verbose --detach-sign --armor &&
-      rake release:upload -- artifacts/* || ( exit 1 ) )
-    ) || ( ruby -e "puts 'No release upload'" )
+  - rake release:appveyor_upload -- packages/rubyinstaller/recipes/installer-inno/%DEPLOY_TAG%-%arch%.exe packages/rubyinstaller/recipes/archive-7z/%DEPLOY_TAG%-%arch%.7z
 
 # Provide the rubyinstaller.exe files for download
 artifacts:
