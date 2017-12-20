@@ -1,4 +1,4 @@
-## RubyInstaller-2.4.3-1 - 2017-12-19
+## RubyInstaller-2.4.3-1 - 2017-12-20
 
 ### Changed
 - Update to ruby-2.4.3, see [release notes](https://www.ruby-lang.org/en/news/2017/12/14/ruby-2-4-3-released/).
