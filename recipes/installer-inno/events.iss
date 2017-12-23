@@ -22,6 +22,8 @@ begin
       if IsUtf8 then
         ModifyRubyopt(['-Eutf-8']);
 
+      UnInstallOldVersion();
+
     end else
       MsgBox('Looks like you''ve got on older, unsupported Windows version.' #13 +
              'Proceeding with a reduced feature set installation.',

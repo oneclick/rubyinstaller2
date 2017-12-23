@@ -49,7 +49,6 @@ class DevTools < Base
     mingw-w64-pkg-config
     mingw-w64-tools-git
     mingw-w64-winpthreads-git
-    mingw-w64-winstorecompat-git
   ]
 
   def execute(args)

@@ -9,7 +9,7 @@ install:
   - c:/msys64/usr/bin/bash -lc "pacman -Sy --noconfirm"
   # Update ruby dependencies, because the pre-installed are outdated.
   # Keep this in sync with the "depends" list in PKGBUILD files.
-  - c:/msys64/usr/bin/bash -lc "pacman -S --noconfirm --needed ${MINGW_PACKAGE_PREFIX}-toolchain ${MINGW_PACKAGE_PREFIX}-gcc-libs ${MINGW_PACKAGE_PREFIX}-gdbm ${MINGW_PACKAGE_PREFIX}-libffi ${MINGW_PACKAGE_PREFIX}-libyaml ${MINGW_PACKAGE_PREFIX}-openssl ${MINGW_PACKAGE_PREFIX}-zlib"
+  - c:/msys64/usr/bin/bash -lc "pacman -S --noconfirm --needed ${MINGW_PACKAGE_PREFIX}-toolchain ${MINGW_PACKAGE_PREFIX}-gcc-libs ${MINGW_PACKAGE_PREFIX}-gdbm ${MINGW_PACKAGE_PREFIX}-gmp ${MINGW_PACKAGE_PREFIX}-libffi ${MINGW_PACKAGE_PREFIX}-libyaml ${MINGW_PACKAGE_PREFIX}-openssl ${MINGW_PACKAGE_PREFIX}-zlib"
 
 build_script:
   - set PATH=C:/ruby%build_ruby%/bin;%PATH%
@@ -19,12 +19,13 @@ build_script:
 
   # Build the installer
   - rake rubyinstaller:ruby-%target_ruby%-%arch%
+
   # Reuse installed ruby
   - c:/msys64/usr/bin/mkdir -p packages/rubybundle/recipes/
   - c:/msys64/usr/bin/cp -a packages/rubyinstaller/recipes/unpack packages/rubybundle/recipes/
   # Remove broken pkg files from cache
-  - c:/msys64/usr/bin/rm -f c:/msys64/var/cache/pacman/pkg/{autoconf,automake}*
-  # Build the installer
+  - c:/msys64/usr/bin/rm -f c:/msys64/var/cache/pacman/pkg/{autoconf,automake,bash-completion,ca-certificates}*
+  # Build the rubybundle installer
   - rake rubybundle:ruby-%target_ruby%-%arch%
 
 test_script:
@@ -38,7 +39,7 @@ test_script:
   - echo %RUBYOPT%
   - ridk version
   # Install dependent gems
-  - gem install bundler
+  - IF "%target_ruby%" LSS "2.5" ( gem install bundler )
   - bundle install
   # Run all tests against the new installed Ruby
   - rake test
@@ -46,23 +47,21 @@ test_script:
   - rake ssl:update_check
 
   # Run the Ruby Spec Suite
-  - git clone https://github.com/ruby/mspec
-  - git clone https://github.com/ruby/spec
-  - ridk exec ruby -C spec ../mspec/bin/mspec -j --exclude "BasicObject#instance_eval evaluates string with given filename and negative linenumber"
+  - IF DEFINED run_ruby_spec (
+      git clone --depth 1 https://github.com/ruby/mspec &&
+      git clone --depth 1 https://github.com/ruby/spec &&
+      ridk exec ruby -C spec ../mspec/bin/mspec -j --exclude "BasicObject#instance_eval evaluates string with given filename and negative linenumber"
+    )
 
-  # Run upload to github only on tag builds
+  # Run the MRI copy of Ruby Spec Suite
+  - IF DEFINED run_mri_spec (
+      git clone --depth 1 https://github.com/ruby/ruby -b %run_mri_spec% &&
+      ridk exec ruby -C ruby/spec/ruby ../mspec/bin/mspec -j --exclude "BasicObject#instance_eval evaluates string with given filename and negative linenumber"
+    )
+
+  # Run upload to github (only on tag builds)
   - set DEPLOY_TAG=%APPVEYOR_REPO_TAG_NAME%
-  - IF DEFINED DEPLOY_TAG (
-    echo.%DEPLOY_TAG% | findstr /C:"%target_ruby%">nul && (
-      echo Upload %DEPLOY_TAG% &
-      ridk enable &&
-      c:/msys64/usr/bin/mkdir -p /home/appveyor/.gnupg &&
-      gpg --passphrase %GPGPASSWD% --decrypt appveyor-key.asc.asc | gpg --import &&
-      c:/msys64/usr/bin/mkdir artifacts &&
-      cp -v packages/rubyinstaller/recipes/installer-inno/%DEPLOY_TAG%-%arch%.exe packages/rubyinstaller/recipes/archive-7z/%DEPLOY_TAG%-%arch%.7z artifacts/ &&
-      ls artifacts/* | xargs -n1 gpg --verbose --detach-sign --armor &&
-      rake release:upload -- artifacts/* || ( exit 1 ) )
-    ) || ( ruby -e "puts 'No release upload'" )
+  - rake release:appveyor_upload -- packages/rubyinstaller/recipes/installer-inno/%DEPLOY_TAG%-%arch%.exe packages/rubyinstaller/recipes/archive-7z/%DEPLOY_TAG%-%arch%.7z
 
 # Provide the rubyinstaller.exe files for download
 artifacts:
@@ -82,26 +81,44 @@ environment:
   DEPLOY_TOKEN:
     secure: HIQ7Ovn+zMKskPWhnlYGvQMvdLPlZB5lhn62wzw0AUSno8UfntuTgFmPvS1pUwOW
   matrix:
-    - target_ruby: "2.4.2"
+    - target_ruby: "2.4.3"
       arch: "x86"
       build_ruby: "22"
       MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
       MSYSTEM: "MINGW32"
+      run_ruby_spec: true
 
-    - target_ruby: "2.4.2"
+    - target_ruby: "2.4.3"
       arch: "x64"
       build_ruby: "23"
       MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
       MSYSTEM: "MINGW64"
+      run_ruby_spec: true
 
     - target_ruby: "2.5.0"
       arch: "x86"
       build_ruby: "24"
       MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
       MSYSTEM: "MINGW32"
+      run_mri_spec: trunk
 
     - target_ruby: "2.5.0"
       arch: "x64"
       build_ruby: "24"
       MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
       MSYSTEM: "MINGW64"
+      run_mri_spec: trunk
+
+    - target_ruby: "2.5.0.rc1"
+      arch: "x86"
+      build_ruby: "24"
+      MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
+      MSYSTEM: "MINGW32"
+      run_mri_spec: v2_5_0_rc1
+
+    - target_ruby: "2.5.0.rc1"
+      arch: "x64"
+      build_ruby: "24"
+      MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
+      MSYSTEM: "MINGW64"
+      run_mri_spec: v2_5_0_rc1

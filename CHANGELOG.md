@@ -1,3 +1,27 @@
+## RubyInstaller-2.4.3-1 - 2017-12-20
+
+### Changed
+- Update to ruby-2.4.3, see [release notes](https://www.ruby-lang.org/en/news/2017/12/14/ruby-2-4-3-released/).
+- Ignore invalid character encodings when scaning registry for MSYS2.
+  [#86](https://github.com/oneclick/rubyinstaller2/issues/86)
+- Update of the SSL CA certificate list.
+- Uninstall old RubyInstaller version when doing update.
+  It avoids broken and orphaned links in the startmenu
+  [#78](https://github.com/oneclick/rubyinstaller2/issues/78#issuecomment-330115604).
+  See also [updating RubyInstaller](https://github.com/oneclick/rubyinstaller2/wiki/FAQ#q-what-is-recommended-way-to-update-a-ruby-installation).
+
+### Removed
+- Remove package 'winstorecompat' from default dev tools, to make `ridk install` step 2 optional.
+  [#88](https://github.com/oneclick/rubyinstaller2/issues/88)
+
+
+## RubyInstaller-2.4.2-2 - 2017-09-15
+
+### Changed
+- Fix a regession of ruby-2.4.2 to not link to libgmp.
+  See [ruby-2.4.2 release notes](https://www.ruby-lang.org/en/news/2017/09/14/ruby-2-4-2-released/) .
+
+
 ## RubyInstaller-2.4.2-1 - 2017-09-15
 
 ### Added

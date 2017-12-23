@@ -23,6 +23,7 @@ Fortunately it can be added easily.
 It downloads and installs all necessary MSYS2 build tools that are typically required to compile C based ruby gems.
 Some gems require additional packages, which can be installed per `pacman`. See below.
 Its also possible to install MSYS2 manually from https://msys2.github.io/ and run `ridk install` afterwards to add non default, but required development tools.
+For unattended install of Ruby and MSYS2 see the [FAQ chocolatey install](https://github.com/oneclick/rubyinstaller2/wiki/FAQ#user-content-choco-install).
 
 ### The `ridk` command
 
@@ -49,7 +50,7 @@ This makes `sh`, `pacman`, `make` etc. available on the command line.
 ### Install gems with C-extensions and additional library dependencies
 
 The base MSYS2 setup includes compilers and other build tools, but doesn't include libraries or DLLs that some gems require as their dependencies.
-Fortunatelly many of the required libraries are available through the MSYS2 repositories.
+Fortunately many of the required libraries are available through the MSYS2 repositories.
 They can be installed per `ridk exec pacman -S mingw-w64-x86_64-libraryname` similar to `apt-get` on Linux.
 Exchange the prefix `mingw-w64-x86_64` by `mingw-w64-i686` for the 32-bit RubyInstaller.
 
@@ -108,4 +109,5 @@ AppVeyor also executes the installer and runs all tests on it, so that we are no
 ## Known Issues
 
 - Avoid running this project in a PATH containing spaces.
+- Ruby on Windows is still using non UTF-8 default external encoding: Raised [as ruby bug](https://bugs.ruby-lang.org/issues/13488).
 - Also refer to [the issue list](https://github.com/larskanis/rubyinstaller2/issues).
