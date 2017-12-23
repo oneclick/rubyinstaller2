@@ -92,7 +92,7 @@ EOT
 
   # Quote a string according to the rules of Inno-Setup
   def q_inno(text)
-    '"' + text.gsub('"', '""') + '"'
+    '"' + text.to_s.gsub('"', '""') + '"'
   end
 end
 end

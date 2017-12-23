@@ -30,7 +30,7 @@ build_script:
 
 test_script:
   # Run the built Ruby installer and install to c:/ri2-ruby
-  - ruby -e "Dir['packages/rubyinstaller/recipes/installer-inno/rubyinstaller-%target_ruby%-*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath,defaultutf8')}"
+  - ruby -e "Dir['packages/rubyinstaller/recipes/installer-inno/rubyinstaller-%target_ruby%*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath,defaultutf8')}"
   # Activate the environment variables set by the installer, but exclude
   # git's /usr/bin, because it conflicts with one RubyInstaller test.
   - ps: $env:PATH = [Environment]::GetEnvironmentVariable("PATH","Machine") -replace ";C:\\Program Files\\Git\\usr\\bin" -replace ";C:\\Ruby193\\bin"
@@ -61,17 +61,18 @@ test_script:
 
   # Run upload to github (only on tag builds)
   - set DEPLOY_TAG=%APPVEYOR_REPO_TAG_NAME%
-  - rake release:appveyor_upload -- packages/rubyinstaller/recipes/installer-inno/%DEPLOY_TAG%-%arch%.exe packages/rubyinstaller/recipes/archive-7z/%DEPLOY_TAG%-%arch%.7z
+  - IF "%target_ruby%" EQU "head" ( SET DEPLOY_TAG=rubyinstaller-head )
+  - rake release:appveyor_upload -- packages/rubyinstaller/recipes/installer-inno/%DEPLOY_TAG%*-%arch%.exe packages/rubyinstaller/recipes/archive-7z/%DEPLOY_TAG%*-%arch%.7z
 
 # Provide the rubyinstaller.exe files for download
 artifacts:
-  - path: packages/rubyinstaller/recipes/installer-inno/ruby*-$(target_ruby)-*-$(arch).exe
+  - path: packages/rubyinstaller/recipes/installer-inno/ruby*-$(target_ruby)*-$(arch).exe
     name: Executable installer
-  - path: packages/rubyinstaller/recipes/archive-7z/ruby*-$(target_ruby)-*-$(arch).7z
+  - path: packages/rubyinstaller/recipes/archive-7z/ruby*-$(target_ruby)*-$(arch).7z
     name: Plain archive file
-  - path: packages/rubybundle/recipes/installer-inno/ruby*-$(target_ruby)-*-$(arch).exe
+  - path: packages/rubybundle/recipes/installer-inno/ruby*-$(target_ruby)*-$(arch).exe
     name: Executable installer with MYS2
-  - path: packages/rubybundle/recipes/archive-7z/ruby*-$(target_ruby)-*-$(arch).7z
+  - path: packages/rubybundle/recipes/archive-7z/ruby*-$(target_ruby)*-$(arch).7z
     name: Plain archive file with MYS2
 
 environment:
@@ -82,27 +83,13 @@ environment:
     secure: HIQ7Ovn+zMKskPWhnlYGvQMvdLPlZB5lhn62wzw0AUSno8UfntuTgFmPvS1pUwOW
   matrix:
     - target_ruby: "2.4.3"
-      arch: "x86"
-      build_ruby: "22"
-      MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
-      MSYSTEM: "MINGW32"
-      run_ruby_spec: true
-
-    - target_ruby: "2.4.3"
       arch: "x64"
       build_ruby: "23"
       MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
       MSYSTEM: "MINGW64"
       run_ruby_spec: true
 
-    - target_ruby: "2.5.0"
-      arch: "x86"
-      build_ruby: "24"
-      MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
-      MSYSTEM: "MINGW32"
-      run_mri_spec: trunk
-
-    - target_ruby: "2.5.0"
+    - target_ruby: "head"
       arch: "x64"
       build_ruby: "24"
       MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
@@ -110,15 +97,29 @@ environment:
       run_mri_spec: trunk
 
     - target_ruby: "2.5.0.rc1"
-      arch: "x86"
+      arch: "x64"
       build_ruby: "24"
-      MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
-      MSYSTEM: "MINGW32"
+      MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
+      MSYSTEM: "MINGW64"
       run_mri_spec: v2_5_0_rc1
 
-    - target_ruby: "2.5.0.rc1"
-      arch: "x64"
+    - target_ruby: "2.4.3"
+      arch: "x86"
+      build_ruby: "22"
+      MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
+      MSYSTEM: "MINGW32"
+      run_ruby_spec: true
+
+    - target_ruby: "head"
+      arch: "x86"
       build_ruby: "24"
-      MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
-      MSYSTEM: "MINGW64"
+      MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
+      MSYSTEM: "MINGW32"
+      run_mri_spec: trunk
+
+    - target_ruby: "2.5.0.rc1"
+      arch: "x86"
+      build_ruby: "24"
+      MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
+      MSYSTEM: "MINGW32"
       run_mri_spec: v2_5_0_rc1
