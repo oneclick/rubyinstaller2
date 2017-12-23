@@ -72,7 +72,14 @@ class Release
         prerelease: true
     )
 
+    old_assets = client.release_assets(release.url)
+
     files.each do |fname|
+      if old_asset=old_assets.find{|a| a.name == File.basename(fname) }
+        $stderr.puts "Delete old #{old_asset.name}"
+        client.delete_release_asset(old_asset.url)
+      end
+
       $stderr.print "Uploading #{fname} (#{File.size(fname)} bytes) ... "
       client.upload_asset(release.url, fname, content_type: CONTENT_TYPE_FOR_EXT[File.extname(fname)])
       $stderr.puts "OK"
