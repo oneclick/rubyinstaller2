@@ -80,9 +80,11 @@ It doesn't compile any sources, but makes use of the [MSYS2-MINGW repository](ht
 ### Automatic build on Appveyor
 
 The installer is regularly built on [AppVeyor](https://ci.appveyor.com/project/larskanis/rubyinstaller2-hbuor) for each push to the github repository.
-In addition to this, a daily build of the latest ruby development snapshot is compiled and packaged as RubyInstaller and RubyBundle (with integrated MSYS) files.
-It can be downloaded from [AppVeyor](https://ci.appveyor.com/project/larskanis/rubyinstaller2-hbuor) as build artifacts as well.
 AppVeyor also executes the installer and runs all tests on it, so that we are notified about breaking changes.
+In addition to this, a daily build of the latest ruby development snapshot is compiled and packaged as RubyInstaller files.
+It can be downloaded from [github releases](https://github.com/oneclick/rubyinstaller2/releases/tag/rubyinstaller-head) or from [AppVeyor](https://ci.appveyor.com/project/larskanis/rubyinstaller2-hbuor) as build artifacts.
+Check the wiki on how to use [ruby-head versions on Appveyor](https://github.com/oneclick/rubyinstaller2/wiki/For-gem-developers#user-content-appveyor) for your CI builds.
+
 
 ### Build RubyInstaller2 on your own machine:
 
