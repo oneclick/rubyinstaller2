@@ -65,7 +65,7 @@ class Release
     raise "invalid headline of tag #{tag.inspect} #{headline.inspect}" if headline.to_s.strip.empty?
     raise "invalid body of tag #{tag.inspect} #{body.inspect}" if body.to_s.strip.empty?
 
-    client = Octokit::Client.new(access_token: ENV['DEPLOY_TOKEN'])
+    client = Octokit::Client.new(access_token: token)
 
     release = client.releases(repo).find{|r| r.tag_name==tag }
     $stderr.puts "#{ release ? "Add to" : "Create" } github release #{tag}"
