@@ -61,7 +61,7 @@ test_script:
 
   # Run upload to github (only on tag builds)
   - set DEPLOY_TAG=%APPVEYOR_REPO_TAG_NAME%
-  - IF "%target_ruby%" EQU "head" ( SET DEPLOY_TAG=rubyinstaller-head )
+  - IF "%target_ruby%" EQU "head" (SET DEPLOY_TAG=rubyinstaller-head)
   - rake release:appveyor_upload -- packages/rubyinstaller/recipes/installer-inno/%DEPLOY_TAG%*-%arch%.exe packages/rubyinstaller/recipes/archive-7z/%DEPLOY_TAG%*-%arch%.7z
 
 # Provide the rubyinstaller.exe files for download
