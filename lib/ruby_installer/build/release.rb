@@ -55,9 +55,18 @@ class Release
   def upload_to_github(tag:, repo:, token: nil, files:)
     require "octokit"
 
+    client = Octokit::Client.new(access_token: token)
+    release = client.releases(repo).find{|r| r.tag_name==tag }
+    $stderr.puts "#{ release ? "Add to" : "Create" } github release #{tag}"
+
     if tag =~ /head$/
-      headline = tag
-      body = "Latest build of #{tag}"
+      if release
+        headline = release.name
+        body = release.body.gsub(/[2Y][0Y][0-9Y][0-9Y]-[0-1M][0-9M]-[0-3D][0-9D] [0-2H][0-9H]:[0-6M][0-9M]:[0-6S][0-9S] UTC/, Time.now.utc.strftime("%Y-%m-%d %H:%M:%S UTC"))
+      else
+        headline = tag
+        body = "Latest build of #{tag}"
+      end
     else
       headline = IO.popen(["git", "tag", "-l", tag, "--format=%(subject)"], &:read)
       body = IO.popen(["git", "tag", "-l", tag, "--format=%(body)"], &:read)
@@ -65,17 +74,17 @@ class Release
     raise "invalid headline of tag #{tag.inspect} #{headline.inspect}" if headline.to_s.strip.empty?
     raise "invalid body of tag #{tag.inspect} #{body.inspect}" if body.to_s.strip.empty?
 
-    client = Octokit::Client.new(access_token: token)
-
-    release = client.releases(repo).find{|r| r.tag_name==tag }
-    $stderr.puts "#{ release ? "Add to" : "Create" } github release #{tag}"
-    release ||= client.create_release(repo, tag,
-        target_commitish: "master",
-        name: headline,
-        body: body,
-        draft: true,
-        prerelease: true
-    )
+    if release
+      release = client.update_release(release.url, name: headline, body: body)
+    else
+      release = client.create_release(repo, tag,
+          target_commitish: "master",
+          name: headline,
+          body: body,
+          draft: true,
+          prerelease: true
+      )
+    end
 
     old_assets = client.release_assets(release.url)
 
