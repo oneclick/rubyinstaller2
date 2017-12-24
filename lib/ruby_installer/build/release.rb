@@ -55,8 +55,13 @@ class Release
   def upload_to_github(tag:, repo:, token: nil, files:)
     require "octokit"
 
-    headline = IO.popen(["git", "tag", "-l", tag, "--format=%(subject)"], &:read)
-    body = IO.popen(["git", "tag", "-l", tag, "--format=%(body)"], &:read)
+    if tag =~ /head$/
+      headline = tag
+      body = "Latest build of #{tag}"
+    else
+      headline = IO.popen(["git", "tag", "-l", tag, "--format=%(subject)"], &:read)
+      body = IO.popen(["git", "tag", "-l", tag, "--format=%(body)"], &:read)
+    end
     raise "invalid headline of tag #{tag.inspect} #{headline.inspect}" if headline.to_s.strip.empty?
     raise "invalid body of tag #{tag.inspect} #{body.inspect}" if body.to_s.strip.empty?
 
