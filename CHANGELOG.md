@@ -1,3 +1,13 @@
+## RubyInstaller-2.5.0-1 - 2017-12-25
+
+### Added
+- Add ruby-2.5.0, see [release notes](https://www.ruby-lang.org/en/news/2017/12/25/ruby-2-5-0-released/).
+
+### Changed
+- RubyInstaller-2.5 bundles OpenSSL-1.1.0 (instead of 1.0.2 of RubyInstaller-2.4).
+  This has some [implications to the Ruby API to OpenSSL](https://bugs.ruby-lang.org/issues/12324).
+
+
 ## RubyInstaller-2.4.3-1 - 2017-12-20
 
 ### Changed
