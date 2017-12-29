@@ -62,7 +62,11 @@ class Release
     if tag =~ /head$/
       if release
         headline = release.name
-        body = release.body.gsub(/[2Y][0Y][0-9Y][0-9Y]-[0-1M][0-9M]-[0-3D][0-9D] [0-2H][0-9H]:[0-6M][0-9M]:[0-6S][0-9S] UTC/, Time.now.utc.strftime("%Y-%m-%d %H:%M:%S UTC"))
+        body = release.body
+            .gsub(/[2Y][0Y][0-9Y][0-9Y]-[0-1M][0-9M]-[0-3D][0-9D] [0-2H][0-9H]:[0-6M][0-9M]:[0-6S][0-9S] UTC/, Time.now.utc.strftime("%Y-%m-%d %H:%M:%S UTC"))
+            .gsub(/(Ruby version #{RUBY_PLATFORM}.*?```).*?(```)/m) do
+              $1 + "\n" + `ruby --version` + "\n" + $2
+            end
       else
         headline = tag
         body = "Latest build of #{tag}"
