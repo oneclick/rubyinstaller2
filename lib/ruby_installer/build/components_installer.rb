@@ -7,7 +7,7 @@ class ComponentsInstaller < Rake::Application
   attr_accessor :msys
   attr_accessor :pacman_args
 
-  def initialize(msys: nil, pacman_args: ["--needed", "--noconfirm"])
+  def initialize(msys: nil, pacman_args: ["--needed", "--noconfirm", "--ask", "20"])
     super()
     @msys = msys
     @pacman_args = pacman_args
