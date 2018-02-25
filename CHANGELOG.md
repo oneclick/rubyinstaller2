@@ -1,7 +1,3 @@
-### Changed
-- Don't abort but fix pacman conflicts while 'ridk install'. #101
-
-
 ## RubyInstaller-2.5.0-1 - 2017-12-25
 
 ### Added
