@@ -5,7 +5,7 @@ require "uri"
 require "openssl"
 
 class TestSslCacerts < Minitest::Test
-  EXTERNAL_HTTPS = "https://torproject.org"
+  EXTERNAL_HTTPS = "https://rubyinstaller.org"
 
   # Can we connect to a external host with our default RubyInstaller CA list?
   def test_https_external
@@ -13,7 +13,7 @@ class TestSslCacerts < Minitest::Test
     res = Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |https|
       https.head('/').code
     end
-    assert_equal("302", res)
+    assert_equal("200", res)
   end
 
   # Can we generate a valid PKI?
