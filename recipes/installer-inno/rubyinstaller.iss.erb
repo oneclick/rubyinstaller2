@@ -7,6 +7,8 @@
 ; Revision: 2012-05-28 13:57:37 -0600
 ; License: Modified BSD License
 
+<% require "etc" %>
+
 #define RubyVersion <%=q package.rubyver %>
 #define PackageRelease <%=q package.pkgrel %>
 #define RubyBuildPlatform <%=q package.ruby_arch %>
@@ -36,6 +38,9 @@ DisableProgramGroupPage=true
 LicenseFile=<%= ovl_expand_file("recipes/sandbox/LICENSE.txt") %>
 Compression=lzma2/ultra64
 SolidCompression=true
+CompressionThreads=<%= Etc.nprocessors %>
+LZMANumBlockThreads=<%= Etc.nprocessors %>
+LZMAUseSeparateProcess=yes
 AlwaysShowComponentsList=false
 DisableReadyPage=true
 InternalCompressLevel=ultra64
