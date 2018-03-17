@@ -45,7 +45,7 @@ ruby_arch_packages = %w[x64 x86].map do |arch|
   end
 end
 
-ruby_packages.flatten.each do |pack|
+ruby_arch_packages.flatten.each do |pack|
   nsp = "ruby-#{pack.rubyver}-#{pack.arch}"
   namespace nsp do
     unpack = RubyInstaller::Build::Task.new( thisdir: "recipes/unpack", package: pack )
