@@ -8,10 +8,12 @@ class Msys2 < Base
 
   def needed?
     begin
-      print "MSYS2 seems to be "
-      msys.msys_path
-      puts green("already installed")
-      false
+      if msys.with_msys_apps_enabled { run_verbose("sh", "-lc", "true") }
+        puts "MSYS2 seems to be " + green("already installed")
+        false
+      else
+        true
+      end
     rescue Msys2Installation::MsysNotFound
       puts red("unavailable")
       true
@@ -47,7 +49,7 @@ class Msys2 < Base
     end
 
     puts "Run the MSYS2 installer ..."
-    if run_verbose(temp_path)
+    if run_verbose(temp_path) && msys.with_msys_apps_enabled { run_verbose("sh", "-lc", "true") }
       puts green(" Success")
     else
       puts red(" Failed")

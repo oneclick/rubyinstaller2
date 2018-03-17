@@ -3,11 +3,24 @@ directory File.dirname(filelist_iss)
 file filelist_iss => [__FILE__, ovl_expand_file(sandbox_task.sandboxfile_listfile), ovl_expand_file(sandbox_task.sandboxfile_arch_listfile), File.dirname(filelist_iss)] do
   puts "generate #{filelist_iss}"
   out = sandbox_task.sandboxfiles.map do |path|
-    if File.directory?(path)
-      "Source: ../../#{path}/*; DestDir: {app}/#{path.gsub(sandboxdir+"/", "")}; Flags: recursesubdirs createallsubdirs"
+    reltosandbox_path = path.gsub(sandboxdir+"/", "")
+
+    if package.respond_to?(:msysdir) && reltosandbox_path.start_with?(package.msysdir)
+      components = "msys2"
+      flags = "uninsneveruninstall"
     else
-      "Source: ../../#{path}; DestDir: {app}/#{File.dirname(path.gsub(sandboxdir+"/", ""))}"
+      components = "ruby"
     end
+    args = if File.directory?(path)
+      flags = "recursesubdirs createallsubdirs #{flags}"
+      source = "../../#{path}/*"
+      dest = "{app}/#{reltosandbox_path}"
+    else
+      source = "../../#{path}"
+      dest = "{app}/#{File.dirname(reltosandbox_path)}"
+    end
+
+    "Source: #{source}; DestDir: #{dest}; Flags: #{flags}; Components: #{components}"
   end.join("\n")
   File.write(filelist_iss, out)
 end

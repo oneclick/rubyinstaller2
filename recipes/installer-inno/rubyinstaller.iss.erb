@@ -8,13 +8,17 @@
 ; License: Modified BSD License
 
 <% require "etc" %>
+<% rubybundle = package.respond_to?(:msysdir) %>
+<% if rubybundle %>
+#define RubyBundle
+<% end %>
 
 #define RubyVersion <%=q package.rubyver %>
 #define PackageRelease <%=q package.pkgrel %>
 #define RubyBuildPlatform <%=q package.ruby_arch %>
 
 ; Build Installer details using above values
-#define InstallerName "Ruby " + <%=q package.packagever %> + "-" + <%=q package.arch %>
+#define InstallerName "Ruby " + <%=q package.packagever %> + "-" + <%=q package.arch %> + "<%= " with MSYS2" if rubybundle %>"
 #define InstallerPublisher "RubyInstaller Team"
 #define InstallerHomepage "http://rubyinstaller.org"
 
@@ -82,9 +86,9 @@ AddPath=Add Ruby executables to your PATH
 AddPathHint=Select to make this Ruby installation available from everywhere.%nThis may affect existing Ruby installations.
 AssociateExt=Associate .rb and .rbw files with this Ruby installation
 AssociateExtHint=Select to enable running your Ruby scripts by double clicking%nor simply typing the script name at your shell prompt. This may%naffect existing Ruby installations.
-DevkitInstall=Run 'ridk install' to install MSYS2 and development toolchain.
+DevkitInstall=Run 'ridk install' to setup MSYS2 and development toolchain.
 DevkitInstall2=MSYS2 is required to install gems with C extensions.
-DevkitInstallHint=The MSYS2 development tools consists of the GCC compiler suite and%nmany common UNIX tools required to build OpenSource software.
+DevkitInstallHint=The MSYS2 development tools consists of the GCC compiler suite and%nmany common UNIX tools required to build OpenSource software.%nIt is safe to run `ridk install` even if MSYS2 is already installed.
 DefaultUtf8=Use UTF-8 as default external encoding.
 DefaultUtf8Hint=This sets the environment variable 'RUBYOPT=-Eutf-8'.%nRubyInstaller-2.6 will probably set this as default.%nSee the wiki for more information.
 MouseoverHint=TIP: Mouse over the above options for more detailed information.
@@ -151,6 +155,15 @@ Name: {group}\{cm:DocumentationTitle}\{cm:APIReferenceTitle,{#RubyVersion}}; Fil
 Name: {group}\{cm:RubyGemsDocumentationServerTitle}; Filename: {app}\bin\gem.cmd; Parameters: server --launch; IconFilename: {app}\share\doc\ruby\html\images\ruby-doc.ico; Flags: runminimized
 Name: {group}\{cm:StartCmdPromptWithRubyTitle}; Filename: {sys}\cmd.exe; Parameters: /E:ON /K {app}\bin\setrbvars.cmd; WorkingDir: {%HOMEDRIVE}{%HOMEPATH}; IconFilename: {sys}\cmd.exe
 Name: {group}\{cm:UninstallProgram,{#InstallerName}}; Filename: {uninstallexe}
+
+[Components]
+Name: "ruby"; Description: "Ruby-<%= package.rubyver %> base files"; Types: custom; Flags: fixed
+
+Name: "msys2"; Description: "MSYS2 development toolchain <%= Time.now.strftime("%Y-%m-%d") %>"; Types: <%= "custom" if rubybundle %>; Flags: disablenouninstallwarning <%= "fixed" unless rubybundle %>
+
+[Types]
+Name: "custom"; Description: "Default installation"; Flags: iscustom
+
 
 [Code]
 <%= ovl_read_file "recipes/installer-inno/util.iss" %>

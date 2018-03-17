@@ -9,6 +9,10 @@ file msysdir => [msys2_task.devtools, File.dirname(msysdir)] do |t|
   # These files are re-created on the target computer.
   chdir t.name do
     rm init_files
+
+    # Do not include pacman gnupg directory. These files are unique to each installation
+    # and are created at the first call of `sh -l`.
+    rm_r "etc/pacman.d/gnupg"
   end
 end
 self.sandboxfiles << msysdir

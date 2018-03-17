@@ -12,6 +12,8 @@ const
 
 var
   PathChkBox, PathExtChkBox, Utf8ChkBox, DevkitChkBox: TCheckBox;
+  CompLabel: TLabel;
+  ComplistPrevClickCheck: TNotifyEvent;
 
 function IsAssociated(): Boolean;
 begin
@@ -85,6 +87,25 @@ begin
   ShellExec('open', ridkpath, 'install', '', SW_SHOWNORMAL, ewNoWait, ErrorCode);
 end;
 
+procedure ComplistClickCheck(Sender: TObject);
+begin
+  if Msys2AlreadyInstalled() then
+    if (WizardForm.ComponentsList.Items.Count > 1) and WizardForm.ComponentsList.Checked[1] then
+      CompLabel.Caption := 'ATTENTION: MSYS2 is already present in the Ruby install directory. It will be deleted now and then reinstalled. Additional installed pacman packages will be removed.'
+    else
+      CompLabel.Caption := 'MSYS2 is already present in the Ruby install directory and will not be deleted. However it can be updated per `ridk install` on the last page of the installer.'
+  else
+    CompLabel.Caption := '';
+
+  ComplistPrevClickCheck(Sender);
+end;
+
+procedure EnableMsys2Component(enable: Boolean);
+begin
+  if WizardForm.ComponentsList.Items.Count > 1 then
+    WizardForm.ComponentsList.Checked[1] := enable;
+end;
+
 procedure InitializeGUI;
 var
   ChkBoxCurrentY: Integer;
@@ -92,6 +113,25 @@ var
   HostPage: TNewNotebookPage;
   URLText, TmpLabel: TNewStaticText;
 begin
+
+  {* Add label to components list *}
+
+  CompLabel := TLabel.Create(WizardForm);
+  CompLabel.Parent := WizardForm.SelectComponentsPage;
+  CompLabel.Left := WizardForm.ComponentsList.Left;
+  CompLabel.Width := WizardForm.ComponentsList.Width;
+  CompLabel.Height := ScaleY(40);
+  CompLabel.Top :=
+    WizardForm.ComponentsList.Top + WizardForm.ComponentsList.Height - CompLabel.Height;
+  CompLabel.AutoSize := False;
+  CompLabel.WordWrap := True;
+
+  WizardForm.ComponentsList.Height :=
+    WizardForm.ComponentsList.Height - CompLabel.Height - ScaleY(8);
+
+  {* Bypass click event on ComponentsList *}
+  ComplistPrevClickCheck := WizardForm.ComponentsList.OnClickCheck;
+  WizardForm.ComponentsList.OnClickCheck := @ComplistClickCheck;
 
   {* Path, and file association task check boxes *}
 
