@@ -1,4 +1,4 @@
-Copyright (c) 2007-2017 RubyInstaller Team.
+Copyright (c) 2007-2018 RubyInstaller Team.
 All rights reserved.
 
 Except:
@@ -6,7 +6,7 @@ Except:
   Ruby is copyrighted free software by Yukihiro Matsumoto.
   http://www.ruby-lang.org/en/LICENSE.txt
 
-  3rd party libraries (OpenSSL, ZLib, etc.)
+  3rd party libraries (OpenSSL, ZLib, MSYS2, etc.)
 
 This software is distributed under the terms of the Modified BSD License.
 
