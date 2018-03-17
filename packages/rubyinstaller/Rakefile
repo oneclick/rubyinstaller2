@@ -39,13 +39,13 @@ end
 
 ovl_glob('recipes/*/task.rake').each{|f| load(ovl_expand_file(f)) }
 
-ruby_packages = %w[2.4.3-2 2.5.0-2 head].map do |packagever|
-  %w[x64 x86].map do |arch|
+ruby_arch_packages = %w[x64 x86].map do |arch|
+  %w[2.4.3-2 2.5.0-2 head].map do |packagever|
     RubyPackage.new( packagever: packagever, arch: arch, rootdir: __dir__ ).freeze
   end
-end.flatten
+end
 
-ruby_packages.each do |pack|
+ruby_packages.flatten.each do |pack|
   nsp = "ruby-#{pack.rubyver}-#{pack.arch}"
   namespace nsp do
     unpack = RubyInstaller::Build::Task.new( thisdir: "recipes/unpack", package: pack )
