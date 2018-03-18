@@ -2,6 +2,9 @@ init:
   - echo %PATH%
   # We use a clean PATH to avoid interferences with the hundreds of installed programs.
   - set PATH=c:/Program Files/Git/cmd;c:/ProgramData/chocolatey/bin;c:/Program Files (x86)/Inno Setup 5;c:/Windows/system32;C:/Windows/System32/WindowsPowerShell/v1.0
+  - set PATH=C:/ruby%build_ruby%/bin;%PATH%
+  - echo %PATH%
+  - ruby --version
 
 install:
   - choco install -y InnoSetup
@@ -12,24 +15,18 @@ install:
   - c:/msys64/usr/bin/bash -lc "pacman -S --noconfirm --needed ${MINGW_PACKAGE_PREFIX}-toolchain ${MINGW_PACKAGE_PREFIX}-gcc-libs ${MINGW_PACKAGE_PREFIX}-gdbm ${MINGW_PACKAGE_PREFIX}-gmp ${MINGW_PACKAGE_PREFIX}-libffi ${MINGW_PACKAGE_PREFIX}-libyaml ${MINGW_PACKAGE_PREFIX}-openssl ${MINGW_PACKAGE_PREFIX}-zlib"
 
 build_script:
-  - set PATH=C:/ruby%build_ruby%/bin;%PATH%
-  - ruby --version
   - c:/msys64/%MSYSTEM%/bin/gcc.exe --version
-  - echo %PATH%
 
   # Build the installer
   - rake rubyinstaller:ruby-%target_ruby%-%arch%
 
+  # Reuse installed ruby for RubyBundle
+  - c:/msys64/usr/bin/mkdir -p packages/rubybundle/recipes/
+  - c:/msys64/usr/bin/cp -a packages/rubyinstaller/recipes/unpack packages/rubybundle/recipes/
   # Remove broken pkg files from cache
   - c:/msys64/usr/bin/rm -f c:/msys64/var/cache/pacman/pkg/{autoconf,automake,bash-completion,ca-certificates}*
   # Build the rubybundle installer
   - rake rubybundle:ruby-%target_ruby%-%arch%
-
-  # Update the MSYS2 cache every day
-  - ruby -e "puts Time.now.strftime('%Y-%m-%d')" > today.txt
-
-cache:
-  - packages/rubybundle/recipes/msys2 -> appveyor.yml, today.txt
 
 test_script:
   # Run the built Ruby installer and install to c:/ri2-ruby
@@ -65,7 +62,7 @@ test_script:
   # Run upload to github (only on tag builds)
   - set DEPLOY_TAG=%APPVEYOR_REPO_TAG_NAME%
   - IF "%target_ruby%" EQU "head" (SET DEPLOY_TAG=rubyinstaller-head)
-  - rake release:appveyor_upload -- packages/rubyinstaller/recipes/installer-inno/%DEPLOY_TAG%*-%arch%.exe packages/rubyinstaller/recipes/archive-7z/%DEPLOY_TAG%*-%arch%.7z packages/rubybundle/recipes/installer-inno/%DEPLOY_TAG%*-%arch%.exe packages/rubybundle/recipes/archive-7z/%DEPLOY_TAG%*-%arch%.7z
+  - rake release:appveyor_upload -- packages/rubyinstaller/recipes/installer-inno/%DEPLOY_TAG%*-%arch%.exe packages/rubyinstaller/recipes/archive-7z/%DEPLOY_TAG%*-%arch%.7z packages/rubybundle/recipes/installer-inno/ruby*-%target_ruby%*-%arch%.exe packages/rubybundle/recipes/archive-7z/ruby*-%target_ruby%*-%arch%.7z
 
 # Provide the rubyinstaller.exe files for download
 artifacts:
