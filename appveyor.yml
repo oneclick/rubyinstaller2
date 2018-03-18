@@ -26,7 +26,7 @@ build_script:
   # Remove broken pkg files from cache
   - c:/msys64/usr/bin/rm -f c:/msys64/var/cache/pacman/pkg/{autoconf,automake,bash-completion,ca-certificates}*
   # Build the rubybundle installer
-  - rake rubybundle:ruby-%target_ruby%-%arch%
+  - rake rubybundle:ruby-%target_ruby%-%arch%:installer-inno
 
 test_script:
   # Run the built Ruby installer and install to c:/ri2-ruby
@@ -62,7 +62,7 @@ test_script:
   # Run upload to github (only on tag builds)
   - set DEPLOY_TAG=%APPVEYOR_REPO_TAG_NAME%
   - IF "%target_ruby%" EQU "head" (SET DEPLOY_TAG=rubyinstaller-head)
-  - rake release:appveyor_upload -- packages/rubyinstaller/recipes/installer-inno/%DEPLOY_TAG%*-%arch%.exe packages/rubyinstaller/recipes/archive-7z/%DEPLOY_TAG%*-%arch%.7z packages/rubybundle/recipes/installer-inno/ruby*-%target_ruby%*-%arch%.exe packages/rubybundle/recipes/archive-7z/ruby*-%target_ruby%*-%arch%.7z
+  - rake release:appveyor_upload -- packages/rubyinstaller/recipes/installer-inno/%DEPLOY_TAG%*-%arch%.exe packages/rubyinstaller/recipes/archive-7z/%DEPLOY_TAG%*-%arch%.7z packages/rubybundle/recipes/installer-inno/ruby*-%target_ruby%*-%arch%.exe
 
 # Provide the rubyinstaller.exe files for download
 artifacts:
@@ -72,8 +72,6 @@ artifacts:
     name: Plain archive file
   - path: packages/rubybundle/recipes/installer-inno/ruby*-$(target_ruby)*-$(arch).exe
     name: Executable installer with MYS2
-  - path: packages/rubybundle/recipes/archive-7z/ruby*-$(target_ruby)*-$(arch).7z
-    name: Plain archive file with MYS2
 
 environment:
   GPGPASSWD:
