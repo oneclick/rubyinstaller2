@@ -49,7 +49,7 @@ begin
   // Disable MSYS2 component install, when it is already present in the install directory
   if CurPageID = wpSelectComponents then
   begin
-    EnableMsys2Component(not Msys2AlreadyInstalled());
+    EnableMsys2Component(Msys2AlreadyInstalled() = '');
     ComplistClickCheck(TObject.Create);
   end;
 end;
@@ -88,12 +88,13 @@ end;
 function ShouldSkipPage(PageID: Integer): Boolean;
 begin
 
-{* Skip components page if RubyInstaller (not RubyBundle) is running and no previous Ruby MSYS2 directory is present. *}
-#if Defined(RubyBundle) == 0
-  if (PageID = wpSelectComponents) and (not Msys2AlreadyInstalled()) then
+  {* Skip components page if RubyInstaller without MSYS2 is running and no previous Ruby MSYS2 directory is present. *}
+  if (PageID = wpSelectComponents) and
+      (WizardForm.ComponentsList.Items.Count > 1) and
+      (not WizardForm.ComponentsList.ItemEnabled[1]) and
+      (Msys2AlreadyInstalled() = '') then
     Result := True
   else
-#endif
-{* In all other cases present the components page, to show what is getting installed. *}
+    {* In all other cases present the components page, to show what is getting installed. *}
     Result := False;
 end;

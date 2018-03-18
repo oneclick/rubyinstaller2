@@ -9,9 +9,6 @@
 
 <% require "etc" %>
 <% rubybundle = package.respond_to?(:msysdir) %>
-<% if rubybundle %>
-#define RubyBundle
-<% end %>
 
 #define RubyVersion <%=q package.rubyver %>
 #define PackageRelease <%=q package.pkgrel %>
@@ -24,6 +21,8 @@
 
 #define CurrentYear GetDateTimeString('yyyy', '', '')
 #define PackageBaseId "MRI"
+
+#define MsysDir <%=q( rubybundle ? package.msysdir : '' )%>
 
 [Setup]
 DefaultDirName=<%=q package.default_instdir %>

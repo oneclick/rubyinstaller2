@@ -88,14 +88,20 @@ begin
 end;
 
 procedure ComplistClickCheck(Sender: TObject);
+var
+  msysdir: String;
 begin
-  if Msys2AlreadyInstalled() then
+  msysdir := Msys2AlreadyInstalled();
+  if msysdir <> '' then
     if (WizardForm.ComponentsList.Items.Count > 1) and WizardForm.ComponentsList.Checked[1] then
-      CompLabel.Caption := 'ATTENTION: MSYS2 is already present in the Ruby install directory. It will be deleted now and then reinstalled. Additional installed pacman packages will be removed.'
+      CompLabel.Caption := 'ATTENTION: MSYS2 is already present in ' + msysdir + '. It will be deleted now and then re-installed. Additional installed pacman packages will be removed and must be re-installed manually.'
     else
-      CompLabel.Caption := 'MSYS2 is already present in the Ruby install directory and will not be deleted. However it can be updated per `ridk install` on the last page of the installer.'
+      CompLabel.Caption := 'MSYS2 seems to be already present in ' + msysdir + ' . It will kept untouched and will be re-used for this Ruby installation. Optionally it can be updated per `ridk install` on the last page of the installer.'
   else
-    CompLabel.Caption := '';
+    if (WizardForm.ComponentsList.Items.Count > 1) and WizardForm.ComponentsList.Checked[1] then
+      CompLabel.Caption := 'MSYS2 will be installed into ' + ExpandConstant('{app}\{#MsysDir}') + '. Please run `ridk install` on the last installer page to initialize it. It can be updated later per `ridk install` as well.'
+    else
+      CompLabel.Caption := 'Ruby will be installed into ' + ExpandConstant('{app}') + ' without MSYS2.';
 
   ComplistPrevClickCheck(Sender);
 end;

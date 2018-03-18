@@ -257,9 +257,11 @@ begin
     Log('No previous ruby version found');
 end;
 
-function Msys2AlreadyInstalled(): Boolean;
+function Msys2AlreadyInstalled(): String;
 begin
-  Result := DirExists(ExpandConstant('{app}/msys32')) or DirExists(ExpandConstant('{app}/msys64'));
+  if DirExists(ExpandConstant('{app}\msys32')) then Result := ExpandConstant('{app}\msys32')
+  else if DirExists(ExpandConstant('{app}\msys64')) then Result := ExpandConstant('{app}\msys64')
+  else Result := '';
 end;
 
 procedure DeleteRubyMsys2Directory();
