@@ -9,7 +9,7 @@ class Msys2 < Base
   def needed?
     begin
       if msys.with_msys_apps_enabled { run_verbose("sh", "-lc", "true") }
-        puts "MSYS2 seems to be " + green("already installed")
+        puts "MSYS2 seems to be " + green("properly installed")
         false
       else
         true

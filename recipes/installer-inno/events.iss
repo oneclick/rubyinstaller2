@@ -91,8 +91,7 @@ begin
 
   {* Skip components page if RubyInstaller without MSYS2 is running and no previous Ruby MSYS2 directory is present. *}
   if (PageID = wpSelectComponents) and
-      (WizardForm.ComponentsList.Items.Count > 1) and
-      (not WizardForm.ComponentsList.ItemEnabled[1]) and
+      (not IsComponentSelected('msys2')) and
       (Msys2AlreadyInstalled() = '') then
     Result := True
   else
