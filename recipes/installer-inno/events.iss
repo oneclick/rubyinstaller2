@@ -46,8 +46,9 @@ begin
   if CurPageID = wpSelectDir then
     WizardForm.NextButton.Caption := SetupMessage(msgButtonInstall);
 
-  // Disable MSYS2 component install, when it is already present in the install directory
-  if CurPageID = wpSelectComponents then
+  {* Disable MSYS2 component install, when it is already present in the install directory,
+     but take component selection as set per /COMPONENTS param when in slient install. *}
+  if (CurPageID = wpSelectComponents) and (not WizardSilent) then
   begin
     EnableMsys2Component(Msys2AlreadyInstalled() = '');
     ComplistClickCheck(TObject.Create);
