@@ -8,7 +8,7 @@ include RubyInstaller::Build::Utils
 task :gem => :build
 
 # Forward package build tasks to the sub Rakefiles.
-%w[rubyinstaller rubybundle].each do |packname|
+%w[ri ri-msys].each do |packname|
   namespace packname do |ns|
     Rake::TaskManager.record_task_metadata = true
     Rake.load_rakefile "packages/#{packname}/Rakefile"

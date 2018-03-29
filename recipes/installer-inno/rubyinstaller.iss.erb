@@ -8,21 +8,21 @@
 ; License: Modified BSD License
 
 <% require "etc" %>
-<% rubybundle = package.respond_to?(:msysdir) %>
+<% with_msys = package.respond_to?(:msysdir) %>
 
 #define RubyVersion <%=q package.rubyver %>
 #define PackageRelease <%=q package.pkgrel %>
 #define RubyBuildPlatform <%=q package.ruby_arch %>
 
 ; Build Installer details using above values
-#define InstallerName "Ruby " + <%=q package.packagever %> + "-" + <%=q package.arch %> + "<%= " with MSYS2" if rubybundle %>"
+#define InstallerName "Ruby " + <%=q package.packagever %> + "-" + <%=q package.arch %> + "<%= " with MSYS2" if with_msys %>"
 #define InstallerPublisher "RubyInstaller Team"
 #define InstallerHomepage "http://rubyinstaller.org"
 
 #define CurrentYear GetDateTimeString('yyyy', '', '')
 #define PackageBaseId "MRI"
 
-#define MsysDir <%=q( rubybundle ? package.msysdir : '' )%>
+#define MsysDir <%=q( with_msys ? package.msysdir : '' )%>
 
 [Setup]
 DefaultDirName=<%=q package.default_instdir %>
@@ -159,7 +159,7 @@ Name: {group}\{cm:UninstallProgram,{#InstallerName}}; Filename: {uninstallexe}
 [Components]
 Name: "ruby"; Description: "Ruby-<%= package.rubyver %> base files"; Types: custom; Flags: fixed
 
-Name: "msys2"; Description: "MSYS2 development toolchain <%= Time.now.strftime("%Y-%m-%d") %>"; Types: <%= "custom" if rubybundle %>; Flags: disablenouninstallwarning <%= "fixed" unless rubybundle %>
+Name: "msys2"; Description: "MSYS2 development toolchain <%= Time.now.strftime("%Y-%m-%d") %>"; Types: <%= "custom" if with_msys %>; Flags: disablenouninstallwarning <%= "fixed" unless with_msys %>
 
 [Types]
 Name: "custom"; Description: "Default installation"; Flags: iscustom

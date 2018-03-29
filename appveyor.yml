@@ -18,19 +18,19 @@ build_script:
   - c:/msys64/%MSYSTEM%/bin/gcc.exe --version
 
   # Build the installer
-  - rake rubyinstaller:ruby-%target_ruby%-%arch%
+  - rake ri:ruby-%target_ruby%-%arch%
 
-  # Reuse installed ruby for RubyBundle
-  - c:/msys64/usr/bin/mkdir -p packages/rubybundle/recipes/
-  - c:/msys64/usr/bin/cp -a packages/rubyinstaller/recipes/unpack packages/rubybundle/recipes/
+  # Reuse installed ruby for RubyInstaller+MSYS
+  - c:/msys64/usr/bin/mkdir -p packages/ri-msys/recipes/
+  - c:/msys64/usr/bin/cp -a packages/ri/recipes/unpack packages/ri-msys/recipes/
   # Remove broken pkg files from cache
   - c:/msys64/usr/bin/rm -f c:/msys64/var/cache/pacman/pkg/{autoconf,automake,bash-completion,ca-certificates}*
-  # Build the rubybundle installer
-  - rake rubybundle:ruby-%target_ruby%-%arch%:installer-inno
+  # Build the RubyInstaller+MSYS installer
+  - rake ri-msys:ruby-%target_ruby%-%arch%:installer-inno
 
 test_script:
   # Run the built Ruby installer and install to c:/ri2-ruby
-  - ruby -e "Dir['packages/rubyinstaller/recipes/installer-inno/rubyinstaller-%target_ruby%*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath,defaultutf8')}"
+  - ruby -e "Dir['packages/ri/recipes/installer-inno/rubyinstaller-%target_ruby%*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath,defaultutf8')}"
   # Activate the environment variables set by the installer, but exclude
   # git's /usr/bin, because it conflicts with one RubyInstaller test.
   - ps: $env:PATH = [Environment]::GetEnvironmentVariable("PATH","Machine") -replace ";C:\\Program Files\\Git\\usr\\bin" -replace ";C:\\Ruby193\\bin"
@@ -62,15 +62,15 @@ test_script:
   # Run upload to github (only on tag builds)
   - set DEPLOY_TAG=%APPVEYOR_REPO_TAG_NAME%
   - IF "%target_ruby%" EQU "head" (SET DEPLOY_TAG=rubyinstaller-head)
-  - rake release:appveyor_upload -- packages/rubyinstaller/recipes/installer-inno/%DEPLOY_TAG%*-%arch%.exe packages/rubyinstaller/recipes/archive-7z/%DEPLOY_TAG%*-%arch%.7z packages/rubybundle/recipes/installer-inno/ruby*-%target_ruby%*-%arch%.exe
+  - rake release:appveyor_upload -- packages/ri/recipes/installer-inno/%DEPLOY_TAG%*-%arch%.exe packages/ri/recipes/archive-7z/%DEPLOY_TAG%*-%arch%.7z packages/ri-msys/recipes/installer-inno/ruby*-%target_ruby%*-%arch%.exe
 
 # Provide the rubyinstaller.exe files for download
 artifacts:
-  - path: packages/rubyinstaller/recipes/installer-inno/ruby*-$(target_ruby)*-$(arch).exe
+  - path: packages/ri/recipes/installer-inno/ruby*-$(target_ruby)*-$(arch).exe
     name: Executable installer
-  - path: packages/rubyinstaller/recipes/archive-7z/ruby*-$(target_ruby)*-$(arch).7z
+  - path: packages/ri/recipes/archive-7z/ruby*-$(target_ruby)*-$(arch).7z
     name: Plain archive file
-  - path: packages/rubybundle/recipes/installer-inno/ruby*-$(target_ruby)*-$(arch).exe
+  - path: packages/ri-msys/recipes/installer-inno/ruby*-$(target_ruby)*-$(arch).exe
     name: Executable installer with MYS2
 
 environment:
