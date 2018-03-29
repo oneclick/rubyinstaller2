@@ -10,7 +10,7 @@ class RubyPackage < RubyInstaller::Build::Openstruct
     super
 
     self.rubyver, self.pkgrel = packagever.split("-", 2)
-    self.packagename = "rubyinstaller+msys"
+    self.packagename = "rubyinstaller-devkit"
     self.rubyver2 = packagever=='head' ? "2.6" : rubyver[/^\d+\.\d+/]
 
     self.install_gems = %w[]

@@ -1,27 +1,27 @@
 ## RubyInstaller-2.5.1-1 - 2018-03-29
 
 ### Added
-- New installer for Ruby with builtin MSYS2 toolchain. #42
+- New installer for Ruby with builtin MSYS2 Devkit toolchain. #42
 
 ### Changed
 - Update to ruby-2.5.1, see [release notes](https://www.ruby-lang.org/en/news/2018/03/28/ruby-2-5-1-released/).
 - Update to OpenSSL-1.1.0h .
-- Make installers with/without MSYS2 compatible, so that both can be mixed like:
-  - Install RubyInstaller+MSYS2 first and update with smaller RubyInstaller later
-  - Install RubyInstaller first and update by RubyInstaller+MSYS2
+- Make installers with/without Devkit compatible, so that both can be mixed like:
+  - Install RubyInstaller-Devkit first and update with smaller RubyInstaller later
+  - Install RubyInstaller first and update by RubyInstaller-Devkit
 
 
 ## RubyInstaller-2.4.4-1 - 2018-03-29
 
 ### Added
-- New installer for Ruby with builtin MSYS2 toolchain. #42
+- New installer for Ruby with builtin MSYS2 Devkit toolchain. #42
 
 ### Changed
 - Update to ruby-2.4.4, see [release notes](https://www.ruby-lang.org/en/news/2018/03/28/ruby-2-4-4-released/).
 - Update to OpenSSL-1.0.2o .
-- Make installers with/without MSYS2 compatible, so that both can be mixed like:
-  - Install RubyInstaller+MSYS2 first and update with smaller RubyInstaller later
-  - Install RubyInstaller first and update by RubyInstaller+MSYS2
+- Make installers with/without Devkit compatible, so that both can be mixed like:
+  - Install RubyInstaller-Devkit first and update with smaller RubyInstaller later
+  - Install RubyInstaller first and update by RubyInstaller-Devkit
 
 
 ## RubyInstaller-2.5.0-2 - 2018-02-27

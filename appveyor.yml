@@ -20,12 +20,12 @@ build_script:
   # Build the installer
   - rake ri:ruby-%target_ruby%-%arch%
 
-  # Reuse installed ruby for RubyInstaller+MSYS
+  # Reuse installed ruby for RubyInstaller-Devkit
   - c:/msys64/usr/bin/mkdir -p packages/ri-msys/recipes/
   - c:/msys64/usr/bin/cp -a packages/ri/recipes/unpack packages/ri-msys/recipes/
   # Remove broken pkg files from cache
   - c:/msys64/usr/bin/rm -f c:/msys64/var/cache/pacman/pkg/{autoconf,automake,bash-completion,ca-certificates}*
-  # Build the RubyInstaller+MSYS installer
+  # Build the RubyInstaller-Devkit installer
   - rake ri-msys:ruby-%target_ruby%-%arch%:installer-inno
 
 test_script:
