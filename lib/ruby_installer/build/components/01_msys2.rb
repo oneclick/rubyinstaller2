@@ -8,14 +8,14 @@ class Msys2 < Base
 
   def needed?
     begin
-      if msys.with_msys_apps_enabled { run_verbose("sh", "-lc", "true") }
+      if msys.with_msys_apps_enabled(if_no_msys: :raise) { run_verbose("sh", "-lc", "true") }
         puts "MSYS2 seems to be " + green("properly installed")
         false
       else
         true
       end
     rescue Msys2Installation::MsysNotFound
-      puts red("unavailable")
+      puts "MSYS2 seems to be " + red("unavailable")
       true
     end
   end
