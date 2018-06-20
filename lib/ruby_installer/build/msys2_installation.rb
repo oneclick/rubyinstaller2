@@ -94,7 +94,7 @@ module Build # Use for: Build, Runtime
       @mingwdir ||= begin
         DllDirectory.set_defaults
         path = mingw_bin_path
-        DllDirectory.new(path)
+        DllDirectory.new(path) if File.directory?(path)
       rescue MsysNotFound
         # We silently ignore this error to allow Ruby installations without MSYS2.
       end
