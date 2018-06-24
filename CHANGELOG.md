@@ -1,3 +1,12 @@
+## RubyInstaller-2.5.1-2 - 2018-06-24
+
+### Changed
+- Update `ridk install` to download msys2 installer version 20180531. #115
+- Fix MSYS2 detection in `ridk install`. This broke download of MSYS2 installer. #114
+- Don't crash when the mingw directory within MSYS2 isn't present.
+- Update of the SSL CA certificate list.
+
+
 ## RubyInstaller-2.4.4-2 - 2018-06-24
 
 ### Changed
