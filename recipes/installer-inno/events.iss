@@ -6,11 +6,13 @@ end;
 procedure CurStepChanged(const CurStep: TSetupStep);
 begin
 
-  // TODO move into ssPostInstall just after install completes?
+  // Run preparing steps before install of files
   if CurStep = ssInstall then
   begin
     if UsingWinNT then
     begin
+      UnInstallOldVersion();
+
       Log(Format('Selected Tasks - Path: %d, Associate: %d', [PathChkBox.State, PathExtChkBox.State]));
 
       if IsModifyPath then
@@ -22,8 +24,6 @@ begin
       if IsUtf8 then
         ModifyRubyopt(['-Eutf-8']);
 
-      UnInstallOldVersion();
-
       if IsComponentSelected('msys2') then
         DeleteRubyMsys2Directory();
 
@@ -33,6 +33,7 @@ begin
              mbInformation, MB_OK);
   end;
 
+  // Final steps before installer closes
   if CurStep = ssDone then
   begin
     Log(Format('Selected Tasks - DevkitInstall %d', [DevkitChkBox.State]));
