@@ -107,47 +107,30 @@ TheBookofRubyTitle=The Book of Ruby
 #include InstallerFileList
 
 [Registry]
-; .rb file for admin
-Root: HKLM; Subkey: Software\Classes\.rb; ValueType: string; ValueName: ; ValueData: RubyFile; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: IsAdmin and IsAssociated
-Root: HKLM; Subkey: Software\Classes\RubyFile; ValueType: string; ValueName: ; ValueData: Ruby File; Flags: uninsdeletekey; Check: IsAdmin and IsAssociated
-Root: HKLM; Subkey: Software\Classes\RubyFile\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\bin\ruby.exe,0; Check: IsAdmin and IsAssociated
-Root: HKLM; Subkey: Software\Classes\RubyFile\shell\open\command; ValueType: string; ValueData: """{app}\bin\ruby.exe"" ""%1"" %*"; Check: IsAdmin and IsAssociated
+<% [["HKLM", "IsAdmin"],
+    ["HKCU", "IsNotAdmin"]].each do |regroot, chkadmin| %>
 
-; .rbw file for admin
-Root: HKLM; Subkey: Software\Classes\.rbw; ValueType: string; ValueName: ; ValueData: RubyWFile; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: IsAdmin and IsAssociated
-Root: HKLM; Subkey: Software\Classes\RubyWFile; ValueType: string; ValueName: ; ValueData: RubyW File; Flags: uninsdeletekey; Check: IsAdmin and IsAssociated
-Root: HKLM; Subkey: Software\Classes\RubyWFile\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\bin\rubyw.exe,0; Check: IsAdmin and IsAssociated
-Root: HKLM; Subkey: Software\Classes\RubyWFile\shell\open\command; ValueType: string; ValueName: ; ValueData: """{app}\bin\rubyw.exe"" ""%1"" %*"; Check: IsAdmin and IsAssociated
+<% [[".rb", "Ruby", "ruby.exe"],
+    [".rbw", "RubyW", "rubyw.exe"]].each do |extension, rubyname, rubyexe| %>
 
-; .rb file for non-admin
-Root: HKCU; Subkey: Software\Classes\.rb; ValueType: string; ValueName: ; ValueData: RubyFile; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: IsNotAdmin and IsAssociated
-Root: HKCU; Subkey: Software\Classes\RubyFile; ValueType: string; ValueName: ; ValueData: Ruby File; Flags: uninsdeletekey; Check: IsNotAdmin and IsAssociated
-Root: HKCU; Subkey: Software\Classes\RubyFile\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\bin\ruby.exe,0; Check: IsNotAdmin and IsAssociated
-Root: HKCU; Subkey: Software\Classes\RubyFile\shell\open\command; ValueType: string; ValueName: ; ValueData: """{app}\bin\ruby.exe"" ""%1"" %*"; Check: IsNotAdmin and IsAssociated
+; .rb, *.rbw file for admin+nonadmin
+Root: <%= regroot %>; Subkey: Software\Classes\<%= extension %>; ValueType: string; ValueName: ; ValueData: <%= rubyname %>File; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: <%= chkadmin %> and IsAssociated
+Root: <%= regroot %>; Subkey: Software\Classes\<%= rubyname %>File; ValueType: string; ValueName: ; ValueData: <%= rubyname %> File; Flags: uninsdeletekey; Check: <%= chkadmin %> and IsAssociated
+Root: <%= regroot %>; Subkey: Software\Classes\<%= rubyname %>File\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\bin\<%= rubyexe %>,0; Check: <%= chkadmin %> and IsAssociated
+Root: <%= regroot %>; Subkey: Software\Classes\<%= rubyname %>File\shell\open\command; ValueType: string; ValueName: ; ValueData: """{app}\bin\<%= rubyexe %>"" ""%1"" %*"; Check: <%= chkadmin %> and IsAssociated
 
-; .rbw file for non-admin
-Root: HKCU; Subkey: Software\Classes\.rbw; ValueType: string; ValueName: ; ValueData: RubyWFile; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: IsNotAdmin and IsAssociated
-Root: HKCU; Subkey: Software\Classes\RubyWFile; ValueType: string; ValueName: ; ValueData: RubyW File; Flags: uninsdeletekey; Check: IsNotAdmin and IsAssociated
-Root: HKCU; Subkey: Software\Classes\RubyWFile\DefaultIcon; ValueType: string; ValueName: ; ValueData: {app}\bin\rubyw.exe,0; Check: IsNotAdmin and IsAssociated
-Root: HKCU; Subkey: Software\Classes\RubyWFile\shell\open\command; ValueType: string; ValueData: """{app}\bin\rubyw.exe"" ""%1"" %*"; Check: IsNotAdmin and IsAssociated
+<% end %>
 
-; RubyInstaller identification for admin
-Root: HKLM; Subkey: Software\RubyInstaller; ValueType: string; ValueName: ; ValueData: ; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: IsAdmin
-Root: HKLM; Subkey: Software\RubyInstaller\{#PackageBaseId}; ValueType: string; ValueName: ; ValueData: ; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: IsAdmin
-Root: HKLM; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: ; ValueData: ; Flags: uninsdeletekey; Check: IsAdmin
-Root: HKLM; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: InstallLocation ; ValueData: {app}; Check: IsAdmin
-Root: HKLM; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: InstallDate ; ValueData: {code:GetInstallDate}; Check: IsAdmin
-Root: HKLM; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: PackageRelease ; ValueData: {#PackageRelease}; Check: IsAdmin
-Root: HKLM; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: BuildPlatform ; ValueData: {#RubyBuildPlatform}; Check: IsAdmin
+; RubyInstaller identification for admin+nonadmin
+Root: <%= regroot %>; Subkey: Software\RubyInstaller; ValueType: string; ValueName: ; ValueData: ; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: <%= chkadmin %>
+Root: <%= regroot %>; Subkey: Software\RubyInstaller\{#PackageBaseId}; ValueType: string; ValueName: ; ValueData: ; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: <%= chkadmin %>
+Root: <%= regroot %>; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: ; ValueData: ; Flags: uninsdeletekey; Check: <%= chkadmin %>
+Root: <%= regroot %>; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: InstallLocation ; ValueData: {app}; Check: <%= chkadmin %>
+Root: <%= regroot %>; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: InstallDate ; ValueData: {code:GetInstallDate}; Check: <%= chkadmin %>
+Root: <%= regroot %>; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: PackageRelease ; ValueData: {#PackageRelease}; Check: <%= chkadmin %>
+Root: <%= regroot %>; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: BuildPlatform ; ValueData: {#RubyBuildPlatform}; Check: <%= chkadmin %>
 
-; RubyInstaller identification for non-admin
-Root: HKCU; Subkey: Software\RubyInstaller; ValueType: string; ValueName: ; ValueData: ; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: IsNotAdmin
-Root: HKCU; Subkey: Software\RubyInstaller\{#PackageBaseId}; ValueType: string; ValueName: ; ValueData: ; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: IsNotAdmin
-Root: HKCU; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: ; ValueData: ; Flags: uninsdeletekey; Check: IsNotAdmin
-Root: HKCU; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: InstallLocation ; ValueData: {app}; Check: IsNotAdmin
-Root: HKCU; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: InstallDate ; ValueData: {code:GetInstallDate}; Check: IsNotAdmin
-Root: HKCU; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: PackageRelease ; ValueData: {#PackageRelease}; Check: IsNotAdmin
-Root: HKCU; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: BuildPlatform ; ValueData: {#RubyBuildPlatform}; Check: IsNotAdmin
+<% end %>
 
 [Icons]
 Name: {group}\{cm:InteractiveRubyTitle}; Filename: {app}\bin\irb.cmd; Parameters: -rirb/completion; IconFilename: {app}\bin\ruby.exe
