@@ -5,7 +5,7 @@ bin/gem.cmd
 bin/irb
 bin/irb.cmd
 bin/libffi-6.dll
-bin/libgdbm-4.dll
+bin/libgdbm-6.dll
 bin/libgdbm_compat-4.dll
 bin/libgmp-10.dll
 bin/libiconv-2.dll
