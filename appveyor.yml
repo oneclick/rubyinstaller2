@@ -1,3 +1,5 @@
+image: Previous Visual Studio 2017
+
 init:
   - echo %PATH%
   # We use a clean PATH to avoid interferences with the hundreds of installed programs.
