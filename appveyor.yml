@@ -52,13 +52,13 @@ test_script:
   - IF DEFINED run_ruby_spec ( IF NOT DEFINED APPVEYOR_REPO_TAG_NAME (
       git clone --depth 1 https://github.com/ruby/mspec &&
       git clone --depth 1 https://github.com/ruby/spec &&
-      ridk exec ruby -C spec ../mspec/bin/mspec -j --exclude "BasicObject#instance_eval evaluates string with given filename and negative linenumber"
+      ridk exec env --unset=RUBYOPT ruby -C spec ../mspec/bin/mspec -j --exclude "BasicObject#instance_eval evaluates string with given filename and negative linenumber"
     ))
 
   # Run the MRI copy of Ruby Spec Suite
   - IF DEFINED run_mri_spec ( IF NOT DEFINED APPVEYOR_REPO_TAG_NAME (
       git clone --depth 1 https://github.com/ruby/ruby -b %run_mri_spec% &&
-      ridk exec ruby -C ruby/spec/ruby ../mspec/bin/mspec -j --exclude "BasicObject#instance_eval evaluates string with given filename and negative linenumber"
+      ridk exec env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -j --exclude "BasicObject#instance_eval evaluates string with given filename and negative linenumber"
     ))
 
   # Run upload to github (only on tag builds)
