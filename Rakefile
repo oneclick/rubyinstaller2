@@ -2,6 +2,8 @@ $: << File.expand_path("../lib", __FILE__)
 
 require "ruby_installer/build"
 require "bundler/gem_tasks"
+require "rake/clean"
+require "find"
 
 include RubyInstaller::Build::Utils
 
@@ -23,6 +25,19 @@ task :gem => :build
       end
     end
   end
+
+  # Add all package dirs/files to `rake clean` which are not registered in git and don't contain any files registered in git.
+  gitfiles = `git ls-files -z`.split("\0")
+  clean_list = Enumerator.new do |y|
+    Find.find("packages/#{packname}") do |path|
+      path = path.gsub(/\A\.\//, "") # remove prefix "./"
+      unless gitfiles.find { |gf| gf.start_with?(path) }
+        y << path
+        Find.prune
+      end
+    end
+  end
+  CLEAN.include(clean_list.to_a)
 end
 
 libtest = "test/helper/libtest.dll"
@@ -30,6 +45,7 @@ file libtest => libtest.sub(".dll", ".c") do |t|
   RubyInstaller::Build.enable_msys_apps
   sh RbConfig::CONFIG['CC'], "-shared", t.prerequisites.first, "-o", t.name
 end
+CLEAN.include(libtest)
 
 desc "Run tests on the Ruby installation"
 task :test => libtest do
@@ -109,4 +125,5 @@ namespace "release" do
       puts "No release upload"
     end
   end
+  CLEAN.include("artifacts")
 end
