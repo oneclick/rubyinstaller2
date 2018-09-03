@@ -2428,7 +2428,7 @@ module RbReadline
                    ss.scan(/\d\d/).to_i(16).chr
                  when '0'..'7'
                    ss.pos -= 1
-                   ss.scan(/\d\d\d/).to_i(8).chr
+                   ss.scan(/\d{1,3}/).to_i(8).chr
                  else
                    char
                  end
