@@ -40,18 +40,20 @@ test_script:
   - rake test
   # Verify that the used CA list is still the latest.
   - rake ssl:update_check
+  # Enable MSYS2 commands in cmd
+  - ridk enable
 
   # Run the Ruby Spec Suite
   - IF DEFINED run_ruby_spec ( IF NOT DEFINED APPVEYOR_REPO_TAG_NAME (
       git clone --depth 1 https://github.com/ruby/mspec &&
       git clone --depth 1 https://github.com/ruby/spec &&
-      ridk exec env --unset=RUBYOPT ruby -C spec ../mspec/bin/mspec -j --exclude "Socket.getnameinfo using IPv4 using a 3 element Array as the first argument without custom flags returns an Array containing the hostname and service name" --exclude "Socket.getifaddrs each returned Socket::Ifaddr has an interface index"
+      env --unset=RUBYOPT ruby -C spec ../mspec/bin/mspec -j --exclude "Socket.getnameinfo using IPv4 using a 3 element Array as the first argument without custom flags returns an Array containing the hostname and service name" --exclude "Socket.getifaddrs each returned Socket::Ifaddr has an interface index"
     ))
 
   # Run the MRI copy of Ruby Spec Suite
   - IF DEFINED run_mri_spec ( IF NOT DEFINED APPVEYOR_REPO_TAG_NAME (
       git clone --depth 1 https://github.com/ruby/ruby -b %run_mri_spec% &&
-      ridk exec env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -j --exclude "Socket.getnameinfo using IPv4 using a 3 element Array as the first argument without custom flags returns an Array containing the hostname and service name"
+      env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -j --exclude "Socket.getnameinfo using IPv4 using a 3 element Array as the first argument without custom flags returns an Array containing the hostname and service name"
     ))
 
   # Run upload to github (only on tag builds)
