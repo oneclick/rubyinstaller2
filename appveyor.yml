@@ -1,5 +1,3 @@
-image: Previous Visual Studio 2017
-
 init:
   - echo %PATH%
   # We use a clean PATH to avoid interferences with the hundreds of installed programs.
@@ -12,8 +10,10 @@ install:
   - choco install -y InnoSetup
 
 build_script:
+  # Remove broken pkg files from cache
+  - c:/msys64/usr/bin/rm -f c:/msys64/var/cache/pacman/pkg/{pacman-mirrors}*
   # Build the installer
-  - rake ri:ruby-%target_ruby%-%arch%
+  - rake ri:ruby-%target_ruby%-%arch% & c:/msys64/usr/bin/gpgconf --homedir /etc/pacman.d/gnupg --kill all
 
   # Reuse installed ruby for RubyInstaller-Devkit
   - c:/msys64/usr/bin/mkdir -p packages/ri-msys/recipes/
