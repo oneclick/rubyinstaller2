@@ -4459,7 +4459,7 @@ module RbReadline
     LEFT_ALT_PRESSED          = 0x0002
     RIGHT_ALT_PRESSED         = 0x0001
 
-    @getch = Win32API.new("msvcrt", "_getch", [], 'I')
+    @getch = Win32API.new("msvcrt", "_getwch", [], 'I')
     @kbhit = Win32API.new("msvcrt", "_kbhit", [], 'I')
     @GetStdHandle = Win32API.new("kernel32","GetStdHandle",['L'],'L')
     @SetConsoleCursorPosition = Win32API.new("kernel32","SetConsoleCursorPosition",['L','L'],'L')
@@ -4475,7 +4475,8 @@ module RbReadline
     @pending_key = nil
 
     begin
-      case `chcp`.scan(/\d+$/).first.to_i
+      code_page = `chcp`.scan(/\d+$/).first.to_i
+      case code_page
       when 936,949,950,51932,51936,50225
         @encoding = "E"
       when 932,50220,50221,20222
@@ -4485,8 +4486,14 @@ module RbReadline
       else
         @encoding = "N"
       end
+      begin
+        @encoding_code_page = Encoding.const_get("CP#{code_page}")
+      rescue
+        @encoding_code_page = Encoding::CP1252
+      end
     rescue
       @encoding = "N"
+      @encoding_code_page = Encoding::CP1252
     end
 
     def rl_getc(stream)
@@ -4503,7 +4510,8 @@ module RbReadline
         end
         r = c.chr + @getch.Call.chr
       else
-        r = c.chr
+        r = [c].pack('S')
+        r.encode!(@encoding_code_page, Encoding::UTF_16LE, invalid: :replace, undef: :replace, replace: '*').force_encoding(Encoding::ASCII_8BIT)
       end
       r = "\e"+r if alt
       r
@@ -6165,7 +6173,7 @@ module RbReadline
       end
     end
 
-    temp = alloc_history_entry(string, hist_inittime())
+    temp = alloc_history_entry(string.force_encoding(Encoding::ASCII_8BIT), hist_inittime())
     @the_history[@history_length] = nil
     @the_history[@history_length - 1] = temp
   end
