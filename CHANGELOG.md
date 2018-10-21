@@ -1,3 +1,25 @@
+## RubyInstaller-2.5.3-1 - 2018-10-21
+
+### Changed
+- Installer files are signed with a Microsoft trusted certificate now.
+- Strip debug information from compiled extensions.
+  This significantly decreases install size of C based gems. #130
+- Fix RubyInstaller update mechanism, so that it no longer removes the PATH setting. #125
+- Update to OpenSSL-1.1.1 and libgdbm-1.18.
+- Update of the SSL CA certificate list.
+
+
+## RubyInstaller-2.4.5-1 - 2018-10-21
+
+### Changed
+- Installer files are signed with a Microsoft trusted certificate now.
+- Strip debug information from compiled extensions.
+  This significantly decreases install size of C based gems. #130
+- Fix RubyInstaller update mechanism, so that it no longer removes the PATH setting. #125
+- Update to OpenSSL-1.0.2p and libgdbm-1.18.
+- Update of the SSL CA certificate list.
+
+
 ## RubyInstaller-2.5.1-2 - 2018-06-24
 
 ### Changed
