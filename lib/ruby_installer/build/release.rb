@@ -5,27 +5,32 @@ class Release
     "CHANGELOG.md"
   end
 
-  def headline_regex
-    '^(?<pre>[^\w]*)(?<release>[\w]+-\d+\.\d+\.\d+(\.[a-z]\w*)?-[\d\w]+)(?<sp1>[^\w]+)(?<date>[2Y][0Y][0-9Y][0-9Y]-[0-1M][0-9M]-[0-3D][0-9D])(?<sp2>[ \w]*)$'
+  def version_regex
+    '[\w]+-\d+\.\d+\.\d+(\.[a-z]\w*)?-[\d\w]+'
+  end
+
+  def headline_regex(rel=nil)
+    "^(?<pre>[^\\w]*)(?<release>#{rel ? Regexp.escape(rel) : version_regex})(?<sp1>[^\\w]+)(?<date>[2Y][0Y][0-9Y][0-9Y]-[0-1M][0-9M]-[0-3D][0-9D])(?<sp2>[ \\w]*)$"
   end
 
   def reldate
     Time.now.strftime("%Y-%m-%d")
   end
 
-  def release_text
-    m = File.read(hfile).match(/(?<annotation>#{headline_regex}.*?)#{headline_regex}/m) || raise("Unable to find release notes in #{hfile}")
+  def release_text(rel)
+    m = File.read(hfile).match(/(?<annotation>#{headline_regex(rel)}.*?)#{headline_regex}/m) || raise("Unable to find release #{rel.inspect} in #{hfile}")
     m[:annotation]
   end
 
-  def release_name
-    m = File.read(hfile).match(/#{headline_regex}/)
+  def release_name(rel)
+    m = File.read(hfile).match(/#{headline_regex(rel)}/)
     "#{m[:release]}"
   end
 
-  def update_history
+  def update_history(rel)
+    raise "invalid version string #{rel.inspect}" unless rel=~/^#{version_regex}$/
     hin = File.read(hfile)
-    hout = hin.sub(/#{headline_regex}/) do
+    hout = hin.sub(/#{headline_regex(rel)}/) do
       $1 + $2 + $3 + reldate + $5
     end
     if hout != hin
@@ -35,10 +40,9 @@ class Release
     end
   end
 
-  def tag_version
-    rel = release_name.downcase
+  def tag_version(rel)
     $stderr.puts "Tag release #{rel} with annotation:"
-    rt = release_text.gsub(/\A[# ]+/, "")
+    rt = release_text(rel).gsub(/\A[# ]+/, "")
     $stderr.puts(rt.gsub(/^/, "    "))
     IO.popen(["git", "tag", "--file=-", rel, "--cleanup=whitespace"], "w") do |fd|
       fd.write rt

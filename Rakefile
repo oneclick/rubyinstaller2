@@ -87,11 +87,12 @@ namespace :ssl do
 end
 
 namespace "release" do
-  task "tag" do
+  desc "Update date in CHANGELOG file and set a git tag"
+  task "tag", [:name] do |_task, args|
     release = RubyInstaller::Build::Release.new
 
-    release.update_history
-    release.tag_version
+    release.update_history(args[:name])
+    release.tag_version(args[:name])
   end
 
   task "upload" do
