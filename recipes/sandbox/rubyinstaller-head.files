@@ -1,3 +1,5 @@
+bin/bundle.cmd
+bin/bundler.cmd
 bin/erb
 bin/erb.cmd
 bin/gem
