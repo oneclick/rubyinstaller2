@@ -10,6 +10,7 @@ install:
   - choco install -y InnoSetup
 
 build_script:
+  - bundle install || (exit 0)
   # Remove broken pkg files from cache
   - c:/msys64/usr/bin/rm -f c:/msys64/var/cache/pacman/pkg/{pacman-mirrors}*
   # Build the installer
@@ -35,6 +36,7 @@ test_script:
   - ridk version
   # Install dependent gems
   - IF "%target_ruby%" LSS "2.6" ( gem install bundler )
+  - gem inst octokit
   - bundle install
   # Run all tests against the new installed Ruby
   - rake test
