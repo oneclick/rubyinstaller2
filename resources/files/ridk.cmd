@@ -9,6 +9,9 @@ if "x%~1" == "xdisable" (
 if "x%~1" == "xexec" (
   goto :exec
 )
+if "x%~1" == "xuse" (
+  goto :use
+)
 
 "%~dp0ruby" -x "%~f0" %*
 @exit /b %ERRORLEVEL%
@@ -25,6 +28,10 @@ shift
 :setvars
 @echo on
 @for /f "delims=" %%x in ('"%~dp0ruby" --disable-gems -x '%~f0' %*') do set "%%x"
+@exit /b %ERRORLEVEL%
+
+:use
+"%~dp0../ridk_use/ridk.cmd" %*
 @exit /b %ERRORLEVEL%
 
 #!/mingw64/bin/ruby

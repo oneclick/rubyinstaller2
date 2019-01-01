@@ -81,6 +81,72 @@ module RidkTests
     refute_nil y["ruby_installer"]["git_commit"]
     assert_nil y["msys2"]
   end
+
+  def test_ridk_use_list
+    skip unless File.directory?("C:/ruby22-x64")
+
+    out = run_capture_output("ridk use list 2>&1")
+    assert_match(/C:\/Ruby22-x64\s+ruby 2\.2\..*x64-mingw32/i, out)
+  end
+
+  def test_ridk_use_help
+    out = run_capture_output("ridk use help 2>&1")
+    assert_match(/installed ruby versions/i, out)
+  end
+
+  def test_ridk_use_update
+    out = run_capture_output("ridk use update 2>&1")
+    assert_match(/rubies.yml/, out)
+    / (?<rubiesyml>[-\w\/\\:]*rubies.yml)/ =~ out
+    array = YAML.load_file(rubiesyml)
+    assert_kind_of Array, array
+
+    skip unless File.directory?("C:/ruby22-x64")
+    assert_operator array, :include?, "C:/Ruby22-x64"
+  end
+
+  def with_ruby_dirs(dirs)
+    dirs.each do |dir|
+      skip unless File.directory?(dir)
+    end
+
+    rubies = dirs
+    tmpyml = Tempfile.new(%w[rubies yml])
+    tmpyml.write YAML.dump(rubies)
+    tmpyml.close
+    ENV['RIDK_USE_RUBIES'] = tmpyml.path
+    yield
+  ensure
+    ENV.delete 'RIDK_USE_RUBIES'
+  end
+
+  def test_ridk_use_index
+    with_ruby_dirs(%w[C:/ruby22-x64]) do
+      out = run_output_vars(%w[PATH], ["ridk use 1"], %w[PATH])
+      path1, path2 = out.scan(/^PATH:.*/)
+      /(?<old_ruby>\w:.*?ruby.*?bin)/i =~ path1
+      refute_nil old_ruby, "there should be default ruby in the PATH"
+      assert_operator path2.downcase, :include?, "\\ridk_use;", "ridk_use should be in the PATH"
+      assert_operator path2.downcase, :include?, "c:\\ruby22-x64\\bin;", "selected ruby should be in the PATH"
+      refute_operator path2.downcase, :include?, old_ruby, "old ruby should be removed from the PATH"
+    end
+  end
+
+  def test_ridk_use_regex
+    out = run_output_vars(%w[PATH], ["ridk use /22-/"], %w[PATH])
+    path1, path2 = out.scan(/^PATH:.*/)
+    /(?<old_ruby>\w:.*?ruby.*?bin)/i =~ path1
+    refute_nil old_ruby, "there should be default ruby in the PATH"
+    assert_operator path2.downcase, :include?, "\\ridk_use;", "ridk_use should be in the PATH"
+    assert_operator path2.downcase, :include?, "c:\\ruby22-x64\\bin;", "selected ruby should be in the PATH"
+    refute_operator path2.downcase, :include?, old_ruby, "old ruby should be removed from the PATH"
+  end
+
+  def test_ridk_use_then_ridk_version
+    out = run_in_shells('ridk use "/24-x64/" && ridk version',
+                        'ridk use "/24-x64/"; if($?){ ridk version }')
+    assert_match(/package_version: 2\.4\./, out, "ridk version should report about the selected ruby")
+  end
 end
 
 class TestRidkCmd < Minitest::Test
@@ -148,7 +214,7 @@ class TestRidkPs1 < Minitest::Test
 
   def run_capture_output(command)
     run_in_shells nil, <<-EOPS1
-& #{command}
+(#{command})
     EOPS1
   end
 

@@ -41,6 +41,7 @@ See `ridk help` for further options:
       enable                    Set environment variables for MSYS2
       disable                   Unset environment variables for MSYS2
       version                   Print RubyInstaller and MSYS2 versions
+      use                       Switch to a different ruby version
       help | --help | -? | /?   Display this help and exit
 ```
 
