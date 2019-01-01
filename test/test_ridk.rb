@@ -83,10 +83,10 @@ module RidkTests
   end
 
   def test_ridk_use_list
-    skip unless File.directory?("C:/ruby22-x64")
+    skip unless File.directory?("C:/ruby24-x64")
 
     out = run_capture_output("ridk use list 2>&1")
-    assert_match(/C:\/Ruby22-x64\s+ruby 2\.2\..*x64-mingw32/i, out)
+    assert_match(/C:\/Ruby24-x64\s+ruby 2\.4\..*x64-mingw32/i, out)
   end
 
   def test_ridk_use_help
@@ -101,8 +101,8 @@ module RidkTests
     array = YAML.load_file(rubiesyml)
     assert_kind_of Array, array
 
-    skip unless File.directory?("C:/ruby22-x64")
-    assert_operator array, :include?, "C:/Ruby22-x64"
+    skip unless File.directory?("C:/ruby24-x64")
+    assert_operator array, :include?, "C:/Ruby24-x64"
   end
 
   def with_ruby_dirs(dirs)
@@ -121,24 +121,24 @@ module RidkTests
   end
 
   def test_ridk_use_index
-    with_ruby_dirs(%w[C:/ruby22-x64]) do
+    with_ruby_dirs(%w[C:/ruby24-x64]) do
       out = run_output_vars(%w[PATH], ["ridk use 1"], %w[PATH])
       path1, path2 = out.scan(/^PATH:.*/)
       /(?<old_ruby>\w:.*?ruby.*?bin)/i =~ path1
       refute_nil old_ruby, "there should be default ruby in the PATH"
       assert_operator path2.downcase, :include?, "\\ridk_use;", "ridk_use should be in the PATH"
-      assert_operator path2.downcase, :include?, "c:\\ruby22-x64\\bin;", "selected ruby should be in the PATH"
+      assert_operator path2.downcase, :include?, "c:\\ruby24-x64\\bin;", "selected ruby should be in the PATH"
       refute_operator path2.downcase, :include?, old_ruby, "old ruby should be removed from the PATH"
     end
   end
 
   def test_ridk_use_regex
-    out = run_output_vars(%w[PATH], ["ridk use /22-/"], %w[PATH])
+    out = run_output_vars(%w[PATH], ["ridk use /24-/"], %w[PATH])
     path1, path2 = out.scan(/^PATH:.*/)
     /(?<old_ruby>\w:.*?ruby.*?bin)/i =~ path1
     refute_nil old_ruby, "there should be default ruby in the PATH"
     assert_operator path2.downcase, :include?, "\\ridk_use;", "ridk_use should be in the PATH"
-    assert_operator path2.downcase, :include?, "c:\\ruby22-x64\\bin;", "selected ruby should be in the PATH"
+    assert_operator path2.downcase, :include?, "c:\\ruby24-x64\\bin;", "selected ruby should be in the PATH"
     refute_operator path2.downcase, :include?, old_ruby, "old ruby should be removed from the PATH"
   end
 
