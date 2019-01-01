@@ -214,7 +214,7 @@ class TestRidkPs1 < Minitest::Test
 
   def run_capture_output(command)
     run_in_shells nil, <<-EOPS1
-(#{command})
+(#{command} | %{ "$_" })
     EOPS1
   end
 
