@@ -5,6 +5,9 @@ init:
   - set PATH=C:/ruby%build_ruby%/bin;%PATH%
   - echo %PATH%
   - ruby --version
+  - IF DEFINED DEPLOY_TAG (
+      echo.%DEPLOY_TAG% | findstr /C:"%target_ruby%">nul || (echo stop build not required for release & (exit 1))
+    )
 
 install:
   - choco install -y InnoSetup
