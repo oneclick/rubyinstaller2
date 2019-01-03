@@ -38,7 +38,7 @@ test_script:
   - echo %RUBYOPT%
   - ridk version
   # Install dependent gems
-  - IF "%target_ruby%" LSS "2.6" ( gem install bundler )
+  - IF "%target_ruby%" LSS "2.6" ( gem update --system && gem install bundler --force )
   - gem inst octokit
   - bundle install
   # Run all tests against the new installed Ruby
