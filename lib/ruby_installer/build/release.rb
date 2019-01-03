@@ -1,12 +1,12 @@
 module RubyInstaller
 module Build
 class Release
-  def hfile
-    "CHANGELOG.md"
+  def hfile(ver)
+    "CHANGELOG-#{ver}.md"
   end
 
   def version_regex
-    '[\w]+-\d+\.\d+\.\d+(\.[a-z]\w*)?-[\d\w]+'
+    '[\w]+-(?<ver>\d+\.\d+\.\d+(\.[a-z]\w*)?-[\d\w]+)'
   end
 
   def headline_regex(rel=nil)
@@ -18,17 +18,25 @@ class Release
   end
 
   def release_text(rel)
-    m = File.read(hfile).match(/(?<annotation>#{headline_regex(rel)}.*?)#{headline_regex}/m) || raise("Unable to find release #{rel.inspect} in #{hfile}")
+    ver = rel_to_ver(rel)
+    m = File.read(hfile(ver)).match(/(?<annotation>#{headline_regex(rel)}.*?)(#{headline_regex}|\z)/m) || raise("Unable to find release #{rel.inspect} in #{hfile(ver)}")
     m[:annotation]
   end
 
   def release_name(rel)
-    m = File.read(hfile).match(/#{headline_regex(rel)}/)
-    "#{m[:release]}"
+    ver = rel_to_ver(rel)
+    m = File.read(hfile(ver)).match(/#{headline_regex(rel)}/)
+    m[:release]
+  end
+
+  def rel_to_ver(rel)
+    m = rel.match(/^#{version_regex}$/)
+    raise "invalid version string #{rel.inspect}" unless m
+    m[:ver][0, 3] # Extract major and minor version "2.4" etc.
   end
 
   def update_history(rel)
-    raise "invalid version string #{rel.inspect}" unless rel=~/^#{version_regex}$/
+    hfile = hfile(rel_to_ver(rel))
     hin = File.read(hfile)
     hout = hin.sub(/#{headline_regex(rel)}/) do
       $1 + $2 + $3 + reldate + $5
