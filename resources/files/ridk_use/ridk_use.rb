@@ -167,15 +167,15 @@ end
 def print_help
   $stderr.puts <<-EOT
 Usage:
-    #{$0} use [<option>]
+    ridk use [<option>]
 
 Option:
+                  Start interactive version selection
     list          Search and list installed ruby versions
     update        Save or update the found ruby versions to rubies.yml
     <number>      Change the active ruby version by index
     /<regex>/     Change the active ruby version by regex
     help          Display this help and exit
-Called without option starts interactive version selection.
 EOT
 end
       
