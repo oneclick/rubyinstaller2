@@ -47,6 +47,7 @@ See `ridk help` for further options:
 
 `ridk enable` can be used to enable MSYS2 development tools on the running console.
 This makes `sh`, `pacman`, `make` etc. available on the command line.
+See [the Wiki](https://github.com/oneclick/rubyinstaller2/wiki/The-ridk-tool) for further instructions to the `ridk` command.
 
 ### Install gems with C-extensions and additional library dependencies
 
