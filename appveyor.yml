@@ -40,6 +40,8 @@ test_script:
   # Install dependent gems
   - IF "%target_ruby%" LSS "2.6" ( gem update --system && gem install bundler --force )
   - gem inst octokit
+  # Remove lock file because bundler version can vary between build and runtime
+  - del Gemfile.lock
   - bundle install
   # Run all tests against the new installed Ruby
   - rake test
