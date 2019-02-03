@@ -16,12 +16,11 @@ Server = http://dl.bintray.com/larskanis/rubyinstaller2-packages
 
   # Import our key into the local pacman signature key database.
   key = File.read(File.expand_path("../appveyor-repo-key.asc", __FILE__))
-  cmd = "sh -c 'pacman-key --add -' 2>&1"
-  $stderr.puts cmd
-  res = IO.popen(cmd, "w+") do |io|
+  cmd = %w[bash pacman-key --add -]
+  $stderr.puts cmd.to_s
+  res = IO.popen(cmd, "w") do |io|
     io.puts key
-    io.close_write
-    io.read
+    io.close
   end
   raise "pacman-key failed: #{res}" if $?.exitstatus!=0
   
