@@ -9,3 +9,4 @@ recipes/unpack/ruby-*
 *.tar.gz
 *.tar.xz
 docs/_site
+docker/gitrepo

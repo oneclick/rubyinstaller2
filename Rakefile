@@ -128,3 +128,36 @@ namespace "release" do
   end
   CLEAN.include("artifacts")
 end
+
+namespace "docker" do
+  task :image do
+    rm_rf "docker/gitrepo"
+    cp_r ".git", "docker/gitrepo"
+    sh "docker build -t ri2 docker"
+  end
+
+  desc "Run all builds"
+  multitask :builds
+
+  %w[ri ri-msys].each do |package|
+    %w[x86 x64].each do |arch|
+      task "#{package}-#{arch}" => :image do
+        # Use the cache of our main MSYS2 environment for package install
+        cachedir = File.expand_path("../cache/#{package}-#{arch}", __FILE__)
+        mkdir_p cachedir
+        puts "Using pacman cache in #{cachedir}"
+
+        pwd = Dir.pwd
+        pkgdir = "#{pwd}/pkg"
+        mkdir_p pkgdir
+
+        sh "docker run --rm -v #{cachedir}:c:/ruby24-x64/msys64/var/cache/pacman -v #{pkgdir}:c:/build/pkg ri2 cmd /c rake PACKAGE=#{package} ARCH=#{arch}"
+      end
+
+      multitask :builds => "#{package}-#{arch}"
+    end
+  end
+end
+
+CLOBBER.include("pkg")
+CLOBBER.include("cache")

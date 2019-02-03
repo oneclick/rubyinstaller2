@@ -1,0 +1,12 @@
+task :default do
+  cd ".." do
+    package = ENV['PACKAGE']
+    arch = ENV['ARCH']
+    
+    sh "rake #{package}:ruby-2.6.1-#{arch} #{package}:ruby-2.5.3-#{arch} #{package}:ruby-2.4.5-#{arch}"
+
+    # Copy result files to the output directory
+    cp Dir["packages/#{package}/recipes/installer-inno/*.exe"], "pkg/"
+    cp Dir["packages/#{package}/recipes/archive-7z/*.7z"], "pkg/"
+  end
+end
