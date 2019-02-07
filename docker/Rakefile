@@ -14,3 +14,9 @@ task :default do
     cp Dir["packages/#{package}/recipes/msys2/msys2-{x86_64,i686}-latest.tar.xz"], Dir["/ruby*/msys*/var/cache/pacman/pkg/"]
   end
 end
+
+# GPG starts a background process called "gpg-agent".
+# For safety we shut the process explicit down when finished with all tasks.
+END {
+  sh "ridk exec gpgconf --homedir /etc/pacman.d/gnupg --kill all"
+}

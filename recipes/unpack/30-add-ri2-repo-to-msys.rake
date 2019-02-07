@@ -16,12 +16,19 @@ Server = http://dl.bintray.com/larskanis/rubyinstaller2-packages
 
   # Import our key into the local pacman signature key database.
   key = File.read(File.expand_path("../appveyor-repo-key.asc", __FILE__))
-  cmd = %w[bash pacman-key --add -]
+  cmd = "gpg --homedir /etc/pacman.d/gnupg --verbose --batch --import - 2>&1"
+#   cmd = "bash pacman-key --add -"
   $stderr.puts cmd.to_s
-  res = IO.popen(cmd, "w") do |io|
-    io.puts key
-    io.close
+  io = IO.popen(cmd, "w+")
+  io.puts key
+  io.close_write
+  loop do
+    l = io.gets
+    $stderr.puts "gpg: #{l.inspect}"
+    break l if !l || l=~/imported|processed/i
   end
+  # In docker container gpg often doesn't terminate, so that we don't wait for that it has been closed
+  # io.close
   raise "pacman-key failed: #{res}" if $?.exitstatus!=0
   
   # Sign the imported key, so that it's trusted.
