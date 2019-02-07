@@ -12,7 +12,7 @@ file ruby_exe => [self.repo_added] do
   msys_sh <<-EOT
     mount #{unpackdir_abs.inspect} #{pmrootdir.inspect} &&
     pacman --root #{pmrootdir.inspect} -Sy &&
-    pacman --root #{pmrootdir.inspect} --noconfirm -S #{install_packages.map(&:inspect).join(" ")};
+    pacman --root #{pmrootdir.inspect} --noconfirm -S #{install_packages.map(&:inspect).join(" ")} 2>NUL;
     umount #{pmrootdir.inspect}
   EOT
   touch ruby_exe
