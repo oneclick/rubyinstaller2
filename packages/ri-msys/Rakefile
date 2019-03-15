@@ -35,7 +35,7 @@ class RubyPackage < RubyInstaller::Build::Openstruct
     end
 
     self.packagenameverarch = "#{packagename}-#{ packagever=='head' ? 'head' : packagever }-#{arch}"
-    self.pacman_ruby = "#{pacman_arch}-ruby#{ packagever=='head' ? '-head' : rubyver2.gsub(".","") }"
+    self.pacman_ruby = "#{pacman_arch}-ruby#{ packagever=='head' ? '-head' : rubyver2.gsub(".","") }=#{rubyver}"
   end
 end
 
