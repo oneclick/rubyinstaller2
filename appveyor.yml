@@ -96,14 +96,14 @@ environment:
       MSYSTEM: "MINGW32"
       run_ruby_spec: true
 
-    - target_ruby: "2.5.4"
+    - target_ruby: "2.5.5"
       arch: "x64"
       build_ruby: "24"
       MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
       MSYSTEM: "MINGW64"
       run_ruby_spec: true
 
-    - target_ruby: "2.5.4"
+    - target_ruby: "2.5.5"
       arch: "x86"
       build_ruby: "24"
       MINGW_PACKAGE_PREFIX: "mingw-w64-i686"

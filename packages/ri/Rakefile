@@ -38,7 +38,7 @@ end
 ovl_glob('recipes/*/task.rake').each{|f| load(ovl_expand_file(f)) }
 
 ruby_arch_packages = %w[x64 x86].map do |arch|
-  %w[2.4.5-1 2.5.4-1 2.6.2-1 head].map do |packagever|
+  %w[2.4.5-1 2.5.5-1 2.6.2-1 head].map do |packagever|
     RubyPackage.new( packagever: packagever, arch: arch, rootdir: __dir__ ).freeze
   end
 end
