@@ -4,7 +4,7 @@ FROM microsoft/windowsservercore
 # Download base ruby
 RUN powershell \
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \
-    Invoke-WebRequest https://github.com/oneclick/rubyinstaller2/releases/download/rubyinstaller-2.4.5-1/rubyinstaller-devkit-2.4.5-1-x64.exe -Outfile rubyinstaller.exe
+    Invoke-WebRequest https://github.com/oneclick/rubyinstaller2/releases/download/rubyinstaller-2.4.6-1/rubyinstaller-devkit-2.4.6-1-x64.exe -Outfile rubyinstaller.exe
 # Download git
 RUN powershell \
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \

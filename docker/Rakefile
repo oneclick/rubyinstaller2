@@ -6,7 +6,7 @@ task :default do
     mkdir_p "packages/#{package}/recipes/msys2/"
     cp Dir["/ruby*/msys*/var/cache/pacman/pkg/msys2-{x86_64,i686}-latest.tar.xz"], "packages/#{package}/recipes/msys2/"
 
-    sh "rake #{package}:ruby-2.6.2-#{arch} #{package}:ruby-2.5.5-#{arch} #{package}:ruby-2.4.5-#{arch}"
+    sh "rake #{package}:ruby-2.6.2-#{arch} #{package}:ruby-2.5.5-#{arch} #{package}:ruby-2.4.6-#{arch}"
 
     # Copy result files to the output directory
     cp Dir["packages/#{package}/recipes/installer-inno/*.exe"], "pkg/"
