@@ -1,3 +1,11 @@
+## RubyInstaller-2.4.6-1 - 2019-04-17
+
+### Changed
+- Update to ruby-2.4.6, see [release notes](https://www.ruby-lang.org/en/news/2019/04/01/ruby-2-4-6-released/).
+- New tool `ridk use` to switch between installed ruby versions
+- Update of the SSL CA certificate list.
+
+
 ## RubyInstaller-2.4.5-1 - 2018-10-21
 
 ### Changed
