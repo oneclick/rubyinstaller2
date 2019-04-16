@@ -2,6 +2,7 @@
 
 ### Changed
 - Update to ruby-2.6.2, see [release notes](https://www.ruby-lang.org/en/news/2019/03/13/ruby-2-6-2-released/).
+- Build with "-O3" instead of "-O2" optimization and update x64 compiler from gcc-8.2.1 to 8.3.0.
 - Update of the SSL CA certificate list.
 
 
