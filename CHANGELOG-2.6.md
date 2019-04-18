@@ -1,3 +1,9 @@
+## RubyInstaller-2.6.3-1 - 2019-04-18
+
+### Changed
+- Update to ruby-2.6.3, see [release notes](https://www.ruby-lang.org/en/news/2019/04/17/ruby-2-6-3-released/).
+
+
 ## RubyInstaller-2.6.2-1 - 2019-04-13
 
 ### Changed
