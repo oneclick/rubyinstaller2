@@ -12,7 +12,7 @@ RUN powershell \
 # Download Inno Setup    
 RUN powershell \
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \
-    Invoke-WebRequest http://www.jrsoftware.org/download.php/is-unicode.exe -Outfile inno-setup.exe
+    Invoke-WebRequest http://www.jrsoftware.org/download.php/is.exe -Outfile inno-setup.exe
     
 # Install base ruby and initialize Devkit
 RUN (cmd /c rubyinstaller.exe /verysilent /log=install.log) || (powershell get-content c:/install.log)
@@ -26,8 +26,8 @@ RUN cmd /c git-installer.exe /verysilent
 RUN git --version
 
 # Install Inno Setup
-RUN cmd /c inno-setup.exe /verysilent
-RUN powershell [Environment]::SetEnvironmentVariable('PATH', $env:PATH + ';c:/Program Files (x86)/Inno Setup 5', 'Machine')
+RUN cmd /c inno-setup.exe /verysilent /allusers
+RUN powershell [Environment]::SetEnvironmentVariable('PATH', $env:PATH + ';c:/Program Files (x86)/Inno Setup 6', 'Machine')
 RUN iscc --version || (exit 0)
 
 RUN ridk enable
