@@ -65,6 +65,9 @@ module Build # Use for: Build, Runtime
         yield path
       end
 
+      # If msys2 is installed by scoop package manager
+      yield IO.popen(["scoop", "prefix", "msys2"], &:read).strip rescue StandardError
+
       raise MsysNotFound, "MSYS2 could not be found"
     end
 
