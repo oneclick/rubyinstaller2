@@ -52,8 +52,8 @@ module Build # Use for: Build, Runtime
               if subreg['DisplayName'] =~ /^MSYS2 / && File.directory?(il=subreg['InstallLocation'])
                 yield il
               end
-            rescue Encoding::InvalidByteSequenceError
-              # Ignore entries with broken character encoding
+            rescue Encoding::InvalidByteSequenceError, Win32::Registry::Error
+              # Ignore entries without valid installer data or broken character encoding
             end
           end
         end
