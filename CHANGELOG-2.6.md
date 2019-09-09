@@ -1,3 +1,13 @@
+## RubyInstaller-2.6.4-1 - 2019-09-09
+
+### Added
+- Add support for scoop installer. #152
+
+### Changed
+- Update to ruby-2.6.4, see [release notes](https://www.ruby-lang.org/en/news/2019/08/28/ruby-2-6-4-released/).
+- Ignore registry entries with invalid installer data when looking for MSYS2. #154
+
+
 ## RubyInstaller-2.6.3-1 - 2019-04-18
 
 ### Changed
