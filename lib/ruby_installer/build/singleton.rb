@@ -33,12 +33,12 @@ module Build # Use for: Build, Runtime
     #
     # +mingwarch+ should be either 'mingw32', 'mingw64' or nil.
     # In the latter case the mingw architecture is used based on the architecture of the running Ruby process.
-    def enable_msys_apps(*opts)
-      msys2_installation.enable_msys_apps(*opts)
+    def enable_msys_apps(**opts)
+      msys2_installation.enable_msys_apps(**opts)
     end
 
-    def disable_msys_apps(*opts)
-      msys2_installation.disable_msys_apps(*opts)
+    def disable_msys_apps(**opts)
+      msys2_installation.disable_msys_apps(**opts)
     end
   end
 end
