@@ -91,7 +91,8 @@ namespace "release" do
   task "tag", [:name] do |_task, args|
     release = RubyInstaller::Build::Release.new
 
-    release.update_history(args[:name])
+    # Enable this to update release date in CHANGELOG files
+    # release.update_history(args[:name])
     release.tag_version(args[:name])
   end
 
