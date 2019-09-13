@@ -1,3 +1,10 @@
+## RubyInstaller-2.6.4-2 - 2019-09-14
+
+### Changed
+- Fix code signatures of installer executables. They were invalid at the 2.6.4-1 release.
+- Fix automatic generation of irbrc. #158
+
+
 ## RubyInstaller-2.6.4-1 - 2019-09-09
 
 ### Added
