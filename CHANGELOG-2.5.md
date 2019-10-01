@@ -1,6 +1,7 @@
-## RubyInstaller-2.5.6-2 - 2019-09-14
+## RubyInstaller-2.5.7-1 - 2019-10-02
 
 ### Changed
+- Update to ruby-2.5.7, see [release notes](https://www.ruby-lang.org/en/news/2019/10/01/ruby-2-5-7-released/).
 - Fix code signatures of installer executables. They were invalid at the 2.5.6-1 release.
 - Fix automatic generation of irbrc. #158
 
