@@ -1,4 +1,4 @@
-Copyright (c) 2007-2018 RubyInstaller Team.
+Copyright (c) 2007-2019 RubyInstaller Team.
 All rights reserved.
 
 Except:
