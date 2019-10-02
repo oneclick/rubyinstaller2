@@ -3,6 +3,7 @@
 ### Changed
 - Update to ruby-2.5.7, see [release notes](https://www.ruby-lang.org/en/news/2019/10/01/ruby-2-5-7-released/).
 - Fix code signatures of installer executables. They were invalid at the 2.5.6-1 release.
+- Update to OpenSSL-1.1.1d .
 
 
 ## RubyInstaller-2.5.6-1 - 2019-09-09

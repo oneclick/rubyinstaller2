@@ -3,6 +3,7 @@
 ### Changed
 - Update to ruby-2.4.8, see [release notes](https://www.ruby-lang.org/en/news/2019/10/01/ruby-2-4-8-released/).
 - Fix code signatures of installer executables. They were invalid at the 2.4.7-1 release.
+- Update to OpenSSL-1.0.2t .
 
 
 ## RubyInstaller-2.4.7-1 - 2019-09-09
