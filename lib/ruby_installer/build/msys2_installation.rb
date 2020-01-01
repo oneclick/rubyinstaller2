@@ -191,21 +191,21 @@ module Build # Use for: Build, Runtime
       changed
     end
 
-    def with_msys_apps_enabled(*args)
-      changed = enable_msys_apps(*args)
+    def with_msys_apps_enabled(**args)
+      changed = enable_msys_apps(**args)
       begin
         yield
       ensure
-        disable_msys_apps(*args) if changed
+        disable_msys_apps(**args) if changed
       end
     end
 
-    def with_msys_apps_disabled(*args)
-      changed = disable_msys_apps(*args)
+    def with_msys_apps_disabled(**args)
+      changed = disable_msys_apps(**args)
       begin
         yield
       ensure
-        enable_msys_apps(*args) if changed
+        enable_msys_apps(**args) if changed
       end
     end
 
