@@ -83,7 +83,7 @@ module RidkTests
   end
 
   def test_ridk_use_list
-    path, _, _, regex = find_alternative_ruby
+    _path, _, _, regex = find_alternative_ruby
 
     out = run_capture_output("ridk use list 2>&1")
     assert_match(regex, out)
@@ -130,7 +130,7 @@ module RidkTests
   end
 
   def test_ridk_use_then_ridk_version
-    path, selector, regex, = find_alternative_ruby
+    _path, selector, regex, = find_alternative_ruby
 
     out = run_in_shells("ridk use \"#{selector}\" && ridk version",
                         "ridk use \"#{selector}\"; if($?){ ridk version }")

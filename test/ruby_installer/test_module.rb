@@ -62,7 +62,7 @@ class TestModule < Minitest::Test
     RubyInstaller::Runtime.disable_msys_apps
     refute_operator ENV['PATH'].downcase, :include?, "c:\\msys64", "msys in the path at the start of the test"
 
-    out, err = capture_subprocess_io do
+    out, _err = capture_subprocess_io do
       system("touch", "--version")
     end
     refute_match(/GNU coreutils/, out, "touch.exe shoudn't be in the path after disable_msys_apps")
@@ -73,7 +73,7 @@ class TestModule < Minitest::Test
     assert_equal RUBY_PLATFORM =~ /x64/ ? "MINGW64" : "MINGW32", ENV['MSYSTEM'], "enable_msys_apps should set MSYSTEM according to RUBY_PLATFORM"
     assert_match(/./, ENV['LANG'], "enable_msys_apps should set LANG")
 
-    out, err = capture_subprocess_io do
+    out, _err = capture_subprocess_io do
       system("touch", "--version")
     end
     assert_match(/GNU coreutils/, out, "touch.exe shoud be found after enable_msys_apps")
