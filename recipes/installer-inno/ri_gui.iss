@@ -188,7 +188,7 @@ begin
 
   Utf8ChkBox := TCheckBox.Create(Page);
   Utf8ChkBox.Parent := Page.Surface;
-  Utf8ChkBox.State := cbUnchecked;
+  Utf8ChkBox.State := cbChecked;
   Utf8ChkBox.Caption := CustomMessage('DefaultUtf8');
   Utf8ChkBox.Hint := CustomMessage('DefaultUtf8Hint');
   Utf8ChkBox.ShowHint := True;
