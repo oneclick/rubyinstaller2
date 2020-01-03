@@ -143,11 +143,11 @@ environment:
       build_ruby: "26"
       MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
       MSYSTEM: "MINGW64"
-      run_mri_spec: trunk
+      run_mri_spec: master
 
     - target_ruby: "head"
       arch: "x86"
       build_ruby: "26"
       MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
       MSYSTEM: "MINGW32"
-      run_mri_spec: trunk
+      run_mri_spec: master
