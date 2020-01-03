@@ -8,6 +8,10 @@ require 'irb/ext/save-history'
 require 'irb/completion'
 
 IRB.conf[:SAVE_HISTORY] = 200
+if Encoding.default_external == Encoding::UTF_8
+  # Use dummy land "CCC" to switch input encoding to UTF-8 (C.UTF-8 is not recognized)
+  IRB.conf[:LC_MESSAGES] = IRB::Locale.new(ENV["IRB_LANG"] || ENV["LC_MESSAGES"] || ENV["LC_ALL"] || ENV["LANG"] || "CCC.UTF-8")
+end
   EOT
 end
 
