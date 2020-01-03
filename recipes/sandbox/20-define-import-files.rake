@@ -13,8 +13,4 @@ self.import_files.merge!({
   "resources/ssl/README-SSL.md" => "ssl/README-SSL.md",
   "resources/ssl/c_rehash.rb" => "ssl/certs/c_rehash.rb",
   "#{thisdir}/LICENSE.txt" => "LICENSE.txt",
-  "resources/files/rbreadline/version.rb" => "lib/ruby/site_ruby/rbreadline/version.rb",
-  "resources/files/rbreadline.rb" => "lib/ruby/site_ruby/rbreadline.rb",
-  "resources/files/rb-readline.rb" => "lib/ruby/site_ruby/rb-readline.rb",
-  "resources/files/readline.rb"  => "lib/ruby/site_ruby/readline.rb",
 })
