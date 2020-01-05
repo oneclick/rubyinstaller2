@@ -1,4 +1,4 @@
-## RubyInstaller-2.7.0-1 - 2020-01-03
+## RubyInstaller-2.7.0-1 - 2020-01-05
 
 This is the first release based on ruby-2.7.0: https://www.ruby-lang.org/en/news/2019/12/25/ruby-2-7-0-released/
 
