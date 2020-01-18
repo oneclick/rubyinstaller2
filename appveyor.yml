@@ -11,6 +11,8 @@ init:
 
 install:
   - choco install -y InnoSetup
+  # Update pacman for compat with zst packages
+  - c:/msys64/usr/bin/sh -lc "pacman -Syu --needed --noconfirm"
 
 build_script:
   # Remove broken pkg files from cache
