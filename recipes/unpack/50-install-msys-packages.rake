@@ -12,8 +12,17 @@ file ruby_exe => [self.repo_added] do
   msys_sh <<-EOT
     mount #{unpackdir_abs.inspect} #{pmrootdir.inspect} &&
     pacman --root #{pmrootdir.inspect} -Sy &&
-    pacman --root #{pmrootdir.inspect} --noconfirm -S #{install_packages.map(&:inspect).join(" ")} 2>NUL;
+    pacman --root #{pmrootdir.inspect} --noconfirm -S #{install_packages.map(&:inspect).join(" ")}
     umount #{pmrootdir.inspect}
   EOT
+
+  begin
+    # For some reason pacman-5.2.1 generates package files, that prohibit changing files after installation.
+    # Resetting the permissions the hard way fixes this, so that we can touch ruby.exe .
+    sh "takeown /R /F \"#{unpackdir.gsub("/","\\")}\" >NUL"
+    sh "icacls \"#{unpackdir.gsub("/","\\")}\" /inheritance:r /grant BUILTIN\\Users:F /T /Q"
+  rescue => err
+    $stderr.puts "ignoring error while adjusting permissions: #{err} (#{err.class})"
+  end
   touch ruby_exe
 end
