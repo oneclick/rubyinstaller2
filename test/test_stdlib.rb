@@ -52,7 +52,7 @@ class TestStdlib < Minitest::Test
       when /^2\.[34]\./
         assert_match(/OpenSSL 1.0./, OpenSSL::OPENSSL_VERSION)
         assert_match(/OpenSSL 1.0./, OpenSSL::OPENSSL_LIBRARY_VERSION)
-      when /^2\.[5]\./
+      else
         assert_match(/OpenSSL 1.1./, OpenSSL::OPENSSL_VERSION)
         assert_match(/OpenSSL 1.1./, OpenSSL::OPENSSL_LIBRARY_VERSION)
     end
