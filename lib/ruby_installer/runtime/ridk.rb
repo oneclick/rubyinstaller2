@@ -124,10 +124,12 @@ LOGO = %q{
       end
 
       private def ignore_err
+        orig_verbose, $VERBOSE = $VERBOSE, nil
         begin
           yield
         rescue
         end
+        $VERBOSE = orig_verbose
       end
 
       def print_version
@@ -137,7 +139,8 @@ LOGO = %q{
         h = {
           "ruby" => { "path" => RbConfig::TOPDIR,
                       "version" => RUBY_VERSION,
-                      "platform" => RUBY_PLATFORM },
+                      "platform" => RUBY_PLATFORM,
+                      "cc" => RbConfig::CONFIG['CC_VERSION_MESSAGE'].split("\n", 2).first },
           "ruby_installer" => { "package_version" => RubyInstaller::Runtime::PACKAGE_VERSION,
                                 "git_commit" => RubyInstaller::Runtime::GIT_COMMIT },
         }
