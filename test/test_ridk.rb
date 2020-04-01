@@ -77,6 +77,7 @@ module RidkTests
 
     assert_equal RUBY_VERSION, y["ruby"]["version"]
     assert_equal RUBY_PLATFORM, y["ruby"]["platform"]
+    assert_match(/gcc/, y["ruby"]["cc"])
     refute_nil y["ruby_installer"]["package_version"]
     refute_nil y["ruby_installer"]["git_commit"]
     assert_nil y["msys2"]
