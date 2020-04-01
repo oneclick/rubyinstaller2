@@ -139,8 +139,7 @@ LOGO = %q{
         h = {
           "ruby" => { "path" => RbConfig::TOPDIR,
                       "version" => RUBY_VERSION,
-                      "platform" => RUBY_PLATFORM,
-                      "cc" => RbConfig::CONFIG['CC_VERSION_MESSAGE'].split("\n", 2).first },
+                      "platform" => RUBY_PLATFORM },
           "ruby_installer" => { "package_version" => RubyInstaller::Runtime::PACKAGE_VERSION,
                                 "git_commit" => RubyInstaller::Runtime::GIT_COMMIT },
         }
@@ -158,6 +157,10 @@ LOGO = %q{
           ver, _ = `#{cc} --version`.split("\n", 2)
           h["cc"] = ver
         end
+
+        # Add compiler used to build ruby, if different from current gcc
+        ruby_cc = RbConfig::CONFIG['CC_VERSION_MESSAGE'].split("\n", 2).first
+        h["ruby"]["cc"] = ruby_cc if ruby_cc.gsub(/\.exe/, "") != h["cc"]
 
         ignore_err do
           ver, _ = `sh --version`.split("\n", 2)
