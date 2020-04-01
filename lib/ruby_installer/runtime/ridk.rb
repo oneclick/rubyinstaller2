@@ -153,8 +153,8 @@ LOGO = %q{
         end
 
         ignore_err do
-          cc = RbConfig::CONFIG['CC']
-          ver, _ = `#{cc} --version`.split("\n", 2)
+          cc = RbConfig::CONFIG['CC_VERSION']
+          ver, _ = `#{cc}`.split("\n", 2)
           h["cc"] = ver
         end
 
