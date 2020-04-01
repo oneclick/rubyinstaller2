@@ -51,7 +51,7 @@ LOGO = %q{
                   .gsub(/c(.*?)c/){ yellow($1) }
       end
 
-      DEFAULT_COMPONENTS = %w[1 2 3]
+      DEFAULT_COMPONENTS = %w[1 3]
 
       def install(args)
         ci = ComponentsInstaller.new
