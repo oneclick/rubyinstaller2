@@ -1,3 +1,15 @@
+## RubyInstaller-2.4.10-1 - 2020-04-02
+
+### Changed
+- Update to ruby-2.4.10, see [release notes](https://www.ruby-lang.org/en/news/2020/03/31/ruby-2-4-10-released/).
+- Update to OpenSSL-1.0.2u .
+- Replace rb-readline by new reline implementation.
+  It has multiline editing, better support for UTF-8 encoding and many fixes.
+- UTF-8 encoding is now enabled by default in the installer for new installations.
+- Don't update MSYS/MINGW packages at `ridk install` per default. #168
+- Show compiler version, used to build ruby in `ridk version`. #171
+
+
 ## RubyInstaller-2.4.9-1 - 2019-10-02
 
 ### Changed
