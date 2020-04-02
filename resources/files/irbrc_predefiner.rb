@@ -19,9 +19,3 @@ if File.exist?(history_file) && !(hist=File.read(history_file)).valid_encoding?
     File.write(history_file, hist)
   end
 end
-
-# Fix IRB input text encoding when ruby is running with UTF-8 external encoding
-if Encoding.default_external == Encoding::UTF_8
-  # Use dummy land "CCC" to switch input encoding to UTF-8 (C.UTF-8 is not recognized)
-  ENV["LANG"] = "CCC.UTF-8"
-end
