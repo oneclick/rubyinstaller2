@@ -109,6 +109,6 @@ Check the wiki on how to use [ruby-head versions on Appveyor](https://github.com
 
 ## Known Issues
 
-- Avoid running this project in a PATH containing spaces.
+- It's best to avoid installation into a PATH containing spaces. Some gems won't install.
 - Ruby on Windows is still using non UTF-8 default external encoding: Raised [as ruby bug](https://bugs.ruby-lang.org/issues/13488).
 - Also refer to [the issue list](https://github.com/larskanis/rubyinstaller2/issues).
