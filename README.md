@@ -87,8 +87,8 @@ Check the wiki on how to use [ruby-head versions on Appveyor](https://github.com
 
 ### Build RubyInstaller2 on your own machine:
 
-- Make sure you have a working RubyInstaller-2.4 and Git installation
-- Install the MSYS2 environment per `ridk install` with default options
+- Make sure you have a working RubyInstaller-2.4+ and Git installation
+- Ensure you have MSYS2 installed either by a RubyInstaller-Devkit version or per `ridk install` with default options
 - Install the latest Inno-Setup (unicode) from http://www.jrsoftware.org/isdl.php
 - Run **cmd.exe** and add **iscc.exe** to PATH:
   ```sh
