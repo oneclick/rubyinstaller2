@@ -5,6 +5,7 @@
 - Update to OpenSSL-1.1.1f .
 - Don't update MSYS/MINGW packages at `ridk install` per default. #168
 - Show compiler version, used to build ruby in `ridk version`. #171
+- IRB history is rewritten to UTF-8 on first start of irb.
 
 
 ## RubyInstaller-2.7.0-1 - 2020-01-05

@@ -6,6 +6,7 @@
 - Replace rb-readline by new reline implementation.
   It has multiline editing, better support for UTF-8 encoding and many fixes.
 - UTF-8 encoding is now enabled by default in the installer for new installations.
+- IRB history is rewritten to UTF-8 on first start of irb.
 - Don't update MSYS/MINGW packages at `ridk install` per default. #168
 - Show compiler version, used to build ruby in `ridk version`. #171
 
