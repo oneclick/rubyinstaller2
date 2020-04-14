@@ -86,16 +86,3 @@ begin
     end;
   end;
 end;
-
-function ShouldSkipPage(PageID: Integer): Boolean;
-begin
-
-  {* Skip components page if RubyInstaller without MSYS2 is running and no previous Ruby MSYS2 directory is present. *}
-  if (PageID = wpSelectComponents) and
-      (not IsComponentSelected('msys2')) and
-      (Msys2AlreadyInstalled() = '') then
-    Result := True
-  else
-    {* In all other cases present the components page, to show what is getting installed. *}
-    Result := False;
-end;

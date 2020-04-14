@@ -8,6 +8,8 @@ file filelist_iss => [__FILE__, ovl_expand_file(sandbox_task.sandboxfile_listfil
     if package.respond_to?(:msysdir) && reltosandbox_path.start_with?(package.msysdir)
       components = "msys2"
       flags = "uninsneveruninstall"
+    elsif File.fnmatch("share/{ri,doc}/*", reltosandbox_path, File::FNM_EXTGLOB)
+      components = "rdoc"
     else
       components = "ruby"
     end
