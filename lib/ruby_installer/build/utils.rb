@@ -51,7 +51,7 @@ EOT
     end
   end
 
-  # Scan the current and the gem root directory for files matching rel_pattern.
+  # Scan the current and the gem root directory for files matching +rel_pattern+.
   #
   # All paths returned are relative.
   def ovl_glob(rel_pattern)
@@ -62,7 +62,7 @@ EOT
     (gem_files + Dir.glob(rel_pattern)).uniq
   end
 
-  # Returns the absolute path of rel_file within the current directory or,
+  # Returns the absolute path of +rel_file+ within the current directory or,
   # if it doesn't exist, from the gem root directory.
   #
   # Raises Errno::ENOENT if neither of them exist.
@@ -76,7 +76,7 @@ EOT
     end
   end
 
-  # Returns the absolute path of rel_file within the gem root directory.
+  # Returns the absolute path of +rel_file+ within the gem root directory.
   #
   # Raises Errno::ENOENT if it doesn't exist.
   def gem_expand_file(rel_file)
@@ -92,13 +92,16 @@ EOT
     instance_eval(code, filename)
   end
 
-
-  def ovl_read_file(file_rel)
-    File.read(ovl_expand_file(file_rel), encoding: "UTF-8")
-  end
-
   def ovl_compile_erb(erb_file_rel)
     ErbCompiler.new(erb_file_rel).result
+  end
+
+  # Read +rel_file+ from the current directory or, if it doesn't exist, from the gem root directory.
+  # Raises Errno::ENOENT if neither of them exist.
+  #
+  # Returns the file content as String with UTF-8 encoding.
+  def ovl_read_file(rel_file)
+    File.read(ovl_expand_file(rel_file), encoding: "UTF-8")
   end
 
   # Quote a string according to the rules of Inno-Setup
