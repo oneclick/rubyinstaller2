@@ -76,24 +76,9 @@ EOT
     end
   end
 
-  # Returns the absolute path of +rel_file+ within the gem root directory.
-  #
-  # Raises Errno::ENOENT if it doesn't exist.
-  def gem_expand_file(rel_file)
-    if File.exist?(a=File.join(GEM_ROOT, rel_file))
-      File.expand_path(a)
-    else
-      raise Errno::ENOENT, rel_file
-    end
-  end
-
   def eval_file(filename)
     code = File.read(filename, encoding: "UTF-8")
     instance_eval(code, filename)
-  end
-
-  def ovl_compile_erb(erb_file_rel)
-    ErbCompiler.new(erb_file_rel).result
   end
 
   # Read +rel_file+ from the current directory or, if it doesn't exist, from the gem root directory.
