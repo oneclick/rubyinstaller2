@@ -3,24 +3,21 @@
 # RubyInstaller2
 
 This project provides an Installer for Ruby-2.4 and newer on Windows based on the MSYS2 toolchain.
-It is the successor to the MSYS1 based [RubyInstaller](https://github.com/oneclick/rubyinstaller/) which is used for Ruby-2.3 and older.
+It is the successor to the MSYS1 based [RubyInstaller](https://github.com/oneclick/rubyinstaller/) which was used for Ruby-2.3 and older.
 It is licensed under the 3-clause Modified BSD License.
 
 In contrast to the old RubyInstaller it does not provide its own DevKit, but makes use of the rich set of [MINGW libraries](https://github.com/Alexpux/MINGW-packages) from the [MSYS2 project](https://msys2.github.io/).
 It therefore integrates well into MSYS2 after installation on the target system to provide a build-and-runtime environment for installation of gems with C-extensions.
-This and more changes are documented in the [CHANGELOG](https://github.com/larskanis/rubyinstaller2/blob/master/CHANGELOG.md).
+This and more changes are documented in the [CHANGELOG](https://github.com/oneclick/rubyinstaller2/blob/master/CHANGELOG-2.4.md#rubyinstaller-241-1---2017-05-25).
 
 ## Using the Installer on a target system
 
 - Download and install the latest RubyInstaller2: https://github.com/larskanis/rubyinstaller2/releases
 
-The base ruby installation packaged into the installer file is enough to use pure Ruby gems or fat binary gems for x64-mingw32 or x86-mingw32.
-However installing C based source gems fail, due to unavailable development tools.
-Fortunately it can be added easily.
+The non-Devkit installer file is enough to use pure Ruby gems or fat binary gems for x64-mingw32 or x86-mingw32.
+In order to install C based source gems, it's recommended to use the Devkit installer version.
+It installs a MSYS2/MINGW build environment into the ruby directory that ships common build tools and libraries.
 
-- Run the `ridk install` step on the last step of the installation wizard
-
-It downloads and installs all necessary MSYS2 build tools that are typically required to compile C based ruby gems.
 Some gems require additional packages, which can be installed per `pacman`. See below.
 Its also possible to install MSYS2 manually from https://msys2.github.io/ and run `ridk install` afterwards to add non default, but required development tools.
 For unattended install of Ruby and MSYS2 see the [FAQ chocolatey install](https://github.com/oneclick/rubyinstaller2/wiki/FAQ#user-content-choco-install).
@@ -90,8 +87,8 @@ Check the wiki on how to use [ruby-head versions on Appveyor](https://github.com
 
 ### Build RubyInstaller2 on your own machine:
 
-- Make sure you have a working RubyInstaller-2.4 and Git installation
-- Install the MSYS2 environment per `ridk install` with default options
+- Make sure you have a working RubyInstaller-2.4+ and Git installation
+- Ensure you have MSYS2 installed either by a RubyInstaller-Devkit version or per `ridk install` with default options
 - Install the latest Inno-Setup (unicode) from http://www.jrsoftware.org/isdl.php
 - Run **cmd.exe** and add **iscc.exe** to PATH:
   ```sh
@@ -112,6 +109,6 @@ Check the wiki on how to use [ruby-head versions on Appveyor](https://github.com
 
 ## Known Issues
 
-- Avoid running this project in a PATH containing spaces.
+- It's best to avoid installation into a PATH containing spaces. Some gems won't install.
 - Ruby on Windows is still using non UTF-8 default external encoding: Raised [as ruby bug](https://bugs.ruby-lang.org/issues/13488).
 - Also refer to [the issue list](https://github.com/larskanis/rubyinstaller2/issues).
