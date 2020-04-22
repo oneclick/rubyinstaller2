@@ -3,7 +3,7 @@
 
 REWRITE_MARK = /module Build.*Use for: Build, Runtime/
 
-lib_runtime_files = rubyinstaller_build_gemspec.files.select do |file|
+lib_runtime_files = rubyinstaller_build_gem_files.select do |file|
   file.match(%r{^lib/}) &&
   (!file.match(%r{^lib/ruby_installer/build}) || File.binread(ovl_expand_file(file))[REWRITE_MARK])
 end

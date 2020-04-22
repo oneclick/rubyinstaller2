@@ -34,10 +34,21 @@ EOT
 
   GEM_ROOT = File.expand_path("../../../..", __FILE__)
 
-  # Return the gemspec of "rubyinstaller-build" which is either already loaded or taken from our root directory.
-  def rubyinstaller_build_gemspec
-    Gem.loaded_specs["rubyinstaller-build"] or
-        Gem::Specification.load(File.join(GEM_ROOT, "rubyinstaller-build.gemspec"))
+  # Return the gem files of "rubyinstaller-build"
+  #
+  # The gemspec is either already loaded or taken from our root directory.
+  def rubyinstaller_build_gem_files
+    spec = Gem.loaded_specs["rubyinstaller-build"]
+    if spec
+      # A loaded gemspec has empty #files -> fetch the files from it's path.
+      # This is preferred to gemspec loading to avoid a dependency to git.
+      Dir["**/*", base: spec.full_gem_path].select do |f|
+        FileTest.file?(File.join(spec.full_gem_path, f))
+      end
+    else
+      # Not yet loaded -> load the gemspec and return the files added to the gemspec.
+      Gem::Specification.load(File.join(GEM_ROOT, "rubyinstaller-build.gemspec")).files
+    end
   end
 
   # Scan the current and the gem root directory for files matching rel_pattern.
