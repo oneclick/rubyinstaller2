@@ -13,8 +13,6 @@ class RubyPackage < RubyInstaller::Build::Openstruct
     self.packagename = "rubyinstaller-devkit"
     self.rubyver2 = packagever=='head' ? "2.8" : rubyver[/^\d+\.\d+/]
 
-    self.install_gems = %w[]
-
     case arch
     when 'x64'
       self.pacman_arch = "mingw-w64-x86_64"
