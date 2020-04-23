@@ -32,6 +32,13 @@ EOT
     end
   end
 
+  def with_sandbox_ruby
+    path = "#{ File.expand_path(File.join(sandboxdir, "bin")) };#{ ENV["PATH"] }"
+    with_env(GEM_HOME: nil, GEM_PATH: nil, RUBYOPT: nil, RUBYLIB: nil, PATH: path) do
+      yield
+    end
+  end
+
   GEM_ROOT = File.expand_path("../../../..", __FILE__)
 
   # Return the gem files of "rubyinstaller-build"
