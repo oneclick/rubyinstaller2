@@ -47,7 +47,7 @@ EOT
   def rubyinstaller_build_gem_files
     spec = Gem.loaded_specs["rubyinstaller-build"]
     if spec
-      # A loaded gemspec has empty #files -> fetch the files from it's path.
+      # A loaded gemspec has empty #files -> fetch the files from its path.
       # This is preferred to gemspec loading to avoid a dependency to git.
       Dir["**/*", base: spec.full_gem_path].select do |f|
         FileTest.file?(File.join(spec.full_gem_path, f))

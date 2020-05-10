@@ -27,7 +27,7 @@ Just double click `c_rehash.rb` to activate all pem files in the directory.
 
 Addition of certificates to the Devkit/MSYS2 CA list
 ----------------------------------------------
-MSYS2 has it's own CA list which is maintained by [the MSYS2 project](http://msys2.org).
+MSYS2 has its own CA list which is maintained by [the MSYS2 project](http://msys2.org).
 This CA list is used by all MSYS2 tools like pacman, wget or curl.
 In order to add an additional CA certificate for MSYS2, you have to append it to `<msys2-dir>\usr\ssl\certs\ca-bundle.crt` in PEM format.
 In a default Rubyinstaller-Devkit-2.5-x64 setup this file is here: `c:\Ruby25-x64\msys64\usr\ssl\certs\ca-bundle.crt`
