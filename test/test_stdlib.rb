@@ -22,7 +22,6 @@ class TestStdlib < Minitest::Test
     %w[ psych       Psych::LIBYAML_VERSION   ],
     %w[ racc/cparse Racc::Parser  ],
     %w[ ripper      Ripper        ],
-    %w[ sdbm        SDBM          ],
     %w[ socket      Socket        ],
     %w[ stringio    StringIO      ],
     %w[ strscan     StringScanner ],
@@ -42,6 +41,14 @@ class TestStdlib < Minitest::Test
   # Make sure ruby is linked to libgmp
   def test_gmp
     assert_match(/GMP \d/, Integer::GMP_VERSION)
+  end
+
+  # SDBM was removed in ruby > 2.7
+  if RUBY_VERSION =~ /^2\.[4567]\./
+    def test_sdbm
+      require "sdbm"
+      SDBM
+    end
   end
 
   # Make sure we're using the expected OpenSSL version
