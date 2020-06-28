@@ -16,10 +16,13 @@ file msysdir => [msys2_task.devtools, File.dirname(msysdir)] do |t|
 
   # Copy all files to the sandbox msys32 or msys64 directory
   cp_files.each do |fn|
-    if File.directory?(File.join(msys2_task.sandboxdir, fn))
-      mkdir File.join(t.name, fn)
+    src = File.join(msys2_task.sandboxdir, fn)
+    dst = File.join(t.name, fn)
+    if File.directory?(src)
+      mkdir_p dst
     else
-      cp File.join(msys2_task.sandboxdir, fn), File.join(t.name, fn)
+      rm dst if File.exist?(dst)
+      cp src, dst
     end
   end
 end
