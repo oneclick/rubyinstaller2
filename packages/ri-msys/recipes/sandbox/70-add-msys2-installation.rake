@@ -8,8 +8,9 @@ file msysdir => [msys2_task.devtools, File.dirname(msysdir)] do |t|
 
   # Find all files to be copied
   # reject files that were created by msys2 initialization procedure
-  cp_files = chdir msys2_task.sandboxdir do
-    Dir.glob("./**/*") - init_files
+  cp_files = nil
+  chdir msys2_task.sandboxdir do
+    cp_files = Dir.glob("./**/*") - init_files
   end
 
   mkdir msysdir
