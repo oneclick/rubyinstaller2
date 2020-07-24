@@ -77,7 +77,7 @@ module Build # Use for: Build, Runtime
 
     def self.add_dll_directory_winapi(path)
       strutf16 = (path + "\0").encode(Encoding::UTF_16LE)
-      strptr = Fiddle::Pointer.malloc(strutf16.bytesize)
+      strptr = Fiddle::Pointer.malloc(strutf16.bytesize, Fiddle::RUBY_FREE)
       strptr[0, strptr.size] = strutf16
       handle = AddDllDirectory.call(strptr)
       raise WinApiError, "AddDllDirectory failed for #{path}" if handle.null?
