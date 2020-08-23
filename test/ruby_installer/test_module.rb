@@ -137,12 +137,12 @@ class TestModule < Minitest::Test
     # Double calling shouldn't matter
     RubyInstaller::Runtime.enable_dll_search_paths
     RubyInstaller::Runtime.enable_dll_search_paths
-    Fiddle.dlopen("libobjc-4").close
+    Fiddle.dlopen("libstdc++-6").close
     remove_mingwdir
     # PATH based DLL search makes reliable anti-pattern impossible
     unless ENV['RI_FORCE_PATH_FOR_DLL'] == '1'
       assert_raises(Fiddle::DLError) do
-        Fiddle.dlopen("libobjc-4").close
+        Fiddle.dlopen("libstdc++-6").close
       end
     end
 
@@ -155,7 +155,7 @@ class TestModule < Minitest::Test
     simulate_no_msysdir do
       RubyInstaller::Runtime.enable_dll_search_paths
       assert_raises(Fiddle::DLError, "enable_dll_search_paths should succeed, but without effect") do
-        Fiddle.dlopen("libobjc-4").close
+        Fiddle.dlopen("libstdc++-6").close
       end
     end
   end
