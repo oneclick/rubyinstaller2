@@ -52,6 +52,50 @@ class Base < Rake::Task
   def puts(*args)
     $stderr.puts *args
   end
+
+  def download(uri, hash=nil)
+    require "open-uri"
+
+    filename = File.basename(uri)
+    temp_path = File.join(ENV["TMP"] || ENV["TEMP"] || ENV["USERPROFILE"] || "C:/", filename)
+
+    until check_hash(temp_path, hash)
+      puts "Download #{yellow(uri)}\n  to #{yellow(temp_path)}"
+      File.open(temp_path, "wb") do |fd|
+        progress = 0
+        total = 0
+        params = {
+          "Accept-Encoding" => 'identity',
+          :content_length_proc => lambda{|length| total = length },
+          :progress_proc => lambda{|bytes|
+            new_progress = (bytes * 100) / total
+            print "\rDownloading %s (%3d%%) " % [filename, new_progress]
+            progress = new_progress
+          }
+        }
+        OpenURI.open_uri(uri, params) do |io|
+          fd << io.read
+        end
+        puts
+      end
+    end
+    temp_path
+  end
+
+  def check_hash(path, hash)
+    if !File.exist?(path)
+      false
+    elsif hash.nil?
+      true
+    else
+      require "digest"
+
+      print "Verify integrity of #{File.basename(path)} ..."
+      res = Digest::SHA256.file(path).hexdigest == hash.downcase
+      puts(res ? green(" OK") : red(" Failed"))
+      res
+    end
+  end
 end
 end
 end

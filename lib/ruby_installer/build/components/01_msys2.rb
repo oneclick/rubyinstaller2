@@ -21,35 +21,11 @@ class Msys2 < Base
   end
 
   def execute(args)
-    require "open-uri"
-
-    uri = msys2_download_uri
-    filename = File.basename(uri)
-    temp_path = File.join(ENV["TMP"] || ENV["TEMP"] || ENV["USERPROFILE"] || "C:/", filename)
-
-    until check_hash(temp_path, msys2_download_hash)
-      puts "Download #{yellow(uri)}\n  to #{yellow(temp_path)}"
-      File.open(temp_path, "wb") do |fd|
-        progress = 0
-        total = 0
-        params = {
-          "Accept-Encoding" => 'identity',
-          :content_length_proc => lambda{|length| total = length },
-          :progress_proc => lambda{|bytes|
-            new_progress = (bytes * 100) / total
-            print "\rDownloading %s (%3d%%) " % [filename, new_progress]
-            progress = new_progress
-          }
-        }
-        OpenURI.open_uri(uri, params) do |io|
-          fd << io.read
-        end
-        puts
-      end
-    end
+    hash = ENV['MSYS2_VERSION'] ? nil : msys2_download_hash
+    downloaded_path = download(msys2_download_uri, hash)
 
     puts "Run the MSYS2 installer ..."
-    if run_verbose(temp_path) && msys.with_msys_apps_enabled { run_verbose("sh", "-lc", "true") }
+    if run_verbose(downloaded_path) && msys.with_msys_apps_enabled { run_verbose("sh", "-lc", "true") }
       puts green(" Success")
     else
       puts red(" Failed")
@@ -74,21 +50,6 @@ class Msys2 < Base
     case RUBY_PLATFORM
       when /x64/ then MSYS2_X86_64_SHA256
       else MSYS2_I686_SHA256
-    end
-  end
-
-  def check_hash(path, hash)
-    if ENV['MSYS2_VERSION']
-      true
-    elsif !File.exist?(path)
-      false
-    else
-      require "digest"
-
-      print "Verify integrity of #{File.basename(path)} ..."
-      res = Digest::SHA256.file(path).hexdigest == hash.downcase
-      puts(res ? green(" OK") : red(" Failed"))
-      res
     end
   end
 end
