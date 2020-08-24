@@ -34,7 +34,7 @@ class PacmanUpdate < Base
 
       puts 'Kill all running msys2 binaries to avoid error "size of shared memory region changed"'
       # See https://github.com/msys2/MSYS2-packages/issues/258
-      CSV.parse(`tasklist /M msys-2.0.dll /FO CSV`, headers: true).each do |d|
+      CSV.parse(`tasklist /M msys-2.0.dll /FO CSV`, headers: true, encoding: 'locale').each do |d|
         Process.kill(9, d["PID"].to_i)
       end
 
