@@ -6,12 +6,17 @@ class Msys2 < Base
     "MSYS2 base installation"
   end
 
-  def needed?
+  def needed?(try_kill: true)
     begin
       if msys.with_msys_apps_enabled(if_no_msys: :raise) { run_verbose("sh", "-lc", "true") }
         puts "MSYS2 seems to be " + green("properly installed")
         false
       else
+        if try_kill
+          # Already running MSYS2 processes might interference with our MSYS2 through shared memory.
+          kill_all_msys2_processes
+          return needed?(try_kill: false)
+        end
         true
       end
     rescue Msys2Installation::MsysNotFound

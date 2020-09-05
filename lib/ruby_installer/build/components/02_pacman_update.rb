@@ -12,7 +12,6 @@ class PacmanUpdate < Base
 
   def execute(args)
     require "tempfile"
-    require "csv"
 
     msys.with_msys_apps_enabled do
       puts "Check msys2-keyring version:"
@@ -39,11 +38,7 @@ class PacmanUpdate < Base
       puts "#{description} #{res ? green("succeeded") : red("failed")}"
       raise "pacman failed" unless res
 
-      puts 'Kill all running msys2 binaries to avoid error "size of shared memory region changed"'
-      # See https://github.com/msys2/MSYS2-packages/issues/258
-      CSV.parse(`tasklist /M msys-2.0.dll /FO CSV`, headers: true, encoding: 'locale').each do |d|
-        Process.kill(9, d["PID"].to_i)
-      end
+      kill_all_msys2_processes
 
       # Update the rest
       puts "#{description} part 2 ..."
