@@ -259,15 +259,26 @@ module Build # Use for: Build, Runtime
       return if packages.empty?
 
       with_msys_apps_enabled do
-        Gem.ui.say("Installing required msys2 packages: #{packages.join(" ")}") if verbose
+        # Find packages that are already installed
+        skips, installs = packages.partition do |package|
+          IO.popen(["pacman", "-Q", package], err: :out, &:read)
+          $?.success?
+        end
 
-        args = ["pacman", "-S", "--needed", "--noconfirm", *packages]
-        Gem.ui.say("> #{args.join(" ")}") if verbose==1
+        Gem.ui.say("Using msys2 packages: #{skips.join(" ")}") if verbose && skips.any?
 
-        res = IO.popen(args, &:read)
-        raise CommandError, "pacman failed with the following output:\n#{res}" if !$? || $?.exitstatus != 0
+        # Install required packages
+        if installs.any?
+          Gem.ui.say("Installing required msys2 packages: #{installs.join(" ")}") if verbose
 
-        Gem.ui.say(res) if verbose==1
+          args = ["pacman", "-S", "--needed", "--noconfirm", *installs]
+          Gem.ui.say("> #{args.join(" ")}") if verbose==1
+
+          res = IO.popen(args, &:read)
+          raise CommandError, "pacman failed with the following output:\n#{res}" if !$? || $?.exitstatus != 0
+
+          Gem.ui.say(res) if verbose==1
+        end
       end
     end
 
