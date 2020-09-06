@@ -30,8 +30,8 @@ def find_each_ruby_from_registry
           if subreg['DisplayName'] =~ /^Ruby / && File.directory?(il=subreg['InstallLocation'])
             yield il
           end
-        rescue Encoding::InvalidByteSequenceError
-          # Ignore entries with broken character encoding
+        rescue Encoding::InvalidByteSequenceError, Win32::Registry::Error
+          # Ignore entries without valid installer data or broken character encoding
         end
       end
     end
