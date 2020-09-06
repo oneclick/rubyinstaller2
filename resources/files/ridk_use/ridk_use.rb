@@ -52,7 +52,7 @@ def find_each_ruby(&block)
   if File.exist?(rubies_filename)
     find_each_ruby_from_yml(&block)
   else
-    find_each_ruby_from_registry(&block)
+    find_each_ruby_from_registry.sort.each(&block)
   end
 end
 
