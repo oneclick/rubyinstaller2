@@ -13,11 +13,7 @@ class DevTools < Base
   PACKAGES = %w[
     autoconf
     autogen
-    automake1.12
-    automake1.13
-    automake1.14
-    automake1.15
-    automake1.16
+    automake-wrapper
     diffutils
     file
     gawk
