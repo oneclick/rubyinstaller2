@@ -81,14 +81,14 @@ def update_rubies
   else
     rubies = []
   end
-  
-  find_each_ruby_from_registry do |rubypath|
+
+  find_each_ruby_from_registry.sort.each do |rubypath|
     rubypath = File.expand_path(rubypath)
     unless rubies.find{|r| File.expand_path(r) == rubypath }
       rubies << rubypath
     end
   end
-  
+
   $stderr.puts "Update #{rubies_filename}"
   File.write(rubies_filename, YAML.dump(rubies))
 end
