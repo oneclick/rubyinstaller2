@@ -111,16 +111,6 @@ def remove_rubies_from_path(vars, rubies)
   end
 end
 
-def ensure_ridk_use_in_path(vars)
-  if path=vars['PATH']
-    ridkusepath = ridkuse_dirname
-    unless in_path_regex(ridkusepath).match(path)
-      path = backslachs(ridkusepath) + ";" + path
-    end
-    vars['PATH'] = path
-  end
-end
-
 def enable_ruby_in_path(vars, rubypath)
   if (path=vars["PATH"]) && !in_path_regex(rubypath).match(path)
     $stderr.puts "Enable #{rubypath}"
@@ -128,14 +118,29 @@ def enable_ruby_in_path(vars, rubypath)
   end
 end
 
+def ensure_ridk_use_in_path(vars, rubypath)
+  ridkusepath = backslachs(ridkuse_dirname)
+  # No need to add ridk_use to PATH if it belongs to current ruby
+  ridkusepath = nil if ridkusepath == backslachs(File.join(rubypath, "ridk_use"))
+
+  if ridkusepath && (path=vars['PATH'])
+    unless in_path_regex(ridkusepath).match(path)
+      path = ridkusepath + ";" + path
+    end
+    vars['PATH'] = path
+  end
+  vars['RIDK_USE_PATH'] = ridkusepath
+end
+
 def switch_ruby_per_cmd(rubypath, rubies, ps1)
   vars = {
     "PATH" => ENV['PATH'],
+    "RIDK_USE_PATH" => nil,
   }
   remove_rubies_from_path(vars, rubies)
   enable_ruby_in_path(vars, rubypath)
-  ensure_ridk_use_in_path(vars)
-  
+  ensure_ridk_use_in_path(vars, rubypath)
+
   if ps1
     vars.map do |key, val|
       "$env:#{key}=\"#{val.gsub('"', '`"')}\""

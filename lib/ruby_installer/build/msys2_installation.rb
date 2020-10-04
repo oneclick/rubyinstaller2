@@ -117,8 +117,9 @@ module Build # Use for: Build, Runtime
       msys_bin = msys_bin_path
       mingw_bin = mingw_bin_path
       ruby_bin = backslachs( ruby_bin_dir )
+      ridkusepath = ENV["RIDK_USE_PATH"]
 
-      vars['PATH'] = ruby_bin + ";" + mingw_bin + ";" + msys_bin
+      vars['PATH'] = [ridkusepath, ruby_bin, mingw_bin, msys_bin].compact.join(";")
       vars['RI_DEVKIT'] = msys_path
       vars['MSYSTEM'] = mingwarch.upcase
       vars['PKG_CONFIG_PATH'] = "#{mingw_prefix}/lib/pkgconfig:#{mingw_prefix}/share/pkgconfig"
