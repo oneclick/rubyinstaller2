@@ -143,13 +143,12 @@ begin
   CompLabel.Left := WizardForm.ComponentsList.Left;
   CompLabel.Width := WizardForm.ComponentsList.Width;
   CompLabel.Height := ScaleY(40);
-  CompLabel.Top :=
-    WizardForm.ComponentsList.Top + WizardForm.ComponentsList.Height - CompLabel.Height;
+  CompLabel.Top := WizardForm.ComponentsList.Top + ScaleY(180);
   CompLabel.AutoSize := False;
   CompLabel.WordWrap := True;
 
   WizardForm.ComponentsList.Height :=
-    WizardForm.ComponentsList.Height - CompLabel.Height - ScaleY(8);
+    WizardForm.ComponentsList.Height - CompLabel.Height - ScaleY(40);
 
   {* Bypass click event on ComponentsList *}
   ComplistPrevClickCheck := WizardForm.ComponentsList.OnClickCheck;
