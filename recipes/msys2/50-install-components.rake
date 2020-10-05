@@ -11,8 +11,13 @@ file self.devtools => [self.after_init_filelist] do |t|
     msys.with_msys_apps_enabled do
       # retrieve the pacman cache dir
       cachedir2 = IO.popen(["cygpath", "-u", cachedir], &:read).chomp
+
       # Install the development tools
-      RubyInstaller::Build::ComponentsInstaller.new(msys: msys, pacman_args: ["--needed", "--noconfirm", "--cachedir=#{cachedir2}"]).install(%w[pacman_update dev_tools])
+      RubyInstaller::Build::ComponentsInstaller.new(
+          msys: msys,
+          pacman_args: ["--needed", "--noconfirm", "--cachedir=#{cachedir2}"],
+          builtin_packages_dir: ovl_expand_file("resources/packages")
+      ).install(%w[pacman_update dev_tools])
     end
     touch self.devtools
   end

@@ -7,10 +7,11 @@ class ComponentsInstaller < Rake::Application
   attr_accessor :msys
   attr_accessor :pacman_args
 
-  def initialize(msys: nil, pacman_args: ["--needed", "--noconfirm"])
+  def initialize(msys: nil, pacman_args: ["--needed", "--noconfirm"], builtin_packages_dir: File.join(RbConfig::TOPDIR, "packages"))
     super()
     @msys = msys
     @pacman_args = pacman_args
+    @builtin_packages_dir = builtin_packages_dir
 
     @task_consts = Dir[File.expand_path("../components/??_*.rb", __FILE__)].sort.map do |comppath|
       require comppath
@@ -42,6 +43,7 @@ class ComponentsInstaller < Rake::Application
       t.task_index = idx
       t.msys = msys
       t.pacman_args = pacman_args
+      t.builtin_packages_dir = @builtin_packages_dir
       t
     end
 

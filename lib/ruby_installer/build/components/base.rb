@@ -7,6 +7,7 @@ class Base < Rake::Task
   attr_accessor :task_index
   attr_writer :msys
   attr_accessor :pacman_args
+  attr_accessor :builtin_packages_dir
 
   def self.depends
     []
