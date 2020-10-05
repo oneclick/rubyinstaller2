@@ -108,7 +108,7 @@ class Base < Rake::Task
   end
 
   def autorebase
-    unless RUBY_PLATFORM=~/x64/
+    if msys.mingwarch == "mingw32"
       run_verbose(File.join(msys.msys_path, "autorebase.bat"))
     end
   end
