@@ -98,13 +98,11 @@ class Base < Rake::Task
   end
 
   def kill_all_msys2_processes
-    require "csv"
-
     puts 'Kill all running msys2 binaries to avoid error "size of shared memory region changed"'
     # See https://github.com/msys2/MSYS2-packages/issues/258
-    CSV.parse(`tasklist /M msys-2.0.dll /FO CSV`, headers: true, encoding: 'locale').each do |d|
-      puts red(" - killing process: #{d.to_h.inspect}")
-      Process.kill(9, d["PID"].to_i)
+    OsProcess.each_process_with_dll("msys-2.0.dll") do |pr|
+      puts yellow(" - killing process #{pr.pid}: #{pr.each_module.first[1]}")
+      Process.kill(9, pr.pid)
     end
   end
 end

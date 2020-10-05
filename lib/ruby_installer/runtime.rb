@@ -4,6 +4,7 @@ module Runtime
   autoload :ComponentsInstaller, 'ruby_installer/runtime/components_installer'
   autoload :DllDirectory, 'ruby_installer/runtime/dll_directory'
   autoload :Msys2Installation, 'ruby_installer/runtime/msys2_installation'
+  autoload :OsProcess, 'ruby_installer/runtime/os_process'
   autoload :Ridk, 'ruby_installer/runtime/ridk'
   autoload :PACKAGE_VERSION, 'ruby_installer/runtime/package_version'
   autoload :GIT_COMMIT, 'ruby_installer/runtime/package_version'

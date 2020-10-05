@@ -9,6 +9,7 @@ module Build
   autoload :GEM_VERSION, 'ruby_installer/build/gem_version'
   autoload :Task, 'ruby_installer/build/task'
   autoload :Openstruct, 'ruby_installer/build/openstruct'
+  autoload :OsProcess, 'ruby_installer/build/os_process'
   autoload :Release, 'ruby_installer/build/release'
   autoload :Utils, 'ruby_installer/build/utils'
 
