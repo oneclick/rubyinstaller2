@@ -124,8 +124,8 @@ end;
 procedure EnableMsys2Component(enable: Boolean);
 begin
   {* InnoSetup doesn't provide corresponding setter for IsComponentSelected, so that we alter the ComponentsList directly. *}
-  if WizardForm.ComponentsList.Items.Count > 1 then
-    WizardForm.ComponentsList.Checked[1] := enable;
+  if WizardForm.ComponentsList.Items.Count > 2 then
+    WizardForm.ComponentsList.Checked[2] := enable;
 end;
 
 procedure InitializeGUI;
