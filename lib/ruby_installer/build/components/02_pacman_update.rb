@@ -21,9 +21,7 @@ class PacmanUpdate < Base
       else
         puts yellow(" -> Update keyring according to https://www.msys2.org/news/#2020-06-29-new-packagers")
 
-        tar_path = download("http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz")
-        sig_path = download("http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig")
-        run_verbose("pacman-key", "--verify", sig_path)
+        tar_path = File.join(RbConfig::TOPDIR, "msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz")
         tf = Tempfile.new
         run_verbose("pacman", "-U", "--noconfirm", "--config", tf.path, tar_path)
       end

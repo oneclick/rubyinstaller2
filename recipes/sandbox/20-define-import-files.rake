@@ -1,6 +1,7 @@
 # Define files that are imported into the package either from the current working dir or from the rubyinstaller-build gem.
 
 self.import_files.merge!({
+  "resources/files/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz" => "msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz",
   "resources/files/ridk.cmd" => "bin/ridk.cmd",
   "resources/files/ridk.ps1" => "bin/ridk.ps1",
   "resources/files/ridk_use/ridk.cmd" => "ridk_use/ridk.cmd",
