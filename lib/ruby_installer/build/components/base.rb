@@ -105,6 +105,12 @@ class Base < Rake::Task
       Process.kill(9, pr.pid)
     end
   end
+
+  def autorebase
+    unless RUBY_PLATFORM=~/x64/
+      run_verbose(File.join(msys.msys_path, "autorebase.bat"))
+    end
+  end
 end
 end
 end

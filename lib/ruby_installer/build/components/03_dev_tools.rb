@@ -49,6 +49,8 @@ class DevTools < Base
       res = run_verbose("pacman", "-S", *pacman_args, *packages)
       puts "Install #{description} #{res ? green("succeeded") : red("failed")}"
       raise "pacman failed" unless res
+
+      autorebase
     end
   end
 end

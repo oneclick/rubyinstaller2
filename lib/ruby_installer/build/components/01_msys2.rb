@@ -8,6 +8,8 @@ class Msys2 < Base
 
   def needed?(try_kill: true)
     begin
+      autorebase
+
       if msys.with_msys_apps_enabled(if_no_msys: :raise) { run_verbose("sh", "-lc", "true") }
         puts "MSYS2 seems to be " + green("properly installed")
         false

@@ -39,12 +39,15 @@ class PacmanUpdate < Base
       raise "pacman failed" unless res
 
       kill_all_msys2_processes
+      autorebase
 
       # Update the rest
       puts "#{description} part 2 ..."
       res = run_verbose("pacman", "-Su", *pacman_args)
       puts "#{description} #{res ? green("succeeded") : red("failed")}"
       raise "pacman failed" unless res
+
+      autorebase
     end
   end
 end
