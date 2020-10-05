@@ -11,9 +11,12 @@ init:
 
 install:
   - choco install -y InnoSetup
+  # Avoid repo.msys2.org since it's down currently
+  - c:\msys64\usr\bin\bash -lc "sed -e \"/repo.msys2.org/ s/Server/#Server/\" -i /etc/pacman.d/mirrorlist.*"
+  - c:\msys64\usr\bin\bash -lc "cat /etc/pacman.d/mirrorlist.*"
   # Update keyring according to https://www.msys2.org/news/#2020-06-29-new-packagers
-  - C:\msys64\usr\bin\curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz
-  - C:\msys64\usr\bin\curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig
+  - C:\msys64\usr\bin\curl -O http://mirror.yandex.ru/mirrors/msys2/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz
+  - C:\msys64\usr\bin\curl -O http://mirror.yandex.ru/mirrors/msys2/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig
   - ridk exec bash -c "pacman-key --verify msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
   - ridk exec bash -c "pacman -U --noconfirm --config <(echo) msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
   # Remove gcc-ada and gcc-objc, since they are no longer supported by msys2 and therefore cause a dependency issue
@@ -22,6 +25,9 @@ install:
   # Kill all running msys2 binaries to avoid error "size of shared memory region changed".
   # See https://github.com/msys2/MSYS2-packages/issues/258
   - powershell -Command "Get-Process | Where-Object {$_.path -like 'C:\msys64*'} | Stop-Process"
+  # Avoid repo.msys2.org since it's down currently
+  - c:\msys64\usr\bin\bash -lc "sed -e \"/repo.msys2.org/ s/Server/#Server/\" -i /etc/pacman.d/mirrorlist.*"
+  - c:\msys64\usr\bin\bash -lc "cat /etc/pacman.d/mirrorlist.*"
 
 build_script:
   # Remove broken pkg files from cache
