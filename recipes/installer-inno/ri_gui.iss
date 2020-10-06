@@ -138,17 +138,17 @@ begin
 
   {* Add label to components list *}
 
-  CompLabel := TLabel.Create(WizardForm);
-  CompLabel.Parent := WizardForm.SelectComponentsPage;
-  CompLabel.Left := WizardForm.ComponentsList.Left;
-  CompLabel.Width := WizardForm.ComponentsList.Width;
+  WizardForm.ComponentsList.Height := WizardForm.ComponentsList.Height - ScaleY(65);
+
+  Page := PageFromID(wpSelectComponents);
+  CompLabel := TLabel.Create(Page);
+  CompLabel.Parent := Page.Surface;
+  CompLabel.Top := WizardForm.ComponentsList.Top + WizardForm.ComponentsList.Height + ScaleY(12);
+  CompLabel.Width := Page.SurfaceWidth;
   CompLabel.Height := ScaleY(40);
-  CompLabel.Top := WizardForm.ComponentsList.Top + ScaleY(180);
   CompLabel.AutoSize := False;
   CompLabel.WordWrap := True;
-
-  WizardForm.ComponentsList.Height :=
-    WizardForm.ComponentsList.Height - CompLabel.Height - ScaleY(40);
+  CompLabel.Anchors := [akLeft, akBottom, akRight];
 
   {* Bypass click event on ComponentsList *}
   ComplistPrevClickCheck := WizardForm.ComponentsList.OnClickCheck;

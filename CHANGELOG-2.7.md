@@ -17,6 +17,7 @@
 ### Changed
 - Move HTML documentation to optional install component "Ruby RI and HTML documentation".
 - Update to OpenSSL-1.1.1g, libffi-3.3 and gcc-10.2.
+- Update to InnoSetup-6 which enables a larger and resizable installer window.
 - Skip gemspec based package install if dependency is already satisfied. #67
   This avoids unwanted/unnecessary up- or downgrades of MSYS2/MINGW packages on "gem install" when a package is already installed and the version meets optional version constraints.
 - Update of the SSL CA certificate list.
