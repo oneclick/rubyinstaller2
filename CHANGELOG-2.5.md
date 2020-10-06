@@ -1,15 +1,21 @@
-## RubyInstaller-2.5.8-2 - 2020-09-06
+## RubyInstaller-2.5.8-2 - 2020-10-06
 
 ### Added
-- Add migration of GPG signature keys to "ridk install". #184, #182
+- Add migration of new MSYS2 signature keys to "ridk install". #184, #182
 - Add RDoc based RI documentation as an install option.
-- Add automake-1.16 package.
+- Run autorebase.bat at installation on 32 bit x86 systems.
+  This is required with more recent versions of msys32.
+- Kill running MSYS2 processes for MSYS2 initialization and update.
+  This avoids the error "size of shared memory region changed" when MSYS2 core DLLs are changed.
+- `ridk use` improvements:
+    - sorts the list of rubies
+    - plays well together with `ridk enable` now
+    - removes itself from PATH when returning to original ruby.
 
 ### Changed
 - Move HTML documentation to optional install component "Ruby RI and HTML documentation".
 - Update to OpenSSL-1.1.1g, libffi-3.3 and gcc-10.2.
-- Kill running MSYS2 processes for MSYS2 initialization and update.
-  This avoids error "size of shared memory region changed".
+- Update to InnoSetup-6 which enables a larger and resizable installer window.
 - Skip gemspec based package install if dependency is already satisfied. #67
   This avoids unwanted/unnecessary up- or downgrades of MSYS2/MINGW packages on "gem install" when a package is already installed and the version meets optional version constraints.
 - Update of the SSL CA certificate list.
