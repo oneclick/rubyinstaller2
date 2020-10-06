@@ -1,7 +1,9 @@
+image: Visual Studio 2019
+
 init:
   - echo %PATH%
   # We use a clean PATH to avoid interferences with the hundreds of installed programs.
-  - set PATH=c:/Program Files/Git/cmd;c:/ProgramData/chocolatey/bin;c:/Program Files (x86)/Inno Setup 5;c:/Windows/system32;C:/Windows/System32/WindowsPowerShell/v1.0
+  - set PATH=c:/Program Files/Git/cmd;c:/Program Files (x86)/Inno Setup 6;c:/Windows/system32;C:/Windows/System32/WindowsPowerShell/v1.0
   - set PATH=C:/ruby%build_ruby%/bin;%PATH%
   - echo %PATH%
   - ruby --version
@@ -10,7 +12,6 @@ init:
     )
 
 install:
-  - choco install -y InnoSetup
   # Avoid repo.msys2.org since it's down currently
   - c:\msys64\usr\bin\bash -lc "sed -e \"/repo.msys2.org/ s/Server/#Server/\" -i /etc/pacman.d/mirrorlist.*"
   - c:\msys64\usr\bin\bash -lc "cat /etc/pacman.d/mirrorlist.*"
