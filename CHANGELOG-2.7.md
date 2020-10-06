@@ -25,7 +25,6 @@
 - Fix vendoring issue of recent MSYS2 system.
 
 ### Removed
-- Remove automake versions before automake-1.12
 - Remove now unused Gem install helper.
 
 
