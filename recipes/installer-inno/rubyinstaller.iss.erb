@@ -23,6 +23,11 @@
 #define PackageBaseId "MRI"
 
 #define MsysDir <%=q( with_msys ? package.msysdir : '' )%>
+<% if package.rubyver2 < '3.0' %>
+#define HaveUtf8ChkBox "True"
+<% else %>
+#define HaveUtf8ChkBox "False"
+<% end %>
 
 [Setup]
 DefaultDirName=<%=q package.default_instdir %>
@@ -91,7 +96,7 @@ DevkitInstall=Run 'ridk install' to set up MSYS2 and development toolchain.
 DevkitInstall2=MSYS2 is required to install gems with C extensions.
 DevkitInstallHint=The MSYS2 development tools consists of the GCC compiler suite and%nmany common UNIX tools required to build OpenSource software.%nIt is safe to run `ridk install` even if MSYS2 is already installed.
 DefaultUtf8=Use UTF-8 as default external encoding.
-DefaultUtf8Hint=This sets the environment variable 'RUBYOPT=-Eutf-8'.%nRubyInstaller-2.6 will probably set this as default.%nSee the wiki for more information.
+DefaultUtf8Hint=This sets the environment variable 'RUBYOPT=-Eutf-8'.%nStarting with RubyInstaller-3.0 UTF-8 is always enabled.%nSee the wiki for more information.
 MouseoverHint=TIP: Mouse over the above options for more detailed information.
 WebSiteLabel=Web Site:
 SupportGroupLabel=Support group:

@@ -21,7 +21,7 @@ begin
       if IsAssociated then
         ModifyFileExts(['.rb', '.rbw']);
 
-      if IsUtf8 then
+      if ('{#HaveUtf8ChkBox}' = 'True') and IsUtf8 then
         ModifyRubyopt(['-Eutf-8']);
 
       if IsComponentSelected('msys2') then
@@ -63,7 +63,7 @@ begin
     SetPreviousData(PreviousDataKey, 'PathModified', 'yes');
   if IsAssociated then
     SetPreviousData(PreviousDataKey, 'FilesAssociated', 'yes');
-  if IsUtf8 then
+  if ('{#HaveUtf8ChkBox}' = 'True') and IsUtf8 then
     SetPreviousData(PreviousDataKey, 'Utf8', 'yes');
 
   SetPreviousData(PreviousDataKey, 'RubyInstallerId', ExpandConstant('{#PackageBaseId}\{#RubyVersion}'));
@@ -81,7 +81,7 @@ begin
       if GetPreviousData('FilesAssociated', 'no') = 'yes' then
         ModifyFileExts(['.rb', '.rbw']);
 
-      if GetPreviousData('Utf8', 'no') = 'yes' then
+      if ('{#HaveUtf8ChkBox}' = 'True') and (GetPreviousData('Utf8', 'no') = 'yes') then
         ModifyRubyopt(['-Eutf-8']);
     end;
   end;
