@@ -11,7 +11,7 @@ class RubyPackage < RubyInstaller::Build::Openstruct
 
     self.rubyver, self.pkgrel = packagever.split("-", 2)
     self.packagename = "rubyinstaller"
-    self.rubyver2 = packagever=='head' ? "3.0" : rubyver[/^\d+\.\d+/]
+    self.rubyver2 = packagever=='head' ? "3.1" : rubyver[/^\d+\.\d+/]
 
     case arch
     when 'x64'
