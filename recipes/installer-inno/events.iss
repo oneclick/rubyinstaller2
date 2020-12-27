@@ -21,8 +21,10 @@ begin
       if IsAssociated then
         ModifyFileExts(['.rb', '.rbw']);
 
-      if ('{#HaveUtf8ChkBox}' = 'True') and IsUtf8 then
+#ifdef HaveUtf8ChkBox
+      if IsUtf8 then
         ModifyRubyopt(['-Eutf-8']);
+#endif
 
       if IsComponentSelected('msys2') then
         DeleteRubyMsys2Directory();
@@ -63,8 +65,11 @@ begin
     SetPreviousData(PreviousDataKey, 'PathModified', 'yes');
   if IsAssociated then
     SetPreviousData(PreviousDataKey, 'FilesAssociated', 'yes');
-  if ('{#HaveUtf8ChkBox}' = 'True') and IsUtf8 then
+
+#ifdef HaveUtf8ChkBox
+  if IsUtf8 then
     SetPreviousData(PreviousDataKey, 'Utf8', 'yes');
+#endif
 
   SetPreviousData(PreviousDataKey, 'RubyInstallerId', ExpandConstant('{#PackageBaseId}\{#RubyVersion}'));
 end;
@@ -81,8 +86,11 @@ begin
       if GetPreviousData('FilesAssociated', 'no') = 'yes' then
         ModifyFileExts(['.rb', '.rbw']);
 
-      if ('{#HaveUtf8ChkBox}' = 'True') and (GetPreviousData('Utf8', 'no') = 'yes') then
+#ifdef HaveUtf8ChkBox
+      if GetPreviousData('Utf8', 'no') = 'yes' then
         ModifyRubyopt(['-Eutf-8']);
+#endif
+
     end;
   end;
 end;

@@ -24,9 +24,7 @@
 
 #define MsysDir <%=q( with_msys ? package.msysdir : '' )%>
 <% if package.rubyver2 < '3.0' %>
-#define HaveUtf8ChkBox "True"
-<% else %>
-#define HaveUtf8ChkBox "False"
+#define HaveUtf8ChkBox 1
 <% end %>
 
 [Setup]
