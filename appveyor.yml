@@ -58,7 +58,7 @@ test_script:
   - IF "%target_ruby%" LSS "2.6" ( gem update --system && gem install bundler --force )
   # Remove lock file because bundler version can vary between build and runtime
   - del Gemfile.lock
-  - bundle install
+  - ruby -r./patch_minitest -S bundle.cmd install
   # Run all tests against the new installed Ruby
   - rake test
   # Verify that the used CA list is still the latest.
