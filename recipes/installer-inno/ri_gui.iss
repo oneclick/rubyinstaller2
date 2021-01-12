@@ -250,7 +250,7 @@ begin
   URLText.Top := TmpLabel.Top;
   URLText.Left := TmpLabel.Left + TmpLabel.Width + ScaleX(4);
   URLText.AutoSize := True;
-  URLText.Caption := 'http://rubyinstaller.org';
+  URLText.Caption := 'https://rubyinstaller.org';
   URLText.Cursor := crHand;
   URLText.Font.Color := clBlue;
   URLText.OnClick := @URLText_OnClick;
@@ -267,7 +267,7 @@ begin
   URLText.Top := TmpLabel.Top;
   URLText.Left := TmpLabel.Left + TmpLabel.Width + ScaleX(4);
   URLText.AutoSize := True;
-  URLText.Caption := 'http://groups.google.com/group/rubyinstaller';
+  URLText.Caption := 'https://groups.google.com/group/rubyinstaller';
   URLText.Cursor := crHand;
   URLText.Font.Color := clBlue;
   URLText.OnClick := @URLText_OnClick;
@@ -284,7 +284,7 @@ begin
   URLText.Top := TmpLabel.Top;
   URLText.Left := TmpLabel.Left + TmpLabel.Width + ScaleX(4);
   URLText.AutoSize := True;
-  URLText.Caption := 'https://wiki.github.com/larskanis/rubyinstaller2';
+  URLText.Caption := 'https://github.com/oneclick/rubyinstaller2/wiki';
   URLText.Cursor := crHand;
   URLText.Font.Color := clBlue;
   URLText.OnClick := @URLText_OnClick;
