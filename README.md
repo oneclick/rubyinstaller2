@@ -92,7 +92,7 @@ Check the wiki on how to use [ruby-head versions on Appveyor](https://github.com
 - Install the latest Inno-Setup (unicode) from http://www.jrsoftware.org/isdl.php
 - Run **cmd.exe** and add **iscc.exe** to PATH:
   ```sh
-    set PATH=%PATH%;"c:\Program Files (x86)\Inno Setup 5"
+    set PATH=%PATH%;"c:\Program Files (x86)\Inno Setup 6"
   ```
 - Clone RubyInstaller2 and build all RubyInstaller versions for x86 and x64:
   ```sh
