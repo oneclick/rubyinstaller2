@@ -169,3 +169,8 @@ environment:
       MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
       MSYSTEM: "MINGW32"
       run_mri_spec: master
+
+matrix:
+  allow_failures:
+    - target_ruby: "2.5.8"
+      arch: "x64"
