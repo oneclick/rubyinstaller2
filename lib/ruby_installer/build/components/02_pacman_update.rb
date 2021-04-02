@@ -41,7 +41,7 @@ class PacmanUpdate < Base
 
       # Update the rest
       puts "#{description} part 2 ..."
-      res = run_verbose("pacman", "-Su", *pacman_args)
+      res = run_verbose("pacman", "-Syu", *pacman_args)
       puts "#{description} #{res ? green("succeeded") : red("failed")}"
       raise "pacman failed" unless res
 
