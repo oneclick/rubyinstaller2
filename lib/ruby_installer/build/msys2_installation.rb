@@ -21,7 +21,15 @@ module Build # Use for: Build, Runtime
       @msys_path_fixed = msys_path ? true : false
       @mingwdir = nil
       @mingwarch = mingwarch || (RUBY_PLATFORM=~/x64/ ? 'mingw64' : 'mingw32')
-      @mingw_package_prefix = mingw_package_prefix || (RUBY_PLATFORM=~/x64/ ? "mingw-w64-x86_64" : "mingw-w64-i686")
+      @mingw_package_prefix = mingw_package_prefix || begin
+        case @mingwarch
+          when 'mingw32' then "mingw-w64-i686"
+          when 'mingw64' then "mingw-w64-x86_64"
+          when 'ucrt64'  then "mingw-w64-ucrt-x86_64"
+          else raise "unknown mingwarch #{@mingwarch.inspect}"
+        end
+      end
+
       @ruby_bin_dir = ruby_bin_dir || File.join(RbConfig::TOPDIR, "bin")
     end
 
@@ -126,6 +134,29 @@ module Build # Use for: Build, Runtime
       vars['ACLOCAL_PATH'] = "#{mingw_prefix}/share/aclocal:/usr/share/aclocal"
       vars['MANPATH'] = "#{mingw_prefix}/share/man"
       vars['MINGW_PACKAGE_PREFIX'] = mingw_package_prefix
+
+      case mingwarch
+        when 'mingw32'
+          vars['MSYSTEM_PREFIX'] = '/mingw32'
+          vars['MSYSTEM_CARCH'] = 'i686'
+          vars['MSYSTEM_CHOST'] = 'i686-w64-mingw32'
+          vars['MINGW_CHOST'] = vars['MSYSTEM_CHOST']
+          vars['MINGW_PREFIX'] = vars['MSYSTEM_PREFIX']
+        when 'mingw64'
+          vars['MSYSTEM_PREFIX'] = '/mingw64'
+          vars['MSYSTEM_CARCH'] = 'x86_64'
+          vars['MSYSTEM_CHOST'] = 'x86_64-w64-mingw32'
+          vars['MINGW_CHOST'] = vars['MSYSTEM_CHOST']
+          vars['MINGW_PREFIX'] = vars['MSYSTEM_PREFIX']
+        when 'ucrt64'
+          vars['MSYSTEM_PREFIX'] = '/ucrt64'
+          vars['MSYSTEM_CARCH'] = 'x86_64'
+          vars['MSYSTEM_CHOST'] = 'x86_64-w64-mingw32'
+          vars['MINGW_CHOST'] = vars['MSYSTEM_CHOST']
+          vars['MINGW_PREFIX'] = vars['MSYSTEM_PREFIX']
+        else raise "unknown mingwarch #{@mingwarch.inspect}"
+      end
+
       locale = IO.popen([File.join(msys_bin, "locale"), "-uU"], &:read) rescue SystemCallError
       vars['LANG'] = locale=~/UTF-8/ ? locale.to_s.strip : 'C'
 
