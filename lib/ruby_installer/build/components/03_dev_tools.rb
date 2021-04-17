@@ -10,7 +10,7 @@ class DevTools < Base
     "MSYS2 and MINGW development toolchain"
   end
 
-  PACKAGES = %w[
+  PACKAGES_COMMON = %w[
     autoconf
     autogen
     automake-wrapper
@@ -22,7 +22,6 @@ class DevTools < Base
     m4
     make
     patch
-    pkgconf
     sed
     texinfo
     texinfo-tex
@@ -35,15 +34,30 @@ class DevTools < Base
     mingw-w64-libmangle-git
     mingw-w64-libwinpthread-git
     mingw-w64-make
-    mingw-w64-pkgconf
     mingw-w64-tools-git
     mingw-w64-winpthreads-git
   ]
 
+  PACKAGES_MINGW32 = PACKAGES_COMMON + %w[
+    pkg-config
+    mingw-w64-pkg-config
+  ]
+
+  PACKAGES_MINGW64 = PACKAGES_COMMON + %w[
+    pkgconf
+    mingw-w64-pkgconf
+  ]
+
+  PACKAGES = {
+    'mingw32' => PACKAGES_MINGW32,
+    'mingw64' => PACKAGES_MINGW64,
+    # 'ucrt64' => PACKAGES_UCRT64,
+  }
+
   def execute(args)
     msys.with_msys_apps_enabled do
       puts "Install #{description} ..."
-      packages = PACKAGES.map do |package|
+      packages = PACKAGES[msys.mingwarch].map do |package|
         package.sub(/^mingw-w64/, msys.mingw_package_prefix)
       end
       res = run_verbose("pacman", "-S", *pacman_args, *packages)
