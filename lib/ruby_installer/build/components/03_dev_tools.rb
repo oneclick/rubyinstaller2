@@ -22,7 +22,7 @@ class DevTools < Base
     m4
     make
     patch
-    pkg-config
+    pkgconf
     sed
     texinfo
     texinfo-tex
@@ -35,7 +35,7 @@ class DevTools < Base
     mingw-w64-libmangle-git
     mingw-w64-libwinpthread-git
     mingw-w64-make
-    mingw-w64-pkg-config
+    mingw-w64-pkgconf
     mingw-w64-tools-git
     mingw-w64-winpthreads-git
   ]
