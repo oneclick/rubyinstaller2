@@ -132,6 +132,14 @@ LOGO = %q{
         $VERBOSE = orig_verbose
       end
 
+      def sanitize_hash_encoding(hash_or_string)
+        if hash_or_string.respond_to?(:encode)
+          hash_or_string.encode('utf-8', invalid: :replace, undef: :replace)
+        else
+          hash_or_string.map { |k, v| [k, sanitize_hash_encoding(v)] }.to_h
+        end
+      end
+
       def print_version
         require "yaml"
         require "rbconfig"
@@ -171,6 +179,7 @@ LOGO = %q{
           h["os"] = `ver`.strip
         end
 
+        h = sanitize_hash_encoding(h)
         puts h.to_yaml
       end
 
