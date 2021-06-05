@@ -1,0 +1,169 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  build-installer:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - target_ruby: "3.0.1"
+          arch: "x86"
+          build_ruby: "2.7"
+          run_mri_spec: ruby_3_0
+
+        - target_ruby: "3.0.1"
+          arch: "x64"
+          build_ruby: "2.7"
+          run_mri_spec: ruby_3_0
+
+        - target_ruby: "2.7.3"
+          arch: "x86"
+          build_ruby: "2.6"
+          run_ruby_spec: true
+
+        - target_ruby: "2.7.3"
+          arch: "x64"
+          build_ruby: "2.6"
+          run_ruby_spec: true
+
+        - target_ruby: "2.6.7"
+          arch: "x64"
+          build_ruby: "2.5"
+          run_ruby_spec: true
+
+        - target_ruby: "2.5.9"
+          arch: "x64"
+          build_ruby: "2.4"
+          run_ruby_spec: true
+
+        - target_ruby: "2.6.7"
+          arch: "x86"
+          build_ruby: "2.5"
+          run_ruby_spec: true
+
+        - target_ruby: "2.5.9"
+          arch: "x86"
+          build_ruby: "2.4"
+          run_ruby_spec: true
+
+        - target_ruby: "head"
+          arch: "x64"
+          build_ruby: "2.6"
+          run_mri_spec: master
+
+        - target_ruby: "head"
+          arch: "x86"
+          build_ruby: "2.6"
+          run_mri_spec: master
+        
+    runs-on: windows-latest
+    env:
+      arch: ${{ matrix.arch }}
+      target_ruby: ${{ matrix.target_ruby }}
+      run_mri_spec: ${{ matrix.run_mri_spec }}
+      run_ruby_spec: ${{ matrix.run_ruby_spec }}
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.build_ruby }}
+
+    - run: ruby --version
+    - name: stop build not required for release
+      shell: cmd
+      run: |
+        IF DEFINED DEPLOY_TAG (
+          echo.%DEPLOY_TAG% | findstr /C:"%target_ruby%">nul || (echo stop build not required for release & (exit 1))
+        )
+      
+    - name: Update MSYS2
+      shell: cmd
+      run: C:\msys64\usr\bin\pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
+
+    - name: Kill all running msys2 binaries to avoid error "size of shared memory region changed".
+      shell: powershell
+      # See https://github.com/msys2/MSYS2-packages/issues/258
+      run: Get-Process | Where-Object {$_.path -like 'C:\msys64*'} | Stop-Process
+
+    - name: Build the installer
+      shell: cmd
+      run: rake ri:ruby-%target_ruby%-%arch% & c:/msys64/usr/bin/gpgconf --homedir /etc/pacman.d/gnupg --kill all
+      
+    - name: Reuse installed ruby for RubyInstaller-Devkit
+      shell: cmd
+      run: |
+        c:/msys64/usr/bin/mkdir -p packages/ri-msys/recipes/
+        c:/msys64/usr/bin/cp -a packages/ri/recipes/unpack packages/ri-msys/recipes/
+      
+    - name: Build the RubyInstaller-Devkit installer
+      shell: cmd
+      run: rake ri-msys:ruby-%target_ruby%-%arch%:installer-inno
+      
+    - name: Run the built Ruby installer and install to c:/ri2-ruby
+      shell: cmd
+      run: ruby -e "Dir['packages/ri/recipes/installer-inno/rubyinstaller-%target_ruby%*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath,defaultutf8')}"
+      
+    
+    - name: Activate the environment variables set by the installer
+      # but exclude git's /usr/bin, because it conflicts with one RubyInstaller test.
+      shell: powershell
+      run: |
+        $env:PATH = [Environment]::GetEnvironmentVariable("PATH","Machine") -replace ";C:\\Program Files\\Git\\usr\\bin" -replace ";C:\\Ruby193\\bin"
+        $env:RUBYOPT = [Environment]::GetEnvironmentVariable("RUBYOPT","Machine")
+        echo "PATH=$env:PATH" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        echo "RUBYOPT=$env:RUBYOPT" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      
+    - name: Verify PATH
+      shell: cmd
+      run: |
+        echo %PATH%
+        echo %RUBYOPT%
+      
+    - name: ridk version
+      run: ridk version
+    
+    - name: Install dependent gems
+      shell: cmd
+      run: IF "%target_ruby%" LSS "2.6" ( gem update --system && gem install bundler --force )
+    
+    - name: Remove lock file because bundler version can vary between build and runtime
+      shell: cmd
+      run: del Gemfile.lock
+      
+    - run: bundle install
+    
+    - name: Run all tests against the new installed Ruby
+      shell: cmd
+      run: rake test
+      
+    - name: Verify that the used CA list is still the latest.
+      shell: cmd
+      run: rake ssl:update_check
+      
+    - name: Run the Ruby Spec Suite
+      shell: cmd
+      run: |
+        ridk enable
+        IF DEFINED run_ruby_spec ( IF NOT DEFINED GITHUB_REF (
+          git clone --depth 1 https://github.com/ruby/mspec &&
+          git clone --depth 1 https://github.com/ruby/spec &&
+          env --unset=RUBYOPT ruby -C spec ../mspec/bin/mspec -I../../tool/lib -j --exclude "Socket.getnameinfo using IPv4 using a 3 element Array as the first argument without custom flags returns an Array containing the hostname and service name" --exclude "Socket.getifaddrs each returned Socket::Ifaddr has an interface index"
+        ))
+      
+    - name: Run the MRI copy of Ruby Spec Suite
+      shell: cmd
+      run: |
+        ridk enable
+        IF DEFINED run_mri_spec ( IF NOT DEFINED GITHUB_REF (
+          git clone --depth 1 https://github.com/ruby/ruby -b %run_mri_spec% &&
+          env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -I../../tool/lib -j --exclude "Socket.getnameinfo using IPv4 using a 3 element Array as the first argument without custom flags returns an Array containing the hostname and service name"
+        ))
+
+    - name: Run upload to github (only on tag builds)
+      shell: cmd
+      run: |
+        ridk enable
+        set DEPLOY_TAG=%GITHUB_REF%
+        IF "%target_ruby%" EQU "head" (SET DEPLOY_TAG=rubyinstaller-head)
+        rake release:appveyor_upload -- packages/ri/recipes/installer-inno/%DEPLOY_TAG%*-%arch%.exe packages/ri/recipes/archive-7z/%DEPLOY_TAG%*-%arch%.7z packages/ri-msys/recipes/installer-inno/ruby*-%target_ruby%*-%arch%.exe
