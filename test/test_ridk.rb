@@ -64,7 +64,7 @@ module RidkTests
     assert_match(/bash/, y["sh"])
     assert_match(/windows/i, y["os"])
     assert_equal "c:\\msys64", y["msys2"]["path"].downcase
-    skip "Appveyors MSYS version is too old to have a components.xml" if ENV['APPVEYOR']
+    skip "Appveyors MSYS version is too old to have a components.xml" if ENV['APPVEYOR'] || ENV['GITHUB_ACTION']
     assert_match(/MSYS/, y["msys2"]["title"])
     assert_match(/\d/, y["msys2"]["version"])
   end

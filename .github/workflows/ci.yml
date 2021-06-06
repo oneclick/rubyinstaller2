@@ -55,7 +55,7 @@ jobs:
           arch: "x86"
           build_ruby: "2.6.7/x64"
           run_mri_spec: master
-        
+
     runs-on: windows-latest
     env:
       arch: ${{ matrix.arch }}
@@ -73,7 +73,21 @@ jobs:
         IF DEFINED DEPLOY_TAG (
           echo.%DEPLOY_TAG% | findstr /C:"%target_ruby%">nul || (echo stop build not required for release & (exit 1))
         )
-      
+
+    - name: Install alternative ruby
+      if: matrix.arch == 'x64'
+      shell: powershell
+      run: |
+        $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.5.9-1/rubyinstaller-devkit-2.5.9-1-x86.exe", "$pwd/ruby-setup.exe")
+        cmd /c ruby-setup.exe /verysilent
+
+    - name: Install alternative ruby
+      if: matrix.arch == 'x86'
+      shell: powershell
+      run: |
+        $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.4.10-1/rubyinstaller-devkit-2.4.10-1-x64.exe", "$pwd/ruby-setup.exe")
+        cmd /c ruby-setup.exe /verysilent
+
     - name: Update MSYS2
       shell: cmd
       run: C:\msys64\usr\bin\pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
@@ -86,22 +100,22 @@ jobs:
     - name: Build the installer
       shell: cmd
       run: rake ri:ruby-%target_ruby%-%arch% & c:/msys64/usr/bin/gpgconf --homedir /etc/pacman.d/gnupg --kill all
-      
+
     - name: Reuse installed ruby for RubyInstaller-Devkit
       shell: cmd
       run: |
         c:/msys64/usr/bin/mkdir -p packages/ri-msys/recipes/
         c:/msys64/usr/bin/cp -a packages/ri/recipes/unpack packages/ri-msys/recipes/
-      
+
     - name: Build the RubyInstaller-Devkit installer
       shell: cmd
       run: rake ri-msys:ruby-%target_ruby%-%arch%:installer-inno
-      
+
     - name: Run the built Ruby installer and install to c:/ri2-ruby
       shell: cmd
       run: ruby -e "Dir['packages/ri/recipes/installer-inno/rubyinstaller-%target_ruby%*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath,defaultutf8')}"
-      
-    
+
+
     - name: Activate the environment variables set by the installer
       # but exclude git's /usr/bin, because it conflicts with one RubyInstaller test.
       shell: powershell
@@ -110,34 +124,34 @@ jobs:
         $env:RUBYOPT = [Environment]::GetEnvironmentVariable("RUBYOPT","Machine")
         echo "PATH=$env:PATH" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
         echo "RUBYOPT=$env:RUBYOPT" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-      
+
     - name: Verify PATH
       shell: cmd
       run: |
         echo %PATH%
         echo %RUBYOPT%
-      
+
     - name: ridk version
       run: ridk version
-    
+
     - name: Install dependent gems
       shell: cmd
       run: IF "%target_ruby%" LSS "2.6" ( gem update --system && gem install bundler --force )
-    
+
     - name: Remove lock file because bundler version can vary between build and runtime
       shell: cmd
       run: del Gemfile.lock
-      
+
     - run: bundle install
-    
+
     - name: Run all tests against the new installed Ruby
       shell: cmd
       run: rake test
-      
+
     - name: Verify that the used CA list is still the latest.
       shell: cmd
       run: rake ssl:update_check
-      
+
     - name: Run the Ruby Spec Suite
       shell: cmd
       run: |
@@ -147,7 +161,7 @@ jobs:
           git clone --depth 1 https://github.com/ruby/spec &&
           env --unset=RUBYOPT ruby -C spec ../mspec/bin/mspec -I../../tool/lib -j --exclude "Socket.getnameinfo using IPv4 using a 3 element Array as the first argument without custom flags returns an Array containing the hostname and service name" --exclude "Socket.getifaddrs each returned Socket::Ifaddr has an interface index"
         ))
-      
+
     - name: Run the MRI copy of Ruby Spec Suite
       shell: cmd
       run: |
