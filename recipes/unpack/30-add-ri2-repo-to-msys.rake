@@ -9,7 +9,7 @@ file self.repo_added => [File.dirname(self.repo_added)] do |t|
       fd.puts "# Added for RubyInstaller2 packaging by #{__FILE__}"
       fd.puts <<-EOT
 [ci.ri2]
-Server = http://dl.bintray.com/larskanis/rubyinstaller2-packages
+Server = https://github.com/oneclick/rubyinstaller2-packages/releases/download/ci.ri2
       EOT
     end
   end
