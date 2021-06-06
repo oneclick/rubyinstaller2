@@ -8,52 +8,52 @@ jobs:
         include:
         - target_ruby: "3.0.1"
           arch: "x86"
-          build_ruby: "2.7"
+          build_ruby: "2.7.3/x64"
           run_mri_spec: ruby_3_0
 
         - target_ruby: "3.0.1"
           arch: "x64"
-          build_ruby: "2.7"
+          build_ruby: "2.7.3/x64"
           run_mri_spec: ruby_3_0
 
         - target_ruby: "2.7.3"
           arch: "x86"
-          build_ruby: "2.6"
+          build_ruby: "2.6.7/x64"
           run_ruby_spec: true
 
         - target_ruby: "2.7.3"
           arch: "x64"
-          build_ruby: "2.6"
+          build_ruby: "2.6.7/x64"
           run_ruby_spec: true
 
         - target_ruby: "2.6.7"
           arch: "x64"
-          build_ruby: "2.5"
+          build_ruby: "2.5.9/x64"
           run_ruby_spec: true
 
         - target_ruby: "2.5.9"
           arch: "x64"
-          build_ruby: "2.4"
+          build_ruby: "2.4.10/x64"
           run_ruby_spec: true
 
         - target_ruby: "2.6.7"
           arch: "x86"
-          build_ruby: "2.5"
+          build_ruby: "2.5.9/x64"
           run_ruby_spec: true
 
         - target_ruby: "2.5.9"
           arch: "x86"
-          build_ruby: "2.4"
+          build_ruby: "2.4.10/x64"
           run_ruby_spec: true
 
         - target_ruby: "head"
           arch: "x64"
-          build_ruby: "2.6"
+          build_ruby: "2.6.7/x64"
           run_mri_spec: master
 
         - target_ruby: "head"
           arch: "x86"
-          build_ruby: "2.6"
+          build_ruby: "2.6.7/x64"
           run_mri_spec: master
         
     runs-on: windows-latest
@@ -62,13 +62,10 @@ jobs:
       target_ruby: ${{ matrix.target_ruby }}
       run_mri_spec: ${{ matrix.run_mri_spec }}
       run_ruby_spec: ${{ matrix.run_ruby_spec }}
+      PATH: C:/hostedtoolcache/windows/Ruby/${{ matrix.build_ruby }}/bin;c:/Program Files/Git/cmd;c:/Program Files (x86)/Inno Setup 6;c:/Windows/system32;C:/Windows/System32/WindowsPowerShell/v1.0
 
     steps:
     - uses: actions/checkout@v2
-    - uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.build_ruby }}
-
     - run: ruby --version
     - name: stop build not required for release
       shell: cmd
