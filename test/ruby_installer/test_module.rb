@@ -154,8 +154,10 @@ class TestModule < Minitest::Test
     skip unless File.directory?("C:/msys64")
     simulate_no_msysdir do
       RubyInstaller::Runtime.enable_dll_search_paths
-      assert_raises(Fiddle::DLError, "enable_dll_search_paths should succeed, but without effect") do
-        Fiddle.dlopen("libstdc++-6").close
+      unless ENV['RI_FORCE_PATH_FOR_DLL'] == '1' # PATH based DLL search makes reliable anti-pattern impossible
+        assert_raises(Fiddle::DLError, "enable_dll_search_paths should succeed, but without effect") do
+          Fiddle.dlopen("libstdc++-6").close
+        end
       end
     end
   end
