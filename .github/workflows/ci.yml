@@ -65,6 +65,11 @@ jobs:
       PATH: C:/hostedtoolcache/windows/Ruby/${{ matrix.build_ruby }}/bin;c:/Program Files/Git/cmd;c:/Program Files (x86)/Inno Setup 6;c:/Windows/system32;C:/Windows/System32/WindowsPowerShell/v1.0
 
     steps:
+    - name: configure git crlf
+      run: |
+        git config --system core.autocrlf false
+        git config --system core.eol lf
+
     - uses: actions/checkout@v2
     - run: ruby --version
     - name: extract GIT_REF_TAG
@@ -89,14 +94,14 @@ jobs:
       if: matrix.arch == 'x64'
       shell: powershell
       run: |
-        $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.5.9-1/rubyinstaller-devkit-2.5.9-1-x86.exe", "$pwd/ruby-setup.exe")
+        $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.5.9-1/rubyinstaller-2.5.9-1-x86.exe", "$pwd/ruby-setup.exe")
         cmd /c ruby-setup.exe /verysilent
 
     - name: Install alternative ruby
       if: matrix.arch == 'x86'
       shell: powershell
       run: |
-        $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.4.10-1/rubyinstaller-devkit-2.4.10-1-x64.exe", "$pwd/ruby-setup.exe")
+        $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.4.10-1/rubyinstaller-2.4.10-1-x64.exe", "$pwd/ruby-setup.exe")
         cmd /c ruby-setup.exe /verysilent
 
     - name: Update MSYS2
@@ -162,7 +167,7 @@ jobs:
     - name: Run the Ruby Spec Suite
       shell: cmd
       run: |
-        ridk enable
+        call ridk enable
         IF DEFINED run_ruby_spec ( IF NOT DEFINED GIT_REF_TAG (
           git clone --depth 1 https://github.com/ruby/mspec &&
           git clone --depth 1 https://github.com/ruby/spec &&
@@ -172,7 +177,7 @@ jobs:
     - name: Run the MRI copy of Ruby Spec Suite
       shell: cmd
       run: |
-        ridk enable
+        call ridk enable
         IF DEFINED run_mri_spec ( IF NOT DEFINED GIT_REF_TAG (
           git clone --depth 1 https://github.com/ruby/ruby -b %run_mri_spec% &&
           env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -I../../tool/lib -j
@@ -181,7 +186,7 @@ jobs:
     - name: Run upload to github (only on tag builds)
       shell: cmd
       run: |
-        ridk enable
+        call ridk enable
         set DEPLOY_TAG=%GIT_REF_TAG%
         IF "%target_ruby%" EQU "head" (SET DEPLOY_TAG=rubyinstaller-head)
         rake release:appveyor_upload -- packages/ri/recipes/installer-inno/%DEPLOY_TAG%*-%arch%.exe packages/ri/recipes/archive-7z/%DEPLOY_TAG%*-%arch%.7z packages/ri-msys/recipes/installer-inno/ruby*-%target_ruby%*-%arch%.exe

@@ -59,7 +59,8 @@ EOT
   end
 
   def ==(other)
-    remove_comments(content) == remove_comments(other.content)
+    self.class == other.class &&
+      remove_comments(content) == remove_comments(other.content)
   end
 end
 end
