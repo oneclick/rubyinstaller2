@@ -74,6 +74,9 @@ jobs:
           echo.%DEPLOY_TAG% | findstr /C:"%target_ruby%">nul || (echo stop build not required for release & (exit 1))
         )
 
+    - name: ensure bundler is installed on the build ruby
+      run: gem install bundler --conservative --no-doc
+
     - name: Install alternative ruby
       if: matrix.arch == 'x64'
       shell: powershell
