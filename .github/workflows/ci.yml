@@ -67,11 +67,19 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: ruby --version
+    - name: extract GIT_REF_TAG
+      shell: cmd
+      run: ruby -e 'ENV["GITHUB_REF"].sub(/refs\/tags\/(.*)/){ puts "GIT_REF_TAG="+$1 }' >>%GITHUB_ENV%
+
+    - name: show GIT_REF_TAG
+      shell: cmd
+      run: echo %GIT_REF_TAG%
+
     - name: stop build not required for release
       shell: cmd
       run: |
-        IF DEFINED DEPLOY_TAG (
-          echo.%DEPLOY_TAG% | findstr /C:"%target_ruby%">nul || (echo stop build not required for release & (exit 1))
+        IF DEFINED GIT_REF_TAG (
+          echo.%GIT_REF_TAG% | findstr /C:"%target_ruby%">nul || (echo stop build not required for release & (exit 1))
         )
 
     - name: ensure bundler is installed on the build ruby
@@ -151,33 +159,33 @@ jobs:
       shell: cmd
       run: rake test
 
-    - name: Verify that the used CA list is still the latest.
-      shell: cmd
-      run: rake ssl:update_check
-
     - name: Run the Ruby Spec Suite
       shell: cmd
       run: |
         ridk enable
-        IF DEFINED run_ruby_spec ( IF NOT DEFINED GITHUB_REF (
+        IF DEFINED run_ruby_spec ( IF NOT DEFINED GIT_REF_TAG (
           git clone --depth 1 https://github.com/ruby/mspec &&
           git clone --depth 1 https://github.com/ruby/spec &&
-          env --unset=RUBYOPT ruby -C spec ../mspec/bin/mspec -I../../tool/lib -j --exclude "Socket.getnameinfo using IPv4 using a 3 element Array as the first argument without custom flags returns an Array containing the hostname and service name" --exclude "Socket.getifaddrs each returned Socket::Ifaddr has an interface index"
+          env --unset=RUBYOPT ruby -C spec ../mspec/bin/mspec -I../../tool/lib -j
         ))
 
     - name: Run the MRI copy of Ruby Spec Suite
       shell: cmd
       run: |
         ridk enable
-        IF DEFINED run_mri_spec ( IF NOT DEFINED GITHUB_REF (
+        IF DEFINED run_mri_spec ( IF NOT DEFINED GIT_REF_TAG (
           git clone --depth 1 https://github.com/ruby/ruby -b %run_mri_spec% &&
-          env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -I../../tool/lib -j --exclude "Socket.getnameinfo using IPv4 using a 3 element Array as the first argument without custom flags returns an Array containing the hostname and service name"
+          env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -I../../tool/lib -j
         ))
 
     - name: Run upload to github (only on tag builds)
       shell: cmd
       run: |
         ridk enable
-        set DEPLOY_TAG=%GITHUB_REF%
+        set DEPLOY_TAG=%GIT_REF_TAG%
         IF "%target_ruby%" EQU "head" (SET DEPLOY_TAG=rubyinstaller-head)
         rake release:appveyor_upload -- packages/ri/recipes/installer-inno/%DEPLOY_TAG%*-%arch%.exe packages/ri/recipes/archive-7z/%DEPLOY_TAG%*-%arch%.7z packages/ri-msys/recipes/installer-inno/ruby*-%target_ruby%*-%arch%.exe
+
+    - name: Verify that the used CA list is still the latest.
+      shell: cmd
+      run: rake ssl:update_check || (rake ssl:update && git diff)
