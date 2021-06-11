@@ -15,11 +15,11 @@ class RubyPackage < RubyInstaller::Build::Openstruct
 
     case arch
     when 'x64'
-      self.pacman_arch = "mingw-w64-x86_64"
+      self.pacman_arch = self.rubyver2 < "3.1" ? "mingw-w64-x86_64" : "mingw-w64-ucrt-x86_64"
       self.ruby_arch = "x64-mingw32"
       self.msys_arch = "x86_64"
       self.msysdir = "msys64"
-      self.mingwdir = "mingw64"
+      self.mingwdir = self.rubyver2 < "3.1" ? "mingw64" : "ucrt64"
       self.default_instdir = "C:\\Ruby#{rubyver2.gsub(".","")}-x64"
     when 'x86'
       self.pacman_arch = "mingw-w64-i686"

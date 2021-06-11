@@ -1,7 +1,7 @@
 # Move bundled RubyInstaller DLLs to a subdirectory.
 # This avoids interferences with other apps when ruby.exe is in the PATH.
 
-libruby_regex = /msvcrt-ruby\d+\.dll$/i
+libruby_regex = /(msvcrt|ucrt)-ruby\d+\.dll$/i
 bin_dir = File.join(sandboxdir, "bin")
 dlls_dir = File.join(sandboxdir, "bin/ruby_builtin_dlls")
 directory bin_dir

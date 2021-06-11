@@ -21,9 +21,13 @@ module RidkTests
     ENV['PATH'] += ';"c:\\testpath"'
     out = run_output_vars([], ["ridk enable"], %w[PATH MSYSTEM])
 
-    mingw = RUBY_PLATFORM =~ /x64/ ? "MINGW64" : "MINGW32"
-    assert_match(/PATH: .*;C:\\msys64\\#{mingw}\\bin;C:\\msys64\\usr\\bin.*;"c:\\testpath"$/i, out)
-    assert_match(/MSYSTEM: #{mingw}/i, out)
+    msystem = RUBY_PLATFORM =~ /x64/ ?
+                (RUBY_VERSION =~ /^2\.[4567]\.|^3\.0\./ ?
+                  "MINGW64" :
+                  "UCRT64"):
+                "MINGW32"
+    assert_match(/PATH: .*;C:\\msys64\\#{msystem}\\bin;C:\\msys64\\usr\\bin.*;"c:\\testpath"$/i, out)
+    assert_match(/MSYSTEM: #{msystem}/i, out)
   end
 
   def test_ridk_disable
