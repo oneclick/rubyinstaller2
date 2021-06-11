@@ -10,6 +10,9 @@ init:
   - IF DEFINED DEPLOY_TAG (
       echo.%DEPLOY_TAG% | findstr /C:"%target_ruby%">nul || (echo stop build not required for release & (exit 1))
     )
+  # enable long paths on OS level:
+  # https://docs.microsoft.com/en-us/windows/win32/fileio/maximum-file-path-limitation?tabs=powershell
+  - powershell New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "LongPathsEnabled" -Value 1 -PropertyType DWORD -Force
 
 install:
   # Avoid repo.msys2.org since it's down currently
