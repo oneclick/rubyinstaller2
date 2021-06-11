@@ -7,13 +7,11 @@ class TestStdlib < Minitest::Test
     %w[ coverage    Coverage      ],
     %w[ cgi         CGI           ],
     %w[ date        Date          ],
-    %w[ dbm         DBM           ],
     %w[ digest      Digest        ],
     %w[ etc         Etc           ],
     %w[ fcntl       Fcntl         ],
     %w[ fiber       Fiber         ],
     %w[ fiddle      Fiddle        ],
-    %w[ gdbm        GDBM::VERSION ],
     %w[ json        JSON          ],
     %w[ nkf         NKF           ],
     %w[ objspace    ObjectSpace   ],
@@ -48,6 +46,18 @@ class TestStdlib < Minitest::Test
     def test_sdbm
       require "sdbm"
       SDBM
+    end
+  end
+
+  # DBM and GDBM were removed in ruby > 3.0
+  if RUBY_VERSION =~ /^2\.[4567]|^3\.0\./
+    def test_dbm
+      require "dbm"
+      DBM
+    end
+    def test_gdbm
+      require "gdbm"
+      GDBM::VERSION
     end
   end
 
