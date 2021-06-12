@@ -3,7 +3,10 @@ file self.repo_added => [File.dirname(self.repo_added)] do |t|
   msys_path = RubyInstaller::Build.msys2_installation.msys_path
   pacman_conf = File.join(msys_path, "/etc/pacman.conf")
 
-  unless File.read(pacman_conf) =~ /^\[ci\.ri2\]/
+  if File.read(pacman_conf) =~ /^\[ci\.ri2\]/
+    $stderr.puts "pacman repo 'ci.ri2' is already registered"
+  else
+    $stderr.puts "Register pacman repo 'ci.ri2'"
     File.open(pacman_conf, "a+") do |fd|
       fd.puts
       fd.puts "# Added for RubyInstaller2 packaging by #{__FILE__}"
@@ -12,6 +15,7 @@ file self.repo_added => [File.dirname(self.repo_added)] do |t|
 Server = https://github.com/oneclick/rubyinstaller2-packages/releases/download/ci.ri2
       EOT
     end
+    $stderr.puts "Populated #{ pacman_conf }:\n#{ File.read(pacman_conf) }"
   end
 
   # Import our key into the local pacman signature key database.
