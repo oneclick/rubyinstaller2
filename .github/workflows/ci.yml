@@ -202,6 +202,8 @@ jobs:
 
     - name: Run upload to github (only on tag builds)
       shell: cmd
+      env:
+        GPGPASSWD: ${{ secrets.GPGPASSWD }}
       run: |
         call ridk enable
         set DEPLOY_TAG=%GIT_REF_TAG%
