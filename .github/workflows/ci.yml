@@ -113,6 +113,10 @@ jobs:
       shell: cmd
       run: C:\msys64\usr\bin\sed -i "/^#XferCommand.*wget/s/^#//" /etc/pacman.conf
 
+    - name: workaround signature issue on github actions
+      shell: cmd
+      run: C:\msys64\usr\bin\sed -i "/^SigLevel/ s/$/ DatabaseOptional/" /etc/pacman.conf
+
     - name: Update MSYS2
       shell: cmd
       run: C:\msys64\usr\bin\pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
