@@ -1,5 +1,10 @@
 name: CI
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  schedule:
+  - cron:  '0 3 * * *'
+
 jobs:
   build-installer:
     strategy:
@@ -188,7 +193,8 @@ jobs:
         IF DEFINED run_ruby_spec ( IF NOT DEFINED GIT_REF_TAG (
           git clone --depth 1 https://github.com/ruby/mspec && \
           git clone --depth 1 https://github.com/ruby/spec && \
-          env --unset=RUBYOPT ruby -C spec ../mspec/bin/mspec -I../../tool/lib -j
+          SET RUBYOPT=
+          ruby -C spec ../mspec/bin/mspec -I../../tool/lib -j
         ))
 
     - name: Run the MRI copy of Ruby Spec Suite
@@ -197,7 +203,8 @@ jobs:
         call ridk enable
         IF DEFINED run_mri_spec ( IF NOT DEFINED GIT_REF_TAG (
           git clone --depth 1 https://github.com/ruby/ruby -b %run_mri_spec% && \
-          env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -I../../tool/lib -j
+          SET RUBYOPT=
+          ruby -C ruby/spec/ruby ../mspec/bin/mspec -I../../tool/lib -j
         ))
 
     - name: Run upload to github (only on tag builds)
