@@ -169,6 +169,10 @@ jobs:
 
     - run: bundle install
 
+    - name: Install libstdc++ for 'rake test'
+      shell: cmd
+      run: ridk exec sh -c "pacman --noconfirm --sync --needed ${MINGW_PACKAGE_PREFIX}-gcc-libs"
+
     - name: Run all tests against the new installed Ruby
       shell: cmd
       run: rake test
