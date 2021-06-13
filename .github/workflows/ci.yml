@@ -196,8 +196,8 @@ jobs:
         ridk enable
         if (Test-Path env:run_ruby_spec) {
           if (-not (Test-Path env:GIT_REF_TAG)) {
-            git clone --depth 1 https://github.com/ruby/mspec && \
-            git clone --depth 1 https://github.com/ruby/spec && \
+            git clone --depth 1 https://github.com/ruby/mspec &&
+            git clone --depth 1 https://github.com/ruby/spec &&
             env --unset=RUBYOPT ruby -C spec ../mspec/bin/mspec -I../../tool/lib -j
           }
         }
@@ -212,7 +212,7 @@ jobs:
         ridk enable
         if (Test-Path env:run_ruby_spec) {
           if (-not (Test-Path env:GIT_REF_TAG)) {
-            git clone --depth 1 https://github.com/ruby/ruby -b %run_mri_spec% && \
+            git clone --depth 1 https://github.com/ruby/ruby -b %run_mri_spec% &&
             env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -I../../tool/lib -j
           }
         }
