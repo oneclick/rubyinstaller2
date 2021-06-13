@@ -186,32 +186,36 @@ jobs:
       shell: cmd
       run: rake test
 
-    - name: configure
+    - name: Run the Ruby Spec Suite
+      shell: pwsh
       run: |
         # Actions uses UTF8, causes test failures, similar to normal OS setup
         $PSDefaultParameterValues['*:Encoding'] = 'utf8'
         [Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding("IBM437")
         [Console]::InputEncoding  = [System.Text.Encoding]::GetEncoding("IBM437")
-
-
-    - name: Run the Ruby Spec Suite
-      shell: cmd
-      run: |
-        call ridk enable
-        IF DEFINED run_ruby_spec ( IF NOT DEFINED GIT_REF_TAG (
-          git clone --depth 1 https://github.com/ruby/mspec && \
-          git clone --depth 1 https://github.com/ruby/spec && \
-          env --unset=RUBYOPT ruby -C spec ../mspec/bin/mspec -I../../tool/lib -j
-        ))
+        ridk enable
+        if (Test-Path env:run_ruby_spec) {
+          if (-not (Test-Path env:GIT_REF_TAG)) {
+            git clone --depth 1 https://github.com/ruby/mspec && \
+            git clone --depth 1 https://github.com/ruby/spec && \
+            env --unset=RUBYOPT ruby -C spec ../mspec/bin/mspec -I../../tool/lib -j
+          }
+        }
 
     - name: Run the MRI copy of Ruby Spec Suite
-      shell: cmd
+      shell: pwsh
       run: |
-        call ridk enable
-        IF DEFINED run_mri_spec ( IF NOT DEFINED GIT_REF_TAG (
-          git clone --depth 1 https://github.com/ruby/ruby -b %run_mri_spec% && \
-          env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -I../../tool/lib -j
-        ))
+        # Actions uses UTF8, causes test failures, similar to normal OS setup
+        $PSDefaultParameterValues['*:Encoding'] = 'utf8'
+        [Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding("IBM437")
+        [Console]::InputEncoding  = [System.Text.Encoding]::GetEncoding("IBM437")
+        ridk enable
+        if (Test-Path env:run_ruby_spec) {
+          if (-not (Test-Path env:GIT_REF_TAG)) {
+            git clone --depth 1 https://github.com/ruby/ruby -b %run_mri_spec% && \
+            env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -I../../tool/lib -j
+          }
+        }
 
     - name: Run upload to github (only on tag builds)
       shell: cmd
