@@ -197,8 +197,8 @@ jobs:
         [Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding("IBM437")
         [Console]::InputEncoding  = [System.Text.Encoding]::GetEncoding("IBM437")
         ridk enable
-        if (Test-Path env:run_ruby_spec) {
-          if (-not (Test-Path env:GIT_REF_TAG)) {
+        if ([string]::IsNullOrWhiteSpace($env:run_ruby_spec)) {
+          if (-not ([string]::IsNullOrWhiteSpace($env:GIT_REF_TAG))) {
             git clone --depth 1 https://github.com/ruby/mspec &&
             git clone --depth 1 https://github.com/ruby/spec &&
             env --unset=RUBYOPT ruby -C spec ../mspec/bin/mspec -I../../tool/lib -j
@@ -213,8 +213,8 @@ jobs:
         [Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding("IBM437")
         [Console]::InputEncoding  = [System.Text.Encoding]::GetEncoding("IBM437")
         ridk enable
-        if (Test-Path env:run_mri_spec) {
-          if (-not (Test-Path env:GIT_REF_TAG)) {
+        if ([string]::IsNullOrWhiteSpace($env:run_mri_spec)) {
+          if (-not ([string]::IsNullOrWhiteSpace($env:GIT_REF_TAG))) {
             git clone --depth 1 https://github.com/ruby/ruby -b $env:run_mri_spec &&
             env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -I../../tool/lib -j
           }
