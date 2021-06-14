@@ -77,6 +77,7 @@ jobs:
 
     - uses: actions/checkout@v2
     - run: ruby --version
+
     - name: extract GIT_REF_TAG
       shell: cmd
       run: ruby -e 'ENV["GITHUB_REF"].sub(/refs\/tags\/(.*)/){ puts "GIT_REF_TAG="+$1 }' >>%GITHUB_ENV%
@@ -212,7 +213,7 @@ jobs:
         ridk enable
         if (Test-Path env:run_ruby_spec) {
           if (-not (Test-Path env:GIT_REF_TAG)) {
-            git clone --depth 1 https://github.com/ruby/ruby -b %run_mri_spec% &&
+            git clone --depth 1 https://github.com/ruby/ruby -b $env:run_mri_spec &&
             env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -I../../tool/lib -j
           }
         }
