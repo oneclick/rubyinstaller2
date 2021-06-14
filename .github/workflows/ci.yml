@@ -171,7 +171,9 @@ jobs:
 
     - name: Install dependent gems
       shell: cmd
-      run: IF "%target_ruby%" LSS "2.6" ( gem update --system && gem install bundler --force )
+      run: |
+        IF "%target_ruby%" LSS "2.6" ( gem update --system && gem install bundler --force )
+        IF "%target_ruby%" GEQ "3.0" ( gem install webrick --conservative )
 
     - name: Remove lock file because bundler version can vary between build and runtime
       shell: cmd
@@ -211,7 +213,7 @@ jobs:
         [Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding("IBM437")
         [Console]::InputEncoding  = [System.Text.Encoding]::GetEncoding("IBM437")
         ridk enable
-        if (Test-Path env:run_ruby_spec) {
+        if (Test-Path env:run_mri_spec) {
           if (-not (Test-Path env:GIT_REF_TAG)) {
             git clone --depth 1 https://github.com/ruby/ruby -b $env:run_mri_spec &&
             env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -I../../tool/lib -j
