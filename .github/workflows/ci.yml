@@ -189,37 +189,6 @@ jobs:
       shell: cmd
       run: rake test
 
-    - name: Run the Ruby Spec Suite
-      shell: pwsh
-      run: |
-        # Actions uses UTF8, causes test failures, similar to normal OS setup
-        $PSDefaultParameterValues['*:Encoding'] = 'utf8'
-        [Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding("IBM437")
-        [Console]::InputEncoding  = [System.Text.Encoding]::GetEncoding("IBM437")
-        ridk enable
-        if ([string]::IsNullOrWhiteSpace($env:run_ruby_spec)) {
-          if (-not ([string]::IsNullOrWhiteSpace($env:GIT_REF_TAG))) {
-            git clone --depth 1 https://github.com/ruby/mspec &&
-            git clone --depth 1 https://github.com/ruby/spec &&
-            env --unset=RUBYOPT ruby -C spec ../mspec/bin/mspec -I../../tool/lib -j
-          }
-        }
-
-    - name: Run the MRI copy of Ruby Spec Suite
-      shell: pwsh
-      run: |
-        # Actions uses UTF8, causes test failures, similar to normal OS setup
-        $PSDefaultParameterValues['*:Encoding'] = 'utf8'
-        [Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding("IBM437")
-        [Console]::InputEncoding  = [System.Text.Encoding]::GetEncoding("IBM437")
-        ridk enable
-        if ([string]::IsNullOrWhiteSpace($env:run_mri_spec)) {
-          if (-not ([string]::IsNullOrWhiteSpace($env:GIT_REF_TAG))) {
-            git clone --depth 1 https://github.com/ruby/ruby -b $env:run_mri_spec &&
-            env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -I../../tool/lib -j
-          }
-        }
-
     - name: Run upload to github (only on tag builds)
       shell: cmd
       env:
@@ -231,6 +200,33 @@ jobs:
         set DEPLOY_TAG=%GIT_REF_TAG%
         IF "%target_ruby%" EQU "head" (SET DEPLOY_TAG=rubyinstaller-head)
         rake release:appveyor_upload -- packages/ri/recipes/installer-inno/%DEPLOY_TAG%*-%arch%.exe packages/ri/recipes/archive-7z/%DEPLOY_TAG%*-%arch%.7z packages/ri-msys/recipes/installer-inno/ruby*-%target_ruby%*-%arch%.exe
+
+    - name: Run the Ruby Spec Suite
+      shell: pwsh
+      run: |
+        # Actions uses UTF8, causes test failures, similar to normal OS setup
+        $PSDefaultParameterValues['*:Encoding'] = 'utf8'
+        [Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding("IBM437")
+        [Console]::InputEncoding  = [System.Text.Encoding]::GetEncoding("IBM437")
+        ridk enable
+        if (-not ([string]::IsNullOrWhiteSpace($env:run_ruby_spec))) {
+          git clone --depth 1 https://github.com/ruby/mspec &&
+          git clone --depth 1 https://github.com/ruby/spec &&
+          env --unset=RUBYOPT ruby -C spec ../mspec/bin/mspec -I../../tool/lib -j
+        }
+
+    - name: Run the MRI copy of Ruby Spec Suite
+      shell: pwsh
+      run: |
+        # Actions uses UTF8, causes test failures, similar to normal OS setup
+        $PSDefaultParameterValues['*:Encoding'] = 'utf8'
+        [Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding("IBM437")
+        [Console]::InputEncoding  = [System.Text.Encoding]::GetEncoding("IBM437")
+        ridk enable
+        if (-not ([string]::IsNullOrWhiteSpace($env:run_mri_spec))) {
+          git clone --depth 1 https://github.com/ruby/ruby -b $env:run_mri_spec &&
+          env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -I../../tool/lib -j
+        }
 
     - name: Verify that the used CA list is still the latest.
       shell: cmd
