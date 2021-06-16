@@ -49,4 +49,20 @@ class TestExecutables < Minitest::Test
     system(%q[rubyw -e "File.write('test_rubyw.log','xy')"])
     assert_equal("xy", File.read("test_rubyw.log"))
   end
+
+  unless RUBY_VERSION =~ /^2\.[3456]\./
+    def test_rbs
+      assert_match(/racc.*\d+\.\d+\.\d+/, `racc --version`)
+    end
+  end
+
+  unless RUBY_VERSION =~ /^2\.[34567]\./
+    def test_rbs
+      assert_match(/rbs.*\d+\.\d+\.\d+/, `rbs --version`)
+    end
+
+    def test_typeprof
+      assert_match(/typeprof.*\d+\.\d+\.\d+/, `typeprof --version`)
+    end
+  end
 end
