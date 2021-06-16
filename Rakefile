@@ -117,7 +117,7 @@ namespace "release" do
       require "ruby_installer/build"
       RubyInstaller::Build.enable_msys_apps
 
-      sh "c:/msys64/usr/bin/mkdir -p /c/Users/appveyor/.gnupg"
+      sh "c:/msys64/usr/bin/mkdir -p %USERPROFILE%/.gnupg"
       sh "gpg --batch --passphrase %GPGPASSWD% --decrypt appveyor-key.asc.asc | gpg --import"
       sh "c:/msys64/usr/bin/mkdir artifacts"
       sh "cp", "-v", *files, "artifacts/"
