@@ -115,10 +115,6 @@ jobs:
         $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.4.10-1/rubyinstaller-2.4.10-1-x64.exe", "$pwd/ruby-setup.exe")
         cmd /c ruby-setup.exe /verysilent
 
-    - name: switch pacman to wget
-      shell: cmd
-      run: C:\msys64\usr\bin\sed -i "/^#XferCommand.*wget/s/^#//" /etc/pacman.conf
-
     - name: workaround signature issue on github actions
       shell: cmd
       run: C:\msys64\usr\bin\sed -i "/^SigLevel/ s/$/ DatabaseOptional/" /etc/pacman.conf
