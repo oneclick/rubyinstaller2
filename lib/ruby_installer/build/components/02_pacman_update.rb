@@ -15,13 +15,13 @@ class PacmanUpdate < Base
 
     msys.with_msys_apps_enabled do
       puts "Check msys2-keyring version:"
-      IO.popen(%w[pacman -Q msys2-keyring>=r21], err: :out, &:read)
+      IO.popen(%w[pacman -Q msys2-keyring>=1~20210213-2], err: :out, &:read)
       if $?.success?
         puts green(" -> up-to-date")
       else
         puts yellow(" -> Update keyring according to https://www.msys2.org/news/#2020-06-29-new-packagers")
 
-        tar_path = File.join(builtin_packages_dir, "msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz")
+        tar_path = File.join(builtin_packages_dir, "msys2-keyring-1~20210213-2-any.pkg.tar.zst")
         tf = Tempfile.new
         run_verbose("pacman", "-U", "--noconfirm", "--config", tf.path, tar_path)
       end
