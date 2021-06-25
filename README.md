@@ -76,13 +76,13 @@ Also refer the [FAQ](https://github.com/larskanis/rubyinstaller2/wiki/FAQ) for a
 This repository provides the packaging tasks to build RubyInstaller setup executables and 7zip files.
 It doesn't compile any sources, but makes use of the [MSYS2-MINGW repository](https://github.com/Alexpux/MINGW-packages) and the [RubyInstaller2 pacman repository](https://github.com/oneclick/rubyinstaller2-packages) to download binaries and dependent libraries.
 
-### Automatic build on Appveyor
+### Automatic build on Github Actions
 
-The installer is regularly built on [AppVeyor](https://ci.appveyor.com/project/larskanis/rubyinstaller2-hbuor) for each push to the github repository.
-AppVeyor also executes the installer and runs all tests on it, so that we are notified about breaking changes.
+The installer is regularly built on [Github Actions](https://github.com/oneclick/rubyinstaller2/actions) for each push to the github repository.
+The runner also executes the installer and runs all RubyInstaller tests and [ruby-spec](https://github.com/ruby/spec) on it, so that we are notified about breaking changes.
 In addition to this, a daily build of the latest ruby development snapshot is compiled and packaged as RubyInstaller files.
-It can be downloaded from [github releases](https://github.com/oneclick/rubyinstaller2/releases/tag/rubyinstaller-head) or from [AppVeyor](https://ci.appveyor.com/project/larskanis/rubyinstaller2-hbuor) as build artifacts.
-Check the wiki on how to use [ruby-head versions on Appveyor](https://github.com/oneclick/rubyinstaller2/wiki/For-gem-developers#user-content-appveyor) for your CI builds.
+It can be downloaded from [github releases](https://github.com/oneclick/rubyinstaller2/releases/tag/rubyinstaller-head).
+Check the [wiki on how to use](https://github.com/oneclick/rubyinstaller2/wiki/For-gem-developers#user-content-appveyor) ruby-head versions for your CI builds.
 
 
 ### Build RubyInstaller2 on your own machine:
