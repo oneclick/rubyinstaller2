@@ -100,6 +100,22 @@ EOT
   def q_inno(text)
     '"' + text.to_s.gsub('"', '""') + '"'
   end
+
+  def file(name, *args, &block)
+    name = name.keys.first if name.is_a?(Hash)
+    if block &&
+        Rake::Task.task_defined?(name) &&
+        Rake::Task[name].instance_variable_get('@task_block_location') == block.source_location
+      # task is already defined for this target and the same block
+      # So skip double definition of the same action
+    elsif block
+      Rake::Task[name].instance_variable_set('@task_block_location', block.source_location)
+      super
+    else
+      super
+    end
+  end
+
 end
 end
 end
