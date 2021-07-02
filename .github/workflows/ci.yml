@@ -12,52 +12,57 @@ jobs:
       matrix:
         include:
         - target_ruby: "3.0.1"
-          arch: "x86"
+          arch: "x86-msvcrt"
           build_ruby: "2.7.3/x64"
           run_mri_spec: ruby_3_0
 
         - target_ruby: "3.0.1"
-          arch: "x64"
+          arch: "x64-msvcrt"
           build_ruby: "2.7.3/x64"
           run_mri_spec: ruby_3_0
 
         - target_ruby: "2.7.3"
-          arch: "x86"
+          arch: "x86-msvcrt"
           build_ruby: "2.6.7/x64"
           run_ruby_spec: true
 
         - target_ruby: "2.7.3"
-          arch: "x64"
+          arch: "x64-msvcrt"
           build_ruby: "2.6.7/x64"
           run_ruby_spec: true
 
         - target_ruby: "2.6.7"
-          arch: "x64"
+          arch: "x64-msvcrt"
           build_ruby: "2.5.9/x64"
           run_ruby_spec: true
 
         - target_ruby: "2.5.9"
-          arch: "x64"
+          arch: "x64-msvcrt"
           build_ruby: "2.4.10/x64"
           run_ruby_spec: true
 
         - target_ruby: "2.6.7"
-          arch: "x86"
+          arch: "x86-msvcrt"
           build_ruby: "2.5.9/x64"
           run_ruby_spec: true
 
         - target_ruby: "2.5.9"
-          arch: "x86"
+          arch: "x86-msvcrt"
           build_ruby: "2.4.10/x64"
           run_ruby_spec: true
 
         - target_ruby: "head"
-          arch: "x64"
+          arch: "x64-ucrt"
           build_ruby: "2.6.7/x64"
           run_mri_spec: master
 
         - target_ruby: "head"
-          arch: "x86"
+          arch: "x64-msvcrt"
+          build_ruby: "2.6.7/x64"
+          run_mri_spec: master
+
+        - target_ruby: "head"
+          arch: "x86-msvcrt"
           build_ruby: "2.6.7/x64"
           run_mri_spec: master
 
@@ -102,14 +107,14 @@ jobs:
       run: gem install bundler --conservative --no-doc
 
     - name: Install alternative ruby
-      if: matrix.arch == 'x64'
+      if: matrix.arch == 'x64-msvcrt' || matrix.arch == 'x64-ucrt'
       shell: powershell
       run: |
         $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.5.9-1/rubyinstaller-2.5.9-1-x86.exe", "$pwd/ruby-setup.exe")
         cmd /c ruby-setup.exe /verysilent
 
     - name: Install alternative ruby
-      if: matrix.arch == 'x86'
+      if: matrix.arch == 'x86-msvcrt'
       shell: powershell
       run: |
         $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.4.10-1/rubyinstaller-2.4.10-1-x64.exe", "$pwd/ruby-setup.exe")
@@ -144,7 +149,7 @@ jobs:
 
     - name: Run the built Ruby installer and install to c:/ri2-ruby
       shell: cmd
-      run: ruby -e "Dir['packages/ri/recipes/installer-inno/rubyinstaller-%target_ruby%*-%arch%.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath,defaultutf8')}"
+      run: ruby -e "Dir['packages/ri/recipes/installer-inno/rubyinstaller-%target_ruby%*.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath,defaultutf8')}"
 
 
     - name: Activate the environment variables set by the installer
@@ -195,7 +200,7 @@ jobs:
         call ridk enable
         set DEPLOY_TAG=%GIT_REF_TAG%
         IF "%target_ruby%" EQU "head" (SET DEPLOY_TAG=rubyinstaller-head)
-        rake release:appveyor_upload -- packages/ri/recipes/installer-inno/%DEPLOY_TAG%*-%arch%.exe packages/ri/recipes/archive-7z/%DEPLOY_TAG%*-%arch%.7z packages/ri-msys/recipes/installer-inno/ruby*-%target_ruby%*-%arch%.exe
+        rake release:appveyor_upload -- packages/ri/recipes/installer-inno/%DEPLOY_TAG%*.exe packages/ri/recipes/archive-7z/%DEPLOY_TAG%*.7z packages/ri-msys/recipes/installer-inno/ruby*-%target_ruby%*.exe
 
     - name: Run the Ruby Spec Suite
       shell: pwsh

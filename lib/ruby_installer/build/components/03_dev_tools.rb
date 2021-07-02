@@ -51,13 +51,13 @@ class DevTools < Base
   PACKAGES = {
     'mingw32' => PACKAGES_MINGW32,
     'mingw64' => PACKAGES_MINGW64,
-    # 'ucrt64' => PACKAGES_UCRT64,
+    'ucrt64' => PACKAGES_MINGW64,
   }
 
   def execute(args)
     msys.with_msys_apps_enabled do
       puts "Install #{description} ..."
-      packages = PACKAGES[msys.mingwarch].map do |package|
+      packages = PACKAGES.fetch(msys.mingwarch).map do |package|
         package.sub(/^mingw-w64/, msys.mingw_package_prefix)
       end
       res = run_verbose("pacman", "-S", *pacman_args, *packages)

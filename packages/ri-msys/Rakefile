@@ -14,32 +14,47 @@ class RubyPackage < RubyInstaller::Build::Openstruct
     self.rubyver2 = packagever=='head' ? "3.1" : rubyver[/^\d+\.\d+/]
 
     case arch
-    when 'x64'
-      self.pacman_arch = self.rubyver2 < "3.1" ? "mingw-w64-x86_64" : "mingw-w64-ucrt-x86_64"
+    when 'x64-ucrt'
+      self.pacman_arch = "mingw-w64-ucrt-x86_64"
+      self.ruby_arch = "x64-mingw-ucrt"
+      self.msys_arch = "x86_64"
+      self.msysdir = "msys64"
+      self.mingwdir = "ucrt64"
+      packagenamearch = self.rubyver2 < "3.1" ? "x64-ucrt" : "x64"
+      self.default_instdir = "C:\\Ruby#{rubyver2.gsub(".","")}-x64"
+    when 'x64-msvcrt'
+      self.pacman_arch = "mingw-w64-x86_64"
       self.ruby_arch = "x64-mingw32"
       self.msys_arch = "x86_64"
       self.msysdir = "msys64"
-      self.mingwdir = self.rubyver2 < "3.1" ? "mingw64" : "ucrt64"
-      self.default_instdir = "C:\\Ruby#{rubyver2.gsub(".","")}-x64"
-    when 'x86'
+      self.mingwdir = "mingw64"
+      packagenamearch = self.rubyver2 < "3.1" ? "x64" : "x64-msvcrt"
+      self.default_instdir = "C:\\Ruby#{rubyver2.gsub(".","")}-#{packagenamearch}"
+    when 'x86-msvcrt'
       self.pacman_arch = "mingw-w64-i686"
       self.ruby_arch = "i386-mingw32"
       self.msys_arch = "i686"
       self.msysdir = "msys32"
       self.mingwdir = "mingw32"
+      packagenamearch = "x86"
       self.default_instdir = "C:\\Ruby#{rubyver2.gsub(".","")}"
     else
       raise "invalid arch #{arch}"
     end
 
-    self.packagenameverarch = "#{packagename}-#{ packagever=='head' ? 'head' : packagever }-#{arch}"
+    self.packagenameverarch = "#{packagename}-#{ packagever=='head' ? 'head' : packagever }-#{packagenamearch}"
     self.pacman_ruby = "#{pacman_arch}-ruby#{ packagever=='head' ? '-head' : "#{rubyver2.gsub(".","")}=#{rubyver}" }"
   end
 end
 
 ovl_glob('recipes/*/task.rake').each{|f| load(ovl_expand_file(f)) }
 
-ruby_arch_packages = %w[x64 x86].map do |arch|
+ruby_arch_packages = %w[x64-ucrt].map do |arch|
+  %w[head].map do |packagever|
+    RubyPackage.new( packagever: packagever, arch: arch, rootdir: __dir__ ).freeze
+  end
+end
+ruby_arch_packages += %w[x64-msvcrt x86-msvcrt].map do |arch|
   %w[2.4.10-2 2.5.9-1 2.6.7-1 2.7.3-1 3.0.1-1 head].map do |packagever|
     RubyPackage.new( packagever: packagever, arch: arch, rootdir: __dir__ ).freeze
   end
@@ -48,7 +63,7 @@ end
 ruby_arch_packages.each do |ruby_packages|
   # Define MSYS2 installation tasks only once per arch and reuse it for different ruby versions.
   msys2 = nil
-  namespace "msys2-#{ruby_packages.first.msys_arch}" do
+  namespace "msys2-#{ruby_packages.first.pacman_arch}" do
     msys2 = RubyInstaller::Build::Task.new( thisdir: "recipes/msys2", package: ruby_packages.first )
   end
 
