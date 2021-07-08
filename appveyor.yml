@@ -106,58 +106,44 @@ environment:
   DEPLOY_TOKEN:
     secure: HIQ7Ovn+zMKskPWhnlYGvQMvdLPlZB5lhn62wzw0AUSno8UfntuTgFmPvS1pUwOW
   matrix:
-    - target_ruby: "3.0.1"
+    - target_ruby: "3.0.2"
       arch: "x86"
       build_ruby: "27"
       MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
       MSYSTEM: "MINGW32"
       run_mri_spec: ruby_3_0
 
-    - target_ruby: "3.0.1"
+    - target_ruby: "3.0.2"
       arch: "x64"
       build_ruby: "27"
       MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
       MSYSTEM: "MINGW64"
       run_mri_spec: ruby_3_0
 
-    - target_ruby: "2.7.3"
+    - target_ruby: "2.7.4"
       arch: "x86"
       build_ruby: "26"
       MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
       MSYSTEM: "MINGW32"
       run_ruby_spec: true
 
-    - target_ruby: "2.7.3"
+    - target_ruby: "2.7.4"
       arch: "x64"
       build_ruby: "26"
       MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
       MSYSTEM: "MINGW64"
       run_ruby_spec: true
 
-    - target_ruby: "2.6.7"
+    - target_ruby: "2.6.8"
       arch: "x64"
       build_ruby: "25"
       MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
       MSYSTEM: "MINGW64"
       run_ruby_spec: true
 
-    - target_ruby: "2.5.9"
-      arch: "x64"
-      build_ruby: "24"
-      MINGW_PACKAGE_PREFIX: "mingw-w64-x86_64"
-      MSYSTEM: "MINGW64"
-      run_ruby_spec: true
-
-    - target_ruby: "2.6.7"
+    - target_ruby: "2.6.8"
       arch: "x86"
       build_ruby: "25"
-      MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
-      MSYSTEM: "MINGW32"
-      run_ruby_spec: true
-
-    - target_ruby: "2.5.9"
-      arch: "x86"
-      build_ruby: "24"
       MINGW_PACKAGE_PREFIX: "mingw-w64-i686"
       MSYSTEM: "MINGW32"
       run_ruby_spec: true
