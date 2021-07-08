@@ -133,10 +133,18 @@ jobs:
       shell: cmd
       run: rake ri-msys:ruby-%target_ruby%-%arch%:installer-inno
 
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: installer packages
+        path: |
+          packages/ri/recipes/archive-7z/*.7z
+          packages/ri/recipes/installer-inno/*.exe
+          packages/ri-msys/recipes/installer-inno/*.exe
+
     - name: Run the built Ruby installer and install to c:/ri2-ruby
       shell: cmd
       run: ruby -e "Dir['packages/ri-msys/recipes/installer-inno/rubyinstaller-devkit-%target_ruby%*.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath,defaultutf8')}"
-
 
     - name: Activate the environment variables set by the installer
       # but exclude git's /usr/bin, because it conflicts with one RubyInstaller test.
