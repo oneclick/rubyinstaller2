@@ -114,10 +114,6 @@ jobs:
       shell: cmd
       run: C:\msys64\usr\bin\sed -i "/^SigLevel/ s/$/ DatabaseOptional/" /etc/pacman.conf
 
-    - name: Update MSYS2
-      shell: cmd
-      run: C:\msys64\usr\bin\pacman --noconfirm --ask 20 --sync --refresh --refresh --sysupgrade --sysupgrade
-
     - name: Kill all running msys2 binaries to avoid error "size of shared memory region changed".
       shell: powershell
       # See https://github.com/msys2/MSYS2-packages/issues/258
