@@ -16,7 +16,7 @@ module RidkTests
   end
 
   def test_ridk_enable
-    skip unless File.directory?("C:/msys64")
+    skip unless File.directory?(msys_path)
 
     ENV['PATH'] += ';"c:\\testpath"'
     out = run_output_vars([], ["ridk enable"], %w[PATH MSYSTEM])
@@ -26,16 +26,16 @@ module RidkTests
       when "x64-mingw-ucrt" then "UCRT64"
       when "i386-mingw32" then "MINGW32"
     end
-    assert_match(/PATH: .*;C:\\msys64\\#{msystem}\\bin;C:\\msys64\\usr\\bin.*;"c:\\testpath"$/i, out)
+    assert_match(/PATH: .*;#{Regexp.escape(msys_path)}\\#{msystem}\\bin;#{Regexp.escape(msys_path)}\\usr\\bin.*;"c:\\testpath"$/i, out)
     assert_match(/MSYSTEM: #{msystem}/i, out)
   end
 
   def test_ridk_disable
-    skip unless File.directory?("C:/msys64")
+    skip unless File.directory?(msys_path)
 
     out = run_output_vars([], ["ridk enable", "ridk disable"], %w[PATH MSYSTEM])
 
-    refute_operator out.downcase, :include?, "c:\\msys64", "msys should be removed from the PATH"
+    refute_operator out.downcase, :include?, msys_path, "msys should be removed from the PATH"
     assert_operator out.downcase, :include?, "msystem: \n", "msystem should get deleted"
   end
 
@@ -54,7 +54,7 @@ module RidkTests
   end
 
   def test_ridk_version
-    skip unless File.directory?("C:/msys64")
+    skip unless File.directory?(msys_path)
 
     out = run_capture_output "ridk version"
     y = YAML.load(out)
@@ -64,10 +64,10 @@ module RidkTests
     assert_equal RUBY_PLATFORM, y["ruby"]["platform"]
     refute_nil y["ruby_installer"]["package_version"]
     refute_nil y["ruby_installer"]["git_commit"]
-    assert_match(/gcc/, y["cc"])
-    assert_match(/bash/, y["sh"])
+    assert_match(/gcc.*MSYS2/, y["cc"])
+    assert_match(/bash.*pc-msys/, y["sh"])
     assert_match(/windows/i, y["os"])
-    assert_equal "c:\\msys64", y["msys2"]["path"].downcase
+    assert_equal msys_path, y["msys2"]["path"].downcase
     skip "Appveyors MSYS version is too old to have a components.xml" if ENV['APPVEYOR'] || ENV['GITHUB_ACTION']
     assert_match(/MSYS/, y["msys2"]["title"])
     assert_match(/\d/, y["msys2"]["version"])
@@ -81,7 +81,7 @@ module RidkTests
 
     assert_equal RUBY_VERSION, y["ruby"]["version"]
     assert_equal RUBY_PLATFORM, y["ruby"]["platform"]
-    assert_match(/gcc/, y["ruby"]["cc"])
+    assert_match(/gcc.*MSYS2/, y["ruby"]["cc"] || y["cc"])
     refute_nil y["ruby_installer"]["package_version"]
     refute_nil y["ruby_installer"]["git_commit"]
     assert_nil y["msys2"]

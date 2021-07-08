@@ -135,7 +135,7 @@ jobs:
 
     - name: Run the built Ruby installer and install to c:/ri2-ruby
       shell: cmd
-      run: ruby -e "Dir['packages/ri/recipes/installer-inno/rubyinstaller-%target_ruby%*.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath,defaultutf8')}"
+      run: ruby -e "Dir['packages/ri-msys/recipes/installer-inno/rubyinstaller-devkit-%target_ruby%*.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath,defaultutf8')}"
 
 
     - name: Activate the environment variables set by the installer
@@ -156,6 +156,13 @@ jobs:
     - name: ridk version
       run: ridk version
 
+    - name: ridk install
+      run: ridk install 1 3
+
+    - name: create MSYS2 home dir for ruby-spec
+      shell: cmd
+      run: ridk exec sh -c "mkdir -pv ~"
+
     - name: Install dependent gems
       shell: cmd
       run: |
@@ -174,7 +181,7 @@ jobs:
 
     - name: Run all tests against the new installed Ruby
       shell: cmd
-      run: rake test
+      run: ridk exec rake test
 
     - name: Run upload to github (only on tag builds)
       shell: cmd

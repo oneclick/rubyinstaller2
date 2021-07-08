@@ -58,9 +58,9 @@ class TestModule < Minitest::Test
 
   # The following tests require that MSYS2 is installed on c:/msys64 per MSYS2-installer.
   def test_enable_msys_apps_with_msys_installed
-    skip unless File.directory?("C:/msys64")
+    skip unless File.directory?(msys_path)
     RubyInstaller::Runtime.disable_msys_apps
-    refute_operator ENV['PATH'].downcase, :include?, "c:\\msys64", "msys in the path at the start of the test"
+    refute_operator ENV['PATH'].downcase, :include?, msys_path, "msys in the path at the start of the test"
 
     out, _err = capture_subprocess_io do
       system("touch", "--version")
@@ -68,8 +68,8 @@ class TestModule < Minitest::Test
     refute_match(/GNU coreutils/, out, "touch.exe shoudn't be in the path after disable_msys_apps")
 
     RubyInstaller::Runtime.enable_msys_apps
-    assert_operator ENV['PATH'].downcase, :include?, "c:\\msys64", "msys should be in the path after enable_msys_apps"
-    assert_equal "c:\\msys64", ENV['RI_DEVKIT'].downcase, "enable_msys_apps should set RI_DEVKIT"
+    assert_operator ENV['PATH'].downcase, :include?, msys_path, "msys should be in the path after enable_msys_apps"
+    assert_equal msys_path, ENV['RI_DEVKIT'].downcase, "enable_msys_apps should set RI_DEVKIT"
     msystem = case RUBY_PLATFORM
       when "x64-mingw32" then "MINGW64"
       when "x64-mingw-ucrt" then "UCRT64"
@@ -84,20 +84,20 @@ class TestModule < Minitest::Test
     assert_match(/GNU coreutils/, out, "touch.exe shoud be found after enable_msys_apps")
 
     RubyInstaller::Runtime.disable_msys_apps
-    refute_operator ENV['PATH'].downcase, :include?, "c:\\msys64", "no msys in the path after disable_msys_apps"
+    refute_operator ENV['PATH'].downcase, :include?, msys_path, "no msys in the path after disable_msys_apps"
     assert_nil ENV['RI_DEVKIT']
     assert_nil ENV['MSYSTEM']
   end
 
   def test_enable_msys_apps_without_msys_installed
-    skip unless File.directory?("C:/msys64")
+    skip unless File.directory?(msys_path)
     simulate_no_msysdir do
       assert_raises(SystemExit, "should exit if no msys found") do
         assert_output(nil, /MSYS2 could not be found/) do
           RubyInstaller::Runtime.enable_msys_apps
         end
       end
-      refute_operator File, :exist?, "c:\\msys64", "simulate_no_msysdir should rename c:/msys64"
+      refute_operator File, :exist?, msys_path, "simulate_no_msysdir should rename c:/msys64"
     end
   end
 
@@ -135,7 +135,7 @@ class TestModule < Minitest::Test
   end
 
   def test_enable_dll_search_paths_with_msys_installed
-    skip unless File.directory?("C:/msys64")
+    skip unless File.directory?(msys_path)
     remove_mingwdir
     vars1 = %w[PATH RI_DEVKIT MSYSTEM].map{|var| ENV[var] }
 
@@ -156,7 +156,7 @@ class TestModule < Minitest::Test
   end
 
   def test_enable_dll_search_paths_without_msys_installed
-    skip unless File.directory?("C:/msys64")
+    skip unless File.directory?(msys_path)
     simulate_no_msysdir do
       RubyInstaller::Runtime.enable_dll_search_paths
       unless ENV['RI_FORCE_PATH_FOR_DLL'] == '1' # PATH based DLL search makes reliable anti-pattern impossible
