@@ -78,8 +78,5 @@ ruby_arch_packages.each do |ruby_packages|
 
     desc "Build all for #{nsp}"
     task nsp => ["#{nsp}:installer-inno", "#{nsp}:archive-7z"]
-
-    desc "Build installers for all rubies"
-    task :default => nsp
   end
 end

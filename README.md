@@ -94,17 +94,32 @@ Check the [wiki on how to use](https://github.com/oneclick/rubyinstaller2/wiki/F
   ```sh
     set PATH=%PATH%;"c:\Program Files (x86)\Inno Setup 6"
   ```
-- Clone RubyInstaller2 and build all RubyInstaller versions for x86 and x64:
+- Clone RubyInstaller2 and install dependencies:
   ```sh
     git clone https://github.com/larskanis/rubyinstaller2
     cd rubyinstaller2
     bundle install
-    bundle exec rake
+    rake -T
   ```
-- If everything works well, you will find the final setup and archive files: 
-  * `packages/rubyinstaller/recipes/installer-inno/rubyinstaller-<VERSION>-<ARCH>.exe`
-  * `packages/rubyinstaller/recipes/archive-7z/rubyinstaller-<VERSION>-<ARCH>.7z`
-- Also try `rake -T` to see the available build targets.
+- The last command lists all available RubyInstaller build targets.
+  The build targets consists of the following parts:
+  ```
+    rake ri:ruby-3.0.2-x86-msvcrt:archive-7z
+          ^      ^      ^    ^        ^- "archive-7z"     => 7z archive of the rubyinstaller files
+          |      |      |    |           "installer-inno" => executable installer file
+          |      |      |    '------- "msvcrt" => older type of C standard library
+          |      |      |             "ucrt"   => new type of C standard library
+          |      |      '------- "x86" => 32 bit ruby and MSYS2 version
+          |      |               "x64" => 64 bit version
+          |      '------ "x.x.x" => ruby version to build
+          |              "head"  => latest development snapshot of ruby
+          '------ "ri"      => RubyInstaller without Devkit
+                  "ri-msys" => RubyInstaller with MSYS2 based Devkit
+  ```
+- Copy and paste the interesting one on the command line.
+- If everything works well, you will find the final setup and archive files like so: 
+  * `packages/ri-msys/recipes/installer-inno/rubyinstaller-devkit-<VERSION>-<ARCH>.exe`
+  * `packages/ri/recipes/archive-7z/rubyinstaller-<VERSION>-<ARCH>.7z`
 
 
 ## Known Issues
