@@ -1,3 +1,17 @@
+## RubyInstaller-2.6.8-1 - 2020-07-09
+
+### Added
+- Enable ruby to support path length >260 characters.
+  See https://github.com/oneclick/rubyinstaller2/commit/829ab9d9798d180655b6b336797b1087bfa82f5c
+
+### Changed
+- Update to ruby-2.6.8, see [release notes](https://www.ruby-lang.org/en/news/2021/07/07/ruby-2-6-8-released/).
+- Update of the SSL CA certificate list.
+- Move CI and and release builds from Appveyor to Github Actions.
+- Move RunInstaller's pacman repository from Bintray to Github Releases.
+- Update bundled gpg keyring file for pacman to support new MSYS2 package signatures.
+
+
 ## RubyInstaller-2.6.7-1 - 2020-04-19
 
 ### Added
