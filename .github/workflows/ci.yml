@@ -71,15 +71,22 @@ jobs:
         git config --system core.eol lf
 
     - uses: actions/checkout@v2
-    - run: ruby --version
 
+    # Work around issue https://github.com/actions/checkout/issues/290
+    - name: fetch tag annotations
+      run: git fetch --force --tags
+
+    - run: ruby --version
     - name: extract GIT_REF_TAG
       shell: cmd
       run: ruby -e 'ENV["GITHUB_REF"].sub(/refs\/tags\/(.*)/){ puts "GIT_REF_TAG="+$1 }' >>%GITHUB_ENV%
 
     - name: show GIT_REF_TAG
       shell: cmd
-      run: echo %GIT_REF_TAG%
+      run: |
+        echo "%GIT_REF_TAG%"
+        git tag -l "%GIT_REF_TAG%" "--format=%%(subject)"
+        git tag -l "%GIT_REF_TAG%" "--format=%%(body)"
 
     - name: stop build not required for release
       shell: cmd
