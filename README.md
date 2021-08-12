@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/kq2b5dqv9ay132a2/branch/master?svg=true)](https://ci.appveyor.com/project/larskanis/rubyinstaller2-hbuor/branch/master)
+[![CI build status](https://github.com/oneclick/rubyinstaller2/actions/workflows/ci.yml/badge.svg)](https://github.com/oneclick/rubyinstaller2/actions/workflows/ci.yml)
 
 # RubyInstaller2
 
@@ -117,7 +117,7 @@ Check the [wiki on how to use](https://github.com/oneclick/rubyinstaller2/wiki/F
                   "ri-msys" => RubyInstaller with MSYS2 based Devkit
   ```
 - Copy and paste the interesting one on the command line.
-- If everything works well, you will find the final setup and archive files like so: 
+- If everything works well, you will find the final setup and archive files like so:
   * `packages/ri-msys/recipes/installer-inno/rubyinstaller-devkit-<VERSION>-<ARCH>.exe`
   * `packages/ri/recipes/archive-7z/rubyinstaller-<VERSION>-<ARCH>.7z`
 
