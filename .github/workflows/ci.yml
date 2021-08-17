@@ -3,7 +3,7 @@ on:
   push:
   pull_request:
   schedule:
-  - cron:  '0 3 * * *'
+  - cron:  '30 20 * * *'
 
 jobs:
   build-installer:
