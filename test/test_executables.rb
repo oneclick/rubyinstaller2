@@ -41,7 +41,7 @@ class TestExecutables < Minitest::Test
   end
 
   def test_ri
-    assert_match(/A String object holds/, `ri String 2>&1`)
+    assert_match(/A String object .* sequence of bytes/, `ri String 2>&1`)
   end
 
   def test_rubyw
