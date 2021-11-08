@@ -3,7 +3,7 @@ on:
   push:
   pull_request:
   schedule:
-  - cron:  '0 3 * * *'
+  - cron:  '30 20 * * *'
 
 jobs:
   build-installer:
@@ -13,22 +13,22 @@ jobs:
         include:
         - target_ruby: "3.0.2"
           arch: "x86-msvcrt"
-          build_ruby: "2.7.3/x64"
-          run_mri_spec: ruby_3_0
+          build_ruby: "2.7.4/x64"
+          run_ruby_spec: true
 
         - target_ruby: "3.0.2"
           arch: "x64-msvcrt"
-          build_ruby: "2.7.3/x64"
-          run_mri_spec: ruby_3_0
+          build_ruby: "2.7.4/x64"
+          run_ruby_spec: true
 
         - target_ruby: "2.7.4"
           arch: "x86-msvcrt"
-          build_ruby: "2.6.7/x64"
+          build_ruby: "2.6.8/x64"
           run_ruby_spec: true
 
         - target_ruby: "2.7.4"
           arch: "x64-msvcrt"
-          build_ruby: "2.6.7/x64"
+          build_ruby: "2.6.8/x64"
           run_ruby_spec: true
 
         - target_ruby: "2.6.8"
@@ -43,17 +43,17 @@ jobs:
 
         - target_ruby: "head"
           arch: "x64-ucrt"
-          build_ruby: "2.6.7/x64"
+          build_ruby: "2.6.8/x64"
           run_mri_spec: master
 
         - target_ruby: "head"
           arch: "x64-msvcrt"
-          build_ruby: "2.6.7/x64"
+          build_ruby: "2.6.8/x64"
           run_mri_spec: master
 
         - target_ruby: "head"
           arch: "x86-msvcrt"
-          build_ruby: "2.6.7/x64"
+          build_ruby: "2.6.8/x64"
           run_mri_spec: master
 
     runs-on: windows-latest
