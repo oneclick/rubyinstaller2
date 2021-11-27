@@ -13,13 +13,13 @@ module Runtime
             puts
             install(args[1..-1])
           when 'enable', 'exec'
-            puts Runtime.msys2_installation.enable_msys_apps_per_cmd
+            puts Runtime::Msys2Installation.new( mingwarch: args[1] ).enable_msys_apps_per_cmd
           when 'disable'
-            puts Runtime.msys2_installation.disable_msys_apps_per_cmd
+            puts Runtime::Msys2Installation.new.disable_msys_apps_per_cmd
           when 'enableps1', 'execps1'
-            puts Runtime.msys2_installation.enable_msys_apps_per_ps1
+            puts Runtime::Msys2Installation.new( mingwarch: args[2] ).enable_msys_apps_per_ps1
           when 'disableps1'
-            puts Runtime.msys2_installation.disable_msys_apps_per_ps1
+            puts Runtime::Msys2Installation.new.disable_msys_apps_per_ps1
           when 'version'
             print_version
           when 'help', '--help', '-?', '/?', nil

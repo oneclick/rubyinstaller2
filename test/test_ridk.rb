@@ -13,6 +13,7 @@ module RidkTests
 
   def teardown
     ENV['PATH'] = @old_path
+    ENV.delete 'MSYSTEM'
   end
 
   def test_ridk_enable
@@ -28,6 +29,29 @@ module RidkTests
     end
     assert_match(/PATH: .*;#{Regexp.escape(msys_path)}\\#{msystem}\\bin;#{Regexp.escape(msys_path)}\\usr\\bin.*;"c:\\testpath"$/i, out)
     assert_match(/MSYSTEM: #{msystem}/i, out)
+  end
+
+  def test_ridk_enable_with_MSYSTEM
+    skip unless File.directory?(msys_path)
+
+    ENV['PATH'] += ';"c:\\testpath"'
+    ENV['MSYSTEM'] = 'UCRT64'
+    out = run_output_vars([], ["ridk enable"], %w[PATH MSYSTEM MINGW_PACKAGE_PREFIX])
+
+    assert_match(/PATH: .*;#{Regexp.escape(msys_path)}\\ucrt64\\bin;#{Regexp.escape(msys_path)}\\usr\\bin.*;"c:\\testpath"$/i, out)
+    assert_match(/MSYSTEM: UCRT64/i, out)
+    assert_match(/MINGW_PACKAGE_PREFIX: mingw-w64-ucrt-x86_64/i, out)
+  end
+
+  def test_ridk_enable_with_arg
+    skip unless File.directory?(msys_path)
+
+    ENV['PATH'] += ';"c:\\testpath"'
+    out = run_output_vars([], ["ridk enable mingw32"], %w[PATH MSYSTEM MINGW_PACKAGE_PREFIX])
+
+    assert_match(/PATH: .*;#{Regexp.escape(msys_path)}\\mingw32\\bin;#{Regexp.escape(msys_path)}\\usr\\bin.*;"c:\\testpath"$/i, out)
+    assert_match(/MSYSTEM: MINGW32/i, out)
+    assert_match(/MINGW_PACKAGE_PREFIX: mingw-w64-i686/i, out)
   end
 
   def test_ridk_disable

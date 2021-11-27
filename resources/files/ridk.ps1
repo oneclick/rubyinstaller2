@@ -4,7 +4,7 @@ $rubydir = split-path $MyInvocation.MyCommand.Definition -parent
 if ($args[0] -eq "enable" -or $args[0] -eq "disable") {
   $rubyfile = $rubydir + "/ruby"
   $op = $args[0] + "ps1"
-  $vars = & $rubyfile --disable-gems -x $MyInvocation.MyCommand.Definition $op
+  $vars = & $rubyfile --disable-gems -x $MyInvocation.MyCommand.Definition $op @args
   Invoke-Expression $vars
   exit $LastExitCode
 }

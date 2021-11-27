@@ -20,12 +20,14 @@ module Build # Use for: Build, Runtime
       @msys_path = msys_path
       @msys_path_fixed = msys_path ? true : false
       @mingwdir = nil
-      @mingwarch = mingwarch || (
-          RUBY_PLATFORM=~/x64/ ? (
-            RbConfig::CONFIG['sitearch']=~/ucrt/ ?
-              'ucrt64' :
-              'mingw64') :
-            'mingw32')
+      @mingwarch = mingwarch || ENV['MSYSTEM']&.downcase || (
+          case RUBY_PLATFORM
+            when /x64.*ucrt/ then 'ucrt64'
+            when /x64.*mingw32/ then 'mingw64'
+            when /i386.*mingw32/ then 'mingw32'
+            else raise "unsupported ruby platform #{RUBY_PLATFORM.inspect}"
+          end
+        )
       @mingw_package_prefix = mingw_package_prefix || begin
         case @mingwarch
           when 'mingw32' then "mingw-w64-i686"
