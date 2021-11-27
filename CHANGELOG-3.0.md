@@ -1,3 +1,14 @@
+## RubyInstaller-3.0.3-1 - 2021-11-27
+
+### Added
+- Allow setting a particular ridk/MSYS2 environment.
+  It's described in the wiki: https://github.com/oneclick/rubyinstaller2/wiki/The-ridk-tool#ridk-enable--disable
+
+### Changed
+- Update to ruby-3.0.3, see [release notes](https://www.ruby-lang.org/en/news/2021/11/24/ruby-3-0-3-released/).
+- Update of the SSL CA certificate list.
+
+
 ## RubyInstaller-3.0.2-1 - 2020-07-09
 
 ### Added
