@@ -1,4 +1,3 @@
-require "fiddle"
 
 module RubyInstaller
 module Build # Use for: Build, Runtime
@@ -9,23 +8,38 @@ module Build # Use for: Build, Runtime
     class WinApiError < Error
     end
 
-    KERNEL32 = Fiddle.dlopen('kernel32.dll')
-    begin
-      SetDefaultDllDirectories = Fiddle::Function.new(
-        KERNEL32['SetDefaultDllDirectories'], [Fiddle::TYPE_LONG], Fiddle::TYPE_INT
-      )
-
-      AddDllDirectory = Fiddle::Function.new(
-        KERNEL32['AddDllDirectory'], [Fiddle::TYPE_VOIDP], Fiddle::TYPE_VOIDP
-      )
-
-      RemoveDllDirectory = Fiddle::Function.new(
-        KERNEL32['RemoveDllDirectory'], [Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT
-      )
-    rescue Fiddle::DLError
-      @@add_dll_dir_available = false
+    if ENV['RI_FORCE_PATH_FOR_DLL'] == '1'
+      @@dll_directory_mechanism = :path
     else
-      @@add_dll_dir_available = ENV['RI_FORCE_PATH_FOR_DLL'] == '1' ? false : true
+      begin
+        require "win32/dll_directory"
+        @@dll_directory_mechanism = :cext
+
+        SetDefaultDllDirectories = proc{|arg| Win32::DllDirectory.SetDefaultDllDirectories(arg) }
+        RemoveDllDirectory = proc{|arg| Win32::DllDirectory.RemoveDllDirectory(arg) }
+
+      rescue LoadError
+        require "fiddle"
+
+        KERNEL32 = Fiddle.dlopen('kernel32.dll')
+        begin
+          SetDefaultDllDirectories = Fiddle::Function.new(
+            KERNEL32['SetDefaultDllDirectories'], [Fiddle::TYPE_LONG], Fiddle::TYPE_INT
+          )
+
+          AddDllDirectory = Fiddle::Function.new(
+            KERNEL32['AddDllDirectory'], [Fiddle::TYPE_VOIDP], Fiddle::TYPE_VOIDP
+          )
+
+          RemoveDllDirectory = Fiddle::Function.new(
+            KERNEL32['RemoveDllDirectory'], [Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT
+          )
+
+          @@dll_directory_mechanism = :fiddle
+        rescue Fiddle::DLError
+          @@dll_directory_mechanism = :path
+        end
+      end
     end
 
     attr_reader :path
@@ -35,7 +49,7 @@ module Build # Use for: Build, Runtime
     #
     # This method is usually called while RubyInstaller startup.
     def self.set_defaults
-      if @@add_dll_dir_available
+      if @@dll_directory_mechanism != :path
         set_default_dll_directories_winapi
       end
     end
@@ -44,7 +58,7 @@ module Build # Use for: Build, Runtime
     def initialize(path)
       path = File.expand_path(path)
 
-      if @@add_dll_dir_available
+      if @@dll_directory_mechanism != :path
         # Prefer Winapi function AddDllDirectory(), which requires Windows 7 with KB2533623 or newer.
         self.class.set_default_dll_directories_winapi
         @handle = self.class.add_dll_directory_winapi(path)
@@ -75,13 +89,21 @@ module Build # Use for: Build, Runtime
       raise WinApiError, "SetDefaultDllDirectories failed" if SetDefaultDllDirectories.call(0x00001000)==0
     end
 
-    def self.add_dll_directory_winapi(path)
-      strutf16 = (path + "\0").encode(Encoding::UTF_16LE)
-      strptr = Fiddle::Pointer.malloc(strutf16.bytesize, Fiddle::RUBY_FREE)
-      strptr[0, strptr.size] = strutf16
-      handle = AddDllDirectory.call(strptr)
-      raise WinApiError, "AddDllDirectory failed for #{path}" if handle.null?
-      handle
+    if @@dll_directory_mechanism == :fiddle
+      def self.add_dll_directory_winapi(path)
+        strutf16 = (path + "\0").encode(Encoding::UTF_16LE)
+        strptr = Fiddle::Pointer.malloc(strutf16.bytesize, Fiddle::RUBY_FREE)
+        strptr[0, strptr.size] = strutf16
+        handle = AddDllDirectory.call(strptr)
+        raise WinApiError, "AddDllDirectory failed for #{path}" if handle.null?
+        handle
+      end
+    elsif @@dll_directory_mechanism == :cext
+      def self.add_dll_directory_winapi(path)
+        handle = Win32::DllDirectory.AddDllDirectory(path)
+        raise WinApiError, "AddDllDirectory failed for #{path}" if handle == 0
+        handle
+      end
     end
 
     # This method removes the given directory from the active DLL search paths.
