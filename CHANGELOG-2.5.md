@@ -1,4 +1,4 @@
-## RubyInstaller-2.5.9-1 - 2020-04-19
+## RubyInstaller-2.5.9-1 - 2021-04-19
 
 ### Added
 - Add more environment variables needed for configure scripts: MSYSTEM_PREFIX, MSYSTEM_CARCH, MSYSTEM_CHOST, MINGW_CHOST, MINGW_PREFIX
