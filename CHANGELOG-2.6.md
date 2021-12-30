@@ -9,7 +9,7 @@
 - Update of the SSL CA certificate list.
 
 
-## RubyInstaller-2.6.8-1 - 2020-07-09
+## RubyInstaller-2.6.8-1 - 2021-07-09
 
 ### Added
 - Enable ruby to support path length >260 characters.
@@ -23,7 +23,7 @@
 - Update bundled gpg keyring file for pacman to support new MSYS2 package signatures.
 
 
-## RubyInstaller-2.6.7-1 - 2020-04-19
+## RubyInstaller-2.6.7-1 - 2021-04-19
 
 ### Added
 - Add more environment variables needed for configure scripts: MSYSTEM_PREFIX, MSYSTEM_CARCH, MSYSTEM_CHOST, MINGW_CHOST, MINGW_PREFIX
