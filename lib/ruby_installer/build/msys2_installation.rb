@@ -75,7 +75,7 @@ module Build # Use for: Build, Runtime
       rescue Win32::Registry::Error
       end
 
-      ENV['PATH'].split(";").each do |path|
+      ENV['PATH'] && ENV['PATH'].split(";").each do |path|
         # If /path/to/msys64 is in the PATH (e.g. Chocolatey)
         yield path
       end
