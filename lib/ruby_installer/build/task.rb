@@ -5,7 +5,7 @@ module RubyInstaller
 module Build
 class Task < Openstruct
   include Rake::DSL
-  include Utils
+  prepend Utils
 
   def initialize(thisdir: , **hash)
     super(hash)
