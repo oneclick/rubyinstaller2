@@ -1,3 +1,11 @@
+## RubyInstaller-3.1.1-1 - 2022-02-18
+
+### Changed
+- Update to ruby-3.1.1, see [release notes](https://www.ruby-lang.org/en/news/2022/02/18/ruby-3-1-1-released/).
+- Fix a runtime error when running CGI in WEBrick http server. #260
+- Backport a patch for Reline to fix AltGr on European keyboards. #259
+
+
 ## RubyInstaller-3.1.0-1 - 2021-12-31
 
 This is the first release based on ruby-3.1.0: https://www.ruby-lang.org/en/news/2021/12/25/ruby-3-1-0-released/
