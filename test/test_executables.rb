@@ -51,7 +51,7 @@ class TestExecutables < Minitest::Test
   end
 
   unless RUBY_VERSION =~ /^2\.[3456]\./
-    def test_rbs
+    def test_racc
       assert_match(/racc.*\d+\.\d+\.\d+/, `racc --version`)
     end
   end
