@@ -1,6 +1,6 @@
 # Create a version file for the rubyinstaller runtime
 
-versionfile_rel = "lib/ruby/site_ruby/#{package.rubyver2}.0/ruby_installer/runtime/package_version.rb"
+versionfile_rel = "lib/ruby/site_ruby/#{package.rubylibver}/ruby_installer/runtime/package_version.rb"
 versionfile = File.join(sandboxdir, versionfile_rel)
 directory File.dirname(versionfile)
 file versionfile => [ File.dirname(versionfile),

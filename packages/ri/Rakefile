@@ -12,6 +12,7 @@ class RubyPackage < RubyInstaller::Build::Openstruct
     self.rubyver, self.pkgrel = packagever.split("-", 2)
     self.packagename = "rubyinstaller"
     self.rubyver2 = packagever=='head' ? "3.2" : rubyver[/^\d+\.\d+/]
+    self.rubylibver = self.rubyver2 < "3.2" ? "#{rubyver2}.0" : "#{rubyver2}.0+0"
 
     case arch
     when 'x64-ucrt'

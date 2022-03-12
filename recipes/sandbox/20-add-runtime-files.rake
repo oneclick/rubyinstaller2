@@ -11,5 +11,5 @@ end
 lib_runtime_files.each do |file|
   dfile = file.sub(%r{^lib/}, "")
   dfile.sub!(%r{/build/}, "/runtime/")
-  import_files[file] = "lib/ruby/site_ruby/#{package.rubyver2}.0/#{dfile}"
+  import_files[file] = "lib/ruby/site_ruby/#{package.rubylibver}/#{dfile}"
 end
