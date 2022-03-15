@@ -68,7 +68,10 @@ class Release
     require "octokit"
 
     client = Octokit::Client.new(access_token: token)
-    release = client.releases(repo).find{|r| r.tag_name==tag }
+    release = nil
+    (1..100).find do |page|
+      release = client.releases(repo, page: page).find{|r| r.tag_name==tag }
+    end
     $stderr.puts "#{ release ? "Add to" : "Create" } github release #{tag}"
 
     if tag =~ /head$/
