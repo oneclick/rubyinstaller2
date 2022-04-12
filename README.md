@@ -104,7 +104,7 @@ Check the [wiki on how to use](https://github.com/oneclick/rubyinstaller2/wiki/F
 - The last command lists all available RubyInstaller build targets.
   The build targets consists of the following parts:
   ```
-    rake ri:ruby-3.0.3-x86-msvcrt:archive-7z
+    rake ri:ruby-3.0.4-x86-msvcrt:archive-7z
           ^      ^      ^    ^        ^- "archive-7z"     => 7z archive of the rubyinstaller files
           |      |      |    |           "installer-inno" => executable installer file
           |      |      |    '------- "msvcrt" => older type of C standard library
