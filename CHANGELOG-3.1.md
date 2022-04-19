@@ -1,3 +1,14 @@
+## RubyInstaller-3.1.2-1 - 2022-04-19
+
+### Changed
+- Update to ruby-3.1.2, see [release notes](https://www.ruby-lang.org/en/news/2022/04/12/ruby-3-1-2-released/).
+- Update of the SSL CA certificate list.
+- Update the bundled MSYS2 keyring package.
+
+### Removed
+- No longer respond to MSYSTEM environment variable for setting a cross build environment. #269
+
+
 ## RubyInstaller-3.1.1-1 - 2022-02-18
 
 ### Changed

@@ -1,3 +1,16 @@
+## RubyInstaller-2.6.10-1 - 2022-04-19
+
+### Changed
+- Update to ruby-2.6.10, see [release notes](https://www.ruby-lang.org/en/news/2022/04/12/ruby-2-6-10-released/).
+- Update of the SSL CA certificate list.
+- No longer require fiddle before booting Rubygems, but use the new C-extension "win32/dll_directory".
+  Fixes #251
+- Update the bundled MSYS2 keyring package.
+
+### Removed
+- No longer respond to MSYSTEM environment variable for setting a cross build environment. #269
+
+
 ## RubyInstaller-2.6.9-1 - 2021-11-27
 
 ### Added
