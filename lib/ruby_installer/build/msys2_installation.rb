@@ -20,7 +20,7 @@ module Build # Use for: Build, Runtime
       @msys_path = msys_path
       @msys_path_fixed = msys_path ? true : false
       @mingwdir = nil
-      @mingwarch = mingwarch || ENV['MSYSTEM']&.downcase || (
+      @mingwarch = mingwarch || (
           case RUBY_PLATFORM
             when /x64.*ucrt/ then 'ucrt64'
             when /x64.*mingw32/ then 'mingw64'

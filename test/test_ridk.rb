@@ -35,8 +35,8 @@ module RidkTests
     skip unless File.directory?(msys_path)
 
     ENV['PATH'] += ';"c:\\testpath"'
-    ENV['MSYSTEM'] = 'UCRT64'
-    out = run_output_vars([], ["ridk enable"], %w[PATH MSYSTEM MINGW_PACKAGE_PREFIX])
+    ENV['MSYSTEM'] = 'MINGW32'
+    out = run_output_vars([], ["ridk enable ucrt64"], %w[PATH MSYSTEM MINGW_PACKAGE_PREFIX])
 
     assert_match(/PATH: .*;#{Regexp.escape(msys_path)}\\ucrt64\\bin;#{Regexp.escape(msys_path)}\\usr\\bin.*;"c:\\testpath"$/i, out)
     assert_match(/MSYSTEM: UCRT64/i, out)
@@ -47,6 +47,7 @@ module RidkTests
     skip unless File.directory?(msys_path)
 
     ENV['PATH'] += ';"c:\\testpath"'
+    ENV['MSYSTEM'] = 'UCRT64'
     out = run_output_vars([], ["ridk enable mingw32"], %w[PATH MSYSTEM MINGW_PACKAGE_PREFIX])
 
     assert_match(/PATH: .*;#{Regexp.escape(msys_path)}\\mingw32\\bin;#{Regexp.escape(msys_path)}\\usr\\bin.*;"c:\\testpath"$/i, out)
