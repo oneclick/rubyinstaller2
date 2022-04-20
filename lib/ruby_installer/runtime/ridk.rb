@@ -101,7 +101,7 @@ LOGO = %q{
       end
 
       private def args_to_tasks(ci, args)
-        tasks = args.join(" ").split(" ").map do |idx_or_name|
+        args.join(" ").split(" ").map do |idx_or_name|
           if idx_or_name =~ /\A\d+\z/ && (task=ci.installable_components.find{|c| idx_or_name.to_i == c.task_index })
             task
           elsif idx_or_name =~ /\A\w+\z/ && (task=ci.installable_components.find{|c| idx_or_name == c.name })
