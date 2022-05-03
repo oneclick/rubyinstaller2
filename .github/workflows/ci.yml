@@ -41,16 +41,6 @@ jobs:
           build_ruby: "3.0.4/x64"
           run_ruby_spec: true
 
-        - target_ruby: "2.6.10"
-          arch: "x64-msvcrt"
-          build_ruby: "3.0.4/x64"
-          run_ruby_spec: true
-
-        - target_ruby: "2.6.10"
-          arch: "x86-msvcrt"
-          build_ruby: "3.0.4/x64"
-          run_ruby_spec: true
-
         - target_ruby: "head"
           arch: "x64-ucrt"
           build_ruby: "3.0.4/x64"
