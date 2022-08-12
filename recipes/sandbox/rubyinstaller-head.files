@@ -20,7 +20,7 @@ bin/ri
 bin/ri.bat
 bin/typeprof
 bin/typeprof.bat
-bin/libffi-7.dll
+bin/libffi-8.dll
 bin/libgmp-10.dll
 bin/libssp-0.dll
 bin/libwinpthread-1.dll
