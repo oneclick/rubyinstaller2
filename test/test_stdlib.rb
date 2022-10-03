@@ -67,11 +67,14 @@ class TestStdlib < Minitest::Test
 
     case RUBY_VERSION
       when /^2\.[34]\./
-        assert_match(/OpenSSL 1.0./, OpenSSL::OPENSSL_VERSION)
-        assert_match(/OpenSSL 1.0./, OpenSSL::OPENSSL_LIBRARY_VERSION)
+        assert_match(/OpenSSL 1\.0\./, OpenSSL::OPENSSL_VERSION)
+        assert_match(/OpenSSL 1\.0\./, OpenSSL::OPENSSL_LIBRARY_VERSION)
+      when /^2\.[567]\.|^3\.[01]\./
+        assert_match(/OpenSSL 1\.1\./, OpenSSL::OPENSSL_VERSION)
+        assert_match(/OpenSSL 1\.1\./, OpenSSL::OPENSSL_LIBRARY_VERSION)
       else
-        assert_match(/OpenSSL 1.1./, OpenSSL::OPENSSL_VERSION)
-        assert_match(/OpenSSL 1.1./, OpenSSL::OPENSSL_LIBRARY_VERSION)
+        assert_match(/OpenSSL 3\./, OpenSSL::OPENSSL_VERSION)
+        assert_match(/OpenSSL 3\./, OpenSSL::OPENSSL_LIBRARY_VERSION)
     end
   end
 end
