@@ -128,10 +128,9 @@ class TestSslCacerts < Minitest::Test
   end
 
   def read_and_close_ssl(sio, msg)
-    sio.write(msg)
+    sio.puts(msg)
     sio.flush
-    sio.to_io.close_write
-    res = sio.read
+    res = sio.gets.chomp
     sio.close
     sio.to_io.close
     res
