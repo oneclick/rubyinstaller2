@@ -12,7 +12,6 @@ bin/libgdbm_compat-4.dll
 bin/libgmp-10.dll
 bin/libiconv-2.dll
 bin/libintl-8.dll
-bin/libssp-0.dll
 bin/libwinpthread-1.dll
 bin/libyaml-0-2.dll
 bin/rake
