@@ -11,32 +11,32 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - target_ruby: "3.1.2"
+        - target_ruby: "3.1.3"
           arch: "x86-msvcrt"
           build_ruby: "3.0.4/x64"
           run_ruby_spec: true
 
-        - target_ruby: "3.1.2"
+        - target_ruby: "3.1.3"
           arch: "x64-ucrt"
           build_ruby: "3.0.4/x64"
           run_ruby_spec: true
 
-        - target_ruby: "3.0.4"
+        - target_ruby: "3.0.5"
           arch: "x86-msvcrt"
           build_ruby: "2.7.6/x64"
           run_ruby_spec: true
 
-        - target_ruby: "3.0.4"
+        - target_ruby: "3.0.5"
           arch: "x64-msvcrt"
           build_ruby: "2.7.6/x64"
           run_ruby_spec: true
 
-        - target_ruby: "2.7.6"
+        - target_ruby: "2.7.7"
           arch: "x86-msvcrt"
           build_ruby: "3.0.4/x64"
           run_ruby_spec: true
 
-        - target_ruby: "2.7.6"
+        - target_ruby: "2.7.7"
           arch: "x64-msvcrt"
           build_ruby: "3.0.4/x64"
           run_ruby_spec: true
