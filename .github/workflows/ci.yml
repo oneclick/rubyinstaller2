@@ -14,32 +14,32 @@ jobs:
         - target_ruby: "3.1.3"
           arch: "x86-msvcrt"
           build_ruby: "3.0.4/x64"
-          run_ruby_spec: true
+          run_mri_spec: v3_1_3
 
         - target_ruby: "3.1.3"
           arch: "x64-ucrt"
           build_ruby: "3.0.4/x64"
-          run_ruby_spec: true
+          run_mri_spec: v3_1_3
 
         - target_ruby: "3.0.5"
           arch: "x86-msvcrt"
           build_ruby: "2.7.6/x64"
-          run_ruby_spec: true
+          run_mri_spec: v3_0_5
 
         - target_ruby: "3.0.5"
           arch: "x64-msvcrt"
           build_ruby: "2.7.6/x64"
-          run_ruby_spec: true
+          run_mri_spec: v3_0_5
 
         - target_ruby: "2.7.7"
           arch: "x86-msvcrt"
           build_ruby: "3.0.4/x64"
-          run_ruby_spec: true
+          run_mri_spec: v2_7_7
 
         - target_ruby: "2.7.7"
           arch: "x64-msvcrt"
           build_ruby: "3.0.4/x64"
-          run_ruby_spec: true
+          run_mri_spec: v2_7_7
 
         - target_ruby: "head"
           arch: "x64-ucrt"
