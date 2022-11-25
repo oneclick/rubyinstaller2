@@ -143,7 +143,7 @@ def switch_ruby_per_cmd(rubypath, rubies, ps1)
 
   if ps1
     vars.map do |key, val|
-      "$env:#{key}=\"#{val.gsub('"', '`"')}\""
+      "$env:#{key}=\"#{val.to_s.gsub('"', '`"')}\""
     end.join(";")
   else
     vars.map do |key, val|
