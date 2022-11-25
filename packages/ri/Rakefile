@@ -20,20 +20,20 @@ class RubyPackage < RubyInstaller::Build::Openstruct
       self.ruby_arch = "x64-mingw-ucrt"
       self.mingwdir = "ucrt64"
       self.default_instdir = "C:\\Ruby#{rubyver2.gsub(".","")}-x64"
-      packagenamearch = "x64"
+      self.packagenamearch = "x64"
     when 'x64-msvcrt'
       self.pacman_arch = "mingw-w64-x86_64"
       self.ruby_arch = "x64-mingw32"
       self.mingwdir = "mingw64"
       self.default_instdir = "C:\\Ruby#{rubyver2.gsub(".","")}-x64"
       # "x64" means MSVCRT for ruby<=3.0 and UCRT for ruby>=3.1
-      packagenamearch = self.rubyver2 < "3.1" ? "x64" : "x64-msvcrt"
+      self.packagenamearch = self.rubyver2 < "3.1" ? "x64" : "x64-msvcrt"
     when 'x86-msvcrt'
       self.pacman_arch = "mingw-w64-i686"
       self.ruby_arch = "i386-mingw32"
       self.mingwdir = "mingw32"
       self.default_instdir = "C:\\Ruby#{rubyver2.gsub(".","")}"
-      packagenamearch = "x86"
+      self.packagenamearch = "x86"
     else
       raise "invalid arch #{arch}"
     end

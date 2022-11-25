@@ -15,7 +15,7 @@
 #define RubyBuildPlatform <%=q package.ruby_arch %>
 
 ; Build Installer details using above values
-#define InstallerName "Ruby " + <%=q package.packagever %> + "-" + <%=q package.arch %> + "<%= " with MSYS2" if with_msys %>"
+#define InstallerName "Ruby " + <%=q package.packagever %> + "-" + <%=q package.packagenamearch %>
 #define InstallerPublisher "RubyInstaller Team"
 #define InstallerHomepage "http://rubyinstaller.org"
 
