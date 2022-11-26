@@ -20,7 +20,7 @@
 #define InstallerHomepage "http://rubyinstaller.org"
 
 #define CurrentYear GetDateTimeString('yyyy', '', '')
-#define PackageBaseId "MRI"
+#define PackageBaseId <%=q package.packagenamearch %>
 
 #define MsysDir <%=q( with_msys ? package.msysdir : '' )%>
 <% if package.rubyver2 < '3.0' %>
