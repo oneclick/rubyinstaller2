@@ -70,8 +70,6 @@ begin
   if IsUtf8 then
     SetPreviousData(PreviousDataKey, 'Utf8', 'yes');
 #endif
-
-  SetPreviousData(PreviousDataKey, 'RubyInstallerId', ExpandConstant('{#PackageBaseId}\{#RubyVersion}'));
 end;
 
 procedure CurUninstallStepChanged(const CurUninstallStep: TUninstallStep);

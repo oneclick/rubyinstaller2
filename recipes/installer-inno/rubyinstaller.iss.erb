@@ -20,7 +20,6 @@
 #define InstallerHomepage "http://rubyinstaller.org"
 
 #define CurrentYear GetDateTimeString('yyyy', '', '')
-#define PackageBaseId <%=q package.packagenamearch %>
 
 #define MsysDir <%=q( with_msys ? package.msysdir : '' )%>
 <% if package.rubyver2 < '3.0' %>
@@ -124,16 +123,6 @@ Root: <%= regroot %>; Subkey: Software\Classes\<%= rubyname %>File\DefaultIcon; 
 Root: <%= regroot %>; Subkey: Software\Classes\<%= rubyname %>File\shell\open\command; ValueType: string; ValueName: ; ValueData: """{app}\bin\<%= rubyexe %>"" ""%1"" %*"; Check: <%= chkadmin %> and IsAssociated
 
 <% end %>
-
-; RubyInstaller identification for admin+nonadmin
-Root: <%= regroot %>; Subkey: Software\RubyInstaller; ValueType: string; ValueName: ; ValueData: ; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: <%= chkadmin %>
-Root: <%= regroot %>; Subkey: Software\RubyInstaller\{#PackageBaseId}; ValueType: string; ValueName: ; ValueData: ; Flags: uninsdeletevalue uninsdeletekeyifempty; Check: <%= chkadmin %>
-Root: <%= regroot %>; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: ; ValueData: ; Flags: uninsdeletekey; Check: <%= chkadmin %>
-Root: <%= regroot %>; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: InstallLocation ; ValueData: {app}; Check: <%= chkadmin %>
-Root: <%= regroot %>; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: InstallDate ; ValueData: {code:GetInstallDate}; Check: <%= chkadmin %>
-Root: <%= regroot %>; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: PackageRelease ; ValueData: {#PackageRelease}; Check: <%= chkadmin %>
-Root: <%= regroot %>; Subkey: Software\RubyInstaller\{#PackageBaseId}\{#RubyVersion}; ValueType: string; ValueName: BuildPlatform ; ValueData: {#RubyBuildPlatform}; Check: <%= chkadmin %>
-
 <% end %>
 
 [Icons]
