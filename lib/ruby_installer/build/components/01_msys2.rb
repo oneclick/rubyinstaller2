@@ -36,7 +36,7 @@ class Msys2 < Base
       puts green(" Success")
     else
       puts red(" Failed")
-      raise "MSYS2 installer failed"
+      raise "MSYS2 installer failed.\n\nYou might download MSYS2 from the official site: https://www.msys2.org/ and run the installer manually.\nThen you can use 'ridk install' to install necessary tools and to keep MSYS2 up-to-date."
     end
   end
 
