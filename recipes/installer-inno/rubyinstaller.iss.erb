@@ -125,6 +125,16 @@ Root: <%= regroot %>; Subkey: Software\Classes\<%= rubyname %>File\shell\open\co
 <% end %>
 <% end %>
 
+; The default permissions on C:/RubyXXX is inherited from C:/ and allows write access to any user.
+; This allows everyone to install gems, which is convenient but compromizes security.
+; To mitigate we enable full access for the creator and read-only for other users.
+; InnoSetup allows to add permissions only, but not to remove them.
+; So use Innosetup to add described permissions and icacls to disable unwanted inheritance.
+[Dirs]
+Name: {app}; Permissions: creatorowner-full users-readexec
+[Run]
+Filename: "icacls.exe"; Parameters: "{app} /inheritancelevel:r "; WorkingDir: "{app}"; Description: "Changing Directory Permissions"; StatusMsg: "Changing Directory Permissions"; Flags: runhidden
+
 [Icons]
 Name: {autoprograms}\{#InstallerName}\{cm:InteractiveRubyTitle}; Filename: {app}\bin\irb.<%= package.rubyver2 < '3.1' ? "cmd" : "bat" %>; IconFilename: {app}\bin\ruby.exe
 Name: {autoprograms}\{#InstallerName}\{cm:DocumentationTitle}\{cm:APIReferenceTitle,{#RubyVersion}}; Filename: {app}\share\doc\ruby\html\index.html; IconFilename: {app}\share\doc\ruby\html\images\ruby-doc.ico; Components: rdoc
