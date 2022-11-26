@@ -42,22 +42,16 @@ class Msys2 < Base
 
   private
 
-  MSYS2_VERSION = ENV['MSYS2_VERSION'] || "20190524"
-  MSYS2_URI = "http://repo.msys2.org/distrib/<arch>/msys2-<arch>-#{MSYS2_VERSION}.exe"
-
-  MSYS2_I686_SHA256 = "c5a1881f7ac5a0449fe9b30d3140111a88072727f510c4a66bfa905f8c78e839"
-  MSYS2_X86_64_SHA256 = "2dacadcc70cc122054e60914cbc6b689f685bef5713915a90f4185dd9da7954e"
+  MSYS2_VERSION = ENV['MSYS2_VERSION'] || "20221028"
+  MSYS2_URI = "https://repo.msys2.org/distrib/x86_64/msys2-x86_64-#{MSYS2_VERSION}.exe"
+  MSYS2_SHA256 = "9ab223bee2610196ae8e9c9e0a2951a043cac962692e4118ad4d1e411506cd04"
 
   def msys2_download_uri
-    arch = RUBY_PLATFORM=~/x64/ ? "x86_64" : "i686"
-    MSYS2_URI.gsub(/<arch>/, arch)
+    MSYS2_URI
   end
 
   def msys2_download_hash
-    case RUBY_PLATFORM
-      when /x64/ then MSYS2_X86_64_SHA256
-      else MSYS2_I686_SHA256
-    end
+    MSYS2_SHA256
   end
 end
 end
