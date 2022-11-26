@@ -64,6 +64,9 @@ class DevTools < Base
       puts "Install #{description} #{res ? green("succeeded") : red("failed")}"
       raise "pacman failed" unless res
 
+      puts
+      puts green("You can use 'ridk enable' to activate the MSYS2 tools on the command prompt.")
+
       autorebase
     end
   end
