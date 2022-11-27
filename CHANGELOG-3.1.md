@@ -10,7 +10,7 @@
 - Update to ruby-3.1.3, see [release notes](https://www.ruby-lang.org/en/news/2022/11/24/ruby-3-1-3-released/).
 - Update of the SSL CA certificate list.
 - Update the bundled MSYS2 keyring package.
-- Fix start menu entry for rubygems-server.
+- Fix start menu entry for rubygems-server and irb.
 - Run the ruby command prompt in the start menu with `ridk enable`.
 - Update the start menu entry with the newly installed ruby version.
   They kept the old ruby version previously.

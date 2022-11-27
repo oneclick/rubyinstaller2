@@ -1,3 +1,28 @@
+## RubyInstaller-3.0.5-1 - 2022-11-27
+
+### Added
+- Restrict write permissions to the installing user.
+  For several reasons we use `C:/RubyXXX` direcory by default but not `C:/Program Files` (see: oneclick/rubyinstaller#135 ).
+  Using an install path under `C:/` previously inherited write permissions for everyone, which compromised security in a multi user environment.
+- `ridk use` Add options to store the change permanently in the user or system environment variables. #314
+
+### Changed
+- Update to ruby-3.0.5, see [release notes](https://www.ruby-lang.org/en/news/2022/11/24/ruby-3-0-5-released/).
+- Update of the SSL CA certificate list.
+- Update the bundled MSYS2 keyring package.
+- Fix start menu entry for rubygems-server.
+- Run the ruby command prompt in the start menu with `ridk enable`.
+- Update the start menu entry with the newly installed ruby version.
+  They kept the old ruby version previously.
+- Fix possible crash in `ridk use`. #291
+
+### Removed
+- No longer create registry keys under `Software\RubyInstaller\MRI\<RubyVersion>`. #242
+  They weren't used any longer and didn't distinguish between 32 and 64-bit versions.
+- No longer install the 32 bit but only the 64 bit version of MSYS2 as part of `ridk install`.
+  It is still possible to get a pure 32-bit MSYS2 and Ruby installation by using the 32-bit RubyInstaller+Devkit package.
+
+
 ## RubyInstaller-3.0.4-1 - 2022-04-19
 
 ### Changed
