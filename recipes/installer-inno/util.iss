@@ -17,12 +17,12 @@ end;
 
 function IsNotAdmin(): Boolean;
 begin
-  Result := not (IsAdminLoggedOn or IsPowerUserLoggedOn);
+  Result := not IsAdmin;
 end;
 
 function GetUserHive(): Integer;
 begin
-  if IsAdminLoggedOn or IsPowerUserLoggedOn then
+  if IsAdmin then
     Result := HKLM
   else
     Result := HKCU;
