@@ -98,12 +98,12 @@ def in_path_regex(path)
   /(^|;)#{pathregex}[^;]*(;|$)/i
 end
 
-def remove_rubies_from_path(vars, rubies)
+def remove_rubies_from_path(vars, rubies, desc)
   if path=vars['PATH']
     rubies.each do |rubypath|
       path = path.gsub(in_path_regex(rubypath)) do |a|
         res = $1.empty? || $2.empty? ? "" : ";"
-        $stderr.puts "Disable #{rubypath}"
+        $stderr.puts "Disable #{rubypath} #{desc}"
         res
       end
     end
@@ -111,9 +111,9 @@ def remove_rubies_from_path(vars, rubies)
   end
 end
 
-def enable_ruby_in_path(vars, rubypath)
+def enable_ruby_in_path(vars, rubypath, desc)
   if (path=vars["PATH"]) && !in_path_regex(rubypath).match(path)
-    $stderr.puts "Enable #{rubypath}"
+    $stderr.puts "Enable #{rubypath} #{desc}"
     vars['PATH'] = backslachs(File.join(rubypath, "bin")) + ";" + vars['PATH']
   end
 end
@@ -132,14 +132,19 @@ def ensure_ridk_use_in_path(vars, rubypath)
   vars['RIDK_USE_PATH'] = ridkusepath
 end
 
-def switch_ruby_per_cmd(rubypath, rubies, ps1)
-  vars = {
+def adjust_path_vars(rubypath, rubies, vars=nil, desc="in current shell")
+  vars ||= {
     "PATH" => ENV['PATH'],
     "RIDK_USE_PATH" => nil,
   }
-  remove_rubies_from_path(vars, rubies)
-  enable_ruby_in_path(vars, rubypath)
+  remove_rubies_from_path(vars, rubies, desc)
+  enable_ruby_in_path(vars, rubypath, desc)
   ensure_ridk_use_in_path(vars, rubypath)
+  vars
+end
+
+def switch_ruby_per_cmd(rubypath, rubies, ps1)
+  vars = adjust_path_vars(rubypath, rubies)
 
   if ps1
     vars.map do |key, val|
@@ -149,6 +154,35 @@ def switch_ruby_per_cmd(rubypath, rubies, ps1)
     vars.map do |key, val|
       "#{key}=#{val}"
     end.join("\n")
+  end
+end
+
+def modify_default(rubypath, rubies, default)
+  return unless default
+  require "win32/registry"
+
+  if default == :system
+    reg_root = Win32::Registry::HKEY_LOCAL_MACHINE
+    reg_key = "SYSTEM/CurrentControlSet/Control/Session Manager/Environment"
+  elsif default == :user
+    reg_root = Win32::Registry::HKEY_CURRENT_USER
+    reg_key = "Environment"
+  end
+
+  reg_root.open(backslachs(reg_key), Win32::Registry::KEY_ALL_ACCESS) do |reg|
+    vars = reg.select do |k,t,v|
+      ['PATH', 'RIDK_USE_PATH'].include?(k.upcase)
+    end.map { |k,t,v| [k.upcase, v] }.to_h
+
+    vars = adjust_path_vars(rubypath, rubies, vars, "in #{default} settings")
+
+    vars.each do |k, v|
+      if v
+        reg.write(k, Win32::Registry::REG_EXPAND_SZ, v)
+      else
+        reg.delete_key(k)
+      end
+    end
   end
 end
 
@@ -172,7 +206,7 @@ end
 def print_help
   $stderr.puts <<-EOT
 Usage:
-    ridk use [<option>]
+    ridk use [<option>] [--default] [--system-default]
 
 Option:
                   Start interactive version selection
@@ -181,6 +215,9 @@ Option:
     <number>      Change the active ruby version by index
     /<regex>/     Change the active ruby version by regex
     help          Display this help and exit
+
+    --default         Store the active ruby version in the user or
+    --system-default  system environment variables permanently
 EOT
 end
       
@@ -188,6 +225,11 @@ def run!(args)
   case args[0]
     when "use", "useps1"
       ps1 = args[0] == "useps1"
+      default = if args.delete("--default")
+        :user
+      elsif args.delete("--system-default")
+        :system
+      end
       case args[1]
         when 'help'
           print_help
@@ -202,6 +244,7 @@ def run!(args)
             $stderr.print "Invalid ruby: #{args[1].inspect}"
             exit 1
           end
+          modify_default(rubypath, rubies.values, default)
           puts switch_ruby_per_cmd(rubypath, rubies.values, ps1)
         else
           list_rubies
@@ -212,6 +255,7 @@ def run!(args)
             selector = $stdin.gets.strip
             rubypath = select_ruby(rubies, selector)
             next unless rubypath
+            modify_default(rubypath, rubies.values, default)
             puts switch_ruby_per_cmd(rubypath, rubies.values, ps1)
             break
           end
