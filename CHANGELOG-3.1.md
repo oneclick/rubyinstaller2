@@ -22,6 +22,10 @@
   They weren't used any longer and didn't distinguish between 32 and 64-bit versions.
 - No longer install the 32 bit but only the 64 bit version of MSYS2 as part of `ridk install`.
   It is still possible to get a pure 32-bit MSYS2 and Ruby installation by using the 32-bit RubyInstaller+Devkit package.
+- The file `<ruby>\bin\ruby_builtin_dlls\libssp-0.dll` is no longer shipped as part of RubyInstaller.
+  It is no longer needed with the latest gcc, but previously installed gems with extensions link to this DLL.
+  The dependency to `libssp-0.dll` is currently still fulfilled by the bundled MSYS2 distribution.
+  To re-compile the gem without this DLL `gem pristine --extensions` can be used.
 
 
 ## RubyInstaller-3.1.2-1 - 2022-04-19
