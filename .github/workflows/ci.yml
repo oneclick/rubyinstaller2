@@ -146,7 +146,7 @@ jobs:
 
     - name: Run the built Ruby installer and install to c:/ri2-ruby
       shell: cmd
-      run: ruby -e "Dir['packages/ri-msys/recipes/installer-inno/rubyinstaller-devkit-%target_ruby%*.exe'].each{|f| system(f, '/verysilent', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath,defaultutf8')}"
+      run: ruby -e "Dir['packages/ri-msys/recipes/installer-inno/rubyinstaller-devkit-%target_ruby%*.exe'].each{|f| system(f, '/verysilent', '/currentuser', '/dir=c:/ri2-ruby', '/tasks=assocfiles,modpath,defaultutf8')}"
 
     - name: Activate the environment variables set by the installer
       # but exclude git's /usr/bin, because it conflicts with one RubyInstaller test.
