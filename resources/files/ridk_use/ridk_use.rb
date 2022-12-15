@@ -17,25 +17,33 @@ def forwardslachs(path)
 end
 
 RUBY_INSTALL_KEY = "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/"
+RUBY_INSTALL_KEY_WOW = "SOFTWARE/WOW6432Node/Microsoft/Windows/CurrentVersion/Uninstall/"
 
 def find_each_ruby_from_registry
   return to_enum(:find_each_ruby_from_registry) unless block_given?
-  
+
   require "win32/registry"
-  begin
-    Win32::Registry::HKEY_CURRENT_USER.open(backslachs(RUBY_INSTALL_KEY)) do |reg|
-      reg.each_key do |subkey|
-        subreg = reg.open(subkey)
-        begin
-          if subreg['DisplayName'] =~ /^Ruby / && File.directory?(il=subreg['InstallLocation'])
-            yield il
+  [
+    [Win32::Registry::HKEY_CURRENT_USER, RUBY_INSTALL_KEY],
+    [Win32::Registry::HKEY_CURRENT_USER, RUBY_INSTALL_KEY_WOW],
+    [Win32::Registry::HKEY_LOCAL_MACHINE, RUBY_INSTALL_KEY],
+    [Win32::Registry::HKEY_LOCAL_MACHINE, RUBY_INSTALL_KEY_WOW],
+  ].each do |reg_root, base_key|
+    begin
+      reg_root.open(backslachs(base_key)) do |reg|
+        reg.each_key do |subkey|
+          subreg = reg.open(subkey)
+          begin
+            if subreg['DisplayName'] =~ /^Ruby / && File.directory?(il=subreg['InstallLocation'])
+              yield il
+            end
+          rescue Encoding::InvalidByteSequenceError, Win32::Registry::Error
+            # Ignore entries without valid installer data or broken character encoding
           end
-        rescue Encoding::InvalidByteSequenceError, Win32::Registry::Error
-          # Ignore entries without valid installer data or broken character encoding
         end
       end
+    rescue Win32::Registry::Error => err
     end
-  rescue Win32::Registry::Error
   end
 end
 
@@ -48,7 +56,7 @@ end
 
 def find_each_ruby(&block)
   return to_enum(:find_each_ruby) unless block_given?
-  
+
   if File.exist?(rubies_filename)
     find_each_ruby_from_yml(&block)
   else
@@ -58,12 +66,12 @@ end
 
 def each_ruby
   return to_enum(:each_ruby) unless block_given?
-  
+
   find_each_ruby.each_with_index do |rubypath, idx|
     yield(idx + 1, File.expand_path(rubypath))
   end
 end
-  
+
 def list_rubies
   each_ruby do |idx, rubypath|
     rubyver = begin
@@ -220,7 +228,7 @@ Option:
     --system-default  system environment variables permanently
 EOT
 end
-      
+
 def run!(args)
   case args[0]
     when "use", "useps1"

@@ -4,7 +4,8 @@ module RubyInstaller
 module Build # Use for: Build, Runtime
   # :nodoc:
   class Msys2Installation
-    MSYS2_INSTALL_KEY = "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/"
+    RUBY_INSTALL_KEY = "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/"
+    RUBY_INSTALL_KEY_WOW = "SOFTWARE/WOW6432Node/Microsoft/Windows/CurrentVersion/Uninstall/"
 
     class MsysNotFound < RuntimeError
     end
@@ -59,20 +60,27 @@ module Build # Use for: Build, Runtime
 
       # If msys2 is installed per installer.exe
       require "win32/registry"
-      begin
-        Win32::Registry::HKEY_CURRENT_USER.open(backslachs(MSYS2_INSTALL_KEY)) do |reg|
-          reg.each_key do |subkey|
-            subreg = reg.open(subkey)
-            begin
-              if subreg['DisplayName'] =~ /^MSYS2 / && File.directory?(il=subreg['InstallLocation'])
-                yield il
+      [
+        [Win32::Registry::HKEY_CURRENT_USER, RUBY_INSTALL_KEY],
+        [Win32::Registry::HKEY_CURRENT_USER, RUBY_INSTALL_KEY_WOW],
+        [Win32::Registry::HKEY_LOCAL_MACHINE, RUBY_INSTALL_KEY],
+        [Win32::Registry::HKEY_LOCAL_MACHINE, RUBY_INSTALL_KEY_WOW],
+      ].each do |reg_root, base_key|
+        begin
+          reg_root.open(backslachs(base_key)) do |reg|
+            reg.each_key do |subkey|
+              subreg = reg.open(subkey)
+              begin
+                if subreg['DisplayName'] =~ /^MSYS2 / && File.directory?(il=subreg['InstallLocation'])
+                  yield il
+                end
+              rescue Encoding::InvalidByteSequenceError, Win32::Registry::Error
+                # Ignore entries without valid installer data or broken character encoding
               end
-            rescue Encoding::InvalidByteSequenceError, Win32::Registry::Error
-              # Ignore entries without valid installer data or broken character encoding
             end
           end
+        rescue Win32::Registry::Error
         end
-      rescue Win32::Registry::Error
       end
 
       ENV['PATH'] && ENV['PATH'].split(";").each do |path|
