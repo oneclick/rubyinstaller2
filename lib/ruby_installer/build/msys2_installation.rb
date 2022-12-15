@@ -4,8 +4,8 @@ module RubyInstaller
 module Build # Use for: Build, Runtime
   # :nodoc:
   class Msys2Installation
-    RUBY_INSTALL_KEY = "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/"
-    RUBY_INSTALL_KEY_WOW = "SOFTWARE/WOW6432Node/Microsoft/Windows/CurrentVersion/Uninstall/"
+    MSYS2_INSTALL_KEY = "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/"
+    MSYS2_INSTALL_KEY_WOW = "SOFTWARE/WOW6432Node/Microsoft/Windows/CurrentVersion/Uninstall/"
 
     class MsysNotFound < RuntimeError
     end
@@ -61,10 +61,10 @@ module Build # Use for: Build, Runtime
       # If msys2 is installed per installer.exe
       require "win32/registry"
       [
-        [Win32::Registry::HKEY_CURRENT_USER, RUBY_INSTALL_KEY],
-        [Win32::Registry::HKEY_CURRENT_USER, RUBY_INSTALL_KEY_WOW],
-        [Win32::Registry::HKEY_LOCAL_MACHINE, RUBY_INSTALL_KEY],
-        [Win32::Registry::HKEY_LOCAL_MACHINE, RUBY_INSTALL_KEY_WOW],
+        [Win32::Registry::HKEY_CURRENT_USER, MSYS2_INSTALL_KEY],
+        [Win32::Registry::HKEY_CURRENT_USER, MSYS2_INSTALL_KEY_WOW],
+        [Win32::Registry::HKEY_LOCAL_MACHINE, MSYS2_INSTALL_KEY],
+        [Win32::Registry::HKEY_LOCAL_MACHINE, MSYS2_INSTALL_KEY_WOW],
       ].each do |reg_root, base_key|
         begin
           reg_root.open(backslachs(base_key)) do |reg|
