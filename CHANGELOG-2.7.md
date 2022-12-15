@@ -7,7 +7,7 @@
 - `ridk use` Add options to store the change permanently in the user or system environment variables. #314
 
 ### Changed
-- Update to ruby-3.0.5, see [release notes](https://www.ruby-lang.org/en/news/2022/11/24/ruby-2-7-7-released/).
+- Update to ruby-2.7.7, see [release notes](https://www.ruby-lang.org/en/news/2022/11/24/ruby-2-7-7-released/).
 - Update of the SSL CA certificate list.
 - Update the bundled MSYS2 keyring package.
 - Fix start menu entry for rubygems-server.

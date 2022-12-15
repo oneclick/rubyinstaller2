@@ -132,9 +132,9 @@ Root: <%= regroot %>; Subkey: Software\Classes\<%= rubyname %>File\shell\open\co
 ; InnoSetup allows to add permissions only, but not to remove them.
 ; So use Innosetup to add described permissions and icacls to disable unwanted inheritance.
 [Dirs]
-Name: {app}; Permissions: creatorowner-full users-readexec
+Name: {app}; Permissions: creatorowner-full users-readexec admins-full
 [Run]
-Filename: "icacls.exe"; Parameters: "{app} /inheritancelevel:r "; WorkingDir: "{app}"; Description: "Changing Directory Permissions"; StatusMsg: "Changing Directory Permissions"; Flags: runhidden
+Filename: "icacls.exe"; Parameters: """{app}"" /inheritancelevel:r "; WorkingDir: "{app}"; Description: "Changing Directory Permissions"; StatusMsg: "Changing Directory Permissions"; Flags: runhidden
 
 [Icons]
 Name: {autoprograms}\{#InstallerName}\{cm:InteractiveRubyTitle}; Filename: {app}\bin\irb.<%= package.rubyver2 < '3.1' ? "cmd" : "bat" %>; IconFilename: {app}\bin\ruby.exe
