@@ -149,6 +149,10 @@ module Build # Use for: Build, Runtime
       vars['ACLOCAL_PATH'] = "#{mingw_prefix}/share/aclocal:/usr/share/aclocal"
       vars['MANPATH'] = "#{mingw_prefix}/share/man"
       vars['MINGW_PACKAGE_PREFIX'] = mingw_package_prefix
+      if ENV['TMP'] !~ /\A[ -~]*\z/
+        # TMP has some Unicode characters -> use MSYS2's /tmp to work around incompat with gcc's temporary files
+        vars['TMP'] = backslachs( msys_path + "/tmp" )
+      end
 
       case mingwarch
         when 'mingw32'
