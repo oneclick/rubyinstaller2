@@ -10,3 +10,5 @@ This is the first release based on ruby-3.2.0: https://www.ruby-lang.org/en/news
   Without this permission an admin had to use the `takeown` command to regain write access to a per-user installation.
 - Check or add a system wide gemrc file at every rubygems load to prevent hijacking by another user.
 - Avoid UNICODE characters in TMP env var to work around issues of gcc. #320
+- Switch to OpenSSL-3. This has several implications on the Ruby API and disables support for legacy crypto algorithms.
+  See https://github.com/ruby/openssl/blob/master/History.md#version-300 and https://github.com/openssl/openssl/blob/master/doc/man7/migration_guide.pod#openssl-30
