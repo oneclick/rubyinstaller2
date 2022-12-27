@@ -1,8 +1,25 @@
+begin
+  checkfile = File.join(Gem.default_dir, "/writable_p")
+  File.write(checkfile, "")
+  File.unlink(checkfile)
+rescue Errno::EACCES
+  warn_per_user = true
+  def Gem.operating_system_defaults
+    defaults = "--install-dir #{Gem.user_dir} --bindir #{File.join(Gem.user_home, 'AppData/Local/Microsoft/WindowsApps')} "
+    { 'gem' => defaults }
+  end
+end
+
 require "ruby_installer/runtime"
 
 RubyInstaller::Runtime.enable_dll_search_paths
 
 Gem.pre_install do |gem_installer|
+  if warn_per_user
+    Gem.ui.say("Using rubygems directory: #{Gem.user_dir}")
+    warn_per_user = false
+  end
+
   RubyInstaller::Runtime.enable_msys_apps(for_gem_install: true) unless gem_installer.spec.extensions.empty?
 
   if !gem_installer.options || !gem_installer.options[:ignore_dependencies] || gem_installer.options[:bundler_expected_checksum]
