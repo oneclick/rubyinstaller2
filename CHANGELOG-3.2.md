@@ -5,6 +5,7 @@ This is the first release based on ruby-3.2.0: https://www.ruby-lang.org/en/news
 ### Changes compared to RubyInstaller-3.1.3-1
 - Add installer dialog to select per-user or all-users installation and add installer options /ALLUSERS and /CURRENTUSER for silent install.
   For silent install see: https://github.com/oneclick/rubyinstaller2/wiki/FAQ#user-content-silent-install
+- Enable gem installation in user's home on a machine wide ruby setup.
 - List machine wide rubies in addition to per-user rubies at `ridk use`.
 - Add full administrator access to the install directory.
   Without this permission an admin had to use the `takeown` command to regain write access to a per-user installation.
