@@ -9,6 +9,8 @@ This is the first release based on ruby-3.2.0: https://www.ruby-lang.org/en/news
 - List machine wide rubies in addition to per-user rubies at `ridk use`.
 - Add full administrator access to the install directory.
   Without this permission an admin had to use the `takeown` command to regain write access to a per-user installation.
+- Set proper permissions of MSYS /tmp directory, so that every user can create and use files, but not read or change files of other users.
+  This is needed for a machine wide installation.
 - Check or add a system wide gemrc file at every rubygems load to prevent hijacking by another user.
 - Avoid UNICODE characters in TMP env var to work around issues of gcc. #320
 - Switch to OpenSSL-3. This has several implications on the Ruby API and disables support for legacy crypto algorithms.
