@@ -13,7 +13,7 @@ class Base < Rake::Task
     []
   end
 
-  def initialize(*_)
+  def initialize(*_, **_)
     @msys = nil
     enable_colors
     super

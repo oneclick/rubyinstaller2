@@ -26,12 +26,13 @@ module Build # Use for: Build, Runtime
       end
     end
 
-    def initialize(*args, **kwargs)
+    def initialize(*_, **_)
+      super
       @colors_on = nil
     end
 
     def colored(color, string)
-      @colors_on = $stdin.tty? if @colors_on.nil?
+      @colors_on = $stdout.tty? if @colors_on.nil?
       if @colors_on
         c = ColorMap[color] || color
         "#{ESC}#{30+c}m#{string}#{NND}"
