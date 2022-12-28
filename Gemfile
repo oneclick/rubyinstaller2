@@ -4,3 +4,4 @@ source 'https://rubygems.org'
 gemspec
 
 gem "octokit"
+gem "win32-process"

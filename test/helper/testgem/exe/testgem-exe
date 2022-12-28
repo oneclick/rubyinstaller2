@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require "testgem"
+
+puts Libguess.determine_encoding('hij', 'Greek')
+puts __FILE__
