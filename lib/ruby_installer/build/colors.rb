@@ -18,13 +18,20 @@ module Build # Use for: Build, Runtime
       white: 7,
     }
 
+    module_function
+
     ColorMap.each do |color, code|
       define_method(color) do |string|
         colored(code, string)
       end
     end
 
+    def initialize(*args, **kwargs)
+      @colors_on = nil
+    end
+
     def colored(color, string)
+      @colors_on = $stdin.tty? if @colors_on.nil?
       if @colors_on
         c = ColorMap[color] || color
         "#{ESC}#{30+c}m#{string}#{NND}"
