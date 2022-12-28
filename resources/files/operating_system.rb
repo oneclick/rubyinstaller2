@@ -1,22 +1,28 @@
+require "ruby_installer/runtime"
+
 begin
   checkfile = File.join(Gem.default_dir, "/writable_p")
   File.write(checkfile, "")
-  File.unlink(checkfile)
+  File.unlink(checkfile) rescue nil # Raises ENOENT sometimes
 rescue Errno::EACCES
   warn_per_user = true
+  # Set default options for the gem command
   def Gem.operating_system_defaults
     defaults = "--install-dir #{Gem.user_dir} --bindir #{File.join(Gem.user_home, 'AppData/Local/Microsoft/WindowsApps')} "
     { 'gem' => defaults }
   end
+  # Set default options for the bundle command
+  ENV['GEM_HOME'] = Gem.user_dir
+  ENV['BUNDLE_SYSTEM_BINDIR'] = File.join(Gem.user_home, 'AppData/Local/Microsoft/WindowsApps')
+rescue => err
+  warn RubyInstaller::Runtime::Colors.yellow("Warning: Can't determine writability of default gem path: #{err}")
 end
-
-require "ruby_installer/runtime"
 
 RubyInstaller::Runtime.enable_dll_search_paths
 
 Gem.pre_install do |gem_installer|
   if warn_per_user
-    Gem.ui.say("Using rubygems directory: #{Gem.user_dir}")
+    Gem.ui.say(RubyInstaller::Runtime::Colors.green("Using rubygems directory: #{Gem.user_dir}"))
     warn_per_user = false
   end
 
@@ -54,5 +60,5 @@ begin
     end
   end
 rescue => err
-  warn "Warning: Failed to create a system wide 'gemrc' file, making Rubygems possibly insecure: #{err}"
+  warn RubyInstaller::Runtime::Colors.yellow("Warning: Failed to create a system wide 'gemrc' file, making Rubygems possibly insecure: #{err}")
 end
