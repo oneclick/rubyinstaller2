@@ -27,7 +27,11 @@ gem install testgem-1.0.0.gem --verbose
     FileUtils.rm("test/helper/testgem/testgem-1.0.0.gem")
   end
 
-  TESTUSER = "ritästuser"
+  if RUBY_VERSION < "3.0"
+    TESTUSER = "ritestuser"
+  else
+    TESTUSER = "ritästuser"
+  end
 
   def with_test_user(testname: nil)
     testname ||= caller[0][/`.*'/][1..-2]
