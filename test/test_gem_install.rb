@@ -85,4 +85,26 @@ gem install testgem-1.0.0.gem --verbose
       end
     end
   end
+
+  def test_user_bundler
+    with_test_user do
+      require "tmpdir"
+
+      Dir.mktmpdir("ritest") do |dir|
+        pwd = Dir.pwd
+        Dir.chdir dir
+        File.write("Gemfile", "source 'https://rubygems.org'; gem 'diff-lcs'")
+
+        out = IO.popen('bundle install', &:read)
+        assert_match(/Bundle complete!/, out)
+
+        out = IO.popen('ldiff --version 2>&1', &:read)
+        assert_match(/Diff::LCS/, out)
+
+        assert system("gem uninstall diff-lcs --executables --force"), "uninstall diff-lcs"
+      ensure
+        Dir.chdir pwd
+      end
+    end
+  end
 end
