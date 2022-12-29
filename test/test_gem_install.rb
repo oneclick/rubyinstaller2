@@ -33,7 +33,6 @@ gem install testgem-1.0.0.gem --verbose
     testname ||= caller[0][/`.*'/][1..-2]
 
     if ENV['USERNAME'] == TESTUSER
-      ENV['HOME'] = ENV['USERPROFILE'] # Workaround for ruby's preference of HOMEPATH over USERPROFILE
       puts "====HOME:#{ENV['USERPROFILE']}===="
       yield
     else
