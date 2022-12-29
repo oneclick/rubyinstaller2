@@ -89,7 +89,10 @@ module Build # Use for: Build, Runtime
       end
 
       # If msys2 is installed by scoop package manager
-      yield IO.popen(["scoop", "prefix", "msys2"], &:read).strip rescue StandardError
+      begin
+        yield IO.popen(["scoop", "prefix", "msys2"], &:read).strip
+      rescue SystemCallError
+      end
 
       raise MsysNotFound, "MSYS2 could not be found"
     end
@@ -176,8 +179,12 @@ module Build # Use for: Build, Runtime
         else raise "unknown mingwarch #{@mingwarch.inspect}"
       end
 
-      locale = IO.popen([File.join(msys_bin, "locale"), "-uU"], &:read) rescue SystemCallError
-      vars['LANG'] = locale=~/UTF-8/ ? locale.to_s.strip : 'C'
+      begin
+        locale = IO.popen([File.join(msys_bin, "locale"), "-uU"], &:read)
+      rescue SystemCallError
+      else
+        vars['LANG'] = locale=~/UTF-8/ ? locale.to_s.strip : 'C'
+      end
 
       vars
     end
