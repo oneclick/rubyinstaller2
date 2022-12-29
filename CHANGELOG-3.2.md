@@ -1,4 +1,4 @@
-## RubyInstaller-3.2.0-1 - 2021-12-26
+## RubyInstaller-3.2.0-1 - 2021-12-29
 
 This is the first release based on ruby-3.2.0: https://www.ruby-lang.org/en/news/2022/12/25/ruby-3-2-0-released/
 
