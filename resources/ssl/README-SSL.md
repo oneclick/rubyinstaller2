@@ -2,7 +2,7 @@ RubyInstaller2 - SSL/TLS configuration
 ======================================
 
 RubyInstaller2 is packaged with a predefined list of trusted certificate authorities (CAs).
-This list is stored in the file `<install-path>/ssl/cert.pem` .
+This list is stored in the file `<install-path>/etc/ssl/cert.pem` .
 It contains the certificates of the [default list of the Mozilla Foundation](https://wiki.mozilla.org/CA/Included_Certificates) .
 The file `cert.pem` is loaded when `require "openssl"` is executed.
 New releases of the RubyInstaller2 update the CA list to the latest version at the release date.
@@ -19,10 +19,10 @@ Setting this variable disables the CA list bundled with RubyInstaller2.
 Addition of certificate to the Ruby default CA list
 ----------------------------------------------
 
-Additional certificates shall be stored in `<install-path>/ssl/certs/<yourfile>.pem` in pem format.
+Additional certificates shall be stored in `<install-path>/etc/ssl/certs/<yourfile>.pem` in pem format.
 Each pem file may contain several certificates.
 The pem files must be activated for CA lookup by using a OpenSSL-hashed filename.
-There is a helper script in `<install-path>/ssl/certs/c_rehash.rb` to generate these hash files.
+There is a helper script in `<install-path>/etc/ssl/certs/c_rehash.rb` to generate these hash files.
 Just double click `c_rehash.rb` to activate all pem files in the directory.
 
 Addition of certificates to the Devkit/MSYS2 CA list
