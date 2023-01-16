@@ -108,7 +108,7 @@ EOT
   def file(name, *args, &block)
     task_once(name, block) do
       super(name, *args) do |ta|
-        block.call(ta).tap do
+        block&.call(ta).tap do
           raise "file #{ta.name} is missing after task executed" unless File.exist?(ta.name)
         end
       end
