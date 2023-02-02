@@ -75,7 +75,7 @@ jobs:
         git config --system core.autocrlf false
         git config --system core.eol lf
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     # Work around issue https://github.com/actions/checkout/issues/290
     - name: fetch tag annotations
@@ -146,7 +146,7 @@ jobs:
       run: rake ri-msys:ruby-%target_ruby%-%arch%:installer-inno
 
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: installer packages
         path: |
