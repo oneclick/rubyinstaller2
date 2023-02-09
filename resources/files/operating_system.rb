@@ -8,12 +8,15 @@ rescue Errno::EACCES
   warn_per_user = true
   # Set default options for the gem command
   def Gem.operating_system_defaults
-    defaults = "--install-dir #{Gem.user_dir} --bindir #{File.join(Gem.user_home, 'AppData/Local/Microsoft/WindowsApps')} "
+    defaults = ["--install-dir", Gem.user_dir]
+    bindir = File.join(Gem.user_home, 'AppData/Local/Microsoft/WindowsApps')
+    defaults += ["--bindir", bindir] if File.directory?(bindir)
     { 'gem' => defaults }
   end
   # Set default options for the bundle command
-  ENV['GEM_HOME'] = Gem.user_dir
-  ENV['BUNDLE_SYSTEM_BINDIR'] = File.join(Gem.user_home, 'AppData/Local/Microsoft/WindowsApps')
+  ENV['GEM_HOME'] ||= Gem.user_dir
+  bindir = File.join(Gem.user_home, 'AppData/Local/Microsoft/WindowsApps')
+  ENV['BUNDLE_SYSTEM_BINDIR'] ||= bindir if File.directory?(bindir)
 rescue => err
   warn RubyInstaller::Runtime::Colors.yellow("Warning: Can't determine writability of default gem path: #{err}")
 end
