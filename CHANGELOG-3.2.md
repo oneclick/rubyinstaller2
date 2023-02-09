@@ -1,3 +1,15 @@
+## RubyInstaller-3.2.1-1 - 2023-02-09
+
+### Changed
+- Update to ruby-3.2.1, see [release notes](https://www.ruby-lang.org/en/news/2023/02/08/ruby-3-2-1-released/).
+- Update the SSL CA certificate list and to OpenSSL-3.0.8.
+- Move OpenSSL config directroy from `<install-path>/ssl/` to  `<install-path>/etc/ssl/` to follow upstream change in https://github.com/msys2/MINGW-packages/commit/2f97826e8a8fce0b9a49da7ea2bffbab7ce98eb5
+- Allow home directory with white space when installing gems into users home. #332
+- Don't overwrite GEM_HOME or BUNDLE_SYSTEM_BINDIR if already present.
+- Don't set bindir to a non-existing directory.
+  This is related to https://github.com/rubygems/rubygems/issues/6332
+
+
 ## RubyInstaller-3.2.0-1 - 2022-12-29
 
 This is the first release based on ruby-3.2.0: https://www.ruby-lang.org/en/news/2022/12/25/ruby-3-2-0-released/
