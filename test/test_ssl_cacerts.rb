@@ -57,9 +57,9 @@ class TestSslCacerts < Minitest::Test
     end
   end
 
-  # Can CA certificates added into C:/Ruby24/etc/ssl/certs/<hash>.0 ?
+  # Can CA certificates added into C:/Ruby32/bin/etc/ssl/certs/<hash>.0 ?
   def test_ssl_certs_dir
-    certfile = "#{RbConfig::TOPDIR}/#{"etc/" if RUBY_VERSION >= "3.2"}ssl/certs/#{pki.ca_cert.subject.hash.to_s(16)}.0"
+    certfile = "#{RbConfig::TOPDIR}/#{"bin/etc/" if RUBY_VERSION >= "3.2"}ssl/certs/#{pki.ca_cert.subject.hash.to_s(16)}.0"
     File.write(certfile, pki.ca_cert.to_pem)
 
     server  = TCPServer.new "localhost", 0
