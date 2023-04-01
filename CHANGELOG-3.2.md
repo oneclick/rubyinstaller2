@@ -1,3 +1,12 @@
+## RubyInstaller-3.2.2-1 - 2023-04-01
+
+### Changed
+- Update to ruby-3.2.2, see [release notes](https://www.ruby-lang.org/en/news/2023/03/30/ruby-3-2-2-released/).
+- Update to OpenSSL-3.1.0.
+  The Ruby API dosn't change.
+- Move OpenSSL config directroy from `<install-path>/etc/ssl/` to  `<install-path>/bin/etc/ssl/` to follow upstream change in MSYS2. [#337](https://github.com/oneclick/rubyinstaller2/issues/337)
+
+
 ## RubyInstaller-3.2.1-1 - 2023-02-09
 
 ### Changed

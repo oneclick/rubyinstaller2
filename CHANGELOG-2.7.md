@@ -1,3 +1,10 @@
+## RubyInstaller-2.7.8-1 - 2023-04-01
+
+### Changed
+- Update to ruby-2.7.8, see [release notes](https://www.ruby-lang.org/en/news/2023/03/30/ruby-2-7-8-released/).
+- Update to OpenSSL-1.1.1t.
+
+
 ## RubyInstaller-2.7.7-1 - 2022-11-27
 
 ### Added

@@ -1,3 +1,10 @@
+## RubyInstaller-3.1.4-1 - 2023-04-01
+
+### Changed
+- Update to ruby-3.1.4, see [release notes](https://www.ruby-lang.org/en/news/2023/03/30/ruby-3-1-4-released/).
+- Update to OpenSSL-1.1.1t.
+
+
 ## RubyInstaller-3.1.3-1 - 2022-11-27
 
 ### Added
