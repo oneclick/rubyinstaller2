@@ -2,7 +2,17 @@
 
 ### Changed
 - Update to ruby-2.7.8, see [release notes](https://www.ruby-lang.org/en/news/2023/03/30/ruby-2-7-8-released/).
-- Update to OpenSSL-1.1.1t.
+- Update the SSL CA certificate list and to OpenSSL-1.1.1t.
+- Add installer dialog to select per-user or all-users installation.
+  See out Wiki for further [description of the install modes](https://github.com/oneclick/rubyinstaller2/wiki/FAQ#user-content-install-mode).
+- Add installer options /ALLUSERS and /CURRENTUSER for silent install.
+  For silent install see: https://github.com/oneclick/rubyinstaller2/wiki/FAQ#user-content-silent-install
+- Enable automatic private gem installation in user's home on a machine wide ruby setup, if the user doesn't have write access.
+- List machine wide rubies in addition to per-user rubies at `ridk use`.
+- Set proper permissions of MSYS /tmp directory, so that every user can create and use files, but not read or change files of other users.
+  This is needed for a machine wide installation.
+- Check or add a system wide gemrc file at every rubygems load to prevent hijacking by another user.
+- Avoid UNICODE characters in TMP env var to work around issues of gcc. #320
 
 
 ## RubyInstaller-2.7.7-1 - 2022-11-27
