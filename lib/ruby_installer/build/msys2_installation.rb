@@ -71,7 +71,7 @@ module Build # Use for: Build, Runtime
             reg.each_key do |subkey|
               subreg = reg.open(subkey)
               begin
-                if subreg['DisplayName'] =~ /^MSYS2 / && File.directory?(il=subreg['InstallLocation'])
+                if subreg['DisplayName'] =~ /^MSYS2/ && File.directory?(il=subreg['InstallLocation'])
                   yield il
                 end
               rescue Encoding::InvalidByteSequenceError, Win32::Registry::Error
