@@ -46,6 +46,10 @@ module Build # Use for: Build, Runtime
     end
 
     def iterate_msys_paths
+      # Prefer MSYS2_PATH if ENV set
+      if ENV["MSYS2_PATH"]
+        yield ENV["MSYS2_PATH"]
+      end
       # Prefer MSYS2 when installed within the ruby directory.
       yield File.join(RbConfig::TOPDIR, "msys64")
       yield File.join(RbConfig::TOPDIR, "msys32")
