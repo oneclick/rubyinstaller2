@@ -107,7 +107,7 @@ class TestModule < Minitest::Test
     paths = []
     begin
       assert_raises(RubyInstaller::Runtime::Msys2Installation::MsysNotFound) do
-        with_env({PATH: "D:/xyz/abc/def;E:/"}) do
+        with_env({PATH: "D:/xyz/abc/def;E:/", MSYS2_PATH: "F:/my/custom/msys"}) do
           RubyInstaller::Runtime.msys2_installation.iterate_msys_paths do |path|
             paths << path
           end
@@ -122,6 +122,7 @@ class TestModule < Minitest::Test
     # Test for Paths in the ruby install dir, for default paths and for the PATH dirs.
     # MSYS paths from the registry are not (yet) tested.
     min_paths = %w[
+      F:/my/custom/msys
       <inst>/ruby/msys64
       <inst>/ruby/msys32
       <inst>/msys64
