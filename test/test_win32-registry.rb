@@ -1,6 +1,5 @@
 #frozen_string_literal: true
 require "minitest/autorun"
-require "win32/registry"
 
 class TestWin32Registry < Minitest::Test
   private def backslachs(path)
@@ -10,6 +9,9 @@ class TestWin32Registry < Minitest::Test
   TEST_REGISTRY_KEY = "SOFTWARE/ruby-win32-registry-test/"
 
   def test_win32_registry
+    old_cp = `chcp`[/\d+/]
+    `chcp 850`
+    require "win32/registry"
     keys = []
     Win32::Registry::HKEY_CURRENT_USER.create(backslachs(TEST_REGISTRY_KEY)) do |reg|
       reg.create("abc EUR")
@@ -25,5 +27,6 @@ class TestWin32Registry < Minitest::Test
     Win32::Registry::HKEY_CURRENT_USER.open(backslachs(File.dirname(TEST_REGISTRY_KEY))) do |reg|
       reg.delete_key File.basename(TEST_REGISTRY_KEY), true
     end
+    `chcp #{old_cp}`
   end
 end
