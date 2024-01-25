@@ -1,10 +1,13 @@
-## RubyInstaller-3.2.3-1 - 2024-01-19
+## RubyInstaller-3.2.3-1 - 2024-01-25
 
 ### Changed
 - Update to ruby-3.2.3, see [release notes](https://www.ruby-lang.org/en/news/2024/01/18/ruby-3-2-3-released/).
 - Update to OpenSSL-3.2.0.
   The Ruby API dosn't change.
 - Update the SSL CA certificate list
+- Allow setting of MSYS2 path by environment variable `MSYS2_PATH`. [#361](https://github.com/oneclick/rubyinstaller2/issues/361)
+  This setting is preferred over all other methods to find the MSYS2 directory.
+- Return registry strings as UTF-8 instead of OEM charset. [#348](https://github.com/oneclick/rubyinstaller2/issues/348)
 
 
 ## RubyInstaller-3.2.2-1 - 2023-04-01
