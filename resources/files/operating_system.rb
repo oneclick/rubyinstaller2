@@ -6,12 +6,19 @@ begin
   File.unlink(checkfile) rescue nil # Raises ENOENT sometimes
 rescue Errno::EACCES
   warn_per_user = true
-  # Set default options for the gem command
-  def Gem.operating_system_defaults
-    defaults = ["--install-dir", Gem.user_dir]
-    bindir = File.join(Gem.user_home, 'AppData/Local/Microsoft/WindowsApps')
-    defaults += ["--bindir", bindir] if File.directory?(bindir)
-    { 'gem' => defaults }
+  module Gem
+    class << self
+      # Hack to prevent method redefinition warning
+      alias_method :operating_system_defaults, :operating_system_defaults
+
+      # Set default options for the gem command
+      def operating_system_defaults
+        defaults = ["--install-dir", Gem.user_dir]
+        bindir = File.join(Gem.user_home, 'AppData/Local/Microsoft/WindowsApps')
+        defaults += ["--bindir", bindir] if File.directory?(bindir)
+        { 'gem' => defaults }
+      end
+    end
   end
   # Set default options for the bundle command
   ENV['GEM_HOME'] ||= Gem.user_dir
