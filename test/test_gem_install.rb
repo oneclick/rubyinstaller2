@@ -70,7 +70,7 @@ gem install testgem-1.0.0.gem --verbose
         system("pacman -S --needed --noconfirm %MINGW_PACKAGE_PREFIX%-libmowgli %MINGW_PACKAGE_PREFIX%-libguess ed")
       end
     end
-    with_test_user do
+    with_test_user testname: "test_user_gem_install" do
       test_gem_install
     end
     unless ENV['USERNAME'] == TESTUSER
@@ -81,7 +81,7 @@ gem install testgem-1.0.0.gem --verbose
   end
 
   def test_user_msys_tmp
-    with_test_user do
+    with_test_user testname: "test_user_msys_tmp" do
       RubyInstaller::Runtime.msys2_installation.with_msys_apps_enabled do
         out = IO.popen('sh -c "echo works >/tmp/ritestfile && cat /tmp/ritestfile && rm /tmp/ritestfile"', &:read)
         assert_match(/works/, out)
@@ -91,7 +91,7 @@ gem install testgem-1.0.0.gem --verbose
   end
 
   def test_user_bundler
-    with_test_user do
+    with_test_user testname: "test_user_bundler" do
       require "tmpdir"
 
       Dir.mktmpdir("ritest") do |dir|
