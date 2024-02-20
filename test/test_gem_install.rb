@@ -34,7 +34,7 @@ gem install testgem-1.0.0.gem --verbose
   end
 
   def with_test_user(testname: nil)
-    testname ||= caller[0][/`.*'/][1..-2]
+    testname ||= caller[0][/[`#].*?'/][1..-2]
 
     if ENV['USERNAME'] == TESTUSER
       puts "====HOME:#{ENV['USERPROFILE']}===="
