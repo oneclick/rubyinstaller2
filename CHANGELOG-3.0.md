@@ -1,4 +1,4 @@
-## RubyInstaller-3.0.7-1 - 2024-04-23
+## RubyInstaller-3.0.7-1 - 2024-04-24
 
 ### Changed
 - Update to ruby-3.0.7, see [release notes](https://www.ruby-lang.org/en/news/2024/04/23/ruby-3-0-7-released/).
@@ -8,6 +8,8 @@
   - CVE-2024-0727
   - Implicit rejection as a protection against Bleichenbacher attacks
 - Update the bundled MSYS2 keyring package.
+- Avoid crash even if a registry key incldues inconvertible characters
+- Avoid method redefinition warning in rubygems hook
 
 
 ## RubyInstaller-3.0.6-1 - 2023-04-01
