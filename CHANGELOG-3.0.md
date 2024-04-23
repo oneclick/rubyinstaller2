@@ -1,3 +1,15 @@
+## RubyInstaller-3.0.7-1 - 2024-04-23
+
+### Changed
+- Update to ruby-3.0.7, see [release notes](https://www.ruby-lang.org/en/news/2024/04/23/ruby-3-0-7-released/).
+- Update the SSL CA certificate list.
+- Update to OpenSSL-1.1.1w and because version 1.1.1 is out of maintanence from the OpenSSL project apply all security patches that Canonical provides for Ubuntu-20.04:
+  - CVE-2023-5678
+  - CVE-2024-0727
+  - Implicit rejection as a protection against Bleichenbacher attacks
+- Update the bundled MSYS2 keyring package.
+
+
 ## RubyInstaller-3.0.6-1 - 2023-04-01
 
 ### Changed
