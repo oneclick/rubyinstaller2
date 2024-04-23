@@ -1,3 +1,12 @@
+## RubyInstaller-3.3.1-1 - 2024-04-23
+
+### Changed
+- Update to ruby-3.3.1, see [release notes](https://www.ruby-lang.org/en/news/2024/04/23/ruby-3-3-1-released/).
+- Update the SSL CA certificate list.
+- Update to OpenSSL-3.3.0. The Ruby API dosn't change.
+- Update the bundled MSYS2 keyring package.
+
+
 ## RubyInstaller-3.3.0-1 - 2023-12-26
 
 This is the first release based on ruby-3.3.0: https://www.ruby-lang.org/en/news/2023/12/25/ruby-3-3-0-released/
