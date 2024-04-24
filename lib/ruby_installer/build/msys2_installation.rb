@@ -82,6 +82,8 @@ module Build # Use for: Build, Runtime
                 # Ignore entries without valid installer data or broken character encoding
               end
             end
+          rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
+            # Avoid crash even if subkey includes inconvertible characters to internal encoding
           end
         rescue Win32::Registry::Error
         end
