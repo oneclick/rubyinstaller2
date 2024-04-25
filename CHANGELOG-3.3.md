@@ -4,6 +4,7 @@
 - Update to ruby-3.3.1, see [release notes](https://www.ruby-lang.org/en/news/2024/04/23/ruby-3-3-1-released/).
 - Update the SSL CA certificate list.
 - Update to OpenSSL-3.3.0. The Ruby API dosn't change.
+- Move bundled OpenSSL related files to bin/lib subdirectory so that legacy algorithms can be loaded through provider support. #365
 - Update the bundled MSYS2 keyring package.
 - Avoid crash even if a registry key incldues inconvertible characters
 - Avoid method redefinition warning in rubygems hook

@@ -28,10 +28,6 @@ bin/ruby.exe
 bin/rubyw.exe
 bin/zlib1.dll
 include/ruby-3.2.0
-lib/engines-3/capi.dll
-lib/engines-3/loader_attic.dll
-lib/engines-3/padlock.dll
-lib/ossl-modules/legacy.dll
 lib/pkgconfig/ruby-3.2.pc
 lib/ruby/3.2.0
 lib/ruby/gems/3.2.0
