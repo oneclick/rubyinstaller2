@@ -10,7 +10,6 @@
 - Avoid method redefinition warning in rubygems hook
 - Allow setting of MSYS2 path by environment variable `MSYS2_PATH`. [#361](https://github.com/oneclick/rubyinstaller2/issues/361)
   This setting is preferred over all other methods to find the MSYS2 directory.
-- Return registry strings as UTF-8 instead of OEM charset. [#348](https://github.com/oneclick/rubyinstaller2/issues/348)
 
 
 ## RubyInstaller-3.3.0-1 - 2023-12-26
