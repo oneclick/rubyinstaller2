@@ -124,5 +124,5 @@ Check the [wiki on how to use](https://github.com/oneclick/rubyinstaller2/wiki/F
 
 ## Known Issues
 
-- It's best to avoid installation into a PATH containing spaces or special characters. Some gems won't install with spaces and older ruby versions (<= 3.0.x) ridk won't even run then at all with special characters.
+- It's best to avoid installation into a PATH containing spaces or non-ASCII. Some gems won't install with spaces and older ruby versions (<= 3.0.x) ridk won't even run then at all with special characters.
 - Also refer to [the issue list](https://github.com/larskanis/rubyinstaller2/issues).
