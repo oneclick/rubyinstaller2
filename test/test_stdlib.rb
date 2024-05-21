@@ -75,6 +75,7 @@ class TestStdlib < Minitest::Test
       else
         assert_match(/OpenSSL 3\./, OpenSSL::OPENSSL_VERSION)
         assert_match(/OpenSSL 3\./, OpenSSL::OPENSSL_LIBRARY_VERSION)
+        assert_match(/OpenSSL 3\./, OpenSSL::OPENSSL_LIBRARY_VERSION)
     end
   end
 
