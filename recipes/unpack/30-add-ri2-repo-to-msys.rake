@@ -12,7 +12,7 @@ file self.repo_added => [File.dirname(self.repo_added)] do |t|
       fd.puts "# Added for RubyInstaller2 packaging by #{__FILE__}"
       fd.puts <<-EOT
 [ci.ri2]
-Server = https://github.com/oneclick/rubyinstaller2-packages/releases/download/ci.ri2
+Server = https://github.com/Vishal1309/rubyinstaller2-packages/releases/download/test_tag
       EOT
     end
     $stderr.puts "Populated #{ pacman_conf }:\n#{ File.read(pacman_conf) }"
