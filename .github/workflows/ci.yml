@@ -210,7 +210,7 @@ jobs:
       shell: cmd
       env:
         GPGPASSWD: ${{ secrets.GPGPASSWD }}
-        DEPLOY_REPO_NAME: oneclick/rubyinstaller2
+        DEPLOY_REPO_NAME: Vishal1309/rubyinstaller2
         DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
       run: |
         call ridk enable
