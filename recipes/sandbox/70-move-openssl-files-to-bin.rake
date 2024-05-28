@@ -3,7 +3,6 @@
 
 if package.rubyver2 >= "3.2"
   osl_files = %w[
-    lib/engines-3/padlock.dll
     lib/ossl-modules/legacy.dll
   ]
 
