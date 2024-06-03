@@ -11,12 +11,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - target_ruby: "3.3.1"
+        - target_ruby: "3.3.2"
           arch: "x86-msvcrt"
           build_ruby: "3.1.4/x64"
           run_mri_spec: v3_3_0
 
-        - target_ruby: "3.3.1"
+        - target_ruby: "3.3.2"
           arch: "x64-ucrt"
           build_ruby: "3.1.4/x64"
           run_mri_spec: v3_3_0
@@ -31,12 +31,12 @@ jobs:
           build_ruby: "3.1.4/x64"
           run_mri_spec: v3_2_2
 
-        - target_ruby: "3.1.5"
+        - target_ruby: "3.1.6"
           arch: "x86-msvcrt"
           build_ruby: "3.0.6/x64"
           run_mri_spec: v3_1_4
 
-        - target_ruby: "3.1.5"
+        - target_ruby: "3.1.6"
           arch: "x64-ucrt"
           build_ruby: "3.0.6/x64"
           run_mri_spec: v3_1_4
