@@ -1,3 +1,9 @@
+## RubyInstaller-3.3.2-1 - 2024-06-03
+
+### Changed
+- Update to ruby-3.3.2, see [release notes](https://www.ruby-lang.org/en/news/2024/05/30/ruby-3-3-2-released/).
+
+
 ## RubyInstaller-3.3.1-1 - 2024-04-24
 
 ### Changed
