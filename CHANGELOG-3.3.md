@@ -1,3 +1,11 @@
+## RubyInstaller-3.3.3-1 - 2024-06-14
+
+### Changed
+- Update to ruby-3.3.3, see [release notes](https://www.ruby-lang.org/en/news/2024/06/12/ruby-3-3-3-released/).
+- Update to InnoSetup-6.3.1 and OpenSSL-3.3.1
+- Update the SSL CA certificate list.
+
+
 ## RubyInstaller-3.3.2-1 - 2024-06-03
 
 ### Changed
