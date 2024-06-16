@@ -3,16 +3,16 @@ file self.repo_added => [File.dirname(self.repo_added)] do |t|
   msys_path = RubyInstaller::Build.msys2_installation.msys_path
   pacman_conf = File.join(msys_path, "/etc/pacman.conf")
 
-  if File.read(pacman_conf) =~ /^\[ci\.ri2\]/
-    $stderr.puts "pacman repo 'ci.ri2' is already registered"
+  if File.read(pacman_conf) =~ /^\[test_tag\]/
+    $stderr.puts "pacman repo 'test_tag' is already registered"
   else
-    $stderr.puts "Register pacman repo 'ci.ri2'"
+    $stderr.puts "Register pacman repo 'test_tag'"
     File.open(pacman_conf, "a+") do |fd|
       fd.puts
       fd.puts "# Added for RubyInstaller2 packaging by #{__FILE__}"
       fd.puts <<-EOT
-[ci.ri2]
-Server = https://github.com/oneclick/rubyinstaller2-packages/releases/download/ci.ri2
+[test_tag]
+Server = https://github.com/Vishal1309/rubyinstaller2-packages/releases/download/test_tag
       EOT
     end
     $stderr.puts "Populated #{ pacman_conf }:\n#{ File.read(pacman_conf) }"
