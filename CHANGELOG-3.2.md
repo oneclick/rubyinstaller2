@@ -1,3 +1,12 @@
+## RubyInstaller-3.2.5-1 - 2024-07-26
+
+### Changed
+- Update to ruby-3.2.5, see [release notes](https://www.ruby-lang.org/en/news/2024/07/26/ruby-3-2-5-released/).
+- Update the SSL CA certificate list.
+- Update to OpenSSL-3.3.1. The Ruby API dosn't change.
+- Update to InnoSetup-6.3.1 and OpenSSL-3.3.1
+
+
 ## RubyInstaller-3.2.4-1 - 2024-04-24
 
 ### Changed
