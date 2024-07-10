@@ -124,7 +124,10 @@ jobs:
 
     - name: workaround signature issue on github actions
       shell: cmd
-      run: C:\msys64\usr\bin\sed -i "/^SigLevel/ s/$/ DatabaseOptional/" /etc/pacman.conf
+      run: |
+        C:\msys64\usr\bin\sed -i "s/^SigLevel.*$/SigLevel = Never/" /etc/pacman.conf
+        C:\msys64\usr\bin\sed -i "s/^LocalFileSigLevel/#LocalFileSigLevel/" /etc/pacman.conf
+        C:\msys64\usr\bin\sed -i "s/^RemoteFileSigLevel/#RemoteFileSigLevel/" /etc/pacman.conf
 
     - name: Kill all running msys2 binaries to avoid error "size of shared memory region changed".
       shell: powershell
@@ -207,7 +210,7 @@ jobs:
       shell: cmd
       env:
         GPGPASSWD: ${{ secrets.GPGPASSWD }}
-        DEPLOY_REPO_NAME: oneclick/rubyinstaller2
+        DEPLOY_REPO_NAME: Vishal1309/rubyinstaller2
         DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
       run: |
         call ridk enable
