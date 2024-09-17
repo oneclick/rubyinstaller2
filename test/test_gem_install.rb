@@ -13,15 +13,15 @@ gem install testgem-1.0.0.gem --verbose
     assert res, "shell commands should succeed"
 
     out = IO.popen("ruby -rtestgem -e \"puts Libguess.determine_encoding('abc', 'Greek')\"", &:read)
-    assert_match(/UTF-8/, out, "call the ruby API of the testgem")
+    assert_match(/UTF-8/, out.scrub, "call the ruby API of the testgem")
 
     out = RubyInstaller::Runtime.msys2_installation.with_msys_apps_enabled do
       IO.popen("ed --version", &:read)
     end
-    assert_match(/GNU ed/, out, "execute the installed MSYS2 program, requested by the testgem")
+    assert_match(/GNU ed/, out.scrub, "execute the installed MSYS2 program, requested by the testgem")
 
     out = IO.popen("testgem-exe", &:read)
-    assert_match(/UTF-8/, out, "execute the bin file of the testgem")
+    assert_match(/UTF-8/, out.scrub, "execute the bin file of the testgem")
 
     assert system("gem uninstall testgem --executables --force"), "uninstall testgem"
     FileUtils.rm("test/helper/testgem/testgem-1.0.0.gem")
@@ -55,7 +55,7 @@ gem install testgem-1.0.0.gem --verbose
 
       stdout_write.close
       out = stdout_read.read
-      assert_match(/ 0 failures, 0 errors/, out, "process running under #{TESTUSER}")
+      assert_match(/ 0 failures, 0 errors/, out.scrub, "process running under #{TESTUSER}")
       puts out
 
       if out =~ /====HOME:(.*)====/
@@ -84,7 +84,7 @@ gem install testgem-1.0.0.gem --verbose
     with_test_user do
       RubyInstaller::Runtime.msys2_installation.with_msys_apps_enabled do
         out = IO.popen('sh -c "echo works >/tmp/ritestfile && cat /tmp/ritestfile && rm /tmp/ritestfile"', &:read)
-        assert_match(/works/, out)
+        assert_match(/works/, out.scrub)
         assert_equal 0, $?.exitstatus
       end
     end
@@ -100,10 +100,10 @@ gem install testgem-1.0.0.gem --verbose
         File.write("Gemfile", "source 'https://rubygems.org'; gem 'diff-lcs'")
 
         out = IO.popen('bundle install', &:read)
-        assert_match(/Bundle complete!/, out)
+        assert_match(/Bundle complete!/, out.scrub)
 
         out = IO.popen('ldiff --version 2>&1', &:read)
-        assert_match(/Diff::LCS/, out)
+        assert_match(/Diff::LCS/, out.scrub)
 
         assert system("gem uninstall diff-lcs --executables --force"), "uninstall diff-lcs"
       ensure
