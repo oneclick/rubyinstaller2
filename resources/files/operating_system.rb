@@ -65,7 +65,7 @@ begin
 # But do not delete this file as otherwise it could be hijacked by
 # another user in a multi-user environment.
 ---
-{}
+verbose: false
       EOT
     end
   end
