@@ -1,3 +1,13 @@
+## RubyInstaller-3.3.6-1 - 2024-11-07
+
+### Changed
+- Update to ruby-3.3.6, see [release notes](https://www.ruby-lang.org/en/news/2024/11/05/ruby-3-3-6-released/).
+- Update the SSL CA certificate list.
+- Update to OpenSSL-3.4.0. The Ruby API dosn't change.
+- Avoid early load of etc.so allowing updates of etc.gem. [#388](https://github.com/oneclick/rubyinstaller2/issues/388)
+- Set a single key in gemrc to allow appending to this file. [#388](https://github.com/oneclick/rubyinstaller2/issues/388#issuecomment-2348393612)
+
+
 ## RubyInstaller-3.3.5-1 - 2024-09-05
 
 ### Changed
