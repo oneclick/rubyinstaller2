@@ -1,3 +1,13 @@
+## RubyInstaller-3.3.6-2 - 2024-11-09
+
+### Changed
+- Fix regression of handling command line arguments with characters outside of the current code page.
+  In this case RubyInstaller-3.3.6-1 failed with:
+  `command line contains characters that are not supported in the active code page`
+  Fixes [bundler#8221](https://github.com/rubygems/rubygems/pull/8221)
+- Fix automatic pacman package install when using bundler-2.5.x. [#396](https://github.com/oneclick/rubyinstaller2/issues/396)
+
+
 ## RubyInstaller-3.3.6-1 - 2024-11-07
 
 ### Changed
