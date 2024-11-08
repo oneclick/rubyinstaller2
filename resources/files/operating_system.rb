@@ -38,7 +38,7 @@ Gem.pre_install do |gem_installer|
 
   RubyInstaller::Runtime.enable_msys_apps(for_gem_install: true) unless gem_installer.spec.extensions.empty?
 
-  if !gem_installer.options || !gem_installer.options[:ignore_dependencies] || gem_installer.options[:bundler_expected_checksum]
+  if !gem_installer.options || !gem_installer.options[:ignore_dependencies] || gem_installer.class.to_s.include?("Bundler")
     [['msys2_dependencies'      , :install_packages      ],
      ['msys2_mingw_dependencies', :install_mingw_packages]].each do |metakey, func|
 
