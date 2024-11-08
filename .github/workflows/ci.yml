@@ -201,7 +201,9 @@ jobs:
 
     - name: Run all tests against the new installed Ruby
       shell: cmd
-      run: ridk exec rake test
+      run: |
+        chcp 437
+        ridk exec rake test
 
     - name: Run upload to github (only on tag builds)
       shell: cmd
