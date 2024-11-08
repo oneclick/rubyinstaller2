@@ -1,0 +1,2 @@
+source "https://dummy-url.nonexit"
+gem "testgem", "1.0.0"
