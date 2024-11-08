@@ -14,22 +14,22 @@ jobs:
         - target_ruby: "3.3.6"
           arch: "x86-msvcrt"
           build_ruby: "3.1.6/x64"
-          run_mri_spec: v3_3_3
+          run_mri_spec: v3_3_6
 
         - target_ruby: "3.3.6"
           arch: "x64-ucrt"
           build_ruby: "3.1.6/x64"
-          run_mri_spec: v3_3_3
+          run_mri_spec: v3_3_6
 
         - target_ruby: "3.2.6"
           arch: "x86-msvcrt"
           build_ruby: "3.1.6/x64"
-          run_mri_spec: v3_2_4
+          run_mri_spec: v3_2_6
 
         - target_ruby: "3.2.6"
           arch: "x64-ucrt"
           build_ruby: "3.1.6/x64"
-          run_mri_spec: v3_2_4
+          run_mri_spec: v3_2_6
 
         - target_ruby: "3.1.6"
           arch: "x86-msvcrt"
@@ -201,7 +201,9 @@ jobs:
 
     - name: Run all tests against the new installed Ruby
       shell: cmd
-      run: ridk exec rake test
+      run: |
+        chcp 437
+        ridk exec rake test
 
     - name: Run upload to github (only on tag builds)
       shell: cmd

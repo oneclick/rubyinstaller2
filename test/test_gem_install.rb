@@ -3,12 +3,12 @@ require "fileutils"
 
 class TestGemInstall < Minitest::Test
   # Remove installed packages per:
-  #   pacman -R mingw-w64-ucrt-x86_64-libmowgli mingw-w64-ucrt-x86_64-libguess ed
+  #   pacman -R %MINGW_PACKAGE_PREFIX%-libmowgli %MINGW_PACKAGE_PREFIX%-libguess ed
   def test_gem_install
     res = system <<-EOT.gsub("\n", "&")
-cd test/helper/testgem
-gem build testgem.gemspec
-gem install testgem-1.0.0.gem --verbose
+      cd test/helper/testgem
+      gem build testgem.gemspec
+      gem install testgem-1.0.0.gem --verbose
     EOT
     assert res, "shell commands should succeed"
 
@@ -22,6 +22,24 @@ gem install testgem-1.0.0.gem --verbose
 
     out = IO.popen("testgem-exe", &:read)
     assert_match(/UTF-8/, out.scrub, "execute the bin file of the testgem")
+
+    assert system("gem uninstall testgem --executables --force"), "uninstall testgem"
+    FileUtils.rm("test/helper/testgem/testgem-1.0.0.gem")
+  end
+
+  def test_bundle_install
+    remove_pacman_packages_for_test
+    FileUtils.mkdir_p "test/helper/testgem/vendor/cache"
+    res = system <<-EOT.gsub("\n", "&")
+      cd test/helper/testgem
+      gem build testgem.gemspec
+      copy /b testgem-1.0.0.gem "vendor/cache/"
+      bundle install --local
+    EOT
+    assert res, "shell commands should succeed"
+
+    out = IO.popen("bundle exec ruby -rtestgem -e \"puts Libguess.determine_encoding('abc', 'Greek')\"", chdir: "test/helper/testgem", &:read)
+    assert_match(/UTF-8/, out.scrub, "call the ruby API of the testgem")
 
     assert system("gem uninstall testgem --executables --force"), "uninstall testgem"
     FileUtils.rm("test/helper/testgem/testgem-1.0.0.gem")
@@ -64,6 +82,13 @@ gem install testgem-1.0.0.gem --verbose
     end
   end
 
+  private def remove_pacman_packages_for_test
+    RubyInstaller::Runtime.msys2_installation.with_msys_apps_enabled do
+      system("pacman -R --noconfirm %MINGW_PACKAGE_PREFIX%-libmowgli %MINGW_PACKAGE_PREFIX%-libguess ed")
+    end
+  end
+
+
   def test_user_gem_install
     unless ENV['USERNAME'] == TESTUSER
       RubyInstaller::Runtime.msys2_installation.with_msys_apps_enabled do
@@ -74,9 +99,7 @@ gem install testgem-1.0.0.gem --verbose
       test_gem_install
     end
     unless ENV['USERNAME'] == TESTUSER
-      RubyInstaller::Runtime.msys2_installation.with_msys_apps_enabled do
-        system("pacman -R --noconfirm %MINGW_PACKAGE_PREFIX%-libmowgli %MINGW_PACKAGE_PREFIX%-libguess ed")
-      end
+      remove_pacman_packages_for_test
     end
   end
 
