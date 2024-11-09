@@ -1,7 +1,7 @@
 ## RubyInstaller-3.3.6-2 - 2024-11-09
 
 ### Changed
-- Fix regression of handling command line arguments with characters outside of the current code page.
+- [Fix regression](https://github.com/oneclick/rubyinstaller2/commit/978e145d89b51c671c4f4cab07ebfabe0ac158c8) of handling command line arguments with characters outside of the current code page.
   In this case RubyInstaller-3.3.6-1 failed with:
   `command line contains characters that are not supported in the active code page`
   Fixes [bundler#8221](https://github.com/rubygems/rubygems/pull/8221)
