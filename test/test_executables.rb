@@ -44,10 +44,16 @@ class TestExecutables < Minitest::Test
     assert_match(/A String object .* sequence of bytes/, `ri String 2>&1`)
   end
 
+  def test_ruby
+    FileUtils.rm_f("test_ruby♥.log")
+    system(%q[ruby -e "File.write(ARGV[0],'xy')" test_ruby♥.log])
+    assert_equal("xy", File.read("test_ruby♥.log"))
+  end
+
   def test_rubyw
-    FileUtils.rm_f("test_rubyw.log")
-    system(%q[rubyw -e "File.write('test_rubyw.log','xy')"])
-    assert_equal("xy", File.read("test_rubyw.log"))
+    FileUtils.rm_f("test_rubyw♥.log")
+    system(%q[rubyw -e "File.write(ARGV[0],'xy')" test_rubyw♥.log])
+    assert_equal("xy", File.read("test_rubyw♥.log"))
   end
 
   unless RUBY_VERSION =~ /^2\.[3456]\./
