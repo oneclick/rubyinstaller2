@@ -33,15 +33,20 @@ class TestGemInstall < Minitest::Test
     res = system <<-EOT.gsub("\n", "&")
       cd test/helper/testgem
       gem build testgem.gemspec
+      gem build testgem2.gemspec
       copy /b testgem-1.0.0.gem "vendor/cache/"
-      bundle install --local
+      copy /b testgem2-1.0.0.gem "vendor/cache/"
+      bundle install --local -j16
     EOT
     assert res, "shell commands should succeed"
 
     out = IO.popen("bundle exec ruby -rtestgem -e \"puts Libguess.determine_encoding('abc', 'Greek')\"", chdir: "test/helper/testgem", &:read)
     assert_match(/UTF-8/, out.scrub, "call the ruby API of the testgem")
 
-    assert system("gem uninstall testgem --executables --force"), "uninstall testgem"
+    out = IO.popen("bundle exec ruby -rtestgem2 -e \"puts Idn2.idn2_strerror(0)\"", chdir: "test/helper/testgem", &:read)
+    assert_match(/success/i, out.scrub, "call the ruby API of the testgem2")
+
+    assert system("gem uninstall testgem testgem2 --executables --force"), "uninstall testgem"
     FileUtils.rm("test/helper/testgem/testgem-1.0.0.gem")
   end
 

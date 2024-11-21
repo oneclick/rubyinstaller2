@@ -319,29 +319,36 @@ module Build # Use for: Build, Runtime
       end.join(";")
     end
 
+    @@pacman_lock = Mutex.new
+    private def with_pacman_lock(&block)
+      @@pacman_lock.synchronize(&block)
+    end
+
     def install_packages(packages, verbose: false)
       return if packages.empty?
 
       with_msys_apps_enabled do
-        # Find packages that are already installed
-        skips, installs = packages.partition do |package|
-          IO.popen(["pacman", "-Q", package], err: :out, &:read)
-          $?.success?
-        end
+        with_pacman_lock do
+          # Find packages that are already installed
+          skips, installs = packages.partition do |package|
+            IO.popen(["pacman", "-Q", package], err: :out, &:read)
+            $?.success?
+          end
 
-        Gem.ui.say("Using msys2 packages: #{skips.join(" ")}") if verbose && skips.any?
+          Gem.ui.say("Using msys2 packages: #{skips.join(" ")}") if verbose && skips.any?
 
-        # Install required packages
-        if installs.any?
-          Gem.ui.say("Installing required msys2 packages: #{installs.join(" ")}") if verbose
+          # Install required packages
+          if installs.any?
+            Gem.ui.say("Installing required msys2 packages: #{installs.join(" ")}") if verbose
 
-          args = ["pacman", "-S", "--needed", "--noconfirm", *installs]
-          Gem.ui.say("> #{args.join(" ")}") if verbose==1
+            args = ["pacman", "-S", "--needed", "--noconfirm", *installs]
+            Gem.ui.say("> #{args.join(" ")}") if verbose==1
 
-          res = IO.popen(args, &:read)
-          raise CommandError, "pacman failed with the following output:\n#{res}" if !$? || $?.exitstatus != 0
+            res = IO.popen(args, &:read)
+            raise CommandError, "pacman failed with the following output:\n#{res}" if !$? || $?.exitstatus != 0
 
-          Gem.ui.say(res) if verbose==1
+            Gem.ui.say(res) if verbose==1
+          end
         end
       end
     end
