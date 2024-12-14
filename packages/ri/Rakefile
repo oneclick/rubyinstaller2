@@ -34,6 +34,12 @@ class RubyPackage < RubyInstaller::Build::Openstruct
       self.mingwdir = "mingw32"
       self.default_instdir = "C:\\Ruby#{rubyver2.gsub(".","")}"
       self.packagenamearch = "x86"
+    when 'arm64-ucrt'
+      self.pacman_arch = "mingw-w64-clang-aarch64"
+      self.ruby_arch = "aarch64-mingw-ucrt"
+      self.mingwdir = "clangarm64"
+      self.default_instdir = "C:\\Ruby#{rubyver2.gsub(".","")}"
+      self.packagenamearch = "arm64"
     else
       raise "invalid arch #{arch}"
     end
@@ -47,6 +53,11 @@ ovl_glob('recipes/*/task.rake').each{|f| load(ovl_expand_file(f)) }
 
 ruby_arch_packages = %w[x64-ucrt].map do |arch|
   %w[3.1.6-1 3.2.6-1 3.3.6-2 head].map do |packagever|
+    RubyPackage.new( packagever: packagever, arch: arch, rootdir: __dir__ ).freeze
+  end
+end
+ruby_arch_packages += %w[arm64-ucrt].map do |arch|
+  %w[head].map do |packagever|
     RubyPackage.new( packagever: packagever, arch: arch, rootdir: __dir__ ).freeze
   end
 end
