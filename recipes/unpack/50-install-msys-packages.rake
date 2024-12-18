@@ -20,7 +20,8 @@ file ruby_exe => [self.repo_added] do
     # For some reason pacman-5.2.1 generates package files, that prohibit changing files after installation.
     # Resetting the permissions the hard way fixes this, so that we can touch ruby.exe .
     sh "takeown /R /F \"#{unpackdir.gsub("/","\\")}\" >NUL"
-    sh "icacls \"#{unpackdir.gsub("/","\\")}\" /inheritance:r /grant BUILTIN\\Users:F /T /Q"
+    # Set owner to BUILTIN\Users
+    sh "icacls \"#{unpackdir.gsub("/","\\")}\" /inheritance:r /grant \"*S-1-5-32-545:F\" /T /Q"
   rescue => err
     $stderr.puts "ignoring error while adjusting permissions: #{err} (#{err.class})"
   end
