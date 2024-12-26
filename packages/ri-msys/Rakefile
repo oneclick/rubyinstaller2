@@ -11,7 +11,7 @@ class RubyPackage < RubyInstaller::Build::Openstruct
 
     self.rubyver, self.pkgrel = packagever.split("-", 2)
     self.packagename = "rubyinstaller-devkit"
-    self.rubyver2 = packagever=='head' ? "3.4" : rubyver[/^\d+\.\d+/]
+    self.rubyver2 = packagever=='head' ? "3.5" : rubyver[/^\d+\.\d+/]
     self.rubylibver = packagever=='head' ? "#{rubyver2}.0+1" : "#{rubyver2}.0"
 
     case arch
@@ -56,7 +56,7 @@ ruby_arch_packages = %w[x64-ucrt].map do |arch|
   end
 end
 ruby_arch_packages += %w[x64-msvcrt x86-msvcrt].map do |arch|
-  %w[2.4.10-2 2.5.9-1 2.6.10-1 2.7.8-1 3.0.7-1 3.1.6-1 3.2.6-1 3.3.6-2 head].map do |packagever|
+  %w[3.1.6-1 3.2.6-1 3.3.6-2 head].map do |packagever|
     RubyPackage.new( packagever: packagever, arch: arch, rootdir: __dir__ ).freeze
   end
 end
