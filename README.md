@@ -109,8 +109,9 @@ Check the [wiki on how to use](https://github.com/oneclick/rubyinstaller2/wiki/F
           |      |      |    |           "installer-inno" => executable installer file
           |      |      |    '------- "msvcrt" => older type of C standard library
           |      |      |             "ucrt"   => new type of C standard library
-          |      |      '------- "x86" => 32 bit ruby and MSYS2 version
-          |      |               "x64" => 64 bit version
+          |      |      '------- "x86" => 32 bit x86 ruby and MSYS2 version
+          |      |               "x64" => 64 bit x86_64 version
+          |      |               "arm" => ARM64 version
           |      '------ "x.x.x" => ruby version to build
           |              "head"  => latest development snapshot of ruby
           '------ "ri"      => RubyInstaller without Devkit
