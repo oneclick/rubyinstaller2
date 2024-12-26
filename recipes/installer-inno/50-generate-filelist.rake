@@ -13,16 +13,12 @@ file filelist_iss => [__FILE__, ovl_expand_file(sandbox_task.sandboxfile_listfil
     else
       components = "ruby"
     end
-    args = if File.directory?(path)
-      flags = "recursesubdirs createallsubdirs #{flags}"
-      source = "../../#{path}/*"
-      dest = "{app}/#{reltosandbox_path}"
-    else
+    unless File.directory?(path)
       source = "../../#{path}"
       dest = "{app}/#{File.dirname(reltosandbox_path)}"
+      "Source: #{source}; DestDir: #{dest}; Flags: #{flags}; Components: #{components}"
     end
 
-    "Source: #{source}; DestDir: #{dest}; Flags: #{flags}; Components: #{components}"
   end.join("\n")
   File.write(filelist_iss, out)
 end
