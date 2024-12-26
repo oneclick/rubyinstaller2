@@ -1,0 +1,5 @@
+bin/libcrypto-3.dll
+bin/libgcc_s_dw2-1.dll
+bin/libssl-3.dll
+bin/msvcrt-ruby340.dll
+lib/libmsvcrt-ruby340.dll.a
