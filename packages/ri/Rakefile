@@ -38,7 +38,7 @@ class RubyPackage < RubyInstaller::Build::Openstruct
       self.pacman_arch = "mingw-w64-clang-aarch64"
       self.ruby_arch = "aarch64-mingw-ucrt"
       self.mingwdir = "clangarm64"
-      self.default_instdir = "C:\\Ruby#{rubyver2.gsub(".","")}"
+      self.default_instdir = "C:\\Ruby#{rubyver2.gsub(".","")}-a64"
       self.packagenamearch = "arm64"
     else
       raise "invalid arch #{arch}"
