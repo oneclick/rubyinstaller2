@@ -130,6 +130,9 @@ module Build # Use for: Build, Runtime
     def enable_dll_search_paths
       @mingwdir ||= begin
         DllDirectory.set_defaults
+        # Add bundled dll directory for libcrypto.dll loading zlib.dll and legacy.dll loading libcrypto.dll
+        DllDirectory.new(RbConfig::CONFIG["rubyarchdir"])
+        # Add MSYS2-MINGW DLL directory for user-installed gems
         path = mingw_bin_path
         DllDirectory.new(path) if File.directory?(path)
       rescue MsysNotFound
