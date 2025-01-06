@@ -25,6 +25,11 @@ core_dll_defs = [
   /^libgcc_s_.*.dll$/,
 ]
 
+# create rake tasks to trigger additional processing of so files
+ext_dll_defs.keys.each do |so_file|
+  self.sandboxfiles << File.join(sandboxdir, so_file)
+end
+
 core_dlls, dlls = dlls.partition do |destpath|
   core_dll_defs.any? { |re| re =~ File.basename(destpath) }
 end
