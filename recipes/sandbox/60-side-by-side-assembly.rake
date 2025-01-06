@@ -112,44 +112,21 @@ core_dlls.each do |destpath|
   self.sandboxfiles << new_destpath
 end
 
-# Add a custom manifest to both ruby.exe and rubyw.exe, so that they find the DLLs to be moved
+# Add a custom manifest to ruby.exe, rubyw.exe and libruby, so that they find the DLLs to be moved
 self.sandboxfiles.select do |destpath|
-  destpath =~ /\/rubyw?\.exe$/i
+  destpath =~ libruby_regex
 end.each do |destpath|
 
   file destpath => [destpath.sub(sandboxdir, unpackdirmgw), bin_dir] do |t|
     puts "patching manifest of #{t.name}"
-    libruby = File.basename(self.sandboxfiles.find{|a| a=~libruby_regex })
 
     # The XML elements we want to add to the default MINGW manifest:
     new = <<~EOT
-    <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
-      <security>
-        <requestedPrivileges>
-          <requestedExecutionLevel level="asInvoker"/>
-        </requestedPrivileges>
-      </security>
-    </trustInfo>
-    <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
-      <application>
-        <supportedOS Id="{e2011457-1546-43c5-a5fe-008deee3d3f0}"/>
-        <supportedOS Id="{35138b9a-5d96-4fbd-8e2d-a2440225f93a}"/>
-        <supportedOS Id="{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}"/>
-        <supportedOS Id="{1f676c76-80e1-4239-95bb-83d0f6d0da78}"/>
-        <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}"/>
-      </application>
-    </compatibility>
-    <application xmlns="urn:schemas-microsoft-com:asm.v3">
-        <windowsSettings xmlns:ws2="http://schemas.microsoft.com/SMI/2016/WindowsSettings">
-          <ws2:longPathAware>true</ws2:longPathAware>
-        </windowsSettings>
-      </application>
       <dependency>
         <dependentAssembly>
           <assemblyIdentity version="1.0.0.0" type="win32" name="ruby_builtin_dlls" />
         </dependentAssembly>
       </dependency>
-      <file name="#{ libruby }"/>
     EOT
 
     ManifestUpdater.update_file(t.prerequisites.first, new, t.name)
