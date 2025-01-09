@@ -5,6 +5,8 @@ module Build # Use for: Build, Runtime
     #
     # This can be used to allow ruby extension files (typically named +<extension>.so+ ) to import dependent DLLs from another directory.
     #
+    # The search order of added directories is not defined according to microsoft docs, but practically is the last added directory preferred.
+    #
     # If this method is called with a block, the path is temporary added until the block is finished.
     # The method returns a DllDirectory instance, when called without a block.
     # It can be used to remove the directory later.
