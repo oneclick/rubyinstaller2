@@ -133,11 +133,15 @@ Root: <%= regroot %>; Subkey: Software\Classes\<%= rubyname %>File\shell\open\co
 ; So use Innosetup to add described permissions and icacls to disable unwanted inheritance.
 [Dirs]
 Name: {app}; Permissions: creatorowner-full users-readexec admins-full
+Name: "{app}/lib/ruby/<%= package.rubylibver %>/etc"
 [Run]
+; Set permissions on install directories
 Filename: "icacls.exe"; Parameters: """{app}"" /inheritancelevel:r "; WorkingDir: "{app}"; StatusMsg: "Changing install Directory Permissions"; Flags: runhidden
 <% if with_msys %>
 Filename: "icacls.exe"; Parameters: """{app}\<%= package.msysdir %>\tmp"" /inheritancelevel:r /grant *S-1-5-32-545:(CI)(WD,AD,WEA,WA) /grant *S-1-3-0:(OI)(CI)(IO)(F) /grant *S-1-5-32-544:(OI)(CI)(F) /grant *S-1-5-32-545:(NP)(RX) "; WorkingDir: "{app}"; StatusMsg: "Changing MSYS2 /tmp Directory Permissions"; Flags: runhidden; Components: msys2
 <% end %>
+; Add link to SSL CA certs so that OpenSSL finds them based on the libssl.dll location
+Filename: "{cmd}"; Parameters: "/c mklink /j ssl ..\..\..\..\ssl"; WorkingDir: "{app}/lib/ruby/<%= package.rubylibver %>/etc"; StatusMsg: "Add link to SSL CA certs"; Flags: runhidden
 
 [Icons]
 Name: {autoprograms}\{#InstallerName}\{cm:InteractiveRubyTitle}; Filename: {app}\bin\irb.<%= package.rubyver2 < '3.1' ? "cmd" : "bat" %>; IconFilename: {app}\bin\ruby.exe

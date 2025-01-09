@@ -10,8 +10,8 @@ self.import_files.merge!({
   "resources/files/setrbvars.cmd" => "bin/setrbvars.cmd",
   "resources/files/operating_system.rb" => "lib/ruby/#{package.rubylibver}/rubygems/defaults/operating_system.rb",
   "resources/icons/ruby-doc.ico" => "share/doc/ruby/html/images/ruby-doc.ico",
-  "resources/ssl/cacert.pem" => "#{"bin/etc/" if package.rubyver2 >= "3.2"}ssl/cert.pem",
-  "resources/ssl/README-SSL.md" => "#{"bin/etc/" if package.rubyver2 >= "3.2"}ssl/README-SSL.md",
-  "resources/ssl/c_rehash.rb" => "#{"bin/etc/" if package.rubyver2 >= "3.2"}ssl/certs/c_rehash.rb",
+  "resources/ssl/cacert.pem" => "ssl/cert.pem",
+  "resources/ssl/README-SSL.md" => "ssl/README-SSL.md",
+  "resources/ssl/c_rehash.rb" => "ssl/certs/c_rehash.rb",
   "#{thisdir}/LICENSE.txt" => "LICENSE.txt",
 })

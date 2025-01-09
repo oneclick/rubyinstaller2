@@ -11,7 +11,12 @@ if package.rubyver2 >= "3.2"
 
   osl_files.each do |path|
     # Add tasks to write the DLLs into the sub directory
-    destpath = File.join(sandboxdir, "bin", path)
+
+    destpath = File.join(
+      sandboxdir,
+      "lib/ruby/#{package.rubylibver}",
+      path
+    )
     file destpath => [File.join(unpackdirmgw, path), File.dirname(destpath)] do |t|
       cp(t.prerequisites.first, t.name)
     end
