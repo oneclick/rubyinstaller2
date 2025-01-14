@@ -5,6 +5,7 @@ module Build
   autoload :ComponentsInstaller, 'ruby_installer/build/components_installer'
   autoload :DllDirectory, 'ruby_installer/build/dll_directory'
   autoload :ErbCompiler, 'ruby_installer/build/erb_compiler'
+  autoload :ManifestUpdater, 'ruby_installer/build/manifest_updater'
   autoload :Msys2Installation, 'ruby_installer/build/msys2_installation'
   autoload :GEM_VERSION, 'ruby_installer/build/gem_version'
   autoload :Task, 'ruby_installer/build/task'

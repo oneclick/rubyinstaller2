@@ -26,6 +26,7 @@ module Build # Use for: Build, Runtime
             when /x64.*ucrt/ then 'ucrt64'
             when /x64.*mingw32/ then 'mingw64'
             when /i386.*mingw32/ then 'mingw32'
+            when /aarch64-mingw-ucrt/ then 'clangarm64'
             else raise "unsupported ruby platform #{RUBY_PLATFORM.inspect}"
           end
         )
@@ -34,6 +35,7 @@ module Build # Use for: Build, Runtime
           when 'mingw32' then "mingw-w64-i686"
           when 'mingw64' then "mingw-w64-x86_64"
           when 'ucrt64'  then "mingw-w64-ucrt-x86_64"
+          when 'clangarm64' then "mingw-w64-clang-aarch64"
           else raise "unknown mingwarch #{@mingwarch.inspect}"
         end
       end
@@ -128,6 +130,9 @@ module Build # Use for: Build, Runtime
     def enable_dll_search_paths
       @mingwdir ||= begin
         DllDirectory.set_defaults
+        # Add bundled dll directory for libcrypto.dll loading zlib.dll and legacy.dll loading libcrypto.dll
+        DllDirectory.new(RbConfig::CONFIG["rubyarchdir"])
+        # Add MSYS2-MINGW DLL directory for user-installed gems
         path = mingw_bin_path
         DllDirectory.new(path) if File.directory?(path)
       rescue MsysNotFound
@@ -180,6 +185,12 @@ module Build # Use for: Build, Runtime
           vars['MSYSTEM_PREFIX'] = '/ucrt64'
           vars['MSYSTEM_CARCH'] = 'x86_64'
           vars['MSYSTEM_CHOST'] = 'x86_64-w64-mingw32'
+          vars['MINGW_CHOST'] = vars['MSYSTEM_CHOST']
+          vars['MINGW_PREFIX'] = vars['MSYSTEM_PREFIX']
+        when 'clangarm64'
+          vars['MSYSTEM_PREFIX'] = '/clangarm64'
+          vars['MSYSTEM_CARCH'] = 'aarch64'
+          vars['MSYSTEM_CHOST'] = 'aarch64-w64-mingw32'
           vars['MINGW_CHOST'] = vars['MSYSTEM_CHOST']
           vars['MINGW_PREFIX'] = vars['MSYSTEM_PREFIX']
         else raise "unknown mingwarch #{@mingwarch.inspect}"

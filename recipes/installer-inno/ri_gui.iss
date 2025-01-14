@@ -103,23 +103,23 @@ begin
 
   if update then
     if msysdir <> '' then
-      if IsComponentSelected('msys2') then
+      if WizardIsComponentSelected('msys2') then
         CompLabel.Caption := 'ATTENTION: MSYS2 is already present in ' + msysdir + '. It will be deleted now and then re-installed. Additional installed pacman packages will be removed. Some gems might not work afterwards and must be re-installed.'
       else
         CompLabel.Caption := 'Ruby in ' + ExpandConstant('{app}') + ' will be updated. MSYS2 seems to be already present in ' + msysdir + ' . It will kept untouched and will be reused for this Ruby installation. Optionally it can be updated per `ridk install` on the last page of the installer.'
     else
-      if IsComponentSelected('msys2') then
+      if WizardIsComponentSelected('msys2') then
         CompLabel.Caption := 'Ruby in ' + ExpandConstant('{app}') + ' will be updated and MSYS2 will be installed into ' + ExpandConstant('{app}\{#MsysDir}') + '. Please run `ridk install` on the last installer page to initialize it. It can be updated later per `ridk install` as well.'
       else
         CompLabel.Caption := 'Ruby in ' + ExpandConstant('{app}') + ' will be updated. It''s possible to install MSYS2 at the last page of the installer or to reuse an existing MSYS2 installation.'
   else
     if msysdir <> '' then
-      if IsComponentSelected('msys2') then
+      if WizardIsComponentSelected('msys2') then
         CompLabel.Caption := 'ATTENTION: MSYS2 is already present in ' + msysdir + '. It will be deleted now and then re-installed. Additional installed pacman packages will be removed. Some gems might not work afterwards and must be re-installed.'
       else
         CompLabel.Caption := 'Ruby will be installed into ' + ExpandConstant('{app}') + '. MSYS2 seems to be already present in ' + msysdir + ' . It will kept untouched and will be re-used for this Ruby installation. Optionally it can be updated per `ridk install` on the last page of the installer.'
     else
-      if IsComponentSelected('msys2') then
+      if WizardIsComponentSelected('msys2') then
         CompLabel.Caption := 'Ruby will be installed into ' + ExpandConstant('{app}') + ' and MSYS2 will be installed into ' + ExpandConstant('{app}\{#MsysDir}') + '. Please run `ridk install` on the last installer page to initialize it. It can be updated later per `ridk install` as well.'
       else
         CompLabel.Caption := 'Ruby will be installed into ' + ExpandConstant('{app}') + ' without MSYS2. It''s possible to install MSYS2 at the last page of the installer or to reuse an existing MSYS2 installation.';
@@ -129,9 +129,10 @@ end;
 
 procedure EnableMsys2Component(enable: Boolean);
 begin
-  {* InnoSetup doesn't provide corresponding setter for IsComponentSelected, so that we alter the ComponentsList directly. *}
-  if WizardForm.ComponentsList.Items.Count > 2 then
-    WizardForm.ComponentsList.Checked[2] := enable;
+  if enable then
+    WizardSelectComponents('msys2')
+  else
+    WizardSelectComponents('!msys2');
 end;
 
 procedure InitializeGUI;
