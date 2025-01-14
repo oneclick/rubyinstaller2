@@ -26,7 +26,7 @@ begin
         ModifyRubyopt(['-Eutf-8']);
 #endif
 
-      if IsComponentSelected('msys2') then
+      if WizardIsComponentSelected('msys2') then
         DeleteRubyMsys2Directory();
 
     end else
