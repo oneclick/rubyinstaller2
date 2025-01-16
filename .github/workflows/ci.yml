@@ -21,12 +21,12 @@ jobs:
           build_ruby: "3.1.6/x64"
           run_mri_spec: v3_4_1
 
-        - target_ruby: "3.3.6"
+        - target_ruby: "3.3.7"
           arch: "x86-msvcrt"
           build_ruby: "3.1.6/x64"
           run_mri_spec: v3_3_6
 
-        - target_ruby: "3.3.6"
+        - target_ruby: "3.3.7"
           arch: "x64-ucrt"
           build_ruby: "3.1.6/x64"
           run_mri_spec: v3_3_6
