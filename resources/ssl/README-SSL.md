@@ -9,6 +9,16 @@ New releases of the RubyInstaller2 update the CA list to the latest version at t
 `cert.pem` shouldn't be modified manually, because it will be overwritten by updates of RubyInstaller2.
 Instead add certificates as described below.
 
+Location of the bundled certificates
+------------------------------------
+The storage directory of the bundled certificates varies depending on the ruby version.
+Due to a junction created by the installer the certs can always be found in `<install-path>/ssl`.
+When using the 7z archive the link is not present, but the certificates are stored here:
+
+* ruby <= 3.1.x  :  `ssl`
+* ruby >= 3.2.x and <= 3.3.x  :  `bin/etc/ssl`
+* ruby >= 3.4.x  :  `lib/ruby/<ruby-version>/etc/ssl`
+
 Use of an alternative Ruby CA list
 -----------------------------
 
