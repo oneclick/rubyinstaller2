@@ -244,7 +244,7 @@ begin
     // Previous RubyInstaller detected
 
     sUnInstallString := RemoveQuotes(sUnInstallString);
-    sUninstParams := '/NORESTART /SUPPRESSMSGBOXES';
+    sUninstParams := '/NORESTART /SUPPRESSMSGBOXES /allfiles=no';
     if WizardSilent then sUninstParams := sUninstParams + ' /VERYSILENT'
     else sUninstParams := sUninstParams + ' /SILENT';
 

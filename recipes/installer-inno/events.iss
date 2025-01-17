@@ -80,5 +80,20 @@ begin
       ModifyRubyopt(['-Eutf-8']);
 #endif
 
+    {* Remove SSL junction link *}
+    DelTree(ExpandConstant('{app}/ssl'), True, False, False);
+
+    if ExpandConstant('{param:allfiles|yes}') = 'yes' then
+    begin
+      {* Remove possible MSYS2 *}
+      DelTree(ExpandConstant('{app}/msys32'), True, True, True);
+      DelTree(ExpandConstant('{app}/msys64'), True, True, True);
+      {* Remove binstubs of installed gems *}
+      DelTree(ExpandConstant('{app}/bin/*'), False, True, False);
+      {* Remove installed gems *}
+      DelTree(ExpandConstant('{app}/lib/ruby/gems'), True, True, True);
+      {* Remove config of "ridk use" *}
+      DelTree(ExpandConstant('{app}/ridk_use/rubies.yml'), False, True, False);
+    end;
   end;
 end;
