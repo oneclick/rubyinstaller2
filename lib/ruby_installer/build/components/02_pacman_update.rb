@@ -26,10 +26,6 @@ class PacmanUpdate < Base
         run_verbose("pacman", "-U", "--noconfirm", "--config", tf.path, tar_path)
       end
 
-      puts "Remove catgets to avoid conflicts while update  ..."
-      # See https://github.com/Alexpux/MSYS2-packages/issues/1141
-      run_verbose("pacman", "-Rdd", "catgets", "libcatgets", "--noconfirm")
-
       puts "#{description} part 1  ..."
       # Update the package database and core system packages
       res = run_verbose("pacman", "-Syu", *pacman_args)
