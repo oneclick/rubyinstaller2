@@ -25,6 +25,11 @@ jobs:
           build_ruby: "3.1.6/x64"
           run_mri_spec: v3_4_1
 
+        - target_ruby: "3.4.1"
+          arch: "arm-ucrt"
+          build_ruby: "3.1.6/x64"
+          run_mri_spec: v3_4_1
+
         - target_ruby: "3.3.7"
           arch: "x86-msvcrt"
           build_ruby: "3.1.6/x64"
@@ -63,6 +68,11 @@ jobs:
         - target_ruby: "head"
           arch: "x86-msvcrt"
           build_ruby: "3.0.7/x64"
+          run_mri_spec: master
+
+        - target_ruby: "head"
+          arch: "arm-ucrt"
+          build_ruby: "3.1.6/x64"
           run_mri_spec: master
 
     runs-on: windows-latest
@@ -116,15 +126,15 @@ jobs:
       if: matrix.arch == 'x64-msvcrt' || matrix.arch == 'x64-ucrt'
       shell: powershell
       run: |
-        $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.5.9-1/rubyinstaller-2.5.9-1-x86.exe", "$pwd/ruby-setup.exe")
-        cmd /c ruby-setup.exe /verysilent
+        $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.0.7-1/rubyinstaller-3.0.7-1-x86.exe", "$pwd/ruby-setup.exe")
+        cmd /c ruby-setup.exe /verysilent /currentuser
 
     - name: Install alternative ruby
       if: matrix.arch == 'x86-msvcrt'
       shell: powershell
       run: |
-        $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.4.10-1/rubyinstaller-2.4.10-1-x64.exe", "$pwd/ruby-setup.exe")
-        cmd /c ruby-setup.exe /verysilent
+        $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.0.7-1/rubyinstaller-3.0.7-1-x64.exe", "$pwd/ruby-setup.exe")
+        cmd /c ruby-setup.exe /verysilent /currentuser
 
     - name: workaround signature issue on github actions
       shell: cmd
@@ -164,6 +174,7 @@ jobs:
 
     - name: Activate the environment variables set by the installer
       # but exclude git's /usr/bin, because it conflicts with one RubyInstaller test.
+      if: matrix.arch != 'arm-ucrt'
       shell: powershell
       run: |
         $env:PATH = [Environment]::GetEnvironmentVariable("PATH","Machine") -replace ";C:\\Program Files\\Git\\usr\\bin" -replace ";C:\\Ruby193\\bin"
@@ -184,10 +195,12 @@ jobs:
       run: ridk install 1 3
 
     - name: create MSYS2 home dir for ruby-spec
+      if: matrix.arch != 'arm-ucrt'
       shell: cmd
       run: ridk exec sh -c "mkdir -pv ~"
 
     - name: Install dependent gems
+      if: matrix.arch != 'arm-ucrt'
       shell: cmd
       run: |
         IF "%target_ruby%" LSS "2.6" ( gem update --system && gem install bundler --force )
@@ -204,6 +217,7 @@ jobs:
       run: ridk exec sh -c "pacman --noconfirm --sync --needed ${MINGW_PACKAGE_PREFIX}-gcc-libs"
 
     - name: Run all tests against the new installed Ruby
+      if: matrix.arch != 'arm-ucrt'
       shell: cmd
       run: |
         chcp 437
@@ -222,6 +236,7 @@ jobs:
         rake release:appveyor_upload -- packages/ri/recipes/installer-inno/%DEPLOY_TAG%*.exe packages/ri/recipes/archive-7z/%DEPLOY_TAG%*.7z packages/ri-msys/recipes/installer-inno/ruby*-%target_ruby%*.exe
 
     - name: Run the Ruby Spec Suite
+      if: matrix.arch != 'arm-ucrt'
       shell: pwsh
       run: |
         # Actions uses UTF8, causes test failures, similar to normal OS setup
@@ -236,6 +251,7 @@ jobs:
         }
 
     - name: Run the MRI copy of Ruby Spec Suite
+      if: matrix.arch != 'arm-ucrt'
       shell: pwsh
       run: |
         # Actions uses UTF8, causes test failures, similar to normal OS setup
