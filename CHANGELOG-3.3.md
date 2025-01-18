@@ -1,3 +1,20 @@
+## RubyInstaller-3.3.7-1 - 2025-01-18
+
+### Changed
+- Remove installed gems and MSYS2 by the uninstaller per default. [#408](https://github.com/oneclick/rubyinstaller2/issues/408)
+  So far the uninstaller only removed the ruby install files, but kept installed gems and MSYS2.
+  The old behaviour is available when running the uninstaller with option `/allfiles=no`.
+  See in [the wiki](https://github.com/oneclick/rubyinstaller2/wiki/FAQ#user-content-silent-install).
+  This is to prepare RubyInstaller for the Microsoft Store.
+- Fix pacman install error in parallel `bundler install -jX`. [#403](https://github.com/oneclick/rubyinstaller2/issues/403)
+  `pacman` invocation is now serialized to avoid locking errors.
+- Add junction (directory link) at `<ruby>/ssl`, which allows to easily find the OpenSSL certificates directory. [#399](https://github.com/oneclick/rubyinstaller2/issues/399)
+  The certificates directory varies between ruby versions and the junction unifies the location.
+  It is described in `<ruby>/ssl/README-SSL.md`.
+- Update MSYS2 download version to 2024-12-08 for `ridk install 1`. [#402](https://github.com/oneclick/rubyinstaller2/issues/402)
+- Update the SSL CA certificate list.
+
+
 ## RubyInstaller-3.3.6-2 - 2024-11-09
 
 ### Changed
