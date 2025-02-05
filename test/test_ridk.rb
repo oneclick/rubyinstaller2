@@ -169,8 +169,8 @@ module RidkTests
 
   def find_alternative_ruby
     ar = [
-      ["C:/Ruby24-x64", "/24-x64/", "2\.4\.", /C:\/Ruby24-x64\s+ruby 2\.4\..*x64-mingw32/i, "2.4 x64-mingw32"],
-      ["C:/Ruby25", "/25$/", "2\.5\.", /C:\/Ruby25\s+ruby 2\.5\..*i386-mingw32/i, "2.5 i386-mingw32"],
+      ["C:/Ruby30-x64", "/30-x64/", "3\.0\.", /C:\/Ruby30-x64\s+ruby 3\.0\..*x64-mingw32/i, "3.0 x64-mingw32"],
+      ["C:/Ruby30", "/30$/", "3\.0\.", /C:\/Ruby30\s+ruby 3\.0\..*i386-mingw32/i, "3.0 i386-mingw32"],
     ].find do |path, selector, regex_rver, regex_list, verplat|
       File.directory?(path) && verplat != "#{RUBY_VERSION.split(".").map(&:to_i)[0,2].join(".")} #{RUBY_PLATFORM}"
     end
