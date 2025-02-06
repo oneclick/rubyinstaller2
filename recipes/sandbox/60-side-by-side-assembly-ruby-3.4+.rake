@@ -14,7 +14,7 @@ if package.rubyver2 >= "3.4"
   end
 
   ext_dll_defs = {
-    "lib/ruby/#{package.rubylibver}/#{package.ruby_arch}/fiddle.so" => /^libffi-\d.dll$/,
+    "lib/ruby/gems/#{package.rubylibver}/extensions/#{package.ruby_arch}/#{package.rubylibver}/fiddle-1.1.6/fiddle.so" => /^libffi-\d.dll$/,
     "lib/ruby/#{package.rubylibver}/#{package.ruby_arch}/openssl.so" => /^libssl-[\d_]+(-x64)?.dll$|^libcrypto-[\d_]+(-x64)?.dll$/,
     "lib/ruby/#{package.rubylibver}/#{package.ruby_arch}/psych.so" => /^libyaml-[-\d]+.dll$/,
     "lib/ruby/#{package.rubylibver}/#{package.ruby_arch}/zlib.so" => /^zlib\d.dll$/,
