@@ -6,3 +6,4 @@ gemspec
 gem "octokit"
 gem "win32-process"
 gem "uri", "~> 0.13"
+gem "win32-registry"
