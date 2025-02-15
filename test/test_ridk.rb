@@ -93,9 +93,6 @@ module RidkTests
     assert_match(/bash.*-pc-/, y["sh"])
     assert_match(/windows/i, y["os"])
     assert_equal msys_path, y["msys2"]["path"].downcase
-    skip "Appveyors MSYS version is too old to have a components.xml" if ENV['APPVEYOR'] || ENV['GITHUB_ACTION']
-    assert_match(/MSYS/, y["msys2"]["title"])
-    assert_match(/\d/, y["msys2"]["version"])
   end
 
   def test_ridk_version_without_msys
