@@ -23,6 +23,7 @@ module RidkTests
     out = run_output_vars([], ["ridk enable"], %w[PATH MSYSTEM])
 
     msystem = case RUBY_PLATFORM
+      when "aarch64-mingw-ucrt" then "CLANGARM64"
       when "x64-mingw32" then "MINGW64"
       when "x64-mingw-ucrt" then "UCRT64"
       when "i386-mingw32" then "MINGW32"
@@ -89,7 +90,7 @@ module RidkTests
     assert_equal RUBY_PLATFORM, y["ruby"]["platform"]
     refute_nil y["ruby_installer"]["package_version"]
     refute_nil y["ruby_installer"]["git_commit"]
-    assert_match(/gcc.*MSYS2/, y["cc"])
+    assert_match(/gcc.*MSYS2|clang/, y["cc"])
     assert_match(/bash.*-pc-/, y["sh"])
     assert_match(/windows/i, y["os"])
     assert_equal msys_path, y["msys2"]["path"].downcase
@@ -103,7 +104,7 @@ module RidkTests
 
     assert_equal RUBY_VERSION, y["ruby"]["version"]
     assert_equal RUBY_PLATFORM, y["ruby"]["platform"]
-    assert_match(/gcc.*MSYS2/, y["ruby"]["cc"] || y["cc"])
+    assert_match(/gcc.*MSYS2|clang/, y["ruby"]["cc"] || y["cc"])
     refute_nil y["ruby_installer"]["package_version"]
     refute_nil y["ruby_installer"]["git_commit"]
     assert_nil y["msys2"]
