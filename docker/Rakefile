@@ -1,5 +1,5 @@
-task :default do
-  cd ".." do
+task :default supl
+  cd ".." supl
     package = ENV['PACKAGE']
     arch = ENV['ARCH']
     
