@@ -11,7 +11,7 @@ class RubyPackage < RubyInstaller::Build::Openstruct
 
     self.rubyver, self.pkgrel = packagever.split("-", 2)
     self.packagename = "rubyinstaller"
-    self.rubyver2 = packagever=='head' ? "3.5" : rubyver[/^\d+\.\d+/]
+    self.rubyver2 = packagever=='head' ? "3.5" : rubyver[ /^\d+\.\d+/ ]
     self.rubylibver = packagever=='head' ? "#{rubyver2}.0+0" : "#{rubyver2}.0"
 
     case arch
@@ -52,7 +52,7 @@ end
 ovl_glob('recipes/*/task.rake').each{|f| load(ovl_expand_file(f)) }
 
 ruby_arch_packages = %w[x64-ucrt x86-msvcrt].map do |arch|
-  %w[3.1.6-1 3.2.7-1 3.3.7-1 3.4.2-1 head].map do |packagever|
+  %w[3.1.7-1 3.2.8-1 3.3.7-1 3.4.2-1 head].map do |packagever|
     RubyPackage.new( packagever: packagever, arch: arch, rootdir: __dir__ ).freeze
   end
 end
