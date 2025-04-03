@@ -1,2 +1,3 @@
----
+---gems/rubyinstaller-build.yaml
 :gem_build: rubyinstaller-build.gemspec
+
