@@ -1,3 +1,10 @@
+## RubyInstaller-3.4.3-1 - 2025-04-15
+
+### Changed
+- Update to ruby-3.4.3, see [release notes](https://www.ruby-lang.org/en/news/2025/04/14/ruby-3-4-3-released/).
+- Update to OpenSSL-3.5.0. The Ruby API dosn't change.
+
+
 ## RubyInstaller-3.4.2-1 - 2025-02-15
 
 ### Changed
