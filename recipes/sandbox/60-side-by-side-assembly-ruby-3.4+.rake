@@ -102,7 +102,7 @@ if package.rubyver2 >= "3.4"
 
 
   #################################################################################
-  # Add manifest to ruby.exe, rubyw.exe files pointing to DLLs in ruby_builtin_dlls
+  # Add manifest to <arch>-ruby<verion>.dll file pointing to DLLs in ruby_builtin_dlls
   #################################################################################
 
   core_dlls.each do |destpath|
@@ -118,7 +118,7 @@ if package.rubyver2 >= "3.4"
     self.sandboxfiles << new_destpath
   end
 
-  # Add a custom manifest to ruby.exe, rubyw.exe and libruby, so that they find the DLLs to be moved
+  # Add a custom manifest to <arch>-ruby<verion>.dll and libruby, so that they find the DLLs to be moved
   self.sandboxfiles.select do |destpath|
     destpath =~ libruby_regex
   end.each do |destpath|
