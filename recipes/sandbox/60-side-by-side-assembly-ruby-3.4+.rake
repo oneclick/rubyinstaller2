@@ -23,6 +23,7 @@ if package.rubyver2 >= "3.4"
 
   core_dll_defs = [
     /^libgmp-\d+.dll$/,
+    /^libwinpthread-\d+.dll$/,
     /^libgcc_s_.*.dll$/,
   ]
 
@@ -31,13 +32,14 @@ if package.rubyver2 >= "3.4"
     self.sandboxfiles << File.join(sandboxdir, so_file)
   end
 
-  core_dlls, dlls = dlls.partition do |destpath|
+  core_dlls = dlls.select do |destpath|
     core_dll_defs.any? { |re| re =~ File.basename(destpath) }
   end
-  ext_dlls, dlls = dlls.partition do |destpath|
+  ext_dlls = dlls.select do |destpath|
     ext_dll_defs.values.any? { |re| re =~ File.basename(destpath) }
   end
-  raise "DLL belonging neither to core nor to exts: #{dlls}" unless dlls.empty?
+  unknown_dlls = dlls - core_dlls - ext_dlls
+  raise "DLL belonging neither to core nor to exts: #{unknown_dlls}" unless unknown_dlls.empty?
 
 
   ###########################################################################
