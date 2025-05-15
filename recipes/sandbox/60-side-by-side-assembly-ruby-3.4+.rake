@@ -24,6 +24,7 @@ if package.rubyver2 >= "3.4"
   core_dll_defs = [
     /^libgmp-\d+.dll$/,
     /^libgcc_s_.*.dll$/,
+    /^libwinpthread-\d+.dll$/,
   ]
 
   # create rake tasks to trigger additional processing of so files
