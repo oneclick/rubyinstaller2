@@ -15,7 +15,7 @@ if package.rubyver2 >= "3.4"
 
   ext_dll_defs = {
     self.fiddle_so_path => /^libffi-\d.dll$/,
-    "lib/ruby/#{package.rubylibver}/#{package.ruby_arch}/date_core.so" => /^libwinpthread-[-\d]+.dll$/,
+    "lib/ruby/#{package.rubylibver}/#{package.ruby_arch}/date_core.so" => /^libwinpthread-[-\d]+.dll$|^libgcc_s_.*.dll$/,
     "lib/ruby/#{package.rubylibver}/#{package.ruby_arch}/openssl.so" => /^libssl-[\d_]+(-x64)?.dll$|^libcrypto-[\d_]+(-x64)?.dll$/,
     "lib/ruby/#{package.rubylibver}/#{package.ruby_arch}/psych.so" => /^libyaml-[-\d]+.dll$/,
     "lib/ruby/#{package.rubylibver}/#{package.ruby_arch}/zlib.so" => /^zlib\d.dll$/,
