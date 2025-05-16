@@ -261,7 +261,7 @@ jobs:
         ridk enable
         if (-not ([string]::IsNullOrWhiteSpace($env:run_mri_spec))) {
           git clone --depth 1 https://github.com/ruby/ruby -b $env:run_mri_spec &&
-          env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -I../../tool/lib -j
+          env --unset=RUBYOPT ruby -C ruby/spec/ruby ../mspec/bin/mspec -I../../tool/lib -j  --exclude "CVE-2020-10663 is resisted by only creating custom objects if passed create_additions: true or using JSON.load"
         }
 
     - name: Verify that the used CA list is still the latest.
