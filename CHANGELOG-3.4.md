@@ -1,3 +1,14 @@
+## RubyInstaller-3.4.4-1 - 2025-05-16
+
+### Added
+- Add `libwinpthread-1.dll` as dependecy of `date_core.so` on all architectures and as a general dependency of ruby on ARM64. [#434](https://github.com/oneclick/rubyinstaller2/issues/434), [ruby/date#126](https://github.com/ruby/date/issues/126)
+
+### Changed
+- Update to ruby-3.4.4, see [release notes](https://www.ruby-lang.org/en/news/2025/05/14/ruby-3-4-4-released/).
+- Update the SSL CA certificate list.
+- Update devkit version to gcc-15.1.
+
+
 ## RubyInstaller-3.4.3-1 - 2025-04-15
 
 ### Changed
