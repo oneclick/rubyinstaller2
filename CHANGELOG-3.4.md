@@ -1,3 +1,9 @@
+## RubyInstaller-3.4.4-2 - 2025-05-18
+
+### Changed
+- Fix issue with `-std=c99` which broke install of some gems. [439](https://github.com/oneclick/rubyinstaller2/issues/439)
+
+
 ## RubyInstaller-3.4.4-1 - 2025-05-16
 
 ### Added
