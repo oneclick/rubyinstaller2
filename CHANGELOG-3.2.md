@@ -1,3 +1,13 @@
+## RubyInstaller-3.2.9-1 - 2025-07-25
+
+### Changed
+- Update to ruby-3.2.9, see [release notes](https://www.ruby-lang.org/en/news/2025/07/24/ruby-3-2-9-released/).
+- Update to OpenSSL-3.5.1. The Ruby API dosn't change.
+- Update devkit version to gcc-15.1 which has some incompatibilities due to changed defaults.
+- Update the SSL CA certificate list.
+- Fix issue with `-std=c99` which broke install of some gems. [439](https://github.com/oneclick/rubyinstaller2/issues/439)
+
+
 ## RubyInstaller-3.2.8-1 - 2025-03-26
 
 ### Changed
