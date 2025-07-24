@@ -50,16 +50,6 @@ jobs:
           build_ruby: "3.3.8/x64"
           run_mri_spec: v3_2_9
 
-        - target_ruby: "3.1.7"
-          arch: "x86-msvcrt"
-          build_ruby: "3.3.8/x64"
-          run_mri_spec: v3_1_7
-
-        - target_ruby: "3.1.7"
-          arch: "x64-ucrt"
-          build_ruby: "3.3.8/x64"
-          run_mri_spec: v3_1_7
-
         - target_ruby: "head"
           arch: "x64-ucrt"
           build_ruby: "3.3.8/x64"
