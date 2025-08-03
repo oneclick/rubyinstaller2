@@ -17,52 +17,52 @@ jobs:
         include:
         - target_ruby: "3.4.5"
           arch: "x86-msvcrt"
-          build_ruby: "3.3.8/x64"
+          build_ruby: "3.3.9/x64"
           run_mri_spec: v3_4_5
 
         - target_ruby: "3.4.5"
           arch: "x64-ucrt"
-          build_ruby: "3.3.8/x64"
+          build_ruby: "3.3.9/x64"
           run_mri_spec: v3_4_5
 
         - target_ruby: "3.4.5"
           arch: "arm-ucrt"
-          build_ruby: "3.3.8/x64"
+          build_ruby: "3.3.9/x64"
           run_mri_spec: v3_4_5
 
         - target_ruby: "3.3.9"
           arch: "x86-msvcrt"
-          build_ruby: "3.3.8/x64"
+          build_ruby: "3.3.9/x64"
           run_mri_spec: v3_3_9
 
         - target_ruby: "3.3.9"
           arch: "x64-ucrt"
-          build_ruby: "3.3.8/x64"
+          build_ruby: "3.3.9/x64"
           run_mri_spec: v3_3_9
 
         - target_ruby: "3.2.9"
           arch: "x86-msvcrt"
-          build_ruby: "3.3.8/x64"
+          build_ruby: "3.3.9/x64"
           run_mri_spec: v3_2_9
 
         - target_ruby: "3.2.9"
           arch: "x64-ucrt"
-          build_ruby: "3.3.8/x64"
+          build_ruby: "3.3.9/x64"
           run_mri_spec: v3_2_9
 
         - target_ruby: "head"
           arch: "x64-ucrt"
-          build_ruby: "3.3.8/x64"
+          build_ruby: "3.3.9/x64"
           run_mri_spec: master
 
         - target_ruby: "head"
           arch: "x86-msvcrt"
-          build_ruby: "3.3.8/x64"
+          build_ruby: "3.3.9/x64"
           run_mri_spec: master
 
         - target_ruby: "head"
           arch: "arm-ucrt"
-          build_ruby: "3.3.8/x64"
+          build_ruby: "3.3.9/x64"
           run_mri_spec: master
 
     runs-on: windows-latest
