@@ -126,6 +126,15 @@ jobs:
         $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.0.7-1/rubyinstaller-3.0.7-1-x64.exe", "$pwd/ruby-setup.exe")
         cmd /c ruby-setup.exe /verysilent /currentuser
 
+    - name: Install Inno-Setup
+      shell: powershell
+      run: |
+        $InnoSetup = Join-Path ${env:PROGRAMFILES(X86)} -ChildPath 'Inno Setup 6\iscc.exe'
+        if (!(Test-Path $InnoSetup)) {
+          Invoke-WebRequest -Uri "https://jrsoftware.org/download.php/is.exe" -OutFile "D:\\is.exe"
+          Start-Process -FilePath "D:\\is.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART" -Wait
+        }
+
     - name: workaround signature issue on github actions
       shell: cmd
       run: C:\msys64\usr\bin\sed -i "/^SigLevel/ s/$/ DatabaseOptional/" /etc/pacman.conf
