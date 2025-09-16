@@ -15,20 +15,20 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - target_ruby: "3.4.5"
+        - target_ruby: "3.4.6"
           arch: "x86-msvcrt"
           build_ruby: "3.3.9/x64"
-          run_mri_spec: v3_4_5
+          run_mri_spec: v3_4_6
 
-        - target_ruby: "3.4.5"
+        - target_ruby: "3.4.6"
           arch: "x64-ucrt"
           build_ruby: "3.3.9/x64"
-          run_mri_spec: v3_4_5
+          run_mri_spec: v3_4_6
 
-        - target_ruby: "3.4.5"
+        - target_ruby: "3.4.6"
           arch: "arm-ucrt"
           build_ruby: "3.3.9/x64"
-          run_mri_spec: v3_4_5
+          run_mri_spec: v3_4_6
 
         - target_ruby: "3.3.9"
           arch: "x86-msvcrt"
