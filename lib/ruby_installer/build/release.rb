@@ -105,7 +105,17 @@ class Release
       )
     end
 
-    old_assets = client.release_assets(release.url)
+    # Recheck all releases to avoid duplicated release creation
+    release2 = nil
+    (1..100).find do |page|
+      release2 = client.releases(repo, page: page).find{|r| r.tag_name==tag }
+    end
+    # Did we create a second release in parallel?
+    if release.id != release2.id
+      client.delete_release(release.url)
+    end
+
+    old_assets = client.release_assets(release2.url)
 
     files.each do |fname|
       if old_asset=old_assets.find{|a| a.name == File.basename(fname) }
@@ -114,7 +124,7 @@ class Release
       end
 
       $stderr.print "Uploading #{fname} (#{File.size(fname)} bytes) ... "
-      client.upload_asset(release.url, fname, content_type: CONTENT_TYPE_FOR_EXT[File.extname(fname)])
+      client.upload_asset(release2.url, fname, content_type: CONTENT_TYPE_FOR_EXT[File.extname(fname)])
       $stderr.puts "OK"
     end
   end
