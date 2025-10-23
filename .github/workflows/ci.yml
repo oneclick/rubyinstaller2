@@ -30,15 +30,15 @@ jobs:
           build_ruby: "3.3.9/x64"
           run_mri_spec: v3_4_7
 
-        - target_ruby: "3.3.9"
+        - target_ruby: "3.3.10"
           arch: "x86-msvcrt"
           build_ruby: "3.3.9/x64"
-          run_mri_spec: v3_3_9
+          run_mri_spec: v3_3_10
 
-        - target_ruby: "3.3.9"
+        - target_ruby: "3.3.10"
           arch: "x64-ucrt"
           build_ruby: "3.3.9/x64"
-          run_mri_spec: v3_3_9
+          run_mri_spec: v3_3_10
 
         - target_ruby: "3.2.9"
           arch: "x86-msvcrt"
