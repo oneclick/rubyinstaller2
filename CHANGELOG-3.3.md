@@ -1,3 +1,10 @@
+## RubyInstaller-3.3.10-1 - 2025-10-24
+
+### Changed
+- Update to ruby-3.3.10, see [release notes](https://www.ruby-lang.org/en/news/2025/10/23/ruby-3-3-10-released/).
+- Update the SSL CA certificate list.
+
+
 ## RubyInstaller-3.3.9-1 - 2025-07-25
 
 ### Changed
