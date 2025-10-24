@@ -2,6 +2,8 @@
 
 ### Changed
 - Update to ruby-3.4.7, see [release notes](https://www.ruby-lang.org/en/news/2025/10/07/ruby-3-4-7-released/).
+- Patch the bundled openssl gem to fix compatibility with OpenSSL-3.6.0.
+  See https://github.com/ruby/openssl/pull/950/commits/e8481cd687840f6d8247ca70967c1de47093ecb8
 
 
 ## RubyInstaller-3.4.6-1 - 2025-09-18
