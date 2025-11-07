@@ -19,53 +19,69 @@ jobs:
           arch: "x86-msvcrt"
           build_ruby: "3.3.9/x64"
           run_mri_spec: v3_4_7
+          runon: windows-latest
 
         - target_ruby: "3.4.7"
           arch: "x64-ucrt"
           build_ruby: "3.3.9/x64"
           run_mri_spec: v3_4_7
+          runon: windows-latest
 
         - target_ruby: "3.4.7"
           arch: "arm-ucrt"
-          build_ruby: "3.3.9/x64"
+          build_ruby: "3.4.7/x64"
           run_mri_spec: v3_4_7
+          runon: windows-11-arm
 
         - target_ruby: "3.3.10"
           arch: "x86-msvcrt"
           build_ruby: "3.3.9/x64"
           run_mri_spec: v3_3_10
+          runon: windows-latest
 
         - target_ruby: "3.3.10"
           arch: "x64-ucrt"
           build_ruby: "3.3.9/x64"
           run_mri_spec: v3_3_10
+          runon: windows-latest
 
         - target_ruby: "3.2.9"
           arch: "x86-msvcrt"
           build_ruby: "3.3.9/x64"
           run_mri_spec: v3_2_9
+          runon: windows-latest
 
         - target_ruby: "3.2.9"
           arch: "x64-ucrt"
           build_ruby: "3.3.9/x64"
           run_mri_spec: v3_2_9
+          runon: windows-latest
 
         - target_ruby: "head"
           arch: "x64-ucrt"
           build_ruby: "3.3.9/x64"
           run_mri_spec: master
+          runon: windows-latest
 
         - target_ruby: "head"
           arch: "x86-msvcrt"
           build_ruby: "3.3.9/x64"
           run_mri_spec: master
+          runon: windows-latest
 
         - target_ruby: "head"
           arch: "arm-ucrt"
           build_ruby: "3.3.9/x64"
           run_mri_spec: master
+          runon: windows-latest
 
-    runs-on: windows-latest
+        - target_ruby: "head"
+          arch: "arm-ucrt"
+          build_ruby: "3.4.7/x64"
+          run_mri_spec: master
+          runon: windows-11-arm
+
+    runs-on: ${{ matrix.runon }}
     env:
       arch: ${{ matrix.arch }}
       target_ruby: ${{ matrix.target_ruby }}
@@ -84,6 +100,15 @@ jobs:
     # Work around issue https://github.com/actions/checkout/issues/290
     - name: fetch tag annotations
       run: git fetch --force --tags
+
+    - name: Install base ruby
+      if: matrix.arch == 'arm-ucrt'
+      shell: powershell
+      run: |
+        $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.4.7-1/rubyinstaller-devkit-3.4.7-1-x64.exe", "$pwd/ruby-setup.exe")
+        cmd /c ruby-setup.exe /verysilent /currentuser /dir=C:/hostedtoolcache/windows/Ruby/${{ matrix.build_ruby }}
+        New-Item -Path c:/msys64 -ItemType Junction -Value C:/hostedtoolcache/windows/Ruby/${{ matrix.build_ruby }}/msys64
+        ridk install 1 3
 
     - run: ruby --version
     - name: extract GIT_REF_TAG
@@ -113,7 +138,7 @@ jobs:
       run: gem install bundler --conservative --no-doc
 
     - name: Install alternative ruby
-      if: matrix.arch == 'x64-msvcrt' || matrix.arch == 'x64-ucrt'
+      if: matrix.arch == 'x64-msvcrt' || matrix.arch == 'x64-ucrt' || matrix.arch == 'arm-ucrt'
       shell: powershell
       run: |
         $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.0.7-1/rubyinstaller-3.0.7-1-x86.exe", "$pwd/ruby-setup.exe")
@@ -173,7 +198,6 @@ jobs:
 
     - name: Activate the environment variables set by the installer
       # but exclude git's /usr/bin, because it conflicts with one RubyInstaller test.
-      if: matrix.arch != 'arm-ucrt'
       shell: powershell
       run: |
         $env:PATH = [Environment]::GetEnvironmentVariable("PATH","Machine") -replace ";C:\\Program Files\\Git\\usr\\bin" -replace ";C:\\Ruby193\\bin"
@@ -199,7 +223,6 @@ jobs:
       run: ridk exec sh -c "mkdir -pv ~"
 
     - name: Install dependent gems
-      if: matrix.arch != 'arm-ucrt'
       shell: cmd
       run: |
         IF "%target_ruby%" LSS "2.6" ( gem update --system && gem install bundler --force )
@@ -216,7 +239,6 @@ jobs:
       run: ridk exec sh -c "pacman --noconfirm --sync --needed ${MINGW_PACKAGE_PREFIX}-gcc-libs"
 
     - name: Run all tests against the new installed Ruby
-      if: matrix.arch != 'arm-ucrt'
       shell: cmd
       run: |
         chcp 437
@@ -235,7 +257,6 @@ jobs:
         rake release:appveyor_upload -- packages/ri/recipes/installer-inno/%DEPLOY_TAG%*.exe packages/ri/recipes/archive-7z/%DEPLOY_TAG%*.7z packages/ri-msys/recipes/installer-inno/ruby*-%target_ruby%*.exe
 
     - name: Run the Ruby Spec Suite
-      if: matrix.arch != 'arm-ucrt'
       shell: pwsh
       run: |
         # Actions uses UTF8, causes test failures, similar to normal OS setup
@@ -250,7 +271,6 @@ jobs:
         }
 
     - name: Run the MRI copy of Ruby Spec Suite
-      if: matrix.arch != 'arm-ucrt'
       shell: pwsh
       run: |
         # Actions uses UTF8, causes test failures, similar to normal OS setup
