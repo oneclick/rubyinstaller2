@@ -14,6 +14,6 @@ end
 self.fiddle_so_path = case
   when package.rubyver2 == "3.4"
     "lib/ruby/#{package.rubylibver}/#{package.ruby_arch}/fiddle.so"
-  when package.rubyver2 == "3.5"
+  when package.rubyver2 == "4.0"
     "lib/ruby/gems/#{package.rubylibver}/extensions/#{package.ruby_arch.sub(/i.86-mingw/, "x86-mingw")}/#{package.rubylibver}/fiddle-1.1.8/fiddle.so"
 end

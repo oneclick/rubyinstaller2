@@ -1,4 +1,4 @@
 bin/libcrypto-3.dll
 bin/libssl-3.dll
-bin/aarch64-ucrt-ruby350.dll
-lib/libaarch64-ucrt-ruby350.dll.a
+bin/aarch64-ucrt-ruby400.dll
+lib/libaarch64-ucrt-ruby400.dll.a
