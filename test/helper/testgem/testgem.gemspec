@@ -14,5 +14,5 @@ Gem::Specification.new do |s|
   s.executables = ["testgem-exe"]
   s.required_ruby_version = '>= 2.1.0'
   s.metadata['msys2_dependencies'] = 'ed>=1.0'
-  s.metadata['msys2_mingw_dependencies'] = 'libguess>=1.0 gcc>=8.0'
+  s.metadata['msys2_mingw_dependencies'] = 'libguess>=1.0'
 end
