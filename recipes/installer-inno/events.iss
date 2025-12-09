@@ -9,30 +9,23 @@ begin
   // Run preparing steps before install of files
   if CurStep = ssInstall then
   begin
-    if UsingWinNT then
-    begin
-      UnInstallOldVersion();
+    UnInstallOldVersion();
 
-      Log(Format('Selected Tasks - Path: %d, Associate: %d', [PathChkBox.State, PathExtChkBox.State]));
+    Log(Format('Selected Tasks - Path: %d, Associate: %d', [PathChkBox.State, PathExtChkBox.State]));
 
-      if IsModifyPath then
-        ModifyPath([ExpandConstant('{app}') + '\bin']);
+    if IsModifyPath then
+      ModifyPath([ExpandConstant('{app}') + '\bin']);
 
-      if IsAssociated then
-        ModifyFileExts(['.rb', '.rbw']);
+    if IsAssociated then
+      ModifyFileExts(['.rb', '.rbw']);
 
 #ifdef HaveUtf8ChkBox
-      if IsUtf8 then
-        ModifyRubyopt(['-Eutf-8']);
+    if IsUtf8 then
+      ModifyRubyopt(['-Eutf-8']);
 #endif
 
-      if WizardIsComponentSelected('msys2') then
-        DeleteRubyMsys2Directory();
-
-    end else
-      MsgBox('Looks like you''ve got on older, unsupported Windows version.' #13 +
-             'Proceeding with a reduced feature set installation.',
-             mbInformation, MB_OK);
+    if WizardIsComponentSelected('msys2') then
+      DeleteRubyMsys2Directory();
   end;
 
   // Final steps before installer closes
@@ -76,19 +69,31 @@ procedure CurUninstallStepChanged(const CurUninstallStep: TUninstallStep);
 begin
   if CurUninstallStep = usUninstall then
   begin
-    if UsingWinNT then
-    begin
-      if GetPreviousData('PathModified', 'no') = 'yes' then
-        ModifyPath([ExpandConstant('{app}') + '\bin']);
+    if GetPreviousData('PathModified', 'no') = 'yes' then
+      ModifyPath([ExpandConstant('{app}') + '\bin']);
 
-      if GetPreviousData('FilesAssociated', 'no') = 'yes' then
-        ModifyFileExts(['.rb', '.rbw']);
+    if GetPreviousData('FilesAssociated', 'no') = 'yes' then
+      ModifyFileExts(['.rb', '.rbw']);
 
 #ifdef HaveUtf8ChkBox
-      if GetPreviousData('Utf8', 'no') = 'yes' then
-        ModifyRubyopt(['-Eutf-8']);
+    if GetPreviousData('Utf8', 'no') = 'yes' then
+      ModifyRubyopt(['-Eutf-8']);
 #endif
 
+    {* Remove SSL junction link *}
+    DelTree(ExpandConstant('{app}/ssl'), True, False, False);
+
+    if ExpandConstant('{param:allfiles|yes}') = 'yes' then
+    begin
+      {* Remove possible MSYS2 *}
+      DelTree(ExpandConstant('{app}/msys32'), True, True, True);
+      DelTree(ExpandConstant('{app}/msys64'), True, True, True);
+      {* Remove binstubs of installed gems *}
+      DelTree(ExpandConstant('{app}/bin/*'), False, True, False);
+      {* Remove installed gems *}
+      DelTree(ExpandConstant('{app}/lib/ruby/gems'), True, True, True);
+      {* Remove config of "ridk use" *}
+      DelTree(ExpandConstant('{app}/ridk_use/rubies.yml'), False, True, False);
     end;
   end;
 end;

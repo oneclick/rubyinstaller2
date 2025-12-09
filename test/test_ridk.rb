@@ -23,6 +23,7 @@ module RidkTests
     out = run_output_vars([], ["ridk enable"], %w[PATH MSYSTEM])
 
     msystem = case RUBY_PLATFORM
+      when "aarch64-mingw-ucrt" then "CLANGARM64"
       when "x64-mingw32" then "MINGW64"
       when "x64-mingw-ucrt" then "UCRT64"
       when "i386-mingw32" then "MINGW32"
@@ -89,13 +90,10 @@ module RidkTests
     assert_equal RUBY_PLATFORM, y["ruby"]["platform"]
     refute_nil y["ruby_installer"]["package_version"]
     refute_nil y["ruby_installer"]["git_commit"]
-    assert_match(/gcc.*MSYS2/, y["cc"])
-    assert_match(/bash.*pc-msys/, y["sh"])
+    assert_match(/gcc.*MSYS2|clang/, y["cc"])
+    assert_match(/bash.*-pc-/, y["sh"])
     assert_match(/windows/i, y["os"])
     assert_equal msys_path, y["msys2"]["path"].downcase
-    skip "Appveyors MSYS version is too old to have a components.xml" if ENV['APPVEYOR'] || ENV['GITHUB_ACTION']
-    assert_match(/MSYS/, y["msys2"]["title"])
-    assert_match(/\d/, y["msys2"]["version"])
   end
 
   def test_ridk_version_without_msys
@@ -106,7 +104,7 @@ module RidkTests
 
     assert_equal RUBY_VERSION, y["ruby"]["version"]
     assert_equal RUBY_PLATFORM, y["ruby"]["platform"]
-    assert_match(/gcc.*MSYS2/, y["ruby"]["cc"] || y["cc"])
+    assert_match(/gcc.*MSYS2|clang/, y["ruby"]["cc"] || y["cc"])
     refute_nil y["ruby_installer"]["package_version"]
     refute_nil y["ruby_installer"]["git_commit"]
     assert_nil y["msys2"]
@@ -169,8 +167,8 @@ module RidkTests
 
   def find_alternative_ruby
     ar = [
-      ["C:/Ruby24-x64", "/24-x64/", "2\.4\.", /C:\/Ruby24-x64\s+ruby 2\.4\..*x64-mingw32/i, "2.4 x64-mingw32"],
-      ["C:/Ruby25", "/25$/", "2\.5\.", /C:\/Ruby25\s+ruby 2\.5\..*i386-mingw32/i, "2.5 i386-mingw32"],
+      ["C:/Ruby30-x64", "/30-x64/", "3\.0\.", /C:\/Ruby30-x64\s+ruby 3\.0\..*x64-mingw32/i, "3.0 x64-mingw32"],
+      ["C:/Ruby30", "/30$/", "3\.0\.", /C:\/Ruby30\s+ruby 3\.0\..*i386-mingw32/i, "3.0 i386-mingw32"],
     ].find do |path, selector, regex_rver, regex_list, verplat|
       File.directory?(path) && verplat != "#{RUBY_VERSION.split(".").map(&:to_i)[0,2].join(".")} #{RUBY_PLATFORM}"
     end

@@ -22,6 +22,7 @@ RUBY_INSTALL_KEY_WOW = "SOFTWARE/WOW6432Node/Microsoft/Windows/CurrentVersion/Un
 def find_each_ruby_from_registry
   return to_enum(:find_each_ruby_from_registry) unless block_given?
 
+  require "rubygems"
   require "win32/registry"
   [
     [Win32::Registry::HKEY_CURRENT_USER, RUBY_INSTALL_KEY],
@@ -167,6 +168,7 @@ end
 
 def modify_default(rubypath, rubies, default)
   return unless default
+  require "rubygems"
   require "win32/registry"
 
   if default == :system

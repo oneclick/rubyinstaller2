@@ -6,8 +6,8 @@ class TestExecutables < Minitest::Test
   def test_bundler
     skip if RUBY_VERSION =~ /^2\.[345]\./
     # bundler was added in ruby-2.6
-    assert_match(/Bundler version/, `bundle --version`)
-    assert_match(/Bundler version/, `bundler --version`)
+    assert_match(/Bundler version|^4\.\d/, `bundle --version`)
+    assert_match(/Bundler version|^4\.\d/, `bundler --version`)
   end
 
   def test_gem

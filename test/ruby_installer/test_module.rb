@@ -74,6 +74,7 @@ class TestModule < Minitest::Test
       when "x64-mingw32" then "MINGW64"
       when "x64-mingw-ucrt" then "UCRT64"
       when "i386-mingw32" then "MINGW32"
+      when "aarch64-mingw-ucrt" then "CLANGARM64"
     end
     assert_equal msystem, ENV['MSYSTEM'], "enable_msys_apps should set MSYSTEM according to RUBY_PLATFORM"
     assert_match(/./, ENV['LANG'], "enable_msys_apps should set LANG")
@@ -135,6 +136,8 @@ class TestModule < Minitest::Test
     assert_equal( min_paths, paths & min_paths )
   end
 
+  LIBCPP_DLL = RUBY_PLATFORM =~ /aarch64/ ? "libc++" : "libstdc++-6"
+
   def test_enable_dll_search_paths_with_msys_installed
     skip unless File.directory?(msys_path)
     remove_mingwdir
@@ -143,12 +146,12 @@ class TestModule < Minitest::Test
     # Double calling shouldn't matter
     RubyInstaller::Runtime.enable_dll_search_paths
     RubyInstaller::Runtime.enable_dll_search_paths
-    Fiddle.dlopen("libstdc++-6").close
+    Fiddle.dlopen(LIBCPP_DLL).close
     remove_mingwdir
     # PATH based DLL search makes reliable anti-pattern impossible
     unless ENV['RI_FORCE_PATH_FOR_DLL'] == '1'
       assert_raises(Fiddle::DLError) do
-        Fiddle.dlopen("libstdc++-6").close
+        Fiddle.dlopen(LIBCPP_DLL).close
       end
     end
 
@@ -162,7 +165,7 @@ class TestModule < Minitest::Test
       RubyInstaller::Runtime.enable_dll_search_paths
       unless ENV['RI_FORCE_PATH_FOR_DLL'] == '1' # PATH based DLL search makes reliable anti-pattern impossible
         assert_raises(Fiddle::DLError, "enable_dll_search_paths should succeed, but without effect") do
-          Fiddle.dlopen("libstdc++-6").close
+          Fiddle.dlopen(LIBCPP_DLL).close
         end
       end
     end

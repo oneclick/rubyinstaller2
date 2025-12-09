@@ -1,3 +1,30 @@
+## RubyInstaller-3.1.7-1 - 2025-03-26
+
+### Changed
+- Update to ruby-3.1.7, see [release notes](https://www.ruby-lang.org/en/news/2025/03/26/ruby-3-1-7-released/).
+- Apply all security patches that Canonical provides for Ubuntu-20.04 because version 1.1.1 is out of maintanence from the OpenSSL project:
+  - CVE-2024-2511
+  - CVE-2024-4741
+  - CVE-2024-5535
+  - CVE-2024-9143
+  - CVE-2024-13176
+- Fix automatic pacman package install when using bundler-2.5.x. [#396](https://github.com/oneclick/rubyinstaller2/issues/396)
+- Fix pacman install error in parallel `bundler install -jX`. [#403](https://github.com/oneclick/rubyinstaller2/issues/403)
+  `pacman` invocation is now serialized to avoid locking errors.
+- Update MSYS2 download version to 2024-12-08 for `ridk install 1`. [#402](https://github.com/oneclick/rubyinstaller2/issues/402)
+- Add junction (directory link) at `<ruby>/ssl`, which allows to easily find the OpenSSL certificates directory. [#399](https://github.com/oneclick/rubyinstaller2/issues/399)
+  The certificates directory varies between ruby versions and the junction unifies the location.
+  It is described in `<ruby>/ssl/README-SSL.md`.
+- Update the SSL CA certificate list.
+- Remove installed gems and MSYS2 by the uninstaller per default. [#408](https://github.com/oneclick/rubyinstaller2/issues/408)
+  So far the uninstaller only removed the ruby install files, but kept installed gems and MSYS2.
+  The old behaviour is available when running the uninstaller with option `/allfiles=no`.
+  See in [the wiki](https://github.com/oneclick/rubyinstaller2/wiki/FAQ#user-content-silent-install).
+  This is to prepare RubyInstaller for the Microsoft Store.
+- Avoid early load of etc.so allowing updates of etc.gem. [#388](https://github.com/oneclick/rubyinstaller2/issues/388)
+- Set a single key in gemrc to allow appending to this file. [#388](https://github.com/oneclick/rubyinstaller2/issues/388#issuecomment-2348393612)
+
+
 ## RubyInstaller-3.1.6-1 - 2024-06-03
 
 ### Changed

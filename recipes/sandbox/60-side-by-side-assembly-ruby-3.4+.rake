@@ -14,7 +14,8 @@ if package.rubyver2 >= "3.4"
   end
 
   ext_dll_defs = {
-    "lib/ruby/#{package.rubylibver}/#{package.ruby_arch}/fiddle.so" => /^libffi-\d.dll$/,
+    self.fiddle_so_path => /^libffi-\d.dll$/,
+    "lib/ruby/#{package.rubylibver}/#{package.ruby_arch}/date_core.so" => /^libwinpthread-[-\d]+.dll$|^libgcc_s_.*.dll$/,
     "lib/ruby/#{package.rubylibver}/#{package.ruby_arch}/openssl.so" => /^libssl-[\d_]+(-x64)?.dll$|^libcrypto-[\d_]+(-x64)?.dll$/,
     "lib/ruby/#{package.rubylibver}/#{package.ruby_arch}/psych.so" => /^libyaml-[-\d]+.dll$/,
     "lib/ruby/#{package.rubylibver}/#{package.ruby_arch}/zlib.so" => /^zlib\d.dll$/,
@@ -31,13 +32,14 @@ if package.rubyver2 >= "3.4"
     self.sandboxfiles << File.join(sandboxdir, so_file)
   end
 
-  core_dlls, dlls = dlls.partition do |destpath|
+  core_dlls = dlls.select do |destpath|
     core_dll_defs.any? { |re| re =~ File.basename(destpath) }
   end
-  ext_dlls, dlls = dlls.partition do |destpath|
+  ext_dlls = dlls.select do |destpath|
     ext_dll_defs.values.any? { |re| re =~ File.basename(destpath) }
   end
-  raise "DLL belonging neither to core nor to exts: #{dlls}" unless dlls.empty?
+  unknown_dlls = dlls - core_dlls - ext_dlls
+  raise "DLL belonging neither to core nor to exts: #{unknown_dlls}" unless unknown_dlls.empty?
 
 
   ###########################################################################
@@ -102,7 +104,7 @@ if package.rubyver2 >= "3.4"
 
 
   #################################################################################
-  # Add manifest to ruby.exe, rubyw.exe files pointing to DLLs in ruby_builtin_dlls
+  # Add manifest to <arch>-ruby<verion>.dll file pointing to DLLs in ruby_builtin_dlls
   #################################################################################
 
   core_dlls.each do |destpath|
@@ -118,7 +120,7 @@ if package.rubyver2 >= "3.4"
     self.sandboxfiles << new_destpath
   end
 
-  # Add a custom manifest to ruby.exe, rubyw.exe and libruby, so that they find the DLLs to be moved
+  # Add a custom manifest to <arch>-ruby<verion>.dll and libruby, so that they find the DLLs to be moved
   self.sandboxfiles.select do |destpath|
     destpath =~ libruby_regex
   end.each do |destpath|

@@ -112,17 +112,6 @@ LOGO = %q{
         end.compact
       end
 
-      def msys_version_info(msys_path)
-        require "rexml/document"
-        doc = File.open( File.join(msys_path, "components.xml") ) do |fd|
-          REXML::Document.new fd
-        end
-        {
-          "title" => doc.elements.to_a("//Packages/Package/Title").first.text,
-          "version" => doc.elements.to_a("//Packages/Package/Version").first.text,
-        }
-      end
-
       private def ignore_err
         orig_verbose, $VERBOSE = $VERBOSE, nil
         begin
@@ -156,8 +145,7 @@ LOGO = %q{
           msys = Runtime.msys2_installation
           msys.enable_msys_apps(if_no_msys: :raise)
 
-          msys_ver = ignore_err{ msys_version_info(msys.msys_path) }
-          h["msys2"] = { "path" => msys.msys_path }.merge(msys_ver || {})
+          h["msys2"] = { "path" => msys.msys_path }
         end
 
         ignore_err do
