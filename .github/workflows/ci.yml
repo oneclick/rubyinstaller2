@@ -64,12 +64,6 @@ jobs:
           runon: windows-latest
 
         - target_ruby: "head"
-          arch: "x86-msvcrt"
-          build_ruby: "3.3.10/x64"
-          run_mri_spec: master
-          runon: windows-latest
-
-        - target_ruby: "head"
           arch: "arm-ucrt"
           build_ruby: "3.4.7/x64"
           run_mri_spec: master

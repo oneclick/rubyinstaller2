@@ -14,7 +14,7 @@ This and more changes are documented in the [CHANGELOG](https://github.com/onecl
 
 - Download and install the latest RubyInstaller2: https://github.com/larskanis/rubyinstaller2/releases
 
-The non-Devkit installer file is enough to use pure Ruby gems or fat binary gems for x64-mingw32 or x86-mingw32.
+The non-Devkit installer file is enough to use pure Ruby gems or fat binary gems for x64-mingw-ucrt or aarch64-mingw-ucrt.
 In order to install C based source gems, it's recommended to use the Devkit installer version.
 It installs a MSYS2/MINGW build environment into the ruby directory that ships common build tools and libraries.
 
