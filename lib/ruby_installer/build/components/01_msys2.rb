@@ -32,7 +32,7 @@ class Msys2 < Base
     downloaded_path = download(msys2_download_uri, hash)
 
     puts "Run the MSYS2 installer ..."
-    if run_verbose(downloaded_path) && msys.with_msys_apps_enabled { run_verbose("sh", "-lc", "true") }
+    if run_verbose(downloaded_path, "install", "--root", File.join(RbConfig::TOPDIR, "msys64"), "--accept-messages", "--confirm-command") && msys.with_msys_apps_enabled { run_verbose("sh", "-lc", "true") }
       puts green(" Success")
     else
       puts red(" Failed")
