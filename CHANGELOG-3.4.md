@@ -1,3 +1,12 @@
+## RubyInstaller-3.4.8-1 - 2025-12-18
+
+### Changed
+- Update to ruby-3.4.8, see [release notes](https://www.ruby-lang.org/en/news/2025/12/17/ruby-3-4-8-released/).
+- Use msys2 headless installer in `ridk install 1` and install into ruby's base directory. [ruby/date#459](https://github.com/ruby/date/issues/459)
+- Update c_rehash.rb from ruby/openssl
+- Update the SSL CA certificate list.
+
+
 ## RubyInstaller-3.4.7-1 - 2025-10-08
 
 ### Changed
