@@ -30,9 +30,11 @@ Addition of certificate to the Ruby default CA list
 ----------------------------------------------
 
 Additional certificates shall be stored in `<install-path>/ssl/certs/<yourfile>.pem` in pem format.
+This directory is checked by the builtin openssl gem for certificate verification.
+When the openssl gem is installed via source gem, then the directory `<msys2-dir>\<mingwarch>\etc\ssl\certs` is used instead.
 Each pem file may contain several certificates.
 The pem files must be activated for CA lookup by using a OpenSSL-hashed filename.
-There is a helper script in `<install-path>/ssl/certs/c_rehash.rb` to generate these hash files.
+There is a helper script in `<install-path>/ssl/certs/c_rehash.rb` to generate these hash files in both directories and in the `ca-bundle.crt` described below.
 Just double click `c_rehash.rb` to activate all pem files in the directory.
 
 Addition of certificates to the Devkit/MSYS2 CA list
@@ -41,7 +43,3 @@ MSYS2 has its own CA list which is maintained by [the MSYS2 project](http://msys
 This CA list is used by all MSYS2 tools like pacman, wget or curl.
 In order to add an additional CA certificate for MSYS2, you have to append it to `<msys2-dir>\usr\ssl\certs\ca-bundle.crt` in PEM format.
 In a default Rubyinstaller-Devkit-2.5-x64 setup this file is here: `c:\Ruby25-x64\msys64\usr\ssl\certs\ca-bundle.crt`
-
-Please also note, that pacman's builtin HTTP client doesn't work well with proxies.
-You probably have to enable `wget` in `<msys2-dir>\etc\pacman.conf`.
-It also respects `http_proxy` and `https_proxy` environment variables set in Windows system settings.

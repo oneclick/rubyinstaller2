@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+# This is a helper script to add trusted CA certificates to RubyInstaller.
+# See README-SSL.md for more details.
+
 require 'openssl'
 
 class CHashDir
@@ -74,12 +77,34 @@ class CHashDir
 
   def do_hash_dir
     Dir.chdir(@dirpath) do
-      delete_symlink
+      delete_symlink(".")
+
+      begin
+        msys = RubyInstaller::Runtime.msys2_installation
+        mingw_certs = File.expand_path("../etc/ssl/certs", msys.mingw_bin_path)
+        msys_bundle = File.expand_path("usr/ssl/certs/ca-bundle.crt", msys.msys_path)
+      rescue RubyInstaller::Runtime::Msys2Installation::MsysNotFound
+      else
+        delete_symlink(mingw_certs)
+        delete_from_bundle(msys_bundle)
+      end
+
       Dir.glob('*.pem') do |pemfile|
         load_pem_file(pemfile).each do |cert|
           case cert
           when OpenSSL::X509::Certificate
-            link_hash_cert(cert)
+            # Create hash file in rubyinstallers's ssl directory
+            # This is used by builtin openssl.gem
+            link_hash_cert(cert, ".")
+
+            # Create hash file in msys2/mingw's ssl directory
+            # This is used when openssl.gem is built from sources
+            link_hash_cert(cert, mingw_certs) if mingw_certs
+
+            # Create hash file in msys2/mingw's ssl directory
+            # This is used by MSYS2 tools like curl and pacman
+            add_to_bundle(cert, msys_bundle) if msys_bundle
+
           when OpenSSL::X509::CRL
             link_hash_crl(cert)
           else
@@ -90,19 +115,43 @@ class CHashDir
     end
   end
 
-  def delete_symlink
-    Dir.entries(".").each do |entry|
+  def delete_symlink(hashdir)
+    Dir.entries(hashdir).each do |entry|
       next unless /^[\da-f]+\.r{0,1}\d+$/ =~ entry
-      File.unlink(entry) if FileTest.symlink?(entry) or FileTest.file?(entry)
+      epath = File.join(hashdir, entry)
+      File.unlink(epath) if FileTest.symlink?(epath) or FileTest.file?(epath)
     end
   end
 
-  def link_hash_cert(cert)
+  def delete_from_bundle(bundle_fname)
+    fc = File.read(bundle_fname)
+
+    # Create a bak file before modification
+    fname_bak = bundle_fname + ".bak-ruby"
+    File.write(fname_bak, fc) unless File.exist?(fname_bak)
+
+    # Remove all certs inserted by RubyInstaller
+    fc = fc.gsub(/# RubyInstaller: [^\n]*\n-----BEGIN CERTIFICATE-----[^-]*-----END CERTIFICATE-----\n*/m, "")
+    File.write(bundle_fname, fc)
+  end
+
+  def add_to_bundle(cert, bundle_fname)
+    fc = File.read(bundle_fname)
+    ct = <<~EOT
+      # RubyInstaller: #{cert.subject}
+      #{cert.to_pem}
+    EOT
+    fc = ct + fc
+    File.write(bundle_fname, fc)
+    STDOUT.puts("#{cert.subject} => #{bundle_fname}") unless @silent
+  end
+
+  def link_hash_cert(cert, hashdir)
     name_hash = hash_name(cert.subject)
     fingerprint = fingerprint(cert.to_der)
-    filepath = link_hash(cert, name_hash, fingerprint) { |idx|
-      "#{name_hash}.#{idx}"
-    }
+    filepath = link_hash(cert, name_hash, fingerprint) do |idx|
+      File.join(hashdir, "#{name_hash}.#{idx}")
+    end
     unless filepath
       unless @silent
         STDERR.puts("WARNING: Skipping duplicate certificate #{cert.subject}")
