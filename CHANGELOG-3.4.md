@@ -3,7 +3,7 @@
 ### Changed
 - Update to ruby-3.4.8, see [release notes](https://www.ruby-lang.org/en/news/2025/12/17/ruby-3-4-8-released/).
 - Use msys2 headless installer in `ridk install 1` and install into ruby's base directory. [ruby/date#459](https://github.com/ruby/date/issues/459)
-- Update c_rehash.rb from ruby/openssl
+- Extend c_rehash.rb helper script to update all three locations of SSL CA certificates [#461](https://github.com/oneclick/rubyinstaller2/pull/461)
 - Update the SSL CA certificate list.
 
 
@@ -31,7 +31,7 @@
 ## RubyInstaller-3.4.4-2 - 2025-05-18
 
 ### Changed
-- Fix issue with `-std=c99` which broke install of some gems. [439](https://github.com/oneclick/rubyinstaller2/issues/439)
+- Fix issue with `-std=c99` which broke install of some gems. [#439](https://github.com/oneclick/rubyinstaller2/issues/439)
 
 
 ## RubyInstaller-3.4.4-1 - 2025-05-16
