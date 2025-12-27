@@ -8,6 +8,7 @@ self.import_files.merge!({
   "resources/files/ridk_use/ridk.ps1" => "ridk_use/ridk.ps1",
   "resources/files/ridk_use/ridk_use.rb" => "ridk_use/ridk_use.rb",
   "resources/files/setrbvars.cmd" => "bin/setrbvars.cmd",
+  "resources/files/startmenu.rb" => "bin/startmenu.rb",
   "resources/files/operating_system.rb" => "lib/ruby/#{package.rubylibver}/rubygems/defaults/operating_system.rb",
   "resources/icons/ruby-doc.ico" => "share/doc/ruby/html/images/ruby-doc.ico",
   "resources/ssl/cacert.pem" => "#{ssl_dir}/cert.pem",

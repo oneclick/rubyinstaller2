@@ -1,6 +1,7 @@
 module RubyInstaller
 module Runtime
   autoload :Colors, 'ruby_installer/runtime/colors'
+  autoload :ConsoleUi, 'ruby_installer/runtime/console_ui'
   autoload :ComponentsInstaller, 'ruby_installer/runtime/components_installer'
   autoload :DllDirectory, 'ruby_installer/runtime/dll_directory'
   autoload :Msys2Installation, 'ruby_installer/runtime/msys2_installation'

@@ -99,12 +99,7 @@ MouseoverHint=TIP: Mouse over the above options for more detailed information.
 WebSiteLabel=Web Site:
 SupportGroupLabel=Support group:
 WikiLabel=Wiki:
-InteractiveRubyTitle=Interactive Ruby
-RubyGemsDocumentationServerTitle=RubyGems Documentation Server
-StartCmdPromptWithRubyTitle=Start Command Prompt with Ruby
-DocumentationTitle=Documentation
-APIReferenceTitle=Ruby %1 API Reference
-TheBookofRubyTitle=The Book of Ruby
+RubyTitle=Ruby <%= package.rubyver2 %>
 
 [Files]
 #define InstallerFileList "filelist-ruby-" + RubyVersion + "-" + RubyBuildPlatform + ".iss"
@@ -144,11 +139,7 @@ Filename: "icacls.exe"; Parameters: """{app}\<%= package.msysdir %>\tmp"" /inher
 Filename: "{cmd}"; Parameters: "/c mklink /j ssl <%= package.rubyver2 =~ /^3\.[23]$/ ? "bin" : "lib\\ruby\\#{package.rubylibver}" %>\etc\ssl"; WorkingDir: "{app}"; StatusMsg: "Add link to SSL CA certs"; Flags: runhidden
 
 [Icons]
-Name: {autoprograms}\{#InstallerName}\{cm:InteractiveRubyTitle}; Filename: {app}\bin\irb.<%= package.rubyver2 < '3.1' ? "cmd" : "bat" %>; IconFilename: {app}\bin\ruby.exe
-Name: {autoprograms}\{#InstallerName}\{cm:DocumentationTitle}\{cm:APIReferenceTitle,{#RubyVersion}}; Filename: {app}\share\doc\ruby\html\index.html; IconFilename: {app}\share\doc\ruby\html\images\ruby-doc.ico; Components: rdoc
-Name: {autoprograms}\{#InstallerName}\{cm:RubyGemsDocumentationServerTitle}; Filename: {app}\bin\gem.cmd; Parameters: install --conservative webrick rubygems-server & {app}\bin\gem.cmd server --launch; IconFilename: {app}\share\doc\ruby\html\images\ruby-doc.ico; Flags: runminimized
-Name: {autoprograms}\{#InstallerName}\{cm:StartCmdPromptWithRubyTitle}; Filename: {sys}\cmd.exe; Parameters: /E:ON /K {app}\bin\ridk enable; WorkingDir: {%HOMEDRIVE}{%HOMEPATH}; IconFilename: {sys}\cmd.exe
-Name: {autoprograms}\{#InstallerName}\{cm:UninstallProgram,{#InstallerName}}; Filename: {uninstallexe}
+Name: {autoprograms}\{cm:RubyTitle}; Filename: {app}\bin\ruby.exe; Parameters: {app}\bin\startmenu.rb; IconFilename: {app}\bin\ruby.exe
 
 [Components]
 Name: "ruby"; Description: "Ruby-<%= package.rubyver %> base files"; Types: custom; Flags: fixed
