@@ -12,7 +12,7 @@ This and more changes are documented in the [CHANGELOG](https://github.com/onecl
 
 ## Using the Installer on a target system
 
-- Download and install the latest RubyInstaller2: https://github.com/larskanis/rubyinstaller2/releases
+- Download and install the latest RubyInstaller2: https://github.com/oneclick/rubyinstaller2/releases
 
 The non-Devkit installer file is enough to use pure Ruby gems or fat binary gems for x64-mingw-ucrt or aarch64-mingw-ucrt.
 In order to install C based source gems, it's recommended to use the Devkit installer version.
@@ -68,7 +68,7 @@ For instance these popular gems can be installed like so from the source gem:
 
 Some gems are properly labeled to install dependent libraries per pacman.
 See [the wiki](https://github.com/oneclick/rubyinstaller2/wiki/For-gem-developers#msys2-library-dependency) how such a label can be added to gems.
-Also refer the [FAQ](https://github.com/larskanis/rubyinstaller2/wiki/FAQ) for additional install recommendations.
+Also refer the [FAQ](https://github.com/oneclick/rubyinstaller2/wiki/FAQ) for additional install recommendations.
 
 
 ## Building the Installer
@@ -96,7 +96,7 @@ Check the [wiki on how to use](https://github.com/oneclick/rubyinstaller2/wiki/F
   ```
 - Clone RubyInstaller2 and install dependencies:
   ```sh
-    git clone https://github.com/larskanis/rubyinstaller2
+    git clone https://github.com/oneclick/rubyinstaller2
     cd rubyinstaller2
     bundle install
     rake -T
@@ -126,4 +126,4 @@ Check the [wiki on how to use](https://github.com/oneclick/rubyinstaller2/wiki/F
 ## Known Issues
 
 - It's best to avoid installation into a PATH containing spaces or non-ASCII. Some gems won't install with spaces and older ruby versions (<= 3.0.x) ridk won't even run then at all with special characters.
-- Also refer to [the issue list](https://github.com/larskanis/rubyinstaller2/issues).
+- Also refer to [the issue list](https://github.com/oneclick/rubyinstaller2/issues).
