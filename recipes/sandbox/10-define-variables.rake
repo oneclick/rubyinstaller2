@@ -12,8 +12,8 @@ self.ssl_dir = case
     "lib/ruby/#{package.rubylibver}/etc/ssl"
 end
 self.fiddle_so_path = case
-  when package.rubyver2 == "3.4"
+  when ["3.4"].include?(package.rubyver2)
     "lib/ruby/#{package.rubylibver}/#{package.ruby_arch}/fiddle.so"
-  when package.rubyver2 == "4.0"
+  when ["4.0", "4.1"].include?(package.rubyver2)
     "lib/ruby/gems/#{package.rubylibver}/extensions/#{package.ruby_arch.sub(/i.86-mingw/, "x86-mingw")}/#{package.rubylibver}/fiddle-1.1.8/fiddle.so"
 end

@@ -11,8 +11,8 @@ class RubyPackage < RubyInstaller::Build::Openstruct
 
     self.rubyver, self.pkgrel = packagever.split("-", 2)
     self.packagename = "rubyinstaller-devkit"
-    self.rubyver2 = packagever=='head' ? "4.0" : rubyver[ /^\d+\.\d+/ ]
-    self.rubylibver = packagever=='head' ? "#{rubyver2}.0+1" : "#{rubyver2}.0"
+    self.rubyver2 = packagever=='head' ? "4.1" : rubyver[ /^\d+\.\d+/ ]
+    self.rubylibver = packagever=='head' ? "#{rubyver2}.0+0" : "#{rubyver2}.0"
 
     case arch
     when 'x64-ucrt'
