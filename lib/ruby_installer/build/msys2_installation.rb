@@ -65,6 +65,7 @@ module Build # Use for: Build, Runtime
       yield "c:/msys32"
 
       # If msys2 is installed per installer.exe
+      require "rubygems"
       require "win32/registry"
       [
         [Win32::Registry::HKEY_CURRENT_USER, MSYS2_INSTALL_KEY],
