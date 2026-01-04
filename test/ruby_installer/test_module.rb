@@ -157,6 +157,8 @@ class TestModule < Minitest::Test
 
     vars2 = %w[PATH RI_DEVKIT MSYSTEM].map{|var| ENV[var] }
     assert_equal vars1, vars2, "env variables should be unchanged"
+  ensure
+    RubyInstaller::Runtime.enable_dll_search_paths
   end
 
   def test_enable_dll_search_paths_without_msys_installed
