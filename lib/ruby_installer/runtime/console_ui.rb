@@ -113,11 +113,13 @@ module Runtime
 
       # Paint the boxes
       def repaint(width: @con.winsize[1], height: @con.winsize[0])
+        headroom = headline.size > 0 ? (headline.size + width - 1) / width : 0  # roughly
         obw = (width.to_f / @ncols).floor
         spw = obw - 4
         nrows = (@boxes.size.to_f / @ncols).ceil
-        obh = (height.to_f / nrows).floor
+        obh = ((height - headroom).to_f / nrows).floor
         sph = obh - 2
+        sph = 1 if sph < 1
         line = +""
         slines = [[]]
         nrows.times do |nrow|
@@ -140,6 +142,8 @@ module Runtime
                 text_line ||= ""
                 spl = (spw - text_line.size) / 2
                 spr = spw - spl - text_line.size
+                spl = 0 if spl < 0
+                spr = 0 if spr < 0
                 line += " #{border[3]}" + " " * spl + text_line + " " * spr + "#{border[5]} "
                 slines.last.append(*([box_idx] * obw))
               end
@@ -157,7 +161,9 @@ module Runtime
           line += "\n"
           slines << []
         end
-        print "\n#{headline}\n"+line.chomp
+        @con.write "\e[1;1H" "\e[2J"
+        print "#{headline}"
+        print @con.cursor.last == 0 ? line.chomp : "\n#{line.chomp}"
         @slines = slines
       end
     end
