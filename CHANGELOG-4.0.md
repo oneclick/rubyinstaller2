@@ -8,3 +8,4 @@ This is the first release based on ruby-4.0.x: https://www.ruby-lang.org/en/news
   One icon only is a requirement of Microsoft to provide an app in the Microsoft Store.
 - Add a patch to fix ruby's CLI to recognize inputs as UTF-8
   https://github.com/ruby/ruby/pull/12377
+- Drop X86/32-bit release package. Only X64 and ARM64 packages are provided for Ruby-4.0+.
