@@ -189,6 +189,10 @@ module Runtime
       end
     end
 
+    def clear_screen
+      IO.console.write "\e[H" "\e[2J"
+    end
+
     def set_consolemode
       @hConsoleHandle = @GetStdHandle.call(STD_INPUT_HANDLE)
       @base_console_input_mode = getconsolemode

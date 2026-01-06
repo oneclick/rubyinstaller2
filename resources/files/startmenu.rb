@@ -11,7 +11,9 @@ bt = <<~EOT
   Ruby
 EOT
 bm.add_button bt do
-  puts "\nStarting irb"
+  app.clear_screen
+  RubyInstaller::Runtime::Ridk.print_logo
+  puts "\nStarting irb. To show the irb command help, type `help` and press Enter."
   Kernel.exec File.join(RbConfig::CONFIG["bindir"], "irb.bat")
 end
 
@@ -33,6 +35,7 @@ bt = <<~EOT
   server
 EOT
 bm.add_button bt do
+  app.clear_screen
   puts "\nShow documentation of local installed gems"
   gem = File.join(RbConfig::CONFIG["bindir"], "gem")
   system gem, "install", "--conservative", "webrick", "rubygems-server"
@@ -46,6 +49,7 @@ bt = <<~EOT
   command line
 EOT
 bm.add_button bt do
+  app.clear_screen
   puts "\nRun cmd.exe with ruby environment variables (ridk enable)"
   ridk = File.join(RbConfig::CONFIG["bindir"], "ridk")
   Kernel.exec "cmd", "/E:ON", "/K", ridk, "enable"
