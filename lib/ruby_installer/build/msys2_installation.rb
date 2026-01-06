@@ -35,6 +35,7 @@ module Build # Use for: Build, Runtime
           when 'mingw32' then "mingw-w64-i686"
           when 'mingw64' then "mingw-w64-x86_64"
           when 'ucrt64'  then "mingw-w64-ucrt-x86_64"
+          when 'clang64'  then "mingw-w64-clang-x86_64"
           when 'clangarm64' then "mingw-w64-clang-aarch64"
           else raise "unknown mingwarch #{@mingwarch.inspect}"
         end
@@ -184,6 +185,12 @@ module Build # Use for: Build, Runtime
           vars['MINGW_PREFIX'] = vars['MSYSTEM_PREFIX']
         when 'ucrt64'
           vars['MSYSTEM_PREFIX'] = '/ucrt64'
+          vars['MSYSTEM_CARCH'] = 'x86_64'
+          vars['MSYSTEM_CHOST'] = 'x86_64-w64-mingw32'
+          vars['MINGW_CHOST'] = vars['MSYSTEM_CHOST']
+          vars['MINGW_PREFIX'] = vars['MSYSTEM_PREFIX']
+        when 'clang64'
+          vars['MSYSTEM_PREFIX'] = '/clang64'
           vars['MSYSTEM_CARCH'] = 'x86_64'
           vars['MSYSTEM_CHOST'] = 'x86_64-w64-mingw32'
           vars['MINGW_CHOST'] = vars['MSYSTEM_CHOST']
