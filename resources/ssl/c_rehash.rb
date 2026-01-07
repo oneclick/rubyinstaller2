@@ -4,6 +4,7 @@
 # See README-SSL.md for more details.
 
 require 'openssl'
+require 'fileutils'
 
 class CHashDir
   include Enumerable
@@ -116,10 +117,12 @@ class CHashDir
   end
 
   def delete_symlink(hashdir)
-    Dir.entries(hashdir).each do |entry|
-      next unless /^[\da-f]+\.r{0,1}\d+$/ =~ entry
-      epath = File.join(hashdir, entry)
-      File.unlink(epath) if FileTest.symlink?(epath) or FileTest.file?(epath)
+    if File.directory?(hashdir)
+      Dir.entries(hashdir).each do |entry|
+        next unless /^[\da-f]+\.r{0,1}\d+$/ =~ entry
+        epath = File.join(hashdir, entry)
+        File.unlink(epath) if FileTest.symlink?(epath) or FileTest.file?(epath)
+      end
     end
   end
 
@@ -149,6 +152,7 @@ class CHashDir
   def link_hash_cert(cert, hashdir)
     name_hash = hash_name(cert.subject)
     fingerprint = fingerprint(cert.to_der)
+    FileUtils.mkdir_p(hashdir)
     filepath = link_hash(cert, name_hash, fingerprint) do |idx|
       File.join(hashdir, "#{name_hash}.#{idx}")
     end
