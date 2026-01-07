@@ -54,7 +54,10 @@ LOGO = %q{
       DEFAULT_COMPONENTS = %w[1 3]
 
       def install(args)
-        ci = ComponentsInstaller.new
+        if args && %w[ucrt64 mingw64 mingw32 clang64 clangarm64].include?(args[0])
+          msys  = Msys2Installation.new(mingwarch: args.shift)
+        end
+        ci = ComponentsInstaller.new(msys:)
         inst_defaults = DEFAULT_COMPONENTS
 
         if args.empty?

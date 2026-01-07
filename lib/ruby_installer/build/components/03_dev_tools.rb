@@ -52,6 +52,7 @@ class DevTools < Base
     'mingw32' => PACKAGES_MINGW32,
     'mingw64' => PACKAGES_MINGW64,
     'ucrt64' => PACKAGES_MINGW64,
+    'clang64' => PACKAGES_MINGW64,
     'clangarm64' => PACKAGES_MINGW64,
   }
 
