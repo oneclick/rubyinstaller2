@@ -208,9 +208,7 @@ module Runtime
 
     def unset_consolemode
       if @base_console_input_mode
-IO.console.write "."
         setconsolemode(@base_console_input_mode | ENABLE_EXTENDED_FLAGS)
-IO.console.write "+"
         @base_console_input_mode = nil
         if block_given?
           begin
