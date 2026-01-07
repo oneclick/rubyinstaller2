@@ -26,9 +26,8 @@ shift
 @exit /b %ERRORLEVEL%
 
 :setvars
-@echo on
-@for /f "delims=" %%x in ('"%~dp0ruby" --disable-gems -x '%~f0' %*') do set "%%x"
-@exit /b %ERRORLEVEL%
+for /f "delims=" %%x in ('"%~dp0ruby" --disable-gems -x '%~f0' %*') do set "%%x" && echo %%x
+exit /b %ERRORLEVEL%
 
 :use
 "%~dp0../ridk_use/ridk.cmd" %*
