@@ -161,7 +161,7 @@ module Runtime
           line += "\n"
           slines << []
         end
-        @con.write "\e[1;1H" "\e[2J"
+        @con.write "\e[H" "\e[J"
         print "#{headline}"
         print @con.cursor.last == 0 ? line.chomp : "\n#{line.chomp}"
         @slines = slines
