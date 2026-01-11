@@ -113,11 +113,13 @@ module Runtime
 
       # Paint the boxes
       def repaint(width: @con.winsize[1], height: @con.winsize[0])
+        headroom = headline.size > 0 ? (headline.size + width - 1) / width : 0  # roughly
         obw = (width.to_f / @ncols).floor
         spw = obw - 4
         nrows = (@boxes.size.to_f / @ncols).ceil
-        obh = (height.to_f / nrows).floor
+        obh = ((height - headroom).to_f / nrows).floor
         sph = obh - 2
+        sph = 1 if sph < 1
         line = +""
         slines = [[]]
         nrows.times do |nrow|
@@ -140,6 +142,8 @@ module Runtime
                 text_line ||= ""
                 spl = (spw - text_line.size) / 2
                 spr = spw - spl - text_line.size
+                spl = 0 if spl < 0
+                spr = 0 if spr < 0
                 line += " #{border[3]}" + " " * spl + text_line + " " * spr + "#{border[5]} "
                 slines.last.append(*([box_idx] * obw))
               end
@@ -157,7 +161,9 @@ module Runtime
           line += "\n"
           slines << []
         end
-        print "\n#{headline}\n"+line.chomp
+        @con.write "\e[H" "\e[J"
+        print "#{headline}"
+        print @con.cursor.last == 0 ? line.chomp : "\n#{line.chomp}"
         @slines = slines
       end
     end
@@ -177,7 +183,9 @@ module Runtime
       @GetConsoleMode = Win32API.new('kernel32', 'GetConsoleMode', ['L', 'P'], 'L')
       @SetConsoleMode = Win32API.new('kernel32', 'SetConsoleMode', ['L', 'L'], 'L')
 
+      @hConsoleHandle = @GetStdHandle.call(STD_INPUT_HANDLE)
       @ev_r, @ev_w = IO.pipe.map(&:binmode)
+      @read_request_queue = Thread::Queue.new
 
       set_consolemode
 
@@ -189,8 +197,11 @@ module Runtime
       end
     end
 
+    def clear_screen
+      IO.console.write "\e[H" "\e[2J"
+    end
+
     def set_consolemode
-      @hConsoleHandle = @GetStdHandle.call(STD_INPUT_HANDLE)
       @base_console_input_mode = getconsolemode
       setconsolemode(ENABLE_PROCESSED_INPUT | ENABLE_MOUSE_INPUT | ENABLE_EXTENDED_FLAGS | ENABLE_VIRTUAL_TERMINAL_INPUT)
     end
@@ -253,6 +264,7 @@ module Runtime
     private def register_stdin
       Thread.new do
         str = +""
+        @read_request_queue.shift
         c = IO.console
         while char=c.read(1)
           str << char
@@ -260,12 +272,17 @@ module Runtime
               str == "\e" ||
               str == "\e[" ||
               str == "\xE0" ||
-              str.match(/\A\e\x5b<[^Mm]*\z/)
+              str.match(/\A\e\x5b<[0-9;]*\z/)
 
           @ev_w.write [2, str.size, str].pack("CCa*")
           str = +""
+          @read_request_queue.shift
         end
       end
+    end
+
+    private def request_read
+      @read_request_queue.push true
     end
 
     private def handle_key_input(str)
@@ -289,12 +306,15 @@ module Runtime
             widget.select
           end
         end
+      when /\e\x5b<\d+;(\d+);(\d+)[Mm]/ # other mouse events
+        return # no repaint
       end
       widget.repaint
     end
 
     private def main_loop
       str = +""
+      request_read
       while char=@ev_r.read(1)
         case char
         when "\x01"
@@ -304,10 +324,10 @@ module Runtime
           str = @ev_r.read(strlen)
 
           handle_key_input(str)
-          widget.repaint
         else
           raise "unexpected event: #{char.inspect}"
         end
+        request_read
       end
     end
 
@@ -328,15 +348,19 @@ if $0 == __FILE__
   end
   bm.add_button "text2" do
     p :button_2
+    exit
   end
   bm.add_button "text3\nabc\noollla\n text3\nabc\noollla" do
     p :button_3
+    exit
   end
   bm.add_button "text4\ndef" do
     p :button_4
+    exit
   end
   bm.add_button "text5\nabc" do
     p :button_5
+    exit
   end
   app.widget = bm
   app.run!
