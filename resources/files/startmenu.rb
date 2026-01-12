@@ -2,7 +2,7 @@ require "ruby_installer/runtime"
 
 app = RubyInstaller::Runtime::ConsoleUi.new
 bm = RubyInstaller::Runtime::ConsoleUi::ButtonMatrix.new ncols: 3
-bm.headline = "Ruby startmenu  -  Choose item by #{ENV["WT_SESSION"] && "mouse or "}cursor keys and press Enter"
+bm.headline = "Ruby startmenu  -  Choose item by mouse or cursor keys and press Enter"
 
 bt = <<~EOT
   irb:>
