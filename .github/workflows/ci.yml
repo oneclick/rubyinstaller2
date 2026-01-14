@@ -57,16 +57,16 @@ jobs:
           run_mri_spec: v3_3_10
           runon: windows-latest
 
-        - target_ruby: "3.2.9"
+        - target_ruby: "3.2.10"
           arch: "x86-msvcrt"
           build_ruby: "3.3.10/x64"
-          run_mri_spec: v3_2_9
+          run_mri_spec: v3_2_10
           runon: windows-latest
 
-        - target_ruby: "3.2.9"
+        - target_ruby: "3.2.10"
           arch: "x64-ucrt"
           build_ruby: "3.3.10/x64"
-          run_mri_spec: v3_2_9
+          run_mri_spec: v3_2_10
           runon: windows-latest
 
         - target_ruby: "head"
