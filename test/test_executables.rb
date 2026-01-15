@@ -36,6 +36,10 @@ class TestExecutables < Minitest::Test
     assert_match(/rake, version/, `rake --version`)
   end
 
+  def test_rdbg
+    assert_match(/rdbg /, `rdbg --version`)
+  end
+
   def test_rdoc
     assert_match(/\d+\.\d+\.\d+/, `rdoc --version`)
   end
