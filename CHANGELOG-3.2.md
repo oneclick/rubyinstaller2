@@ -1,3 +1,23 @@
+## RubyInstaller-3.2.10-1 - 2026-01-16
+
+### Added
+- Add the missing `rdbg` executable. #474
+
+### Changed
+- Update to ruby-4.0.1, see [release notes](https://www.ruby-lang.org/en/news/2026/01/13/ruby-4-0-1-released/).
+- Use msys2 headless installer in `ridk install 1` and install into ruby's base directory. [ruby/date#459](https://github.com/ruby/date/issues/459)
+- Extend c_rehash.rb helper script to update all three locations of SSL CA certificates [#461](https://github.com/oneclick/rubyinstaller2/pull/461)
+- Compact ENV display when `ridk enable`. #470
+- Fix possible crash in `ridk enable` when searching the Windows registry.
+- Shrink the 5 app icons to only one and a subsequent console-based startmenu.
+- Preliminary support for MSYS2 environment `clang64` . #471
+- Update links to point to the correct repository. #463
+- Update the SSL CA certificate list.
+
+### Removed
+- Remove libgcc_s_seh-1.dll. It is no longer necessary. #467
+
+
 ## RubyInstaller-3.2.9-1 - 2025-07-25
 
 ### Changed
