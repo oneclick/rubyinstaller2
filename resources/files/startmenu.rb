@@ -14,7 +14,7 @@ bm.add_button bt do
   app.clear_screen
   RubyInstaller::Runtime::Ridk.print_logo
   puts "\nStarting irb. To show the irb command help, type `help` and press Enter."
-  Kernel.exec File.join(RbConfig::CONFIG["bindir"], "irb.bat")
+  Kernel.system File.join(RbConfig::CONFIG["bindir"], "irb.bat")
 end
 
 html_path = File.join(RbConfig::CONFIG["prefix"], "share/doc/ruby/html/index.html")
@@ -52,7 +52,7 @@ bm.add_button bt do
   app.clear_screen
   puts "\nRun cmd.exe with ruby environment variables (ridk enable)"
   ridk = File.join(RbConfig::CONFIG["bindir"], "ridk")
-  Kernel.exec "cmd", "/E:ON", "/K", ridk, "enable"
+  Kernel.system "cmd", "/E:ON", "/K", ridk, "enable"
 end
 
 bt = <<~EOT
@@ -62,7 +62,7 @@ EOT
 bm.add_button bt do
   puts "\nInstall MSYS2 (ridk install)"
   ridk = File.join(RbConfig::CONFIG["bindir"], "ridk")
-  Kernel.exec ridk, "install"
+  Kernel.system ridk, "install"
 end
 
 app.widget = bm
