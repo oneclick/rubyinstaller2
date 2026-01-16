@@ -7,6 +7,7 @@
 - Update to ruby-4.0.1, see [release notes](https://www.ruby-lang.org/en/news/2026/01/13/ruby-4-0-1-released/).
 - Compact ENV display when `ridk enable`. #470
 - Fix possible crash in `ridk enable` when searching the Windows registry.
+- Fix detection of MSYS2 in a non-standard location. #445, #350
 - Check and add directory `etc/ssl/certs` in `c_rehash.rb`. #472
 - Improve startmenu introduced in Ruby-4.0:
   - Various optical and behaviour improvements. #469
