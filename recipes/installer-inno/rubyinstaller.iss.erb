@@ -22,9 +22,6 @@
 #define CurrentYear GetDateTimeString('yyyy', '', '')
 
 #define MsysDir <%=q( with_msys ? package.msysdir : '' )%>
-<% if package.rubyver2 < '3.0' %>
-#define HaveUtf8ChkBox 1
-<% end %>
 
 [Setup]
 DefaultDirName=<%=q package.default_instdir %>

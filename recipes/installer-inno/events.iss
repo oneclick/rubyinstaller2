@@ -19,11 +19,6 @@ begin
     if IsAssociated then
       ModifyFileExts(['.rb', '.rbw']);
 
-#ifdef HaveUtf8ChkBox
-    if IsUtf8 then
-      ModifyRubyopt(['-Eutf-8']);
-#endif
-
     if WizardIsComponentSelected('msys2') then
       DeleteRubyMsys2Directory();
   end;
@@ -58,11 +53,6 @@ begin
     SetPreviousData(PreviousDataKey, 'PathModified', 'yes');
   if IsAssociated then
     SetPreviousData(PreviousDataKey, 'FilesAssociated', 'yes');
-
-#ifdef HaveUtf8ChkBox
-  if IsUtf8 then
-    SetPreviousData(PreviousDataKey, 'Utf8', 'yes');
-#endif
 end;
 
 procedure CurUninstallStepChanged(const CurUninstallStep: TUninstallStep);
@@ -74,11 +64,6 @@ begin
 
     if GetPreviousData('FilesAssociated', 'no') = 'yes' then
       ModifyFileExts(['.rb', '.rbw']);
-
-#ifdef HaveUtf8ChkBox
-    if GetPreviousData('Utf8', 'no') = 'yes' then
-      ModifyRubyopt(['-Eutf-8']);
-#endif
 
     {* Remove SSL junction link *}
     DelTree(ExpandConstant('{app}/ssl'), True, False, False);

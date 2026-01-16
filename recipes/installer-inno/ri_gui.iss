@@ -14,9 +14,6 @@ var
   PathChkBox, PathExtChkBox, DevkitChkBox: TCheckBox;
   CompLabel: TLabel;
   ComplistPrevClickCheck: TNotifyEvent;
-#ifdef HaveUtf8ChkBox
-  Utf8ChkBox: TCheckBox;
-#endif
 
 function IsAssociated(): Boolean;
 begin
@@ -32,13 +29,6 @@ function IsDevkitInstall(): Boolean;
 begin
   Result := DevkitChkBox.Checked;
 end;
-
-#ifdef HaveUtf8ChkBox
-function IsUtf8(): Boolean;
-begin
-  Result := Utf8ChkBox.Checked;
-end;
-#endif
 
 procedure ParseSilentTasks();
 var
@@ -64,10 +54,6 @@ begin
             'NOASSOCFILES': PathExtChkBox.State := cbUnchecked;
             'RIDKINSTALL': DevkitChkBox.State := cbChecked;
             'NORIDKINSTALL': DevkitChkBox.State := cbUnchecked;
-#ifdef HaveUtf8ChkBox
-            'DEFAULTUTF8': Utf8ChkBox.State := cbChecked;
-            'NODEFAULTUTF8': Utf8ChkBox.State := cbUnchecked;
-#endif
           end;
       finally
         Tasks.Free;
@@ -191,20 +177,6 @@ begin
   PathExtChkBox.Width := Page.SurfaceWidth;
   PathExtChkBox.Height := ScaleY(ChkBoxBaseHeight);
   ChkBoxCurrentY := ChkBoxCurrentY + ChkBoxBaseHeight;
-
-#ifdef HaveUtf8ChkBox
-  Utf8ChkBox := TCheckBox.Create(Page);
-  Utf8ChkBox.Parent := Page.Surface;
-  Utf8ChkBox.State := cbChecked;
-  Utf8ChkBox.Caption := CustomMessage('DefaultUtf8');
-  Utf8ChkBox.Hint := CustomMessage('DefaultUtf8Hint');
-  Utf8ChkBox.ShowHint := True;
-  Utf8ChkBox.Alignment := taRightJustify;
-  Utf8ChkBox.Top := ScaleY(ChkBoxCurrentY);
-  Utf8ChkBox.Left := ScaleX(ChkBoxBaseLeft);
-  Utf8ChkBox.Width := Page.SurfaceWidth;
-  Utf8ChkBox.Height := ScaleY(ChkBoxBaseHeight);
-#endif
 
   {* Single Ruby installation tip message *}
 
