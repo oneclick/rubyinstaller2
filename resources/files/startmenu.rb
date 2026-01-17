@@ -33,6 +33,9 @@ end
 bt = <<~EOT
   gem doc
   server
+
+  view docs of
+  installed gems
 EOT
 bm.add_button bt do
   app.clear_screen
@@ -50,17 +53,20 @@ bt = <<~EOT
 EOT
 bm.add_button bt do
   app.clear_screen
-  puts "\nRun cmd.exe with ruby environment variables (ridk enable)"
+  puts "\nRun cmd.exe with ruby environment variables (ridk enable)\n\n"
   ridk = File.join(RbConfig::CONFIG["bindir"], "ridk")
   Kernel.system "cmd", "/E:ON", "/K", ridk, "enable"
 end
 
 bt = <<~EOT
   Install
-  MSYS2
+  MSYS2-Devkit
+
+  necessary for
+  many gems
 EOT
 bm.add_button bt do
-  puts "\nInstall MSYS2 (ridk install)"
+  puts "\nInstall MSYS2-Devkit (ridk install)"
   ridk = File.join(RbConfig::CONFIG["bindir"], "ridk")
   Kernel.system ridk, "install"
 end
