@@ -221,7 +221,7 @@ module Build # Use for: Build, Runtime
           yield
         rescue MsysNotFound
           $stderr.puts "MSYS2 could not be found. Please run 'ridk install'"
-          $stderr.puts "or download and install MSYS2 manually from https://msys2.github.io/"
+          $stderr.puts "or download and install MSYS2 manually from https://msys2.org/"
           exit 1
         end
       when :raise

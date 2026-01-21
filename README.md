@@ -6,7 +6,7 @@ This project provides an Installer for Ruby-2.4 and newer on Windows based on th
 It is the successor to the MSYS1 based [RubyInstaller](https://github.com/oneclick/rubyinstaller/) which was used for Ruby-2.3 and older.
 It is licensed under the 3-clause Modified BSD License.
 
-In contrast to the old RubyInstaller it does not provide its own DevKit, but makes use of the rich set of [MINGW libraries](https://github.com/Alexpux/MINGW-packages) from the [MSYS2 project](https://msys2.github.io/).
+In contrast to the old RubyInstaller it does not provide its own DevKit, but makes use of the rich set of [MINGW libraries](https://github.com/Alexpux/MINGW-packages) from the [MSYS2 project](https://msys2.org/).
 It therefore integrates well into MSYS2 after installation on the target system to provide a build-and-runtime environment for installation of gems with C-extensions.
 This and more changes are documented in the [CHANGELOG](https://github.com/oneclick/rubyinstaller2/blob/master/CHANGELOG-2.4.md#rubyinstaller-241-1---2017-05-25).
 
@@ -19,7 +19,7 @@ In order to install C based source gems, it's recommended to use the Devkit inst
 It installs a MSYS2/MINGW build environment into the ruby directory that ships common build tools and libraries.
 
 Some gems require additional packages, which can be installed per `pacman`. See below.
-Its also possible to install MSYS2 manually from https://msys2.github.io/ and run `ridk install` afterwards to add non default, but required development tools.
+Its also possible to install MSYS2 manually from https://msys2.org/ and run `ridk install` afterwards to add non default, but required development tools.
 For unattended install of Ruby and MSYS2 see the [FAQ chocolatey install](https://github.com/oneclick/rubyinstaller2/wiki/FAQ#user-content-choco-install).
 
 ### The `ridk` command
