@@ -1,5 +1,7 @@
 require "ruby_installer/runtime"
 
+include RubyInstaller::Runtime::Colors
+
 app = RubyInstaller::Runtime::ConsoleUi.new
 bm = RubyInstaller::Runtime::ConsoleUi::ButtonMatrix.new ncols: 3
 bm.headline = "Ruby startmenu  -  Choose item by mouse or cursor keys and press Enter"
@@ -13,7 +15,7 @@ EOT
 bm.add_button bt do
   app.clear_screen
   RubyInstaller::Runtime::Ridk.print_logo
-  puts "\nStarting irb. To show the irb command help, type `help` and press Enter."
+  puts "\nStarting #{yellow "irb"}. To show the irb command help, type `#{yellow "help"}` and press Enter."
   Kernel.system File.join(RbConfig::CONFIG["bindir"], "irb.bat")
 end
 
@@ -53,7 +55,7 @@ bt = <<~EOT
 EOT
 bm.add_button bt do
   app.clear_screen
-  puts "\nRun cmd.exe with ruby environment variables (ridk enable)\n\n"
+  puts "\nRunning cmd.exe with ruby environment variables (#{yellow "ridk enable"})\n\n"
   ridk = File.join(RbConfig::CONFIG["bindir"], "ridk")
   Kernel.system "cmd", "/E:ON", "/K", ridk, "enable"
 end
@@ -66,7 +68,7 @@ bt = <<~EOT
   many gems
 EOT
 bm.add_button bt do
-  puts "\nInstall MSYS2-Devkit (ridk install)"
+  puts "\nInstall MSYS2-Devkit (#{yellow "ridk install"})"
   ridk = File.join(RbConfig::CONFIG["bindir"], "ridk")
   Kernel.system ridk, "install"
 end

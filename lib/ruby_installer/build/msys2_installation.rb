@@ -7,6 +7,8 @@ module Build # Use for: Build, Runtime
     MSYS2_INSTALL_KEY = "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall/"
     MSYS2_INSTALL_KEY_WOW = "SOFTWARE/WOW6432Node/Microsoft/Windows/CurrentVersion/Uninstall/"
 
+    include Colors
+
     class MsysNotFound < RuntimeError
     end
     class CommandError < RuntimeError
@@ -220,7 +222,8 @@ module Build # Use for: Build, Runtime
         begin
           yield
         rescue MsysNotFound
-          $stderr.puts "MSYS2 could not be found. Please run 'ridk install'"
+          enable_colors # force colors, since this message is also shown, when stdout is redirected by "ridk enable"
+          $stderr.puts "MSYS2 could not be found. Please run '#{yellow "ridk install"}'"
           $stderr.puts "or download and install MSYS2 manually from https://msys2.org/"
           exit 1
         end
