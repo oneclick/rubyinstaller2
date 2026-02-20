@@ -290,3 +290,9 @@ jobs:
     - name: Verify that the used CA list is still the latest.
       shell: cmd
       run: rake ssl:update_check || (rake ssl:update && git diff)
+
+    - name: Print mkmf logs if job failed
+      if: ${{ failure() }}
+      run: |
+        ridk exec cat c:/ri2-ruby/lib/ruby/gems/*/extensions/*/*/*/mkmf.log
+        ridk exec gcc -v
