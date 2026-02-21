@@ -5,7 +5,7 @@
 
 ### Changed
 - Update to ruby-4.0.1, see [release notes](https://www.ruby-lang.org/en/news/2026/01/13/ruby-4-0-1-released/).
-- Use msys2 headless installer in `ridk install 1` and install into ruby's base directory. [ruby/date#459](https://github.com/ruby/date/issues/459)
+- Use msys2 headless installer in `ridk install 1` and install into ruby's base directory. [#459](https://github.com/oneclick/rubyinstaller2/issues/459)
 - Extend c_rehash.rb helper script to update all three locations of SSL CA certificates [#461](https://github.com/oneclick/rubyinstaller2/pull/461)
 - Compact ENV display when `ridk enable`. #470
 - Fix possible crash in `ridk enable` when searching the Windows registry.
