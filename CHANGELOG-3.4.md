@@ -1,3 +1,22 @@
+## RubyInstaller-3.4.9-1 - 2026-03-14
+
+### Added
+- Add the missing `rdbg` executable. #474
+
+### Changed
+- Update to ruby-3.4.9, see [release notes](https://www.ruby-lang.org/en/news/2026/03/11/ruby-3-4-9-released/).
+- Shrink the 5 app icons to only one and add a subsequent console-based startmenu.
+  One icon only is a requirement of Microsoft to provide an app in the Microsoft Store.
+- Compact ENV display when running `ridk enable`. #470
+- Fix possible crash in `ridk enable` when searching the Windows registry.
+- Fix detection of MSYS2 in a non-standard location. #445, #350
+- Check and add directory `etc/ssl/certs` in `c_rehash.rb`. #472
+- Preliminary support for MSYS2 environment `clang64` . #471
+- Update links to point to the correct repository. #463
+
+### Removed
+- Remove libgcc_s_seh-1.dll. It is no longer necessary. #467
+
 ## RubyInstaller-3.4.8-1 - 2025-12-18
 
 ### Changed
