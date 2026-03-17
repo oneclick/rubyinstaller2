@@ -2,6 +2,7 @@
 
 ### Added
 - Add the missing `rdbg` executable. #474
+- Add more color to ridk outputs.
 
 ### Changed
 - Update to ruby-3.4.9, see [release notes](https://www.ruby-lang.org/en/news/2026/03/11/ruby-3-4-9-released/).
@@ -13,6 +14,7 @@
 - Check and add directory `etc/ssl/certs` in `c_rehash.rb`. #472
 - Preliminary support for MSYS2 environment `clang64` . #471
 - Update links to point to the correct repository. #463
+- Update the SSL CA certificate list.
 
 ### Removed
 - Remove libgcc_s_seh-1.dll. It is no longer necessary. #467
