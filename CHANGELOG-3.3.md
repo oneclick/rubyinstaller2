@@ -1,3 +1,25 @@
+## RubyInstaller-3.3.11-1 - 2026-03-26
+
+### Added
+- Add the missing `rdbg` executable. #474
+- Add more color to ridk outputs.
+
+### Changed
+- Update to ruby-3.3.11, see [release notes](https://www.ruby-lang.org/en/news/2026/03/26/ruby-3-3-11-released/).
+- Shrink the 5 app icons to only one and add a subsequent console-based startmenu.
+- Use msys2 headless installer in `ridk install 1` and install into ruby's base directory. [#459](https://github.com/oneclick/rubyinstaller2/issues/459)
+- Compact ENV display when running `ridk enable`. #470
+- Fix possible crash in `ridk enable` when searching the Windows registry.
+- Fix detection of MSYS2 in a non-standard location. #445, #350
+- Extend c_rehash.rb helper script to update all three locations of SSL CA certificates [#461](https://github.com/oneclick/rubyinstaller2/pull/461)
+- Preliminary support for MSYS2 environment `clang64` . #471
+- Update links to point to the correct repository. #463
+- Update the SSL CA certificate list.
+
+### Removed
+- Remove libgcc_s_seh-1.dll. It is no longer necessary. #467
+
+
 ## RubyInstaller-3.3.10-1 - 2025-10-24
 
 ### Changed
