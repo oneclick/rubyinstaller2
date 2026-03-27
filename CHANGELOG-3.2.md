@@ -1,3 +1,13 @@
+## RubyInstaller-3.2.11-1 - 2026-03-27
+
+### Added
+- Add more text to the startmenu buttons and more color to outputs.
+
+### Changed
+- Update to ruby-3.2.11, see [release notes](https://www.ruby-lang.org/en/news/2026/03/27/ruby-3-2-11-released/).
+- Update the SSL CA certificate list.
+
+
 ## RubyInstaller-3.2.10-1 - 2026-01-16
 
 ### Added
