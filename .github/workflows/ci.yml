@@ -15,16 +15,16 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - target_ruby: "4.0.2"
+        - target_ruby: "4.0.3"
           arch: "x64-ucrt"
           build_ruby: "3.3.11/x64"
-          run_mri_spec: v4.0.2
+          run_mri_spec: v4.0.3
           runon: windows-latest
 
-        - target_ruby: "4.0.2"
+        - target_ruby: "4.0.3"
           arch: "arm-ucrt"
           build_ruby: "3.4.9/x64"
-          run_mri_spec: v4.0.2
+          run_mri_spec: v4.0.3
           runon: windows-11-arm
 
         - target_ruby: "3.4.9"
