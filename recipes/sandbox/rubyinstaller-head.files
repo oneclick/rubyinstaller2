@@ -29,11 +29,11 @@ bin/libyaml-0-2.dll
 bin/ruby.exe
 bin/rubyw.exe
 bin/zlib1.dll
-include/ruby-4.1.0+3
+include/ruby-4.1.0+4
 lib/pkgconfig/ruby-4.1.pc
-lib/ruby/4.1.0+3
-lib/ruby/gems/4.1.0+3
-lib/ruby/site_ruby/4.1.0+3
-lib/ruby/vendor_ruby/4.1.0+3
+lib/ruby/4.1.0+4
+lib/ruby/gems/4.1.0+4
+lib/ruby/site_ruby/4.1.0+4
+lib/ruby/vendor_ruby/4.1.0+4
 share/doc/ruby/html/
 share/ri/
