@@ -5,6 +5,7 @@ class TestGemInstall < Minitest::Test
   # Remove installed packages per:
   #   pacman -R %MINGW_PACKAGE_PREFIX%-libmowgli %MINGW_PACKAGE_PREFIX%-libguess ed
   def test_gem_install
+    skip "libguess is no longer available on 32 bit x86" if RUBY_PLATFORM=="i386-mingw32"
     res = system <<-EOT.gsub("\n", "&")
       cd test/helper/testgem
       gem build testgem.gemspec
@@ -28,6 +29,7 @@ class TestGemInstall < Minitest::Test
   end
 
   def test_bundle_install
+    skip "libguess is no longer available on 32 bit x86" if RUBY_PLATFORM=="i386-mingw32"
     remove_pacman_packages_for_test
     FileUtils.mkdir_p "test/helper/testgem/vendor/cache"
     res = system <<-EOT.gsub("\n", "&")
@@ -95,6 +97,7 @@ class TestGemInstall < Minitest::Test
 
 
   def test_user_gem_install
+    skip "libguess is no longer available on 32 bit x86" if RUBY_PLATFORM=="i386-mingw32"
     unless ENV['USERNAME'] == TESTUSER
       RubyInstaller::Runtime.msys2_installation.with_msys_apps_enabled do
         system("pacman -S --needed --noconfirm %MINGW_PACKAGE_PREFIX%-libmowgli %MINGW_PACKAGE_PREFIX%-libguess ed")
