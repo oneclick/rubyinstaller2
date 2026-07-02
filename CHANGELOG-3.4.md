@@ -1,3 +1,14 @@
+## RubyInstaller-3.4.10-1 - 2026-07-02
+
+### Added
+- Add more text to the startmenu buttons and more color to outputs.
+
+### Changed
+- Update to ruby-3.4.10, see [release notes](https://www.ruby-lang.org/en/news/2026/06/30/ruby-3-4-10-released/).
+- Update the SSL CA certificate list.
+- Change `libssl-3.dll` to `libssl-3-arm64.dll` on ARM64.
+
+
 ## RubyInstaller-3.4.9-1 - 2026-03-14
 
 ### Added
