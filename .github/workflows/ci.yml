@@ -45,16 +45,16 @@ jobs:
           run_mri_spec: v3_4_10
           runon: windows-11-arm
 
-        - target_ruby: "3.3.11"
+        - target_ruby: "3.3.12"
           arch: "x86-msvcrt"
           build_ruby: "3.3.11/x64"
-          run_mri_spec: v3_3_11
+          run_mri_spec: v3_3_12
           runon: windows-latest
 
-        - target_ruby: "3.3.11"
+        - target_ruby: "3.3.12"
           arch: "x64-ucrt"
           build_ruby: "3.3.11/x64"
-          run_mri_spec: v3_3_11
+          run_mri_spec: v3_3_12
           runon: windows-latest
 
         - target_ruby: "3.2.11"
