@@ -23,7 +23,7 @@ jobs:
 
         - target_ruby: "4.0.6"
           arch: "arm-ucrt"
-          build_ruby: "3.4.9/x64"
+          build_ruby: "3.4.10/aarch64"
           run_mri_spec: v4.0.6
           runon: windows-11-arm
 
@@ -41,7 +41,7 @@ jobs:
 
         - target_ruby: "3.4.10"
           arch: "arm-ucrt"
-          build_ruby: "3.4.9/x64"
+          build_ruby: "3.4.10/aarch64"
           run_mri_spec: v3_4_10
           runon: windows-11-arm
 
@@ -77,7 +77,7 @@ jobs:
 
         - target_ruby: "head"
           arch: "arm-ucrt"
-          build_ruby: "3.4.9/x64"
+          build_ruby: "3.4.10/aarch64"
           run_mri_spec: master
           runon: windows-11-arm
 
@@ -100,15 +100,6 @@ jobs:
     # Work around issue https://github.com/actions/checkout/issues/290
     - name: fetch tag annotations
       run: git fetch --force --tags
-
-    - name: Install base ruby
-      if: matrix.arch == 'arm-ucrt'
-      shell: powershell
-      run: |
-        $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.4.7-1/rubyinstaller-devkit-3.4.7-1-x64.exe", "$pwd/ruby-setup.exe")
-        cmd /c ruby-setup.exe /verysilent /currentuser /dir=C:/hostedtoolcache/windows/Ruby/${{ matrix.build_ruby }}
-        New-Item -Path c:/msys64 -ItemType Junction -Value C:/hostedtoolcache/windows/Ruby/${{ matrix.build_ruby }}/msys64
-        ridk install 1 3
 
     - run: |
         dir C:/hostedtoolcache/windows/Ruby/
