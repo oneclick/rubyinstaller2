@@ -1,3 +1,10 @@
+## RubyInstaller-4.0.7-1 - 2026-09-15
+
+### Changed
+- Update to ruby-4.0.7, see [release notes](https://www.ruby-lang.org/en/news/2026/09/15/ruby-4-0-7-released/).
+- Update the SSL CA certificate list.
+
+
 ## RubyInstaller-4.0.6-1 - 2026-07-14
 
 ### Changed
