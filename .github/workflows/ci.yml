@@ -167,7 +167,11 @@ jobs:
 
     - name: Build the installer
       shell: cmd
-      run: rake ri:ruby-%target_ruby%-%arch% & c:/msys64/usr/bin/gpgconf --homedir /etc/pacman.d/gnupg --kill all
+      run: |
+        call rake ri:ruby-%target_ruby%-%arch%
+        set rake_exit=%errorlevel%
+        c:/msys64/usr/bin/gpgconf --homedir /etc/pacman.d/gnupg --kill all
+        exit /b %rake_exit%
 
     - name: Reuse installed ruby for RubyInstaller-Devkit
       shell: cmd
