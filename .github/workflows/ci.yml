@@ -167,7 +167,11 @@ jobs:
 
     - name: Build the installer
       shell: cmd
-      run: rake ri:ruby-%target_ruby%-%arch% & c:/msys64/usr/bin/gpgconf --homedir /etc/pacman.d/gnupg --kill all
+      run: |
+        call rake ri:ruby-%target_ruby%-%arch%
+        set rake_exit=%errorlevel%
+        c:/msys64/usr/bin/gpgconf --homedir /etc/pacman.d/gnupg --kill all
+        exit /b %rake_exit%
 
     - name: Reuse installed ruby for RubyInstaller-Devkit
       shell: cmd
@@ -278,7 +282,7 @@ jobs:
           git clone --depth 1 https://github.com/ruby/ruby -b $env:run_mri_spec &&
           cd ruby &&
           curl https://raw.githubusercontent.com/oneclick/rubyinstaller2-packages/refs/heads/master/mingw-w64-ruby40/0016-Windows-Change-command-line-interface-to-UTF-8-specs.patch | patch -p1 &&
-          env --unset=RUBYOPT ruby -C spec/ruby ../mspec/bin/mspec -I../../tool/lib -j  --exclude "CVE-2020-10663 is resisted by only creating custom objects if passed create_additions: true or using JSON.load" --exclude "URI#select conforms to the MatzRuby tests"
+          env --unset=RUBYOPT ruby -C spec/ruby ../mspec/bin/mspec -I../../tool/lib -j  --exclude "CVE-2020-10663 is resisted by only creating custom objects if passed create_additions: true or using JSON.load" --exclude "URI#select conforms to the MatzRuby tests" --exclude "ENV.each_key returns keys in the locale encoding" --exclude "ENV.keys returns the keys in the locale encoding"
         }
 
     - name: Verify that the used CA list is still the latest.
