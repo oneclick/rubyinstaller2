@@ -346,6 +346,28 @@ module Build # Use for: Build, Runtime
       @@pacman_lock.synchronize(&block)
     end
 
+    # Whether the current user may change the MSYS2 installation, which pacman requires.
+    #
+    # An all-users installation of RubyInstaller, which is the default when the installer runs elevated, grants regular users read-only access to it.
+    # pacman then fails with misleading keyring and database errors.
+    def writable?
+      probe = File.join(msys_path, "var/lib/pacman/ri-writable-#{Process.pid}")
+      File.write(probe, "")
+      File.unlink(probe) rescue nil
+      true
+    rescue Errno::EACCES, Errno::EPERM
+      false
+    rescue SystemCallError
+      true
+    end
+
+    def not_writable_message(command)
+      "MSYS2 in #{msys_path} is not writable for the current user, so that pacman can not install or update packages.\n" \
+      "This is the case, if Ruby was installed for all users, for instance by running the installer in an elevated terminal.\n" \
+      "Run the following command from an administrator terminal or re-install Ruby for the current user only:\n" \
+      "  #{command}"
+    end
+
     def install_packages(packages, verbose: false)
       return if packages.empty?
 
@@ -361,6 +383,10 @@ module Build # Use for: Build, Runtime
 
           # Install required packages
           if installs.any?
+            unless writable?
+              raise CommandError, not_writable_message("ridk exec pacman -S --needed #{installs.join(" ")}")
+            end
+
             Gem.ui.say("Installing required msys2 packages: #{installs.join(" ")}") if verbose
 
             args = ["pacman", "-S", "--needed", "--noconfirm", *installs]
