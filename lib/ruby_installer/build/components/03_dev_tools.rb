@@ -57,6 +57,7 @@ class DevTools < Base
   }
 
   def execute(args)
+    check_msys_writable
     msys.with_msys_apps_enabled do
       puts "Install #{description} ..."
       packages = PACKAGES.fetch(msys.mingwarch).map do |package|
