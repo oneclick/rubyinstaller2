@@ -1,3 +1,11 @@
+## RubyInstaller-4.0.7-2 - 2026-10-21
+
+### Changed
+- Remove eMudhra's "emSign ECC Root CA - G3" from the SSL CA certificate list. #491
+  8 of their intermediate certificates were compromized.
+- Change installer name and version strings to match the expectation of the Microsoft Store.
+
+
 ## RubyInstaller-4.0.7-1 - 2026-09-15
 
 ### Changed
