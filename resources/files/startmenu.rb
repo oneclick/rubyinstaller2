@@ -79,7 +79,7 @@ app.run!
 
 # The icons that were installed before ruby-4.0:
 #
-# Name: {autoprograms}\{#InstallerName}\{cm:InteractiveRubyTitle}; Filename: {app}\bin\irb.<%= package.rubyver2 < '3.1' ? "cmd" : "bat" %>; IconFilename: {app}\bin\ruby.exe
+# Name: {autoprograms}\{#InstallerName}\{cm:InteractiveRubyTitle}; Filename: {app}\bin\irb.bat; IconFilename: {app}\bin\ruby.exe
 #
 # Name: {autoprograms}\{#InstallerName}\{cm:DocumentationTitle}\{cm:APIReferenceTitle,{#RubyVersion}}; Filename: {app}\share\doc\ruby\html\index.html; IconFilename: {app}\share\doc\ruby\html\images\ruby-doc.ico; Components: rdoc
 #

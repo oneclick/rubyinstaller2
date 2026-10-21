@@ -41,34 +41,11 @@ class TestStdlib < Minitest::Test
     assert_match(/GMP \d/, Integer::GMP_VERSION)
   end
 
-  # SDBM was removed in ruby > 2.7
-  if RUBY_VERSION =~ /^2\.[4567]\./
-    def test_sdbm
-      require "sdbm"
-      SDBM
-    end
-  end
-
-  # DBM and GDBM were removed in ruby > 3.0
-  if RUBY_VERSION =~ /^2\.[4567]|^3\.0\./
-    def test_dbm
-      require "dbm"
-      DBM
-    end
-    def test_gdbm
-      require "gdbm"
-      GDBM::VERSION
-    end
-  end
-
   # Make sure we're using the expected OpenSSL version
   def test_openssl_version
     require "openssl"
 
     case RUBY_VERSION
-      when /^2\.[34]\./
-        assert_match(/OpenSSL 1\.0\./, OpenSSL::OPENSSL_VERSION)
-        assert_match(/OpenSSL 1\.0\./, OpenSSL::OPENSSL_LIBRARY_VERSION)
       when /^2\.[567]\.|^3\.[01]\./
         assert_match(/OpenSSL 1\.1\./, OpenSSL::OPENSSL_VERSION)
         assert_match(/OpenSSL 1\.1\./, OpenSSL::OPENSSL_LIBRARY_VERSION)
@@ -79,8 +56,6 @@ class TestStdlib < Minitest::Test
   end
 
   def test_openssl_provider
-    # ruby-3.2 has OpenSSL-3.x which supports provider API, but the ruby C-ext is too old there
-    return if RUBY_VERSION =~ /^2\.[34567]\.|^3\.[012]\./
     require "openssl"
 
     OpenSSL::Provider.load("legacy")

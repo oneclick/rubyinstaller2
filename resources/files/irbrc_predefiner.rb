@@ -8,16 +8,9 @@ require 'irb/completion'
 IRB.conf[:SAVE_HISTORY] = 200
 EOT
 
-if RUBY_VERSION < "3.3"
-  # Create a .irbrc file with default options on older rubies
-  if irbrc_file && !File.exist?(irbrc_file) && File.exist?(File.dirname(irbrc_file))
-    File.write irbrc_file, irbrc_text
-  end
-else
-  # Remove the now unnecessary .irbrc file when unchanged on newer rubies
-  if irbrc_file && File.exist?(irbrc_file) && File.read(irbrc_file) == irbrc_text
-    File.unlink irbrc_file
-  end
+# Remove the now unnecessary .irbrc file when unchanged on newer rubies
+if irbrc_file && File.exist?(irbrc_file) && File.read(irbrc_file) == irbrc_text
+  File.unlink irbrc_file
 end
 
 # Try to convert .irb_history from locale to UTF-8, if it isn't encoded properly.

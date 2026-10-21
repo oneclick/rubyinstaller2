@@ -52,11 +52,7 @@ class TestGemInstall < Minitest::Test
     FileUtils.rm("test/helper/testgem/testgem-1.0.0.gem")
   end
 
-  if RUBY_VERSION < "3.0"
-    TESTUSER = "ritestuser"
-  else
-    TESTUSER = "ritästuser"
-  end
+  TESTUSER = "ritästuser"
 
   def with_test_user(testname: nil)
     testname ||= caller[0][/[`#].*?'/][1..-2]
