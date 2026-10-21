@@ -17,9 +17,11 @@ file filelist_iss => [__FILE__, ovl_expand_file(sandbox_task.sandboxfile_listfil
       flags = "recursesubdirs createallsubdirs #{flags}"
       source = "../../#{path}/*"
       dest = "{app}/#{reltosandbox_path}"
-    else
+    elsif File.exist?(path)
       source = "../../#{path}"
       dest = "{app}/#{File.dirname(reltosandbox_path)}"
+    else
+      raise "file is missing for innosetup: #{path}"
     end
 
     "Source: #{source}; DestDir: #{dest}; Flags: #{flags}; Components: #{components}"
