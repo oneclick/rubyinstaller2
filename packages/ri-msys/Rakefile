@@ -21,7 +21,7 @@ class RubyPackage < RubyInstaller::Build::Openstruct
       self.msys_arch = "x86_64"
       self.msysdir = "msys64"
       self.mingwdir = "ucrt64"
-      self.packagenamearch = "x64-ucrt"
+      self.packagenamearch = "x64"
       self.default_instdir = "C:\\Ruby#{rubyver2.gsub(".","")}-x64"
     when 'x86-msvcrt'
       self.pacman_arch = "mingw-w64-i686"
