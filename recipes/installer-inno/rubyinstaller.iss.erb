@@ -15,7 +15,7 @@
 #define RubyBuildPlatform <%=q package.ruby_arch %>
 
 ; Build Installer details using above values
-#define InstallerName "Ruby " + <%=q package.packagever %> + "-" + <%=q package.packagenamearch %>
+#define InstallerName "Ruby " + <%=q package.rubyver2 %>
 #define InstallerPublisher "RubyInstaller Team"
 #define InstallerHomepage "http://rubyinstaller.org"
 
@@ -33,7 +33,7 @@ AppName={#InstallerName}
 AppVerName={#InstallerName}
 AppPublisher={#InstallerPublisher}
 AppPublisherURL={#InstallerHomepage}
-AppVersion=<%=q package.packagever %>
+AppVersion=<%=q "#{package.packagever}-#{package.packagenamearch}".sub("head", Time.now.strftime("head-%Y-%m-%d")) %>
 DefaultGroupName={#InstallerName}
 DisableWelcomePage=true
 DisableProgramGroupPage=true
