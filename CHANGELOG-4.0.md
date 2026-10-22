@@ -3,6 +3,7 @@
 ### Changed
 - Update to ruby-4.0.8, see [release notes](https://github.com/ruby/ruby/releases/tag/v4.0.8).
 - Explain why pacman fails when MSYS2 is not writable and how it can be handled. #490
+- Fix warning in fresh install: "loading in progress, circular require considered harmful" referencing msys2_installation.rb. #489
 
 
 ## RubyInstaller-4.0.7-2 - 2026-10-21
