@@ -12,6 +12,7 @@ class PacmanUpdate < Base
 
   def execute(args)
     require "tempfile"
+    check_msys_writable
 
     msys.with_msys_apps_enabled do
       puts "Check msys2-keyring version:"

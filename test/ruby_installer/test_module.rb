@@ -90,6 +90,27 @@ class TestModule < Minitest::Test
     assert_nil ENV['MSYSTEM']
   end
 
+  def test_msys2_writable
+    require "tmpdir"
+    require "fileutils"
+
+    Dir.mktmpdir do |dir|
+      pacman_dir = File.join(dir, "var/lib/pacman")
+      FileUtils.mkdir_p(pacman_dir)
+      msys = RubyInstaller::Runtime::Msys2Installation.new(msys_path: dir)
+      assert_predicate msys, :writable?
+
+      assert system("icacls", pacman_dir, "/deny", "*S-1-1-0:(W)", out: File::NULL)
+      begin
+        refute_predicate msys, :writable?
+        assert_match(/not writable.*ridk install 2/m, msys.not_writable_message("ridk install 2"))
+      ensure
+        assert system("icacls", pacman_dir, "/remove:d", "*S-1-1-0", out: File::NULL)
+      end
+      assert_empty Dir.children(pacman_dir)
+    end
+  end
+
   def test_enable_msys_apps_without_msys_installed
     skip unless File.directory?(msys_path)
     simulate_no_msysdir do

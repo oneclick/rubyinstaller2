@@ -98,6 +98,10 @@ class Base < Rake::Task
     end
   end
 
+  def check_msys_writable
+    raise msys.not_writable_message("ridk install #{task_index}") unless msys.writable?
+  end
+
   def kill_all_msys2_processes
     puts 'Kill all running msys2 binaries to avoid error "size of shared memory region changed"'
     # See https://github.com/msys2/MSYS2-packages/issues/258
