@@ -1,3 +1,10 @@
+## RubyInstaller-4.0.8-1 - 2026-10-22
+
+### Changed
+- Update to ruby-4.0.8, see [release notes](https://github.com/ruby/ruby/releases/tag/v4.0.8).
+- Explain why pacman fails when MSYS2 is not writable and how it can be handled. #490
+
+
 ## RubyInstaller-4.0.7-2 - 2026-10-21
 
 ### Changed
