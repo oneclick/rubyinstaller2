@@ -58,15 +58,18 @@ if package.rubyver2 < "3.4"
       # Removing unnecessary spaces and comments from the embedded XML manifest gives us enough space to add the above XML elements.
       # Then the default MINGW manifest gets replaced by our custom XML content.
       # The rest of the available bytes is simply padded with spaces, so that we don't change positions within the EXE image.
-      image.gsub!(/<\?xml.*?<assembly.*?<\/assembly>\n/m) do |m|
-        newm = m.gsub(/^\s*<\/assembly>\s*$/, new + "</assembly>")
+      patched = false
+      image.gsub!(/<\?xml.*?<assembly.*?<\/assembly>\n?/m) do |m|
+        newm = m.gsub(/\s*<\/assembly>\s*$/, new + "</assembly>")
           .gsub(/<!--.*?-->/m, "")
           .gsub(/^ +/, "")
           .gsub(/\n+/m, "\n")
 
-        raise "replacement manifest to big #{m.bytesize} < #{newm.bytesize}" if m.bytesize < newm.bytesize
+        raise "replacement manifest too big #{m.bytesize} < #{newm.bytesize}" if m.bytesize < newm.bytesize
+        patched = m != newm
         newm + " " * (m.bytesize - newm.bytesize)
       end
+      raise "manifest XML not found in #{destpath}" unless patched
       File.binwrite(t.name, image)
     end
   end
