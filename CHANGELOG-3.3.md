@@ -1,3 +1,11 @@
+## RubyInstaller-3.3.13-1 - 2026-10-23
+
+### Changed
+- Update to ruby-3.3.13, see [release notes](https://www.ruby-lang.org/en/news/2026/10/23/ruby-3-3-13-released/).
+- Change addition of XML manifests similar to Ruby-3.4+ due to recent changes in GCC.
+  It stays in `ruby.exe` and `rubyw.exe` as before, not in the DLLs like in ruby-3.4+.
+
+
 ## RubyInstaller-3.3.12-2 - 2026-10-21
 
 ### Changed

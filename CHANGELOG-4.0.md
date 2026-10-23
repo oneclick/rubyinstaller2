@@ -1,3 +1,9 @@
+## RubyInstaller-4.0.9-1 - 2026-10-23
+
+### Changed
+- Update to ruby-4.0.9, see [release notes](https://www.ruby-lang.org/en/news/2026/10/23/ruby-4-0-9-released/).
+
+
 ## RubyInstaller-4.0.8-1 - 2026-10-22
 
 ### Changed
