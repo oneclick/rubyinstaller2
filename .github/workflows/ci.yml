@@ -135,11 +135,16 @@ jobs:
     - name: Install Inno-Setup
       shell: powershell
       run: |
-        $InnoSetup = Join-Path ${env:PROGRAMFILES(X86)} -ChildPath 'Inno Setup 6\iscc.exe'
+        $InnoSetup = Join-Path ${env:PROGRAMFILES} -ChildPath 'Inno Setup 7\iscc.exe'
         if (!(Test-Path $InnoSetup)) {
-          Invoke-WebRequest -Uri "https://jrsoftware.org/download.php/is.exe" -OutFile "D:\\is.exe"
-          Start-Process -FilePath "D:\\is.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART" -Wait
+          Invoke-WebRequest -Uri "https://github.com/jrsoftware/issrc/releases/download/is-7_1_1/innosetup-7.1.1-x64.exe" -OutFile "C:\\is.exe"
+          Start-Process -FilePath "C:\\is.exe" -ArgumentList "/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART" -Wait
         }
+        echo "PATH=$env:PROGRAMFILES/Inno Setup 7;$env:PATH" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+    - name: Print Inno-Setup version
+      shell: cmd
+      run: iscc --version
 
     - name: workaround signature issue on github actions
       shell: cmd
