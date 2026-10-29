@@ -31,10 +31,7 @@ class DevTools < Base
     mingw-w64-gcc
     mingw-w64-gcc-libs
     mingw-w64-headers-git
-    mingw-w64-libmangle-git
     mingw-w64-libwinpthread-git
-    mingw-w64-make
-    mingw-w64-tools-git
     mingw-w64-winpthreads-git
   ]
 
@@ -45,7 +42,10 @@ class DevTools < Base
 
   PACKAGES_MINGW64 = PACKAGES_COMMON + %w[
     pkgconf
+    mingw-w64-libmangle-git
+    mingw-w64-make
     mingw-w64-pkgconf
+    mingw-w64-tools-git
   ]
 
   PACKAGES = {
