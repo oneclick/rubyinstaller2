@@ -27,7 +27,7 @@ file ruby_exe => [self.repo_added] do
   end
   # Fails on Windows-on-Arm on Github with:
   #   Errno::EACCES: Permission denied @ utime_failed - recipes/unpack/ruby-head-arm-ucrt/clangarm64/bin/ruby.exe (Errno::EACCES)
-  unless ENV["GITHUB_ACTIONS"] == "true" && ENV["RUNNER_ARCH"] == "ARM64"
+  unless ENV["GITHUB_ACTIONS"] == "true"
     touch ruby_exe
   end
 end
