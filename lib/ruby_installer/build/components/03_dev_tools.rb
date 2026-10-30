@@ -28,8 +28,7 @@ class DevTools < Base
     wget
     mingw-w64-binutils
     mingw-w64-crt-git
-    mingw-w64-gcc
-    mingw-w64-gcc-libs
+    mingw-w64-cc
     mingw-w64-headers-git
     mingw-w64-libwinpthread-git
     mingw-w64-winpthreads-git
