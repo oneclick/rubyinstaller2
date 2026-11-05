@@ -42,9 +42,9 @@ class Msys2 < Base
 
   private
 
-  MSYS2_VERSION = ENV['MSYS2_VERSION'] || "20251213"
+  MSYS2_VERSION = ENV['MSYS2_VERSION'] || "20260927"
   MSYS2_URI = "https://repo.msys2.org/distrib/x86_64/msys2-x86_64-#{MSYS2_VERSION}.exe"
-  MSYS2_SHA256 = "d0ff26a909c7ba4b7b1b5b4f5fab057b624549ab4f77811794c2076e8786ac53"
+  MSYS2_SHA256 = "416d506c839a2da4bc184eeec8cbaaf1055ee698618228c62dfc4232a6970f0e"
 
   def msys2_download_uri
     MSYS2_URI
