@@ -228,6 +228,12 @@ jobs:
     - run: bundle install
 
     - name: Install libstdc++ for 'rake test'
+      if: matrix.arch != 'x86-msvcrt'
+      shell: cmd
+      run: ridk exec sh -c "pacman --noconfirm --sync --needed ${MINGW_PACKAGE_PREFIX}-libc++"
+
+    - name: Install libstdc++ for 'rake test'
+      if: matrix.arch == 'x86-msvcrt'
       shell: cmd
       run: ridk exec sh -c "pacman --noconfirm --sync --needed ${MINGW_PACKAGE_PREFIX}-gcc-libs"
 

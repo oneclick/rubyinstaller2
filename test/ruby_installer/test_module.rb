@@ -157,7 +157,7 @@ class TestModule < Minitest::Test
     assert_equal( min_paths, paths & min_paths )
   end
 
-  LIBCPP_DLL = RUBY_PLATFORM =~ /aarch64/ ? "libc++" : "libstdc++-6"
+  LIBCPP_DLL = RUBY_PLATFORM =~ /x86|i?86/ ? "libstdc++-6" : "libc++"
 
   def test_enable_dll_search_paths_with_msys_installed
     skip unless File.directory?(msys_path)
