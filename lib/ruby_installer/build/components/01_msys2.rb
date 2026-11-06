@@ -10,7 +10,7 @@ class Msys2 < Base
     begin
       autorebase
 
-      if msys.with_msys_apps_enabled(if_no_msys: :raise) { run_verbose("sh", "-lc", "set") }
+      if msys.with_msys_apps_enabled(if_no_msys: :raise) { system "set"; run_verbose("sh", "-lc", "set"); run_verbose("sh", "-c", "ls -la ~") }
         puts "MSYS2 seems to be " + green("properly installed")
         false
       else
