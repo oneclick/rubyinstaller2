@@ -48,8 +48,9 @@ class Base < Rake::Task
   def run_verbose(*args)
     puts "> #{ cyan(shell_join(args)) }"
     # Unset HOME, which is set by ruby.exe to HOMEDRIVE+HOMEPATH but MSYS2 has it's own HOME.
-    # The HOME must be missing initially to trigger MSYYS2 initialization.
-    system({ "HOME" => nil }, *args)
+    # The HOME must be missing initially to trigger MSYS2 initialization.
+    # POSIXLY_CORRECT is set in GHA and also blocks MSYS2 initialization.
+    system({ "HOME" => nil, "POSIXLY_CORRECT" => nil }, *args)
   end
 
   def puts(*args)
