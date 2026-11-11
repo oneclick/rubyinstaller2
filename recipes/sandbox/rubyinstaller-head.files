@@ -28,7 +28,7 @@ bin/libwinpthread-1.dll
 bin/libyaml-0-2.dll
 bin/ruby.exe
 bin/rubyw.exe
-bin/zlib1.dll
+bin/libz-1.dll
 include/ruby-%{rubylibver}
 lib/pkgconfig/ruby-4.1.pc
 lib/ruby/%{rubylibver}

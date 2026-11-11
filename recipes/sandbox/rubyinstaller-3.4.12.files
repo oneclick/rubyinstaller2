@@ -28,7 +28,7 @@ bin/libwinpthread-1.dll
 bin/libyaml-0-2.dll
 bin/ruby.exe
 bin/rubyw.exe
-bin/zlib1.dll
+bin/libz-1.dll
 include/ruby-3.4.0
 lib/pkgconfig/ruby-3.4.pc
 lib/ruby/3.4.0
