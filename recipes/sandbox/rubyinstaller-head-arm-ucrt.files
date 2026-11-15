@@ -1,4 +1,5 @@
 bin/libcrypto-3-arm64.dll
 bin/libssl-3-arm64.dll
+bin/libunwind.dll
 bin/aarch64-ucrt-ruby410.dll
 lib/libaarch64-ucrt-ruby410.dll.a
