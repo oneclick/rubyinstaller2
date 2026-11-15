@@ -25,6 +25,7 @@ if package.rubyver2 >= "3.4"
     /^libgmp-\d+.dll$/,
     /^libwinpthread-\d+.dll$/,
     /^libgcc_s_.*.dll$/,
+    /^libunwind.dll$/,
   ]
 
   # create rake tasks to trigger additional processing of so files
