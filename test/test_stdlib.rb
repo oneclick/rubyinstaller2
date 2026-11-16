@@ -50,8 +50,8 @@ class TestStdlib < Minitest::Test
         assert_match(/OpenSSL 1\.1\./, OpenSSL::OPENSSL_VERSION)
         assert_match(/OpenSSL 1\.1\./, OpenSSL::OPENSSL_LIBRARY_VERSION)
       else
-        assert_match(/OpenSSL 3\./, OpenSSL::OPENSSL_VERSION)
-        assert_match(/OpenSSL 3\./, OpenSSL::OPENSSL_LIBRARY_VERSION)
+        assert_match(/OpenSSL 4\./, OpenSSL::OPENSSL_VERSION)
+        assert_match(/OpenSSL 4\./, OpenSSL::OPENSSL_LIBRARY_VERSION)
     end
   end
 
