@@ -1,3 +1,23 @@
+## RubyInstaller-3.4.13-1 - 2026-11-19
+
+### Changed
+- Update to ruby-3.4.13, see [release notes](https://www.ruby-lang.org/en/news/2026/11/18/ruby-3-4-13-released/).
+- Update to openssl-4.x with no changes to Ruby API.
+- Bundle libz-1.dll instead of zlib1.dll. It was renamed in msys2/MINGW-packages#33269
+- Fix MSYS2 initialization per "ridk install" with newer MSYS2 base image
+- Update MSYS2 download version from "20251213" to "20260927"
+- Replace gcc and gcc-libs compatibility packages from devkit packages on arm64.
+- Update to Innosetup-7.1 and use x64 innosetup installer on 64 bit architectures
+- Update the SSL CA certificate list.
+
+### Removed
+- Remove mingw32 packages no longer available for x86 32 bit:
+  -  mingw-w64-libmangle-git
+  -  mingw-w64-make
+  -  mingw-w64-tools-git
+- Update to OpenSSL-4 removes support for engines
+
+
 ## RubyInstaller-3.4.12-1 - 2026-10-23
 
 ### Changed
