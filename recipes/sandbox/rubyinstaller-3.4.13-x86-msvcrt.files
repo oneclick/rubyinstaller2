@@ -1,5 +1,6 @@
 bin/libcrypto-4.dll
 bin/libgcc_s_dw2-1.dll
 bin/libssl-4.dll
+bin/libyaml-0-2.dll
 bin/msvcrt-ruby340.dll
 lib/libmsvcrt-ruby340.dll.a

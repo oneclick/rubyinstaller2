@@ -1,4 +1,5 @@
 bin/libcrypto-4-arm64.dll
 bin/libssl-4-arm64.dll
+bin/libyaml.dll
 bin/aarch64-ucrt-ruby340.dll
 lib/libaarch64-ucrt-ruby340.dll.a
