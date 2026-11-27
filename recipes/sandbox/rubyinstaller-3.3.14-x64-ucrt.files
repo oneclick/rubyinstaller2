@@ -1,4 +1,5 @@
 bin/libcrypto-4-x64.dll
 bin/libssl-4-x64.dll
+bin/libyaml.dll
 bin/x64-ucrt-ruby330.dll
 lib/libx64-ucrt-ruby330.dll.a
